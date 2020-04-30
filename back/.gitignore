@@ -3,5 +3,9 @@
 
 /BackEnd/.vs
 /BackEnd/packages
+
 /BackEnd/BackEnd/bin
 /BackEnd/BackEnd/obj
+
+/BackEnd/DataAccess/bin
+/BackEnd/DataAccess/obj
