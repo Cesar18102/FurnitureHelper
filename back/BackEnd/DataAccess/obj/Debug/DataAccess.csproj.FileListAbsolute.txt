@@ -1,0 +1,17 @@
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\bin\Debug\DataAccess.exe.config
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\bin\Debug\DataAccess.exe
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\bin\Debug\DataAccess.pdb
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\bin\Debug\EntityFramework.dll
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\bin\Debug\MySql.Data.dll
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\bin\Debug\MySql.Data.Entity.EF6.dll
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\bin\Debug\EntityFramework.xml
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\obj\Debug\DataAccess.csproj.CopyComplete
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\obj\Debug\DataAccess.exe
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\obj\Debug\DataAccess.pdb
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\obj\Debug\DataAccess.csprojAssemblyReference.cache
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\obj\Debug\DataAccess.Migrations.Init.resources
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\obj\Debug\DataAccess.csproj.GenerateResource.cache
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\obj\Debug\DataAccess.Migrations.EmbeddedControllerZPosition.resources
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\back\BackEnd\DataAccess\obj\Debug\DataAccess.Migrations.InstructionReplacedWithOrderNumber.resources
