@@ -1,4 +1,4 @@
-﻿namespace DataTypes
+﻿namespace Models
 {
     public interface IModel { }
 }

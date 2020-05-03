@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DataAccessLayer
+namespace DataAccessLayer.Exceptions
 {
     public class DatabaseActionValidationException : Exception
     {

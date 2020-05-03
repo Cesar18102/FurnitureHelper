@@ -1,13 +1,11 @@
 ﻿using Autofac;
 
-using DataAccess;
 using DataAccessContract;
 using DataAccess.RepoImplementation;
 
-using DataTypes.Dto;
-using DataTypes.Models;
+using Models;
 
-namespace DataAccessHolder
+namespace DataAccess
 {
     public static class DataAccessDependencyHolder
     {
@@ -19,8 +17,7 @@ namespace DataAccessHolder
             FurnitureHelperContext dbContext = new FurnitureHelperContext();
 
             builder.RegisterType<AccountRepo>()
-                   .As<IAccountRepo>()
-                   .As<IRepo<AccountDto, AccountModel>>()
+                   .As<IAccountRepo>().As<IRepo<AccountModel>>()
                    .UsingConstructor(typeof(FurnitureHelperContext))
                    .WithParameter(new TypedParameter(typeof(FurnitureHelperContext), dbContext))
                    .SingleInstance();

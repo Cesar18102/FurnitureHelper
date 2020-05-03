@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DataTypes.Models
+namespace Models
 {
     public class UserSellModel : IModel
     {
@@ -8,7 +8,5 @@ namespace DataTypes.Models
         public AccountExtensionModel BuyerAccountExtension { get; private set; }
         public AccountExtensionModel SellerAccountExtension { get; private set; }
         public IDictionary<ConcretePartModel, float> ConcretePartsPriced { get; private set; }
-
-        
     }
 }

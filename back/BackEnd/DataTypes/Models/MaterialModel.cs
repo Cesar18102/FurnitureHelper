@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DataTypes.Models
+namespace Models
 {
     public class MaterialModel : IModel
     {
@@ -10,7 +10,5 @@ namespace DataTypes.Models
         public float PriceCoefficient { get; private set; }
         public string TextureUrl { get; private set; }
         public IEnumerable<PartColorModel> PossibleColors { get; private set; }
-
-        
     }
 }

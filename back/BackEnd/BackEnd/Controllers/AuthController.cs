@@ -6,29 +6,31 @@ using Autofac;
 using ServiceHolder;
 using ServicesContract;
 
-using DataTypes.Dto;
-using DataTypes.Models;
+using Models;
+using ServicesContract.Dto;
 
 namespace BackEnd.Controllers
 {
     public class AuthController : ApiController
     {
-        private IAccountService AccountService = ServiceDependencyHolder.ServicesDependencies.Resolve<IAccountService>();
+        private IAccountService AccountService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<IAccountService>();
 
         [HttpPost]
-        public HttpResponseMessage SignUp([FromBody] AccountDto accountDto)
+        public HttpResponseMessage SignUp([FromBody] SignUpDto dto)
         {
-            return CommonRequestProcessor.ExecuteCommonRequestProccessing<AccountModel, AccountDto>(
-                () => AccountService.Create(accountDto), Request
-            );
+            return Request.ExecuteProtectedAndWrapResult<AccountModel>(() => AccountService.SignUp(dto));
         }
 
         [HttpPost]
-        public HttpResponseMessage UpdateAccount([FromBody] AccountDto accountDto, [FromUri] int id)
+        public HttpResponseMessage LogIn([FromBody] LogInDto dto)
         {
-            return CommonRequestProcessor.ExecuteCommonRequestProccessing<AccountModel, AccountDto>(
-                () => AccountService.Update(id, accountDto), Request
-            );
+            return Request.ExecuteProtectedAndWrapResult<SessionModel>(() => AccountService.LogIn(dto));
+        }
+
+        [HttpPost]
+        public HttpResponseMessage UpdateAccount([FromBody] UpdateAccountDto dto)
+        {
+            return Request.ExecuteProtectedAndWrapResult<AccountModel>(() => AccountService.Update(dto));
         }
     }
 }

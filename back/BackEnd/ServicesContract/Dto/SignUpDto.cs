@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace DataTypes.Dto
+namespace ServicesContract.Dto
 {
-    [JsonObject(ItemRequired = Required.Always)]
-    public class AccountDto : IDto
+    public class SignUpDto : IDto
     {
         [JsonProperty("login")]
         public string Login { get; set; }
@@ -20,6 +19,9 @@ namespace DataTypes.Dto
         [JsonProperty("last_name")]
         public string LastName { get; set; }
 
-        
+        public void Validate()
+        {
+            
+        }
     }
 }

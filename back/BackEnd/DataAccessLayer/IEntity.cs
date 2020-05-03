@@ -1,6 +1,4 @@
-﻿using DataTypes;
-
-namespace DataAccess
+﻿namespace DataAccess
 {
     public interface IEntity
     {

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServicesContract", "ServicesContract\ServicesContract.csproj", "{D847D1E6-2467-41F0-AB95-B0F41EAEE0DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTypes", "DataTypes\DataTypes.csproj", "{1E179B51-BE79-4F84-948C-C35DE2EAE4A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "DataTypes\Models.csproj", "{1E179B51-BE79-4F84-948C-C35DE2EAE4A3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessContract", "DataAccessContract\DataAccessContract.csproj", "{5DC09DFE-1C8A-4252-BDDE-6C8EAAE6700C}"
 EndProject
@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceHolder", "ServicesBu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessHolder", "DataAccessBuilder\DataAccessHolder.csproj", "{E07BF367-ABA1-4DA2-BF2C-ECB8B1E22FE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{0D614762-7541-4096-8DE3-4EF716DF0F64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{0D614762-7541-4096-8DE3-4EF716DF0F64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

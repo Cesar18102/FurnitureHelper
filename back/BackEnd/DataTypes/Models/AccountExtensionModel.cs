@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DataTypes.Models
+namespace Models
 {
     public class AccountExtensionModel : IModel
     {

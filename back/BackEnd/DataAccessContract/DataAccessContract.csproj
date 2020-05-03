@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataTypes\DataTypes.csproj" />
+    <ProjectReference Include="..\DataTypes\Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -154,7 +154,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
-    <Compile Include="Controllers\CommonRequestProcessor.cs" />
+    <Compile Include="Controllers\ControllerExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -179,9 +179,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataTypes\DataTypes.csproj">
+    <ProjectReference Include="..\DataTypes\Models.csproj">
       <Project>{1e179b51-be79-4f84-948c-c35de2eae4a3}</Project>
-      <Name>DataTypes</Name>
+      <Name>Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\ServicesBuilder\ServiceHolder.csproj">
       <Project>{88a44102-858e-46db-a296-dca6c25fabde}</Project>

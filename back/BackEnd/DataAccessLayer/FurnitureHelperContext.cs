@@ -9,7 +9,7 @@ namespace DataAccess
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Entities;
-    using DataAccessLayer;
+    using DataAccessLayer.Exceptions;
 
     public partial class FurnitureHelperContext : DbContext
     {

@@ -11,8 +11,14 @@
   <ItemGroup>
     <ProjectReference Include="..\DataAccessBuilder\DataAccessHolder.csproj" />
     <ProjectReference Include="..\DataAccessContract\DataAccessContract.csproj" />
-    <ProjectReference Include="..\DataTypes\DataTypes.csproj" />
+    <ProjectReference Include="..\DataTypes\Models.csproj" />
     <ProjectReference Include="..\ServicesContract\ServicesContract.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.9.0.0\lib\netstandard2.0\AutoMapper.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

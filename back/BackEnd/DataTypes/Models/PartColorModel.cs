@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace DataTypes.Models
+namespace Models
 {
     public class PartColorModel : IModel
     {
@@ -8,7 +8,5 @@ namespace DataTypes.Models
         public string Name { get; private set; }
         public Color Color { get; private set; }
         public string Description { get; private set; }
-
-        
     }
 }

@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccessContract\DataAccessContract.csproj" />
-    <ProjectReference Include="..\DataTypes\DataTypes.csproj" />
+    <ProjectReference Include="..\DataTypes\Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>

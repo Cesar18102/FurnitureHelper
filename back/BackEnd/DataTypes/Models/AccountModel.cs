@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json;
 
-namespace DataTypes.Models
+namespace Models
 {
     public class AccountModel : IModel
     {

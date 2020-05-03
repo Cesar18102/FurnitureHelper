@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DataTypes.Models
+namespace Models
 {
     public class PartModel : IModel
     {
@@ -10,7 +10,5 @@ namespace DataTypes.Models
         public string ModelUrl { get; private set; }   
         public float Price { get; private set; }
         public IEnumerable<MaterialModel> PossibleMaterials { get; private set; }
-
-        
     }
 }

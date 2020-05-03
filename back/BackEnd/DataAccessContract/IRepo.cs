@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 
-using DataTypes;
+using Models;
 
 namespace DataAccessContract
 {
-    public interface IRepo<TDto, TModel> where TDto : IDto
-                                         where TModel : IModel
+    public interface IRepo<TModel> where TModel : IModel
     {
-        TModel Create(TDto dto);
-        TModel Update(int id, TDto dto);
+        TModel Create(TModel model);
+        TModel Update(int id, TModel model);
         TModel Delete(int id);
         TModel Get(int id);
         IEnumerable<TModel> GetAll();

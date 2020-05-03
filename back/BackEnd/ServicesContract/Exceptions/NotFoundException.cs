@@ -1,16 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 
-using Newtonsoft.Json;
-
-namespace DataTypes.Exceptions
+namespace ServicesContract.Exceptions
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class NotFoundException : Exception
+    public class NotFoundException : CustomException
     {
         [JsonProperty("not_found")]
         private string NotFoundSubject { get; set; }
 
-        [JsonProperty("error_message")]
         public override string Message => $"{NotFoundSubject} not found";
 
         public NotFoundException(string notFoundSubject)

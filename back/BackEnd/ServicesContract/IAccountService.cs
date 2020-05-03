@@ -1,11 +1,13 @@
-﻿using DataTypes.Dto;
-using DataTypes.Models;
+﻿using Models;
+using ServicesContract.Dto;
 
 namespace ServicesContract
 {
     public interface IAccountService
     {
-        AccountModel Create(AccountDto dto);
-        AccountModel Update(int id, AccountDto dto);
+        AccountModel SignUp(SignUpDto dto);
+        SessionModel LogIn(LogInDto dto);
+
+        AccountModel Update(UpdateAccountDto dto);
     }
 }

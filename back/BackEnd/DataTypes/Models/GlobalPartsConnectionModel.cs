@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DataTypes.Models
+namespace Models
 {
     public class GlobalPartsConnectionModel : IModel
     {
@@ -9,7 +9,5 @@ namespace DataTypes.Models
         public int OrderNumber { get; private set; }
         public IEnumerable<TwoPartsConnectionModel> SubConnections { get; private set; }
         public IEnumerable<ConnectionGlueModel> GlobalConnectionGlues { get; private set; }
-
-        
     }
 }
