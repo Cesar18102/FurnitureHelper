@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Net.Http.Headers;
 
 namespace BackEnd
 {
@@ -12,8 +12,7 @@ namespace BackEnd
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}",
-                defaults: new { controller = "Home" }
+                routeTemplate: "api/{controller}/{action}"
             );
 
             MediaTypeHeaderValue xmlTypeHeader = config.Formatters.XmlFormatter.SupportedMediaTypes

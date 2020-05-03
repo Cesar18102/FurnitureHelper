@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccessBuilder\DataAccessHolder.csproj" />
+    <ProjectReference Include="..\DataAccessContract\DataAccessContract.csproj" />
+    <ProjectReference Include="..\DataTypes\DataTypes.csproj" />
+    <ProjectReference Include="..\ServicesContract\ServicesContract.csproj" />
+  </ItemGroup>
+
+</Project>
