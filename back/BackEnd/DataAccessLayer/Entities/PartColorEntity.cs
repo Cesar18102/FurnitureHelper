@@ -24,18 +24,8 @@ namespace DataAccess.Entities
 
         [Column(TypeName = "char")]
         [Required]
-        [StringLength(1)]
-        public string red { get; set; }
-
-        [Column(TypeName = "char")]
-        [Required]
-        [StringLength(1)]
-        public string green { get; set; }
-
-        [Column(TypeName = "char")]
-        [Required]
-        [StringLength(1)]
-        public string blue { get; set; }
+        [StringLength(8, MinimumLength = 6)]
+        public string hex { get; set; }
 
         [Column(TypeName = "text")]
         [StringLength(65535)]
@@ -46,7 +36,5 @@ namespace DataAccess.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaterialEntity> materials { get; set; }
-
-        
     }
 }

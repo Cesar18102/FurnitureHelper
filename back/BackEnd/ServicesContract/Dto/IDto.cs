@@ -1,6 +1,6 @@
 ﻿namespace ServicesContract.Dto
 {
-    public interface IDto 
+    public interface IDto
     {
         void Validate();
     }

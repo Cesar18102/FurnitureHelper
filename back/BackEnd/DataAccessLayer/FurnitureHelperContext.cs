@@ -17,6 +17,8 @@ namespace DataAccess
             : base("name=FurnitureHelperConnection") { }
 
         public virtual DbSet<AccountEntity> accounts { get; set; }
+        public virtual DbSet<AdminEntity> admins { get; set; }
+        public virtual DbSet<SuperAdminEntity> super_admins { get; set; }
         public virtual DbSet<AccountExtensionEntity> accounts_extensions { get; set; }
         public virtual DbSet<PartColorEntity> colors { get; set; }
         public virtual DbSet<ConcreteControllerEntity> concrete_controllers { get; set; }
@@ -98,10 +100,26 @@ namespace DataAccess
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<AccountEntity>()
+                .HasMany(e => e.admins)
+                .WithRequired(e => e.accounts)
+                .HasForeignKey(e => e.account_id);
+
+            modelBuilder.Entity<AccountEntity>()
                 .HasMany(e => e.ownings)
                 .WithRequired(e => e.accounts)
                 .HasForeignKey(e => e.account_id)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AdminEntity>()
+                .ToTable("admins");
+
+            modelBuilder.Entity<AdminEntity>()
+                .HasMany(e => e.super_admins)
+                .WithRequired(e => e.admins)
+                .HasForeignKey(e => e.admin_account_id);
+
+            modelBuilder.Entity<SuperAdminEntity>()
+                .ToTable("super_admins");
 
             modelBuilder.Entity<AccountExtensionEntity>()
                 .ToTable("accounts_extensions");
@@ -140,16 +158,8 @@ namespace DataAccess
                 .IsUnicode(false);
 
             modelBuilder.Entity<PartColorEntity>()
-                .Property(e => e.red)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<PartColorEntity>()
-                .Property(e => e.green)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<PartColorEntity>()
-                .Property(e => e.blue)
-                .IsUnicode(false);
+                .Property(e => e.hex);
+                //.IsUnicode(false);
 
             modelBuilder.Entity<PartColorEntity>()
                 .Property(e => e.description)

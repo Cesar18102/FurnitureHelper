@@ -23,6 +23,9 @@ namespace Services
 
         public SessionModel CreateSessionFor(int accountId)
         {
+            if (Sessions.ContainsKey(accountId))
+                Sessions.Remove(accountId);
+
             string token = GenerateToken();
             DateTime expires = DateTime.Now.AddSeconds(SESSION_DURATION);
 
@@ -31,28 +34,28 @@ namespace Services
             return session;
         }
 
-        public void CheckSession(int accountId, SessionDto sessionDto)
+        public void CheckSession(SessionDto sessionDto)
         {
-            if (!Sessions.ContainsKey(accountId))
+            if (sessionDto == null || !Sessions.ContainsKey(sessionDto.UserId))
                 throw new NotFoundException("Session");
 
-            string originalTokenSalted = Hasher.GetHash(Sessions[accountId].Token + sessionDto.Salt);
+            string originalTokenSalted = Hasher.GetHash(Sessions[sessionDto.UserId].Token + sessionDto.Salt);
             if (originalTokenSalted.ToUpper() != sessionDto.SessionTokenSalted.ToUpper())
                 throw new UnauthorizedException("Wrong session token");
 
-            if (Sessions[accountId].Expires < DateTime.Now)
+            if (Sessions[sessionDto.UserId].Expires < DateTime.Now)
             {
-                Sessions.Remove(accountId);
+                Sessions.Remove(sessionDto.UserId);
                 throw new UnauthorizedException("Session expired");
             }
 
-            Sessions[accountId].Expires.AddSeconds(SESSION_DURATION);
+            Sessions[sessionDto.UserId].Expires.AddSeconds(SESSION_DURATION);
         }
 
-        public void TerminateSession(int accountId, SessionDto sessionDto)
+        public void TerminateSession(SessionDto sessionDto)
         {
-            CheckSession(accountId, sessionDto);
-            Sessions.Remove(accountId);
+            CheckSession(sessionDto);
+            Sessions.Remove(sessionDto.UserId);
         }
     }
 }

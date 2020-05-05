@@ -14,6 +14,7 @@ namespace DataAccess.Entities
         {
             accounts_extensions = new HashSet<AccountExtensionEntity>();
             ownings = new HashSet<OwningEntity>();
+            admins = new HashSet<AdminEntity>();
         }
 
         public int id { get; set; }
@@ -44,6 +45,9 @@ namespace DataAccess.Entities
         public virtual ICollection<AccountExtensionEntity> accounts_extensions { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OwningEntity> ownings { get; set; }   
+        public virtual ICollection<OwningEntity> ownings { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AdminEntity> admins { get; set; }
     }
 }

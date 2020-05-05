@@ -1,21 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System.Reflection;
+using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
-using Models;
+using ServicesContract.Dto;
+using System;
 
 namespace ServicesContract.Exceptions
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class ValidationException<T> : CustomException where T : IModel
+    public class ValidationException : CustomException
     {
         [JsonProperty("validation_fail_info")]
-        public List<ValidationFailInfo<T>> ValidationFailInfos { get; private set; } = new List<ValidationFailInfo<T>>();
+        public List<ValidationFailInfo> ValidationFailInfos { get; private set; } = new List<ValidationFailInfo>();
 
         public override string Message => "Validation failed";
     }
 
-    public class ValidationFailInfo<T> where T : IModel
+    public class ValidationFailInfo
     {
         [JsonProperty("field_name")]
         public string FieldName { get; private set; }
@@ -23,10 +25,33 @@ namespace ServicesContract.Exceptions
         [JsonProperty("invalid_reason")]
         public string InvalidReason { get; private set; }
 
-        public ValidationFailInfo(string fieldName, string invalidReason)
+        private ValidationFailInfo() { }
+
+        public static ValidationFailInfo CreateValidationFailInfo<T>(string fieldName, string invalidReason) where T : IDto
         {
-            FieldName = fieldName;
-            InvalidReason = invalidReason;
+            return CreateValidationFailInfo(typeof(T), fieldName, invalidReason);
+        }
+
+        public static ValidationFailInfo CreateValidationFailInfo(Type type, string fieldName, string invalidReason)
+        {
+            if (!typeof(IDto).IsAssignableFrom(type))
+                throw new ArgumentException();
+
+            ValidationFailInfo failInfo = new ValidationFailInfo();
+
+            failInfo.FieldName = fieldName;
+            failInfo.InvalidReason = invalidReason;
+
+            PropertyInfo propInfo = type.GetProperty(fieldName);
+            JsonPropertyAttribute attribute = propInfo.GetCustomAttribute<JsonPropertyAttribute>();
+
+            if (attribute != null)
+            {
+                failInfo.InvalidReason = failInfo.InvalidReason.Replace(failInfo.FieldName, attribute.PropertyName);
+                failInfo.FieldName = attribute.PropertyName;
+            }
+
+            return failInfo;
         }
 
         public override string ToString()

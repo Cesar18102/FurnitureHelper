@@ -1,24 +1,22 @@
-CREATE TABLE Roles(
-	id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(64) NOT NULL UNIQUE
-);
-
-INSERT INTO roles VALUES(0, "Visitor");
-INSERT INTO roles VALUES(0, "Registered");
-INSERT INTO roles VALUES(0, "Chiped");
-INSERT INTO roles VALUES(0, "Admin");
-INSERT INTO roles VALUES(0, "Superadmin");
-INSERT INTO roles VALUES(0, "Controller");
-
 CREATE TABLE accounts(
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
     login VARCHAR(64) NOT NULL UNIQUE,
     pwd VARCHAR(256) NOT NULL,
     email VARCHAR(256) NOT NULL UNIQUE,
-    role_id INTEGER NOT NULL DEFAULT 1,
 	first_name CHAR(64) NOT NULL,
-	last_name CHAR(64) NOT NULL,
-    FOREIGN KEY(role_id) REFERENCES roles(id) ON UPDATE RESTRICT ON DELETE RESTRICT
+	last_name CHAR(64) NOT NULL
+);
+
+CREATE TABLE admins(
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    account_id INTEGER NOT NULL,
+    FOREIGN KEY(account_id) REFERENCES accounts(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE super_admins(
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    admin_account_id INTEGER NOT NULL,
+    FOREIGN KEY(admin_account_id) REFERENCES admins(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE accounts_extensions(
@@ -33,9 +31,7 @@ CREATE TABLE accounts_extensions(
 CREATE TABLE colors(
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(64) NOT NULL UNIQUE,
-    red CHAR(1) NOT NULL DEFAULT 0,
-    green CHAR(1) NOT NULL DEFAULT 0,
-    blue CHAR(1) NOT NULL DEFAULT 0,
+    hex CHAR(8) NOT NULL,
 	description TEXT
 );
 
@@ -74,6 +70,7 @@ CREATE TABLE part_controllers_embed_relative_positions(
     part_id INTEGER NOT NULL,
     pos_x FLOAT NOT NULL,
     pos_y FLOAT NOT NULL,
+	pos_z FLOAT NOT NULL,
     FOREIGN KEY(part_id) REFERENCES parts(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 

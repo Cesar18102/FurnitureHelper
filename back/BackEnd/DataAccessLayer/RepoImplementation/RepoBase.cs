@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+using Autofac;
 using AutoMapper;
 
 using Models;
@@ -16,22 +17,20 @@ namespace DataAccess.RepoImplementation
     public abstract class RepoBase<TModel, TEntity> : IRepo<TModel> where TModel : class, IModel
                                                                     where TEntity : class, IEntity
     {
-        protected Mapper Mapper { get; private set; }
-        protected MapperConfiguration MapperConfig { get; private set; }
+        protected static readonly Mapper Mapper = DataAccessDependencyHolder.DataAccessDependencies.Resolve<Mapper>();
         protected FurnitureHelperContext Context { get; private set; }
 
         public RepoBase(FurnitureHelperContext context)
         {
             Context = context;
-
-            MapperConfig = new MapperConfiguration(config => ConfigEntityModelMapper(config));
-            Mapper = new Mapper(MapperConfig);
         }
 
-        protected abstract void ConfigEntityModelMapper(IMapperConfigurationExpression config);
         protected virtual void SingleInclude(TEntity entity) { }
         protected virtual void WholeInclude() { }
 
+        /// <summary>
+        /// Strongly recommended when creating and updating
+        /// </summary>
         protected TModel ProtectedExecute(Func<TEntity, TModel> executor, TEntity mappedEntity)
         {
             try { return executor(mappedEntity); }
@@ -42,7 +41,7 @@ namespace DataAccess.RepoImplementation
                 {
                     string wrongField = validationResult.MemberNames.First();
 
-                    IEnumerable<PropertyMap> propertyMaps = MapperConfig.FindTypeMapFor<TModel, TEntity>().PropertyMaps;
+                    IEnumerable<PropertyMap> propertyMaps = Mapper.ConfigurationProvider.FindTypeMapFor<TModel, TEntity>().PropertyMaps;
                     PropertyMap propertyMap = propertyMaps.First(pmap => pmap.DestinationMember.Name == wrongField);
                    
                     string dtoWrongFieldName = propertyMap.SourceMember.Name;
@@ -89,17 +88,34 @@ namespace DataAccess.RepoImplementation
 
         public virtual TModel Delete(int id)
         {
-            throw new System.NotImplementedException();
+            TEntity found = Context.Set<TEntity>().FirstOrDefault(entity => entity.id == id);
+
+            if (found == null)
+                return null;
+
+            SingleInclude(found);
+
+            Context.Set<TEntity>().Remove(found);
+            Context.SaveChanges();
+
+            return Mapper.Map<TEntity, TModel>(found);
         }
 
         public virtual TModel Get(int id)
         {
-            throw new System.NotImplementedException();
+            TEntity found = Context.Set<TEntity>().FirstOrDefault(entity => entity.id == id);
+
+            if (found == null)
+                return null;
+
+            SingleInclude(found);
+            return Mapper.Map<TEntity, TModel>(found);
         }
 
         public virtual IEnumerable<TModel> GetAll()
         {
-            throw new System.NotImplementedException();
+            WholeInclude();
+            return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(Context.Set<TEntity>());
         }
     }
 }

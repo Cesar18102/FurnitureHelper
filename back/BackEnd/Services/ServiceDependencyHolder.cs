@@ -21,11 +21,14 @@ namespace Services
             builder.RegisterType<HashingService>()
                    .UsingConstructor(typeof(HashAlgorithm), typeof(Encoding))
                    .WithParameters(new TypedParameter[] { hasher, encoding })
-                   .AsSelf()
-                   .SingleInstance();
+                   .AsSelf().SingleInstance();
+
+            builder.RegisterType<SessionService>().AsSelf().SingleInstance();
 
             builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
-            builder.RegisterType<SessionService>().AsSelf().SingleInstance();
+            builder.RegisterType<AdminService>().As<IAdminService>().AsSelf().SingleInstance();
+
+            builder.RegisterType<ColorsService>().As<IColorService>().SingleInstance();
 
             ServicesDependencies = builder.Build();
         }

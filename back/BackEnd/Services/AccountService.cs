@@ -31,12 +31,12 @@ namespace Services
             AccountModel account = Mapper.Map<SignUpDto, AccountModel>(dto);
 
             if (AccountRepo.GetByLogin(account.Login) != null)
-                throw new ConftictException("Login");
+                throw new ConflictException("Login");
 
             if (AccountRepo.GetByEmail(account.Email) != null)
-                throw new ConftictException("Email");
+                throw new ConflictException("Email");
 
-            return ProtectedExecute<AccountModel>(model => AccountRepo.Create(model), account);
+            return ProtectedExecute<SignUpDto, AccountModel>(model => AccountRepo.Create(model), account);
         }
 
         public SessionModel LogIn(LogInDto dto)
@@ -55,20 +55,20 @@ namespace Services
 
         public AccountModel Update(UpdateAccountDto dto)
         {
-            SessionService.CheckSession(dto.Id, dto.Session);
+            SessionService.CheckSession(dto.Session);
 
             dto.Password = Hasher.GetHash(dto.Password);
             AccountModel account = Mapper.Map<UpdateAccountDto, AccountModel>(dto);
 
-            return ProtectedExecute<AccountModel>(model =>
-            {
-                AccountModel updatedAccount = AccountRepo.Update(model.Id, model);
+            AccountModel updatedAccount = ProtectedExecute<UpdateAccountDto, AccountModel>(
+                model => AccountRepo.Update(model.Id, model), 
+                account
+            );
 
-                if (updatedAccount == null)
-                    throw new NotFoundException("Account");
+            if (updatedAccount == null)
+                throw new NotFoundException("Account");
 
-                return updatedAccount;
-            }, account);
+            return updatedAccount;
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Reflection;
 
 using AutoMapper;
-using Newtonsoft.Json;
 
 using Models;
+
+using ServicesContract.Dto;
 using ServicesContract.Exceptions;
+
 using DataAccessContract.Exceptions;
 
 namespace Services
@@ -23,28 +24,20 @@ namespace Services
             Mapper = new Mapper(MapperConfig);
         }
 
-        protected TModel ProtectedExecute<TModel>(Func<TModel, TModel> executor, TModel model) where TModel : IModel
+        /// <summary>
+        /// Strongly recommended when creating and updating
+        /// </summary>
+        protected TModel ProtectedExecute<TDto, TModel>(Func<TModel, TModel> executor, TModel model) where TDto : IDto
+                                                                                                     where TModel : IModel
         {
-            try { return executor(model); } 
+            try { return executor(model); }
             catch (InvalidDataException<TModel> ex)
             {
-                ValidationException<TModel> e = new ValidationException<TModel>();
+                ValidationException e = new ValidationException();
 
                 foreach (InvalidFieldInfo<TModel> fieldInfo in ex.InvalidFieldInfos)
                 {
-                    PropertyInfo propInfo = typeof(TModel).GetProperty(fieldInfo.FieldName);
-                    JsonPropertyAttribute attribute = propInfo.GetCustomAttribute<JsonPropertyAttribute>();
-
-                    string publicFieldName = fieldInfo.FieldName;
-                    string updatedReason = fieldInfo.InvalidReason;
-
-                    if (attribute != null)
-                    {
-                        publicFieldName = attribute.PropertyName;
-                        updatedReason = updatedReason.Replace(fieldInfo.FieldName, publicFieldName);
-                    }
-
-                    ValidationFailInfo<TModel> failInfo = new ValidationFailInfo<TModel>(publicFieldName, updatedReason);
+                    ValidationFailInfo failInfo = ValidationFailInfo.CreateValidationFailInfo<TDto>(fieldInfo.FieldName, fieldInfo.InvalidReason);
                     e.ValidationFailInfos.Add(failInfo);
                 }
 
