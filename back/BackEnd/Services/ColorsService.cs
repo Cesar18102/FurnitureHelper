@@ -18,7 +18,7 @@ namespace Services
 
         public PartColorModel RegisterColor(AddColorDto dto)
         {
-            AdminService.CheckActiveSuperAdmin(dto.AdminSession);
+            AdminService.CheckActiveSuperAdmin(dto.SuperAdminSession);
 
             PartColorModel model = Mapper.Map<AddColorDto, PartColorModel>(dto);
 
@@ -30,7 +30,7 @@ namespace Services
 
         public PartColorModel UpdateColor(UpdateColorDto dto)
         {
-            AdminService.CheckActiveSuperAdmin(dto.AdminSession);
+            AdminService.CheckActiveSuperAdmin(dto.SuperAdminSession);
 
             PartColorModel model = Mapper.Map<UpdateColorDto, PartColorModel>(dto);
             PartColorModel foundColor = ColorRepo.GetByName(model.Name);

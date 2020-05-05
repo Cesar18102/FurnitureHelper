@@ -158,6 +158,7 @@
     <Compile Include="Controllers\ColorsController.cs" />
     <Compile Include="Controllers\ControllerExtensions.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
+    <Compile Include="Controllers\PartController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

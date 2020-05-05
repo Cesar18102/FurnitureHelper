@@ -15,16 +15,12 @@ namespace DataAccess.RepoImplementation
 
         protected override void SingleInclude(AccountEntity entity)
         {
-            Context.Entry<AccountEntity>(entity)
-                   .Collection(account => account.accounts_extensions)
-                   .Load();
+            Context.Entry<AccountEntity>(entity).Collection(account => account.accounts_extensions).Load();
         }
 
         protected override void WholeInclude()
         {
-            Context.accounts
-                   .Include(account => account.accounts_extensions)
-                   .Load();
+            Context.accounts.Include(account => account.accounts_extensions).Load();
         }
 
         public AccountModel GetByLogin(string login)

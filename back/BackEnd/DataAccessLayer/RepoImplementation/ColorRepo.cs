@@ -3,8 +3,8 @@
 using AutoMapper;
 
 using Models;
-using DataAccess.Entities;
 using DataAccessContract;
+using DataAccess.Entities;
 
 namespace DataAccess.RepoImplementation
 {

@@ -15,7 +15,6 @@ namespace ServicesContract.Dto
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [Required(AllowEmptyStrings = true)]
         [JsonProperty("description")]
         public string Description { get; set; }
 

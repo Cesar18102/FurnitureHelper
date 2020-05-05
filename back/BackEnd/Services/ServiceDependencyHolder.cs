@@ -44,6 +44,7 @@ namespace Services
 
             builder.RegisterType<ColorsService>().As<IColorService>().SingleInstance();
             builder.RegisterType<MaterialService>().As<IMaterialService>().SingleInstance();
+            builder.RegisterType<PartService>().As<IPartService>().SingleInstance();
 
             MapperConfiguration config = new MapperConfiguration(cnf => ConfigMapper(cnf));
             TypedParameter mapperConfigParameter = new TypedParameter(typeof(IConfigurationProvider), config);
@@ -88,6 +89,22 @@ namespace Services
 
             config.CreateMap<UpdateMaterialDto, MaterialModel>()
                   .ForMember(model => model.PossibleColors, cnf => cnf.MapFrom(dto => dto.PossibleColors));
+
+            config.CreateMap<int, MaterialModel>()
+                  .ForMember(model => model.Id, cnf => cnf.MapFrom(id => id));
+
+            config.CreateMap<EmbedControllerPositionDto, EmbedControllerPositionModel>()
+                  .ForMember(model => model.PosX, cnf => cnf.MapFrom(dto => dto.PosX.GetValueOrDefault()))
+                  .ForMember(model => model.PosY, cnf => cnf.MapFrom(dto => dto.PosY.GetValueOrDefault()))
+                  .ForMember(model => model.PosZ, cnf => cnf.MapFrom(dto => dto.PosZ.GetValueOrDefault()));
+
+            config.CreateMap<AddPartDto, PartModel>()
+                  .ForMember(model => model.PossibleMaterials, cnf => cnf.MapFrom(dto => dto.PossibleMaterials))
+                  .ForMember(model => model.EmbedControllersPositions, cnf => cnf.MapFrom(dto => dto.EmbedControllersPositions));
+
+            config.CreateMap<UpdatePartDto, PartModel>()
+                  .ForMember(model => model.PossibleMaterials, cnf => cnf.MapFrom(dto => dto.PossibleMaterials))
+                  .ForMember(model => model.EmbedControllersPositions, cnf => cnf.MapFrom(dto => dto.EmbedControllersPositions));
         }
     }
 }

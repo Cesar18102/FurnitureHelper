@@ -57,6 +57,11 @@ namespace DataAccess
                    .UsingConstructor(typeof(FurnitureHelperContext))
                    .WithParameter(contextParameter).SingleInstance();
 
+            builder.RegisterType<PartRepo>()
+                   .As<IPartRepo>().As<IRepo<PartModel>>()
+                   .UsingConstructor(typeof(FurnitureHelperContext))
+                   .WithParameter(contextParameter).SingleInstance();
+
             MapperConfiguration config = new MapperConfiguration(cnf => ConfigMapper(cnf, dbContext));
             TypedParameter mapperConfigParameter = new TypedParameter(typeof(IConfigurationProvider), config);
 
@@ -107,9 +112,6 @@ namespace DataAccess
 
             config.CreateMap<PartColorEntity, PartColorModel>();
 
-            config.CreateMap<int, PartColorEntity>()
-                  .ForMember(entity => entity.id, cnf => cnf.MapFrom(id => id));
-
             config.CreateMap<MaterialModel, MaterialEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
                   .ForMember(entity => entity.texture_url, cnf => cnf.MapFrom(model => model.TextureUrl))
@@ -119,9 +121,34 @@ namespace DataAccess
 
             config.CreateMap<MaterialEntity, MaterialModel>()
                   .ForMember(model => model.TextureUrl, cnf => cnf.MapFrom(entity => entity.texture_url))
-                  .ForMember(entity => entity.PriceCoefficient, cnf => cnf.MapFrom(model => model.price_coeff))
-                  .ForMember(entity => entity.PossibleColors, cnf => cnf.MapFrom(model => model.colors));
+                  .ForMember(model => model.PriceCoefficient, cnf => cnf.MapFrom(entity => entity.price_coeff))
+                  .ForMember(model => model.PossibleColors, cnf => cnf.MapFrom(entity => entity.colors));
 
+            config.CreateMap<EmbedControllerPositionModel, PartControllerEmbedRelativePositionEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.pos_x, cnf => cnf.MapFrom(model => model.PosX))
+                  .ForMember(entity => entity.pos_y, cnf => cnf.MapFrom(model => model.PosY))
+                  .ForMember(entity => entity.pos_z, cnf => cnf.MapFrom(model => model.PosZ))
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
+
+            config.CreateMap<PartControllerEmbedRelativePositionEntity, EmbedControllerPositionModel>()
+                  .ForMember(model => model.PosX, cnf => cnf.MapFrom(entity => entity.pos_x))
+                  .ForMember(model => model.PosY, cnf => cnf.MapFrom(entity => entity.pos_y))
+                  .ForMember(model => model.PosZ, cnf => cnf.MapFrom(entity => entity.pos_z));
+
+            config.CreateMap<PartModel, PartEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.model_url, cnf => cnf.MapFrom(model => model.ModelUrl))
+                  .ForMember(entity => entity.materials, cnf => cnf.Ignore())
+                  .ForMember(
+                      entity => entity.part_controllers_embed_relative_positions, 
+                      cnf => cnf.MapFrom(model => model.EmbedControllersPositions)
+                  ).ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
+
+            config.CreateMap<PartEntity, PartModel>()
+                  .ForMember(model => model.ModelUrl, cnf => cnf.MapFrom(entity => entity.model_url))
+                  .ForMember(model => model.PossibleMaterials, cnf => cnf.MapFrom(entity => entity.materials))
+                  .ForMember(model => model.EmbedControllersPositions, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions));
         }
     }
 }

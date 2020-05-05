@@ -3,8 +3,8 @@ using System.Data.Entity;
 using System.Collections.Generic;
 
 using Models;
-using DataAccess.Entities;
 using DataAccessContract;
+using DataAccess.Entities;
 
 namespace DataAccess.RepoImplementation
 {
@@ -14,21 +14,16 @@ namespace DataAccess.RepoImplementation
 
         protected override void SingleInclude(MaterialEntity entity)
         {
-            Context.Entry<MaterialEntity>(entity)
-                   .Collection(material => material.colors)
-                   .Load();
+            Context.Entry<MaterialEntity>(entity).Collection(material => material.colors).Load();
         }
 
         protected override void WholeInclude()
         {
-            Context.materials
-                   .Include(material => material.colors)
-                   .Load();
+            Context.materials.Include(material => material.colors).Load();
         }
 
         public override MaterialModel Create(MaterialModel model)
         {
-            //List<PartColorModel> colors = model.PossibleColors.ToList();
             MaterialModel material = base.Create(model);
             return UpdateAttachedColors(material, model.PossibleColors);
         }
@@ -36,6 +31,10 @@ namespace DataAccess.RepoImplementation
         public override MaterialModel Update(int id, MaterialModel model)
         {
             MaterialModel material = base.Update(id, model);
+
+            if (material == null)
+                return null;
+
             return UpdateAttachedColors(material, model.PossibleColors);
         }
 

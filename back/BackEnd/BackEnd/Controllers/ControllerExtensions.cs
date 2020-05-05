@@ -33,6 +33,32 @@ namespace BackEnd.Controllers
 
     public static class ControllerExtensions
     {
+        private static string GetStringWithoutIndexing(string str)
+        {
+            int firstIndexIdSquareBracket = str.IndexOf('[');
+
+            if (firstIndexIdSquareBracket == -1)
+                return str;
+
+            return str.Substring(0, firstIndexIdSquareBracket) + str.Substring(str.IndexOf(']') + 1);
+        }
+
+        private static Type GetNextType(Type prevType, string fieldName)
+        {
+            string fieldNameWithoutIndex = GetStringWithoutIndexing(fieldName);
+            PropertyInfo info = prevType.GetProperty(fieldNameWithoutIndex);
+
+            if (info == null)
+                return null;
+
+            Type type = info.PropertyType;
+
+            if (fieldNameWithoutIndex != fieldName)
+                return type.GetGenericArguments()[0];
+
+            return type;
+        }
+
         private static Type GetErrorType(Type prevType, string errorFieldSequence)
         {
             if (string.IsNullOrEmpty(errorFieldSequence) || prevType == null)
@@ -41,15 +67,12 @@ namespace BackEnd.Controllers
             int firstIndexOfDot = errorFieldSequence.IndexOf('.');
 
             if (firstIndexOfDot == -1)
-            {
-                PropertyInfo info = prevType.GetProperty(errorFieldSequence);
-                return info?.PropertyType;
-            }
+                return GetNextType(prevType, errorFieldSequence);
 
             string nextFieldName = errorFieldSequence.Substring(0, firstIndexOfDot);
             string subSequence = errorFieldSequence.Substring(firstIndexOfDot + 1);
-            Type currentType = prevType.GetProperty(nextFieldName)?.PropertyType;
 
+            Type currentType = GetNextType(prevType, nextFieldName);
             return GetErrorType(currentType, subSequence);
         }
 

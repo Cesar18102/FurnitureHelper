@@ -36,7 +36,15 @@ namespace Services
             if (foundMaterial != null && foundMaterial.Id != dto.Id)
                 throw new ConflictException("Material name");
 
-            return ProtectedExecute<UpdateMaterialDto, MaterialModel>(material => MaterialRepo.Update(material.Id, material), model);
+            MaterialModel updatedMaterial = ProtectedExecute<UpdateMaterialDto, MaterialModel>(
+                material => MaterialRepo.Update(material.Id, material), 
+                model
+            );
+
+            if (updatedMaterial == null)
+                throw new NotFoundException("Material");
+
+            return updatedMaterial;
         }
     }
 }
