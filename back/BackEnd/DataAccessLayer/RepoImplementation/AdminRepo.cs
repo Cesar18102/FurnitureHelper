@@ -21,7 +21,7 @@ namespace DataAccess.RepoImplementation
 
         protected override void WholeInclude()
         {
-            Context.admins.Include(admin => admin.accounts);
+            Context.admins.Include(admin => admin.accounts).Load();
         }
 
         public bool IsAdmin(int accountId)

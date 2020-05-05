@@ -16,13 +16,15 @@ namespace DataAccess.RepoImplementation
         protected override void SingleInclude(AccountEntity entity)
         {
             Context.Entry<AccountEntity>(entity)
-                   .Collection<AccountExtensionEntity>(account => account.accounts_extensions)
+                   .Collection(account => account.accounts_extensions)
                    .Load();
         }
 
         protected override void WholeInclude()
         {
-            Context.accounts.Include(account => account.accounts_extensions).Load();
+            Context.accounts
+                   .Include(account => account.accounts_extensions)
+                   .Load();
         }
 
         public AccountModel GetByLogin(string login)
@@ -34,8 +36,6 @@ namespace DataAccess.RepoImplementation
         public AccountModel GetByEmail(string email)
         {
             AccountEntity accountEntity = Context.accounts.FirstOrDefault(account => account.email == email);
-
-            AccountModel mapped = Mapper.Map<AccountEntity, AccountModel>(accountEntity);
             return accountEntity == null ? null : Mapper.Map<AccountEntity, AccountModel>(accountEntity);
         }
     }

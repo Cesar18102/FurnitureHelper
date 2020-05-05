@@ -6,31 +6,28 @@ namespace ServicesContract.Dto
 {
     public class AddColorDto : IDto
     {
-        [Required(ErrorMessage = "admin_session is required")]
-        [JsonProperty("admin_session")]
-        public SessionDto AdminSession { get; set; }
+        [Required(ErrorMessage = "super_admin_session is required")]
+        [JsonProperty("super_admin_session")]
+        public SessionDto SuperAdminSession { get; set; }
 
-        [Required(ErrorMessage = "name is required")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "name is required")]
         [JsonProperty("name")]
         public string Name { get; set; }
 
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "red is required")]
-        [Range(0, 255)]
+        [Range(0, 255, ErrorMessage = "red is required between 0 and 255")]
         [JsonProperty("red")]
-        public int Red { get; set; }
+        public int Red { get; set; } = -1;
 
-        [Required(ErrorMessage = "green is required")]
-        [Range(0, 255)]
+        [Range(0, 255, ErrorMessage = "green is required between 0 and 255")]
         [JsonProperty("green")]
-        public int Green { get; set; }
+        public int Green { get; set; } = -1;
 
-        [Required(ErrorMessage = "blue is required")]
-        [Range(0, 255)]
+        [Range(0, 255, ErrorMessage = "blue is required between 0 and 255")]
         [JsonProperty("blue")]
-        public int Blue { get; set; }
+        public int Blue { get; set; } = -1;
 
         public virtual void Validate()
         {

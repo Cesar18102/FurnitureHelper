@@ -12,6 +12,8 @@ using DataAccessLayer.Exceptions;
 using DataAccessContract;
 using DataAccessContract.Exceptions;
 
+using DataAccess.DataEventArgs;
+
 namespace DataAccess.RepoImplementation
 {
     public abstract class RepoBase<TModel, TEntity> : IRepo<TModel> where TModel : class, IModel
@@ -62,6 +64,7 @@ namespace DataAccess.RepoImplementation
             return ProtectedExecute(mapped =>
             {
                 TEntity added = Context.Set<TEntity>().Add(mapped);
+
                 Context.SaveChanges();
 
                 SingleInclude(added);

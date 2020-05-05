@@ -35,7 +35,7 @@ namespace BackEnd.Controllers
     {
         private static Type GetErrorType(Type prevType, string errorFieldSequence)
         {
-            if (string.IsNullOrEmpty(errorFieldSequence))
+            if (string.IsNullOrEmpty(errorFieldSequence) || prevType == null)
                 return prevType;
 
             int firstIndexOfDot = errorFieldSequence.IndexOf('.');
@@ -43,12 +43,12 @@ namespace BackEnd.Controllers
             if (firstIndexOfDot == -1)
             {
                 PropertyInfo info = prevType.GetProperty(errorFieldSequence);
-                return info.PropertyType;
+                return info?.PropertyType;
             }
 
             string nextFieldName = errorFieldSequence.Substring(0, firstIndexOfDot);
             string subSequence = errorFieldSequence.Substring(firstIndexOfDot + 1);
-            Type currentType = prevType.GetProperty(nextFieldName).PropertyType;
+            Type currentType = prevType.GetProperty(nextFieldName)?.PropertyType;
 
             return GetErrorType(currentType, subSequence);
         }
@@ -87,6 +87,12 @@ namespace BackEnd.Controllers
                         {
                             errorField = errorFieldSequence.Substring(lastIndexOfDot + 1);
                             errorType = GetErrorType(typeof(TSource), errorFieldSequence.Substring(0, lastIndexOfDot));                            
+                        }
+
+                        if(errorType == null || errorType.GetProperty(errorField) == null)
+                        {
+                            shouldBeThrown = true;
+                            continue;
                         }
 
                         ValidationFailInfo failInfo = ValidationFailInfo.CreateValidationFailInfo(

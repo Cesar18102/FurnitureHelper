@@ -37,11 +37,6 @@ namespace DataAccess
                    .UsingConstructor(typeof(FurnitureHelperContext))
                    .WithParameter(contextParameter).SingleInstance();
 
-            builder.RegisterType<ColorRepo>()
-                   .As<IColorRepo>().As<IRepo<PartColorModel>>()
-                   .UsingConstructor(typeof(FurnitureHelperContext))
-                   .WithParameter(contextParameter).SingleInstance();
-
             builder.RegisterType<AdminRepo>()
                    .As<IAdminRepo>().As<IRepo<AdminModel>>()
                    .UsingConstructor(typeof(FurnitureHelperContext))
@@ -52,7 +47,17 @@ namespace DataAccess
                    .UsingConstructor(typeof(FurnitureHelperContext))
                    .WithParameter(contextParameter).SingleInstance();
 
-            MapperConfiguration config = new MapperConfiguration(cnf => ConfigMapper(cnf));
+            builder.RegisterType<ColorRepo>()
+                   .As<IColorRepo>().As<IRepo<PartColorModel>>()
+                   .UsingConstructor(typeof(FurnitureHelperContext))
+                   .WithParameter(contextParameter).SingleInstance();
+
+            builder.RegisterType<MaterialRepo>()
+                   .As<IMaterialRepo>().As<IRepo<MaterialModel>>()
+                   .UsingConstructor(typeof(FurnitureHelperContext))
+                   .WithParameter(contextParameter).SingleInstance();
+
+            MapperConfiguration config = new MapperConfiguration(cnf => ConfigMapper(cnf, dbContext));
             TypedParameter mapperConfigParameter = new TypedParameter(typeof(IConfigurationProvider), config);
 
             builder.RegisterType<Mapper>().AsSelf()
@@ -62,9 +67,10 @@ namespace DataAccess
             return builder.Build();
         }
 
-        private static void ConfigMapper(IMapperConfigurationExpression config)
+        private static void ConfigMapper(IMapperConfigurationExpression config, FurnitureHelperContext ctx)
         {
             config.CreateMap<AccountModel, AccountEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
                   .ForMember(entity => entity.accounts_extensions, cnf => cnf.MapFrom(model => model.AccountExtensions))
                   .ForMember(entity => entity.first_name, cnf => cnf.MapFrom(model => model.FirstName))
                   .ForMember(entity => entity.last_name, cnf => cnf.MapFrom(model => model.LastName))
@@ -79,7 +85,8 @@ namespace DataAccess
 
             config.CreateMap<AdminModel, AdminEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
-                  .ForMember(entity => entity.account_id, cnf => cnf.MapFrom(model => model.Account.Id));
+                  .ForMember(entity => entity.account_id, cnf => cnf.MapFrom(model => model.Account.Id))
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<AdminEntity, AdminModel>()
                   .ForMember(model => model.Id, cnf => cnf.MapFrom(entity => entity.id))
@@ -87,13 +94,34 @@ namespace DataAccess
 
             config.CreateMap<SuperAdminModel, SuperAdminEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
-                  .ForMember(entity => entity.admin_account_id, cnf => cnf.MapFrom(model => model.AdminRights.Id));
+                  .ForMember(entity => entity.admin_account_id, cnf => cnf.MapFrom(model => model.AdminRights.Id))
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<SuperAdminEntity, SuperAdminModel>()
                   .ForMember(model => model.Id, cnf => cnf.MapFrom(entity => entity.id))
                   .ForMember(model => model.AdminRights, cnf => cnf.MapFrom(entity => entity.admins));
 
-            config.CreateMap<PartColorEntity, PartColorModel>().ReverseMap();
+            config.CreateMap<PartColorModel, PartColorEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
+
+            config.CreateMap<PartColorEntity, PartColorModel>();
+
+            config.CreateMap<int, PartColorEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.MapFrom(id => id));
+
+            config.CreateMap<MaterialModel, MaterialEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.texture_url, cnf => cnf.MapFrom(model => model.TextureUrl))
+                  .ForMember(entity => entity.price_coeff, cnf => cnf.MapFrom(model => model.PriceCoefficient))
+                  .ForMember(entity => entity.colors, cnf => cnf.Ignore())
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
+
+            config.CreateMap<MaterialEntity, MaterialModel>()
+                  .ForMember(model => model.TextureUrl, cnf => cnf.MapFrom(entity => entity.texture_url))
+                  .ForMember(entity => entity.PriceCoefficient, cnf => cnf.MapFrom(model => model.price_coeff))
+                  .ForMember(entity => entity.PossibleColors, cnf => cnf.MapFrom(model => model.colors));
+
         }
     }
 }

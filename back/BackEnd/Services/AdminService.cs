@@ -15,21 +15,10 @@ namespace Services
     public class AdminService : ServiceBase, IAdminService
     {
         private static readonly IAccountRepo AccountRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IAccountRepo>();
-        private static readonly IAdminRepo AdminRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IAdminRepo>();
         private static readonly ISuperAdminRepo SuperAdminRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<ISuperAdminRepo>();
+        private static readonly IAdminRepo AdminRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IAdminRepo>();
 
         private static readonly SessionService SessionService = ServiceDependencyHolder.ServicesDependencies.Resolve<SessionService>();
-
-        protected override void ConfigDtoModelMapper(IMapperConfigurationExpression config)
-        {
-            config.CreateMap<AddAdminDto, AdminModel>()
-                  .ForMember(model => model.Id, cnf => cnf.Ignore())
-                  .ForPath(model => model.Account.Id, cnf => cnf.MapFrom(dto => dto.AccountId));
-
-            config.CreateMap<AdminModel, SuperAdminModel>()
-                  .ForMember(super => super.Id, cnf => cnf.Ignore())
-                  .ForPath(super => super.AdminRights.Id, cnf => cnf.MapFrom(admin => admin.Id));
-        }
 
         public bool IsAdmin(int accountId)
         {

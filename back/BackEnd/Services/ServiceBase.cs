@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Autofac;
 using AutoMapper;
 
 using Models;
@@ -13,16 +14,7 @@ namespace Services
 {
     public abstract class ServiceBase
     {
-        protected Mapper Mapper { get; private set; }
-        protected MapperConfiguration MapperConfig { get; private set; }
-
-        protected abstract void ConfigDtoModelMapper(IMapperConfigurationExpression config);
-
-        public ServiceBase()
-        {
-            MapperConfig = new MapperConfiguration(config => ConfigDtoModelMapper(config));
-            Mapper = new Mapper(MapperConfig);
-        }
+        protected static readonly Mapper Mapper = ServiceDependencyHolder.ServicesDependencies.Resolve<Mapper>();
 
         /// <summary>
         /// Strongly recommended when creating and updating
@@ -37,7 +29,11 @@ namespace Services
 
                 foreach (InvalidFieldInfo<TModel> fieldInfo in ex.InvalidFieldInfos)
                 {
-                    ValidationFailInfo failInfo = ValidationFailInfo.CreateValidationFailInfo<TDto>(fieldInfo.FieldName, fieldInfo.InvalidReason);
+                    ValidationFailInfo failInfo = ValidationFailInfo.CreateValidationFailInfo<TDto>(
+                        fieldInfo.FieldName, 
+                        fieldInfo.InvalidReason
+                    );
+
                     e.ValidationFailInfos.Add(failInfo);
                 }
 

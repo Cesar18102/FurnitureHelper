@@ -19,12 +19,6 @@ namespace Services
         private static readonly SessionService SessionService = ServiceDependencyHolder.ServicesDependencies.Resolve<SessionService>();
         private static readonly HashingService Hasher = ServiceDependencyHolder.ServicesDependencies.Resolve<HashingService>();
 
-        protected override void ConfigDtoModelMapper(IMapperConfigurationExpression config)
-        {
-            config.CreateMap<SignUpDto, AccountModel>();
-            config.CreateMap<UpdateAccountDto, AccountModel>();
-        }
-
         public AccountModel SignUp(SignUpDto dto)
         {
             dto.Password = Hasher.GetHash(dto.Password);
@@ -56,6 +50,9 @@ namespace Services
         public AccountModel Update(UpdateAccountDto dto)
         {
             SessionService.CheckSession(dto.Session);
+
+            if (dto.Id != dto.Session.UserId)
+                throw new ForbiddenException("Account owner");
 
             dto.Password = Hasher.GetHash(dto.Password);
             AccountModel account = Mapper.Map<UpdateAccountDto, AccountModel>(dto);

@@ -1,8 +1,8 @@
-﻿using AutoMapper;
+﻿using Models;
 
-using Models;
 using DataAccessContract;
 using DataAccess.Entities;
+
 using System.Linq;
 
 namespace DataAccess.RepoImplementation
