@@ -45,6 +45,7 @@ namespace Services
             builder.RegisterType<ColorsService>().As<IColorService>().SingleInstance();
             builder.RegisterType<MaterialService>().As<IMaterialService>().SingleInstance();
             builder.RegisterType<PartService>().As<IPartService>().SingleInstance();
+            builder.RegisterType<FurnitureService>().As<IFurnitureService>().SingleInstance();
 
             MapperConfiguration config = new MapperConfiguration(cnf => ConfigMapper(cnf));
             TypedParameter mapperConfigParameter = new TypedParameter(typeof(IConfigurationProvider), config);
@@ -105,6 +106,23 @@ namespace Services
             config.CreateMap<UpdatePartDto, PartModel>()
                   .ForMember(model => model.PossibleMaterials, cnf => cnf.MapFrom(dto => dto.PossibleMaterials))
                   .ForMember(model => model.EmbedControllersPositions, cnf => cnf.MapFrom(dto => dto.EmbedControllersPositions));
+
+            config.CreateMap<ConnectionGlueDto, ConnectionGlueModel>()
+                  .ForPath(model => model.GluePart.Id, cnf => cnf.MapFrom(dto => dto.GluePartId.GetValueOrDefault()));
+
+            config.CreateMap<TwoPartsConnectionDto, TwoPartsConnectionModel>()
+                  .ForMember(model => model.OrderNumber, cnf => cnf.MapFrom(dto => dto.OrderNumber.GetValueOrDefault()))
+                  .ForPath(model => model.ControllerPosition.Id, cnf => cnf.MapFrom(dto => dto.EmbedControllerPositionId))
+                  .ForPath(model => model.ControllerPositionOther.Id, cnf => cnf.MapFrom(dto => dto.EmbedControllerPositionOtherId))
+                  .ForPath(model => model.ConnectionGlues, cnf => cnf.MapFrom(dto => dto.ConnectionGlues));
+
+            config.CreateMap<GlobalConnectionDto, GlobalPartsConnectionModel>()
+                  .ForMember(model => model.OrderNumber, cnf => cnf.MapFrom(dto => dto.OrderNumber.GetValueOrDefault()))
+                  .ForMember(model => model.GlobalConnectionGlues, cnf => cnf.MapFrom(dto => dto.GlobalConnectionGlues))
+                  .ForMember(model => model.SubConnections, cnf => cnf.MapFrom(dto => dto.SubConnections));
+
+            config.CreateMap<AddFurnitureItemDto, FurnitureItemModel>()
+                  .ForMember(model => model.GlobalConnections, cnf => cnf.MapFrom(dto => dto.GlobalConnections));
         }
     }
 }

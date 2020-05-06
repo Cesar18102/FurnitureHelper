@@ -62,6 +62,11 @@ namespace DataAccess
                    .UsingConstructor(typeof(FurnitureHelperContext))
                    .WithParameter(contextParameter).SingleInstance();
 
+            builder.RegisterType<FurnitureRepo>()
+                  .As<IFurnitureRepo>().As<IRepo<FurnitureItemModel>>()
+                  .UsingConstructor(typeof(FurnitureHelperContext))
+                  .WithParameter(contextParameter).SingleInstance();
+
             MapperConfiguration config = new MapperConfiguration(cnf => ConfigMapper(cnf, dbContext));
             TypedParameter mapperConfigParameter = new TypedParameter(typeof(IConfigurationProvider), config);
 
@@ -88,6 +93,8 @@ namespace DataAccess
                   .ForMember(model => model.LastName, cnf => cnf.MapFrom(entity => entity.last_name))
                   .ForMember(model => model.AccountExtensions, cnf => cnf.MapFrom(entity => entity.accounts_extensions));
 
+            /******************/
+
             config.CreateMap<AdminModel, AdminEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
                   .ForMember(entity => entity.account_id, cnf => cnf.MapFrom(model => model.Account.Id))
@@ -106,11 +113,15 @@ namespace DataAccess
                   .ForMember(model => model.Id, cnf => cnf.MapFrom(entity => entity.id))
                   .ForMember(model => model.AdminRights, cnf => cnf.MapFrom(entity => entity.admins));
 
+            /******************/
+
             config.CreateMap<PartColorModel, PartColorEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<PartColorEntity, PartColorModel>();
+
+            /******************/
 
             config.CreateMap<MaterialModel, MaterialEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
@@ -123,6 +134,8 @@ namespace DataAccess
                   .ForMember(model => model.TextureUrl, cnf => cnf.MapFrom(entity => entity.texture_url))
                   .ForMember(model => model.PriceCoefficient, cnf => cnf.MapFrom(entity => entity.price_coeff))
                   .ForMember(model => model.PossibleColors, cnf => cnf.MapFrom(entity => entity.colors));
+
+            /******************/
 
             config.CreateMap<EmbedControllerPositionModel, PartControllerEmbedRelativePositionEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
@@ -149,6 +162,71 @@ namespace DataAccess
                   .ForMember(model => model.ModelUrl, cnf => cnf.MapFrom(entity => entity.model_url))
                   .ForMember(model => model.PossibleMaterials, cnf => cnf.MapFrom(entity => entity.materials))
                   .ForMember(model => model.EmbedControllersPositions, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions));
+
+            /******************/
+
+            config.CreateMap<ConnectionGlueModel, TwoPartsConnectionGlueEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.comment_text, cnf => cnf.MapFrom(model => model.Comment))
+                  .ForMember(entity => entity.glue_part_id, cnf => cnf.MapFrom(model => model.GluePart.Id))
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
+
+            config.CreateMap<ConnectionGlueModel, PartsConnectionGlueEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.comment_text, cnf => cnf.MapFrom(model => model.Comment))
+                  .ForMember(entity => entity.glue_part_id, cnf => cnf.MapFrom(model => model.GluePart.Id))
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
+
+            config.CreateMap<TwoPartsConnectionModel, TwoPartsConnectionEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.comment_text, cnf => cnf.MapFrom(model => model.Comment))
+                  .ForMember(entity => entity.order_number, cnf => cnf.MapFrom(model => model.OrderNumber))
+                  .ForMember(entity => entity.part_controller_id, cnf => cnf.MapFrom(model => model.ControllerPosition.Id))
+                  .ForMember(entity => entity.part_controller_other_id, cnf => cnf.MapFrom(model => model.ControllerPositionOther.Id))
+                  .ForMember(entity => entity.two_parts_connection_glues, cnf => cnf.MapFrom(model => model.ConnectionGlues))
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
+
+            config.CreateMap<GlobalPartsConnectionModel, FurnitureItemPartsConnectionEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.comment_text, cnf => cnf.MapFrom(model => model.Comment))
+                  .ForMember(entity => entity.order_number, cnf => cnf.MapFrom(model => model.OrderNumber))
+                  .ForMember(entity => entity.parts_connection_glues, cnf => cnf.MapFrom(model => model.GlobalConnectionGlues))
+                  .ForMember(entity => entity.two_parts_connection, cnf => cnf.MapFrom(model => model.SubConnections))
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
+
+            config.CreateMap<FurnitureItemModel, FurnitureItemEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.furniture_item_parts_connections, cnf => cnf.MapFrom(model => model.GlobalConnections))
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
+
+
+            /******************/
+
+            config.CreateMap<TwoPartsConnectionGlueEntity, ConnectionGlueModel>()
+                 .ForMember(model => model.Comment, cnf => cnf.MapFrom(entity => entity.comment_text))
+                 .ForMember(model => model.GluePart, cnf => cnf.MapFrom(entity => entity.parts));
+
+            config.CreateMap<PartsConnectionGlueEntity, ConnectionGlueModel>()
+                  .ForMember(model => model.Comment, cnf => cnf.MapFrom(entity => entity.comment_text))
+                  .ForMember(model => model.GluePart, cnf => cnf.MapFrom(entity => entity.parts));
+
+            config.CreateMap<TwoPartsConnectionEntity, TwoPartsConnectionModel>()
+                  .ForMember(model => model.Comment, cnf => cnf.MapFrom(entity => entity.comment_text))
+                  .ForMember(model => model.OrderNumber, cnf => cnf.MapFrom(entity => entity.order_number))
+                  .ForMember(model => model.ControllerPosition, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions))
+                  .ForMember(model => model.ControllerPositionOther, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions1))
+                  .ForMember(model => model.ConnectionGlues, cnf => cnf.MapFrom(entity => entity.two_parts_connection_glues));
+
+            config.CreateMap<FurnitureItemPartsConnectionEntity, GlobalPartsConnectionModel>()
+                  .ForMember(model => model.Comment, cnf => cnf.MapFrom(entity => entity.comment_text))
+                  .ForMember(model => model.OrderNumber, cnf => cnf.MapFrom(entity => entity.order_number))
+                  .ForMember(model => model.SubConnections, cnf => cnf.MapFrom(entity => entity.two_parts_connection))
+                  .ForMember(model => model.GlobalConnectionGlues, cnf => cnf.MapFrom(entity => entity.parts_connection_glues));
+
+            config.CreateMap<FurnitureItemEntity, FurnitureItemModel>()
+                  .ForMember(model => model.GlobalConnections, cnf => cnf.MapFrom(entity => entity.furniture_item_parts_connections));
+
+            /******************/
         }
     }
 }
