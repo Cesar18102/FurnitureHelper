@@ -11,9 +11,9 @@ namespace ServicesContract.Dto
         [JsonProperty("super_admin_session")]
         public SessionDto SuperAdminSession { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "id is required")]
+        [Required(ErrorMessage = "id is required")]
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -21,9 +21,9 @@ namespace ServicesContract.Dto
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [Range(0, float.MaxValue, ErrorMessage = "price_coeff is required")]
+        [Required(ErrorMessage = "price_coeff is required")]
         [JsonProperty("price_coeff")]
-        public float PriceCoefficient { get; set; } = -1;
+        public float? PriceCoefficient { get; set; }
 
         [Url(ErrorMessage = "texture_url must be url")]
         [JsonProperty("texture_url")]

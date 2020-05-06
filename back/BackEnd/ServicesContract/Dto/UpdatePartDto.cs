@@ -11,9 +11,9 @@ namespace ServicesContract.Dto
         [JsonProperty("super_admin_session")]
         public SessionDto SuperAdminSession { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "id is required")]
+        [Required(ErrorMessage = "id is required")]
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -25,9 +25,9 @@ namespace ServicesContract.Dto
         [JsonProperty("model_url")]
         public string ModelUrl { get; set; }
 
-        [Range(0, float.MaxValue, ErrorMessage = "price is required")]
+        [Required(ErrorMessage = "price is required")]
         [JsonProperty("price")]
-        public float Price { get; set; } = -1;
+        public float? Price { get; set; }
 
         [JsonProperty("possible_materials")]
         public IEnumerable<int> PossibleMaterials { get; set; }

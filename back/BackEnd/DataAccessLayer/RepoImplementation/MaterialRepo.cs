@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Models;
 using DataAccessContract;
 using DataAccess.Entities;
+using DataAccessContract.Exceptions;
 
 namespace DataAccess.RepoImplementation
 {
@@ -31,10 +32,6 @@ namespace DataAccess.RepoImplementation
         public override MaterialModel Update(int id, MaterialModel model)
         {
             MaterialModel material = base.Update(id, model);
-
-            if (material == null)
-                return null;
-
             return UpdateAttachedColors(material, model.PossibleColors);
         }
 

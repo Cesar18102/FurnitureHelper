@@ -10,9 +10,9 @@ namespace ServicesContract.Dto
         [JsonProperty("super_admin_session")]
         public SessionDto SuperAdminSession { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "account_id is required")]
+        [Required(ErrorMessage = "account_id is required")]
         [JsonProperty("account_id")]
-        public int AccountId { get; set; }
+        public int? AccountId { get; set; }
 
         public void Validate()
         {

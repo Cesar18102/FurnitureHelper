@@ -75,7 +75,7 @@ namespace DataAccess.RepoImplementation
             TEntity updatingEntity = Context.Set<TEntity>().FirstOrDefault(entity => entity.id == id);
 
             if (updatingEntity == null)
-                return null;
+                throw new EntityNotFoundException(typeof(TModel).Name.Replace("Model", ""));
 
             return ProtectedExecute(updating =>
             {
@@ -92,7 +92,7 @@ namespace DataAccess.RepoImplementation
             TEntity found = Context.Set<TEntity>().FirstOrDefault(entity => entity.id == id);
 
             if (found == null)
-                return null;
+                throw new EntityNotFoundException(typeof(TModel).Name.Replace("Model", ""));
 
             SingleInclude(found);
 

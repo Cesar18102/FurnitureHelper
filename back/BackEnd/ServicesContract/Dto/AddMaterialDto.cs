@@ -18,9 +18,9 @@ namespace ServicesContract.Dto
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [Range(0, float.MaxValue, ErrorMessage = "price_coeff is required")]
+        [Required(ErrorMessage = "price_coeff is required")]
         [JsonProperty("price_coeff")]
-        public float PriceCoefficient { get; set; } = -1;
+        public float? PriceCoefficient { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "texture_url is required")]
         [Url(ErrorMessage = "texture_url must be url")]

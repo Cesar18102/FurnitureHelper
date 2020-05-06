@@ -10,7 +10,16 @@ namespace Models
         [JsonProperty("comment")]
         public string Comment { get; private set; }
 
-        [JsonProperty("glue_part")]
-        public PartModel GluePart { get; private set; }
+        [JsonProperty("glue_part_id")]
+        public int GluePartId { get; private set; }
+
+        [JsonProperty("pos_x")]
+        public float PosX { get; set; }
+
+        [JsonProperty("pos_y")]
+        public float PosY { get; set; }
+
+        [JsonProperty("pos_z")]
+        public float PosZ { get; set; }
     }
 }

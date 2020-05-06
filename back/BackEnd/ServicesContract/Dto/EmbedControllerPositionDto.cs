@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 using Newtonsoft.Json;
 
@@ -9,15 +8,15 @@ namespace ServicesContract.Dto
     {
         [Required(ErrorMessage = "pos_x is required")]
         [JsonProperty("pos_x")]
-        public float? PosX { get; private set; }
+        public float? PosX { get; set; }
 
         [Required(ErrorMessage = "pos_y is required")]
         [JsonProperty("pos_y")]
-        public float? PosY { get; private set; }
+        public float? PosY { get; set; }
 
         [Required(ErrorMessage = "pos_z is required")]
         [JsonProperty("pos_z")]
-        public float? PosZ { get; private set; }
+        public float? PosZ { get; set; }
 
         public void Validate()
         {

@@ -6,9 +6,9 @@ namespace ServicesContract.Dto
 {
     public class SessionDto : IDto
     {
-        [Range(1, int.MaxValue, ErrorMessage = "user_id is required")]
+        [Required(ErrorMessage = "user_id is required")]
         [JsonProperty("user_id")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         [Required(ErrorMessage = "session_token_salted is required")]
         [JsonProperty("session_token_salted")]

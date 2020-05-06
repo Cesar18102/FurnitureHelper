@@ -38,15 +38,10 @@ namespace Services
             if (foundColor != null && foundColor.Id != model.Id)
                 throw new ConflictException("Color name");
 
-            PartColorModel updatedColor = ProtectedExecute<UpdateColorDto, PartColorModel>(
+            return ProtectedExecute<UpdateColorDto, PartColorModel>(
                 colorModel => ColorRepo.Update(colorModel.Id, colorModel), 
                 model
             );
-
-            if (updatedColor == null)
-                throw new NotFoundException("Color");
-
-            return updatedColor;
         }
     }
 }

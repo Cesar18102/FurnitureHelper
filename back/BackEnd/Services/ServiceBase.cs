@@ -39,6 +39,7 @@ namespace Services
 
                 throw e;
             }
+            catch(EntityNotFoundException ex) { throw new NotFoundException(ex.NotFoundSubject); }
         }
     }
 }

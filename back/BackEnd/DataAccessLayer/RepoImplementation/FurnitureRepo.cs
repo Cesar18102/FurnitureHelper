@@ -5,6 +5,7 @@ using System.Data.Entity.Infrastructure;
 using Models;
 using DataAccessContract;
 using DataAccess.Entities;
+using DataAccessContract.Exceptions;
 
 namespace DataAccess.RepoImplementation
 {
@@ -28,14 +29,21 @@ namespace DataAccess.RepoImplementation
                     twoPartsConnectionEntry.Reference(connection => connection.part_controllers_embed_relative_positions).Load();
                     twoPartsConnectionEntry.Reference(connection => connection.part_controllers_embed_relative_positions1).Load();
                     twoPartsConnectionEntry.Collection(connection => connection.two_parts_connection_glues).Load();
-
-                    foreach (TwoPartsConnectionGlueEntity twoPartsGlue in twoPartConnection.two_parts_connection_glues)
-                        Context.Entry<TwoPartsConnectionGlueEntity>(twoPartsGlue).Reference(glue => glue.parts).Load();
                 }
-
-                foreach (PartsConnectionGlueEntity partsGlue in globalConnection.parts_connection_glues)
-                    Context.Entry<PartsConnectionGlueEntity>(partsGlue).Reference(glue => glue.parts).Load();
             }
+        }
+
+        private void RemoveAttached(FurnitureItemEntity entity)
+        {
+            foreach (FurnitureItemPartsConnectionEntity globalConnection in entity.furniture_item_parts_connections)
+            {
+                Context.parts_connection_glues.RemoveRange(globalConnection.parts_connection_glues);
+                foreach (TwoPartsConnectionEntity connection in globalConnection.two_parts_connection)
+                    Context.two_parts_connection_glues.RemoveRange(connection.two_parts_connection_glues);
+                Context.two_parts_connection.RemoveRange(globalConnection.two_parts_connection);
+            }
+
+            Context.furniture_item_parts_connections.RemoveRange(entity.furniture_item_parts_connections);
         }
 
         protected override void WholeInclude()
@@ -43,46 +51,51 @@ namespace DataAccess.RepoImplementation
             Context.furniture_items.Include(furniture => furniture.furniture_item_parts_connections);
             Context.furniture_item_parts_connections.Include(connection => connection.parts_connection_glues)
                                                     .Include(connection => connection.two_parts_connection);
-            Context.parts_connection_glues.Include(glue => glue.parts);
             Context.two_parts_connection.Include(connection => connection.part_controllers_embed_relative_positions)
                                         .Include(connection => connection.part_controllers_embed_relative_positions1)
                                         .Include(connection => connection.two_parts_connection_glues);
-            Context.two_parts_connection_glues.Include(glue => glue.parts);
         }
 
         public override FurnitureItemModel Create(FurnitureItemModel model)
         {
-            return IsValid(model) ? base.Create(model) : null;
+            CheckValid(model);
+            return base.Create(model);
         }
 
         public override FurnitureItemModel Update(int id, FurnitureItemModel model)
         {
-            return IsValid(model) ? base.Update(id, model) : null;
+            FurnitureItemEntity entity = Context.furniture_items.FirstOrDefault(furniture => furniture.id == id);
+
+            if(entity == null)
+                throw new EntityNotFoundException("furniture item");
+
+            CheckValid(model);
+            RemoveAttached(entity);
+
+            return base.Update(id, model);
         }
 
-        private bool IsValid(FurnitureItemModel model)
+        private void CheckValid(FurnitureItemModel model)
         {
             foreach (GlobalPartsConnectionModel connection in model.GlobalConnections)
             {
                 foreach (ConnectionGlueModel glue in connection.GlobalConnectionGlues)
-                    if (Context.parts.FirstOrDefault(part => part.id == glue.GluePart.Id) == null)
-                        return false;
+                    if (Context.parts.FirstOrDefault(part => part.id == glue.GluePartId) == null)
+                        throw new EntityNotFoundException("global glue part");
 
-                foreach(TwoPartsConnectionModel subConnection in connection.SubConnections)
+                foreach (TwoPartsConnectionModel subConnection in connection.SubConnections)
                 {
                     if (Context.part_controllers_embed_relative_positions.FirstOrDefault(position => position.id == subConnection.ControllerPosition.Id) == null)
-                        return false;
+                        throw new EntityNotFoundException("controller position");
 
                     if (Context.part_controllers_embed_relative_positions.FirstOrDefault(position => position.id == subConnection.ControllerPositionOther.Id) == null)
-                        return false;
+                        throw new EntityNotFoundException("controller position");
 
                     foreach (ConnectionGlueModel glue in subConnection.ConnectionGlues)
-                        if (Context.parts.FirstOrDefault(part => part.id == glue.GluePart.Id) == null)
-                            return false;
+                        if (Context.parts.FirstOrDefault(part => part.id == glue.GluePartId) == null)
+                            throw new EntityNotFoundException("subconnection glue part");
                 }
             }
-
-            return true;
         }
     }
 }

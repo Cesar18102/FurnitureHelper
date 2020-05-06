@@ -168,13 +168,19 @@ namespace DataAccess
             config.CreateMap<ConnectionGlueModel, TwoPartsConnectionGlueEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
                   .ForMember(entity => entity.comment_text, cnf => cnf.MapFrom(model => model.Comment))
-                  .ForMember(entity => entity.glue_part_id, cnf => cnf.MapFrom(model => model.GluePart.Id))
+                  .ForMember(entity => entity.glue_part_id, cnf => cnf.MapFrom(model => model.GluePartId))
+                  .ForMember(entity => entity.pos_x, cnf => cnf.MapFrom(model => model.PosX))
+                  .ForMember(entity => entity.pos_y, cnf => cnf.MapFrom(model => model.PosY))
+                  .ForMember(entity => entity.pos_z, cnf => cnf.MapFrom(model => model.PosZ))
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<ConnectionGlueModel, PartsConnectionGlueEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
                   .ForMember(entity => entity.comment_text, cnf => cnf.MapFrom(model => model.Comment))
-                  .ForMember(entity => entity.glue_part_id, cnf => cnf.MapFrom(model => model.GluePart.Id))
+                  .ForMember(entity => entity.glue_part_id, cnf => cnf.MapFrom(model => model.GluePartId))
+                  .ForMember(entity => entity.pos_x, cnf => cnf.MapFrom(model => model.PosX))
+                  .ForMember(entity => entity.pos_y, cnf => cnf.MapFrom(model => model.PosY))
+                  .ForMember(entity => entity.pos_z, cnf => cnf.MapFrom(model => model.PosZ))
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<TwoPartsConnectionModel, TwoPartsConnectionEntity>()
@@ -204,11 +210,17 @@ namespace DataAccess
 
             config.CreateMap<TwoPartsConnectionGlueEntity, ConnectionGlueModel>()
                  .ForMember(model => model.Comment, cnf => cnf.MapFrom(entity => entity.comment_text))
-                 .ForMember(model => model.GluePart, cnf => cnf.MapFrom(entity => entity.parts));
+                 .ForMember(model => model.GluePartId, cnf => cnf.MapFrom(entity => entity.glue_part_id.GetValueOrDefault()))
+                 .ForMember(model => model.PosX, cnf => cnf.MapFrom(entity => entity.pos_x))
+                 .ForMember(model => model.PosY, cnf => cnf.MapFrom(entity => entity.pos_y))
+                 .ForMember(model => model.PosZ, cnf => cnf.MapFrom(entity => entity.pos_z));
 
             config.CreateMap<PartsConnectionGlueEntity, ConnectionGlueModel>()
                   .ForMember(model => model.Comment, cnf => cnf.MapFrom(entity => entity.comment_text))
-                  .ForMember(model => model.GluePart, cnf => cnf.MapFrom(entity => entity.parts));
+                  .ForMember(model => model.GluePartId, cnf => cnf.MapFrom(entity => entity.glue_part_id.GetValueOrDefault()))
+                  .ForMember(model => model.PosX, cnf => cnf.MapFrom(entity => entity.pos_x))
+                  .ForMember(model => model.PosY, cnf => cnf.MapFrom(entity => entity.pos_y))
+                  .ForMember(model => model.PosZ, cnf => cnf.MapFrom(entity => entity.pos_z));
 
             config.CreateMap<TwoPartsConnectionEntity, TwoPartsConnectionModel>()
                   .ForMember(model => model.Comment, cnf => cnf.MapFrom(entity => entity.comment_text))

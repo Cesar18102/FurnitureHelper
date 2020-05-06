@@ -36,26 +36,26 @@ namespace Services
 
         public void CheckSession(SessionDto sessionDto)
         {
-            if (sessionDto == null || !Sessions.ContainsKey(sessionDto.UserId))
+            if (sessionDto == null || !Sessions.ContainsKey(sessionDto.UserId.GetValueOrDefault()))
                 throw new NotFoundException("Session");
 
-            string originalTokenSalted = Hasher.GetHash(Sessions[sessionDto.UserId].Token + sessionDto.Salt);
+            string originalTokenSalted = Hasher.GetHash(Sessions[sessionDto.UserId.GetValueOrDefault()].Token + sessionDto.Salt);
             if (originalTokenSalted.ToUpper() != sessionDto.SessionTokenSalted.ToUpper())
                 throw new UnauthorizedException("Wrong session token");
 
-            if (Sessions[sessionDto.UserId].Expires < DateTime.Now)
+            if (Sessions[sessionDto.UserId.GetValueOrDefault()].Expires < DateTime.Now)
             {
-                Sessions.Remove(sessionDto.UserId);
+                Sessions.Remove(sessionDto.UserId.GetValueOrDefault());
                 throw new UnauthorizedException("Session expired");
             }
 
-            Sessions[sessionDto.UserId].Expires.AddSeconds(SESSION_DURATION);
+            Sessions[sessionDto.UserId.GetValueOrDefault()].Expires.AddSeconds(SESSION_DURATION);
         }
 
         public void TerminateSession(SessionDto sessionDto)
         {
             CheckSession(sessionDto);
-            Sessions.Remove(sessionDto.UserId);
+            Sessions.Remove(sessionDto.UserId.GetValueOrDefault());
         }
     }
 }

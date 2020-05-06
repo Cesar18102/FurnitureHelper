@@ -6,9 +6,9 @@ namespace ServicesContract.Dto
 {
     public class UpdateColorDto : IDto
     {
-        [Range(1, int.MaxValue, ErrorMessage = "id is required")]
+        [Required(ErrorMessage = "id is required")]
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required(ErrorMessage = "super_admin_session is required")]
         [JsonProperty("super_admin_session")]
@@ -20,17 +20,20 @@ namespace ServicesContract.Dto
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [Range(0, 255, ErrorMessage = "red is required between 0 and 255")]
+        [Required(ErrorMessage = "red is required")]
+        [Range(0, 255, ErrorMessage = "red must be an integer between 0 and 255")]
         [JsonProperty("red")]
-        public int Red { get; set; } = -1;
+        public int? Red { get; set; }
 
-        [Range(0, 255, ErrorMessage = "green is required between 0 and 255")]
+        [Required(ErrorMessage = "green is required")]
+        [Range(0, 255, ErrorMessage = "green must be an integer between 0 and 255")]
         [JsonProperty("green")]
-        public int Green { get; set; } = -1;
+        public int? Green { get; set; }
 
-        [Range(0, 255, ErrorMessage = "blue is required between 0 and 255")]
+        [Required(ErrorMessage = "blue is required")]
+        [Range(0, 255, ErrorMessage = "blue must be an integer between 0 and 255")]
         [JsonProperty("blue")]
-        public int Blue { get; set; } = -1;
+        public int? Blue { get; set; }
 
         public void Validate()
         {

@@ -57,15 +57,10 @@ namespace Services
             dto.Password = Hasher.GetHash(dto.Password);
             AccountModel account = Mapper.Map<UpdateAccountDto, AccountModel>(dto);
 
-            AccountModel updatedAccount = ProtectedExecute<UpdateAccountDto, AccountModel>(
+            return ProtectedExecute<UpdateAccountDto, AccountModel>(
                 model => AccountRepo.Update(model.Id, model), 
                 account
             );
-
-            if (updatedAccount == null)
-                throw new NotFoundException("Account");
-
-            return updatedAccount;
         }
     }
 }

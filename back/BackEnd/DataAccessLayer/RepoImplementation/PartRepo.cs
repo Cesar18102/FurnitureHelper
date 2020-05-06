@@ -6,6 +6,7 @@ using Models;
 
 using DataAccessContract;
 using DataAccess.Entities;
+using DataAccessContract.Exceptions;
 
 namespace DataAccess.RepoImplementation
 {
@@ -24,7 +25,7 @@ namespace DataAccess.RepoImplementation
             PartEntity entity = Context.parts.FirstOrDefault(part => part.id == id);
 
             if (entity == null)
-                return null;
+                throw new EntityNotFoundException("part");
 
             Context.part_controllers_embed_relative_positions.RemoveRange(entity.part_controllers_embed_relative_positions);
 

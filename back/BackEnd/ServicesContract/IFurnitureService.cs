@@ -5,7 +5,7 @@ namespace ServicesContract
 {
     public interface IFurnitureService
     {
-        FurnitureItemModel RegisterFurnitureItem(AddFurnitureItemDto dto);
-        //FurnitureItemModel UpdateFurnitureItem(UpdateFurnitureItemDto dto);
+        FurnitureItemModel RegisterFurnitureItem(AddFurnitureDto dto);
+        FurnitureItemModel UpdateFurnitureItem(UpdateFurnitureDto dto);
     }
 }

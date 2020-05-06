@@ -6,7 +6,6 @@ using DataAccessHolder;
 
 using ServicesContract;
 using ServicesContract.Dto;
-using ServicesContract.Exceptions;
 
 namespace Services
 {
@@ -15,24 +14,26 @@ namespace Services
         private static readonly IFurnitureRepo FurnitureRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IFurnitureRepo>();
         private static readonly AdminService AdminService = ServiceDependencyHolder.ServicesDependencies.Resolve<AdminService>();
 
-        public FurnitureItemModel RegisterFurnitureItem(AddFurnitureItemDto dto)
+        public FurnitureItemModel RegisterFurnitureItem(AddFurnitureDto dto)
         {
-            FurnitureItemModel model = Mapper.Map<AddFurnitureItemDto, FurnitureItemModel>(dto);
+            AdminService.CheckActiveAdmin(dto.AdminSession);
+            FurnitureItemModel model = Mapper.Map<AddFurnitureDto, FurnitureItemModel>(dto);
 
-            FurnitureItemModel created = ProtectedExecute<AddFurnitureItemDto, FurnitureItemModel>(
+            return ProtectedExecute<AddFurnitureDto, FurnitureItemModel>(
                 furniture => FurnitureRepo.Create(furniture),
                 model
             );
-
-            if (created == null)
-                throw new NotFoundException("glue part or controller position");
-
-            return created;
         }
 
-        /*public FurnitureItemModel UpdateFurnitureItem(AddFurnitureItemDto dto)
+        public FurnitureItemModel UpdateFurnitureItem(UpdateFurnitureDto dto)
         {
-            return null;
-        }*/
+            AdminService.CheckActiveAdmin(dto.AdminSession);
+            FurnitureItemModel model = Mapper.Map<UpdateFurnitureDto, FurnitureItemModel>(dto);
+
+            return ProtectedExecute<UpdateFurnitureDto, FurnitureItemModel>(
+                furniture => FurnitureRepo.Update(furniture.Id, furniture),
+                model
+            );
+        }
     }
 }

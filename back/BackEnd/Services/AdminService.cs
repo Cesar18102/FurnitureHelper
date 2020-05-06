@@ -20,21 +20,14 @@ namespace Services
 
         private static readonly SessionService SessionService = ServiceDependencyHolder.ServicesDependencies.Resolve<SessionService>();
 
-        public bool IsAdmin(int accountId)
-        {
-            return AdminRepo.IsAdmin(accountId);
-        }
-
-        public bool IsSuperAdmin(int accountId)
-        {
-            return SuperAdminRepo.IsSuperAdmin(accountId);
-        }
+        public bool IsAdmin(int accountId) => AdminRepo.IsAdmin(accountId);
+        public bool IsSuperAdmin(int accountId) => SuperAdminRepo.IsSuperAdmin(accountId);
 
         public void CheckActiveAdmin(SessionDto dto)
         {
             SessionService.CheckSession(dto);
 
-            if (!IsAdmin(dto.UserId))
+            if (!IsAdmin(dto.UserId.GetValueOrDefault()))
                 throw new ForbiddenException("admin");
         }
 
@@ -42,7 +35,7 @@ namespace Services
         {
             SessionService.CheckSession(dto);
 
-            if (!IsSuperAdmin(dto.UserId))
+            if (!IsSuperAdmin(dto.UserId.GetValueOrDefault()))
                 throw new ForbiddenException("super-admin");
         }
 
@@ -50,10 +43,10 @@ namespace Services
         {
             CheckActiveSuperAdmin(dto.SuperAdminSession);
 
-            if (AccountRepo.Get(dto.AccountId) == null)
+            if (AccountRepo.Get(dto.AccountId.GetValueOrDefault()) == null)
                 throw new NotFoundException("Account");
 
-            if (IsAdmin(dto.AccountId))
+            if (IsAdmin(dto.AccountId.GetValueOrDefault()))
                 throw new ConflictException("admin account");
 
             AdminModel model = Mapper.Map<AddAdminDto, AdminModel>(dto);
@@ -64,13 +57,13 @@ namespace Services
         {
             CheckActiveSuperAdmin(dto.SuperAdminSession);
 
-            if (AccountRepo.Get(dto.AccountId) == null)
+            if (AccountRepo.Get(dto.AccountId.GetValueOrDefault()) == null)
                 throw new NotFoundException("Account");
 
-            if (IsSuperAdmin(dto.AccountId))
+            if (IsSuperAdmin(dto.AccountId.GetValueOrDefault()))
                 throw new ConflictException("super-admin account");
 
-            AdminModel admin = AdminRepo.GetByAccountId(dto.AccountId);
+            AdminModel admin = AdminRepo.GetByAccountId(dto.AccountId.GetValueOrDefault());
 
             if (admin == null)
             {

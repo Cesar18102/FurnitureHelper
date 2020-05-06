@@ -27,15 +27,10 @@ namespace Services
             AdminService.CheckActiveSuperAdmin(dto.SuperAdminSession);
             PartModel model = Mapper.Map<UpdatePartDto, PartModel>(dto);
 
-            PartModel updatedPart = ProtectedExecute<UpdatePartDto, PartModel>(
+            return ProtectedExecute<UpdatePartDto, PartModel>(
                 part => PartRepo.Update(part.Id, part), 
                 model
             );
-
-            if (updatedPart == null)
-                throw new NotFoundException("Part");
-
-            return updatedPart;
         }
     }
 }

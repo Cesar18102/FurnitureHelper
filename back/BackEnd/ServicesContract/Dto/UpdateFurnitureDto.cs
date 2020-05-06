@@ -5,11 +5,15 @@ using Newtonsoft.Json;
 
 namespace ServicesContract.Dto
 {
-    public class AddFurnitureDto : IDto
+    public class UpdateFurnitureDto : IDto
     {
         [Required(ErrorMessage = "admin_session is required")]
         [JsonProperty("admin_session")]
         public SessionDto AdminSession { get; set; }
+
+        [Required(ErrorMessage = "id is required")]
+        [JsonProperty("id")]
+        public int? Id { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "name is required")]
         [JsonProperty("name")]
@@ -21,9 +25,6 @@ namespace ServicesContract.Dto
         [JsonProperty("global_connections")]
         public IEnumerable<GlobalConnectionDto> GlobalConnections { get; set; }
 
-        public void Validate()
-        {
-            
-        }
+        public void Validate() { }
     }
 }

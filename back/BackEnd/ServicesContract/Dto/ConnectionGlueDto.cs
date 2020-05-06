@@ -13,6 +13,18 @@ namespace ServicesContract.Dto
         [JsonProperty("glue_part_id")]
         public int? GluePartId { get; set; }
 
+        [Required(ErrorMessage = "pos_x is required")]
+        [JsonProperty("pos_x")]
+        public float? PosX { get; set; }
+
+        [Required(ErrorMessage = "pos_y is required")]
+        [JsonProperty("pos_y")]
+        public float? PosY { get; set; }
+
+        [Required(ErrorMessage = "pos_z is required")]
+        [JsonProperty("pos_z")]
+        public float? PosZ { get; set; }
+
         public void Validate()
         {
         }

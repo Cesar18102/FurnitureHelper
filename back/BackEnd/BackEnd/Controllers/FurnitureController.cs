@@ -15,21 +15,21 @@ namespace BackEnd.Controllers
         private IFurnitureService FurnitureService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<IFurnitureService>();
 
         [HttpPost]
-        public HttpResponseMessage Add([FromBody] AddFurnitureItemDto furnitureDto)
+        public HttpResponseMessage Add([FromBody] AddFurnitureDto furnitureDto)
         {
-            return Request.ExecuteProtectedAndWrapResult<AddFurnitureItemDto, FurnitureItemModel>(
+            return Request.ExecuteProtectedAndWrapResult<AddFurnitureDto, FurnitureItemModel>(
                 dto => FurnitureService.RegisterFurnitureItem(dto),
                 ModelState, furnitureDto
             );
         }
 
-        /*[HttpPost]
-        public HttpResponseMessage Update([FromBody] UpdatePartDto partDto)
+        [HttpPost]
+        public HttpResponseMessage Update([FromBody] UpdateFurnitureDto furnitureDto)
         {
-            return Request.ExecuteProtectedAndWrapResult<UpdatePartDto, PartModel>(
-                dto => PartService.UpdatePart(dto),
-                ModelState, partDto
+            return Request.ExecuteProtectedAndWrapResult<UpdateFurnitureDto, FurnitureItemModel>(
+                dto => FurnitureService.UpdateFurnitureItem(dto),
+                ModelState, furnitureDto
             );
-        }*/
+        }
     }
 }

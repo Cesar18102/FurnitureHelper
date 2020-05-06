@@ -10,9 +10,9 @@ namespace ServicesContract.Dto
         [JsonProperty("session")]
         public SessionDto Session { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "id is required")]
+        [Required(ErrorMessage = "id is required")]
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [RegularExpression("^\\w{8,64}$", ErrorMessage = "password is invalid")]
         [JsonProperty("password")]
