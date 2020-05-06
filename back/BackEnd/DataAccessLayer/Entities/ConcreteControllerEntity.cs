@@ -13,7 +13,7 @@ namespace DataAccess.Entities
 
         [Column(TypeName = "char")]
         [Required]
-        [StringLength(6)]
+        [StringLength(17)]
         public string mac { get; set; }
 
         public int concrete_part_id { get; set; }

@@ -80,7 +80,7 @@ namespace DataAccess.RepoImplementation
             foreach (GlobalPartsConnectionModel connection in model.GlobalConnections)
             {
                 foreach (ConnectionGlueModel glue in connection.GlobalConnectionGlues)
-                    if (Context.parts.FirstOrDefault(part => part.id == glue.GluePartId) == null)
+                    if (Context.parts.FirstOrDefault(part => part.id == glue.GluePart.Id) == null)
                         throw new EntityNotFoundException("global glue part");
 
                 foreach (TwoPartsConnectionModel subConnection in connection.SubConnections)
@@ -92,7 +92,7 @@ namespace DataAccess.RepoImplementation
                         throw new EntityNotFoundException("controller position");
 
                     foreach (ConnectionGlueModel glue in subConnection.ConnectionGlues)
-                        if (Context.parts.FirstOrDefault(part => part.id == glue.GluePartId) == null)
+                        if (Context.parts.FirstOrDefault(part => part.id == glue.GluePart.Id) == null)
                             throw new EntityNotFoundException("subconnection glue part");
                 }
             }

@@ -130,7 +130,7 @@ CREATE TABLE concrete_parts(
 
 CREATE TABLE concrete_controllers(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    mac CHAR(6) NOT NULL UNIQUE,
+    mac CHAR(17) NOT NULL UNIQUE,
     concrete_part_id INTEGER NOT NULL,
     embed_position_id INTEGER NOT NULL,
     FOREIGN KEY(concrete_part_id) REFERENCES concrete_parts(id) ON UPDATE CASCADE ON DELETE NO ACTION,

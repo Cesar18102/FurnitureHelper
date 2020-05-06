@@ -33,5 +33,14 @@ namespace BackEnd.Controllers
                 ModelState, partDto
             );
         }
+
+        [HttpPost]
+        public HttpResponseMessage AddConcretePart([FromBody] AddConcretePartDto concretePartDto)
+        {
+            return Request.ExecuteProtectedAndWrapResult<AddConcretePartDto, ConcretePartModel>(
+                dto => PartService.RegisterConcretePart(dto),
+                ModelState, concretePartDto
+            );
+        }
     }
 }

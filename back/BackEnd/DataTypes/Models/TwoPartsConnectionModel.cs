@@ -18,8 +18,14 @@ namespace Models
         [JsonProperty("embed_controller_position")]
         public EmbedControllerPositionModel ControllerPosition { get; private set; }
 
+        [JsonProperty("part")]
+        public PartModel Part { get; private set; }
+
         [JsonProperty("embed_controller_position_other")]
         public EmbedControllerPositionModel ControllerPositionOther { get; private set; }
+
+        [JsonProperty("part_other")]
+        public PartModel PartOther { get; private set; }
 
         [JsonProperty("connection_glues")]
         public IEnumerable<ConnectionGlueModel> ConnectionGlues { get; private set; }   

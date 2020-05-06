@@ -7,5 +7,6 @@ namespace ServicesContract
     {
         PartModel RegisterPart(AddPartDto dto);
         PartModel UpdatePart(UpdatePartDto dto);
+        ConcretePartModel RegisterConcretePart(AddConcretePartDto dto);
     }
 }

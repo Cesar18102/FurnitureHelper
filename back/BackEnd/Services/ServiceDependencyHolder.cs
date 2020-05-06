@@ -126,7 +126,7 @@ namespace Services
             /*****************/
 
             config.CreateMap<ConnectionGlueDto, ConnectionGlueModel>()
-                  .ForMember(model => model.GluePartId, cnf => cnf.MapFrom(dto => dto.GluePartId.GetValueOrDefault()))
+                  .ForPath(model => model.GluePart.Id, cnf => cnf.MapFrom(dto => dto.GluePartId.GetValueOrDefault()))
                   .ForMember(model => model.PosX, cnf => cnf.MapFrom(dto => dto.PosX.GetValueOrDefault()))
                   .ForMember(model => model.PosY, cnf => cnf.MapFrom(dto => dto.PosY.GetValueOrDefault()))
                   .ForMember(model => model.PosZ, cnf => cnf.MapFrom(dto => dto.PosZ.GetValueOrDefault()));
@@ -149,6 +149,16 @@ namespace Services
                   .ForMember(model => model.GlobalConnections, cnf => cnf.MapFrom(dto => dto.GlobalConnections));
 
             /*****************/
+
+            config.CreateMap<ConcreteControllerDto, ConcreteControllerModel>()
+                  .ForMember(model => model.MAC, cnf => cnf.MapFrom(dto => dto.MAC.ToUpper()))
+                  .ForPath(model => model.EmbedPosition.Id, cnf => cnf.MapFrom(dto => dto.EmbedPositionId.GetValueOrDefault()));
+
+            config.CreateMap<AddConcretePartDto, ConcretePartModel>()
+                  .ForPath(model => model.SelectedMaterial.Id, cnf => cnf.MapFrom(dto => dto.MaterialId))
+                  .ForPath(model => model.SelectedColor.Id, cnf => cnf.MapFrom(dto => dto.ColorId))
+                  .ForPath(model => model.Part.Id, cnf => cnf.MapFrom(dto => dto.PartId))
+                  .ForMember(model => model.EmbedControllers, cnf => cnf.MapFrom(dto => dto.EmbeddedControllers));
         }
     }
 }
