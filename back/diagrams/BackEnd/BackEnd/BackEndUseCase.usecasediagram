@@ -1,5 +1,91 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="37b76d7f-90e0-4fbe-a41d-8a143c27a21b" name="BackEndUseCase" linkedPackageId="dfeb934c-c591-43f9-8130-43123db4847f" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" dslVersion="1.0.0.0" Id="37b76d7f-90e0-4fbe-a41d-8a143c27a21b" name="BackEndUseCase" linkedPackageId="dfeb934c-c591-43f9-8130-43123db4847f" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <appliedStereotypesInternal>
+    <stereotypeInstance Id="48fa763a-e79f-4f30-aed8-aaac804b4341" name="namespace" profile="CSharpProfile">
+      <elementDefinition Id="c9fa30db-3736-49fd-99a5-d3db1427761a" />
+      <propertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="9bf57c0a-a04a-404d-90ab-3e8de7c96186">
+          <propertyInstance Id="3ef5ed07-604c-4aea-978d-c7f084560fe6" name="BaseName">
+            <elementDefinition Id="62d5bc08-669f-48a3-a6fa-455083aee055" />
+          </propertyInstance>
+          <elementDefinition Id="cd0e8a3f-5681-4c5c-bf42-c67e79bf9f39" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="bfcdb669-f70a-434e-8cb6-6d634056e27d">
+          <propertyInstance Id="3a7fc0b6-8a9d-4758-8113-941f9786fb70" name="ClrAttributes">
+            <elementDefinition Id="593886ff-8568-40a4-bf1b-e9e89c4dfbdd" />
+          </propertyInstance>
+          <elementDefinition Id="af42a8ce-b3b4-442f-820a-eeb6325fc218" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="3074a85b-3614-4f92-b5d0-b1876864549e">
+          <propertyInstance Id="534bc29f-64e8-4a85-8b49-20f229d1dae6" name="Usings">
+            <elementDefinition Id="40dd3616-a22b-4c53-ba9a-eb919377794a" />
+          </propertyInstance>
+          <elementDefinition Id="494d9a69-b911-462a-9c59-afda2625359a" />
+        </stereotypeInstanceHasPropertyInstances>
+      </propertyInstances>
+    </stereotypeInstance>
+    <stereotypeInstance Id="9bad2874-03bd-4862-9e01-0d8fa10a6214" name="TextTemplateBindings" profile="TextTemplateBindings">
+      <elementDefinition Id="6765b6fe-ff7f-4a01-b4d9-053358eb2b51" />
+      <propertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="1602ab5e-6335-490f-928d-80b9ff025469">
+          <propertyInstance Id="13348b34-a299-4495-8803-873d1eb4f910" name="Alias" value="ClassTemplate|EnumTemplate|InterfaceTemplate|StructTemplate">
+            <elementDefinition Id="ea49250e-359a-4242-a5b7-1068658db2f7" />
+          </propertyInstance>
+          <elementDefinition Id="33a8f468-c56d-466b-b91b-58e00b2076eb" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="4f7a240d-c50f-4baf-9117-6f731559f28a">
+          <propertyInstance Id="28f33fe3-fa21-4df1-9c57-f69d4e2e69e3" name="TemplateFilePath" value="ClassTemplate=D:\!!!OLEG\SOFTWARE\VS2012\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4|EnumTemplate=D:\!!!OLEG\SOFTWARE\VS2012\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\EnumTemplate.t4|InterfaceTemplate=D:\!!!OLEG\SOFTWARE\VS2012\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\InterfaceTemplate.t4|StructTemplate=D:\!!!OLEG\SOFTWARE\VS2012\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4">
+            <elementDefinition Id="5bb39b56-c91a-4c3d-8432-1a28cd71e35c" />
+          </propertyInstance>
+          <elementDefinition Id="5747299d-f42c-4308-ac7d-33aee2cd47ab" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="60fd5303-825e-4c6b-831a-5fdd65899550">
+          <propertyInstance Id="54069029-21ab-4354-af59-9105ae751bc7" name="ProjectPath" value="ClassTemplate=..\BackEndLib\BackEndLib.csproj|EnumTemplate=..\BackEndLib\BackEndLib.csproj|InterfaceTemplate=..\BackEndLib\BackEndLib.csproj|StructTemplate=..\BackEndLib\BackEndLib.csproj">
+            <elementDefinition Id="a5d556d5-a20d-41d4-a271-365fd631ba31" />
+          </propertyInstance>
+          <elementDefinition Id="9ff2047c-6ba7-4e86-88d7-6859a0a7caf0" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="3a79b296-7e6d-4857-8d17-467eea8e220b">
+          <propertyInstance Id="f1613407-587b-4c1e-888f-86214e6bb5a1" name="TargetDirectory" value="ClassTemplate=GeneratedCode\{PackageStructure}|EnumTemplate=GeneratedCode\{PackageStructure}|InterfaceTemplate=GeneratedCode\{PackageStructure}|StructTemplate=GeneratedCode\{PackageStructure}">
+            <elementDefinition Id="e9d98011-f490-473a-8430-575cd643144c" />
+          </propertyInstance>
+          <elementDefinition Id="f9e42277-282d-49fd-930e-e2ddf1379e74" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="f87fde19-681e-4f95-9278-437e016e6404">
+          <propertyInstance Id="b860251a-4992-4c14-908f-89b435806adb" name="TargetName" value="ClassTemplate={Name}|EnumTemplate={Name}|InterfaceTemplate={Name}|StructTemplate={Name}">
+            <elementDefinition Id="45eb86a3-ca0a-4073-b691-98ae34f8adc4" />
+          </propertyInstance>
+          <elementDefinition Id="4c6b1cea-a618-438f-b8cb-9e731bcd3d6d" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="49b54dd9-6c16-4516-ba0c-18dab613f73f">
+          <propertyInstance Id="2e4562b5-c23f-4802-9279-73ce1ef8d308" name="Overwrite" value="ClassTemplate=True|EnumTemplate=True|InterfaceTemplate=True|StructTemplate=True">
+            <elementDefinition Id="d8d34e4c-7a55-499a-8682-dc29bb247edd" />
+          </propertyInstance>
+          <elementDefinition Id="e098cc57-bc7a-4c1b-aabe-25a3b533eff9" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="b1ee4c57-a123-4391-8b55-e9a28cb6e1c4">
+          <propertyInstance Id="fec4b585-852c-45cd-bcb0-466fa91a53ad" name="Parameters">
+            <elementDefinition Id="f952acd5-fce2-4b37-b8d1-09321232b421" />
+          </propertyInstance>
+          <elementDefinition Id="1ede3bd3-7b30-4c5c-abe3-efe6c52a5a09" />
+        </stereotypeInstanceHasPropertyInstances>
+      </propertyInstances>
+    </stereotypeInstance>
+  </appliedStereotypesInternal>
+  <profileInstances>
+    <packageHasProfileInstances Id="7bc4d1c2-fd6d-4a5c-a80e-e484f1bfcb9f">
+      <profileInstance Id="3cffd4fc-6987-4379-8cb2-8f2a7d5e6062" name="CSharpProfile">
+        <elementDefinition Id="b5103e82-cfa4-487f-9e12-2b044f406170" />
+      </profileInstance>
+      <elementDefinition Id="4b50c38f-4736-49e0-95c3-437064287f50" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="d8fa95b1-af4f-446d-b7f8-bff699a1e46e">
+      <profileInstance Id="c00ee622-dc11-4d6b-9254-1025bc645064" name="TextTemplateBindings">
+        <elementDefinition Id="b0fafa02-203c-4a3f-a30c-9f19812454f2" />
+      </profileInstance>
+      <elementDefinition Id="c7fe5a33-c86f-4ae6-979f-6a9e15c1cbec" />
+    </packageHasProfileInstances>
+  </profileInstances>
   <packagedElements>
     <useCaseModelRootHasTypes>
       <subsystem Id="95843d90-6d58-49c6-a504-a5ba0c4211ca" name="FurnitureHelper" isAbstract="false" isLeaf="false" isActiveClass="false">
@@ -111,22 +197,6 @@
             </relationshipOwnedElementsInternal>
             <elementDefinition Id="0510030f-633d-43b1-a2fe-bff46915ebec" />
           </association>
-          <association Id="eb8540ca-a2d3-4ddc-8b01-750f741f86ce" isDerived="false" sourceEndRoleName="Registered User" targetEndRoleName="Create custom furniture items from given parts" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="94f6b997-a67e-4f37-a2c2-b3475bb4ee4d" LastKnownName="Design custom individual furniture items from given parts" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="8fc9fa29-85fe-4135-aa36-52b7a84ed75b" name="Registered User" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="0c3c35b8-fe7c-484c-9710-8c90ba3111c0" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="4e4a3d85-a1a6-486b-acf5-b8ff9b0912da" name="Create custom furniture items from given parts" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="8a8d41b3-e15c-44bc-bfcc-51b18dd4c075" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="5fe2acc6-8a5d-4a9d-b4ff-29a9d71201d4" />
-          </association>
         </targetEnds>
       </actor>
     </useCaseModelRootHasTypes>
@@ -228,21 +298,21 @@
           </generalization>
         </generalsInternal>
         <targetEnds>
-          <association Id="9cee0e98-7d70-424f-a5ce-c73a3cd0dfb0" isDerived="false" sourceEndRoleName="User with binded chips" targetEndRoleName="Get an instruction to construct a furniture item " isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="d2d048e9-6d7b-4b93-913f-068acda51dc8" LastKnownName="Get an instruction to construct a furniture item " />
+          <association Id="ca10b53b-ea09-4ed2-8a63-fd7e24dd6876" isDerived="false" sourceEndRoleName="User with binded chips" targetEndRoleName="Construct furniture item" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="5e0ebb5f-096f-4176-bef3-b6da315a39ea" LastKnownName="Construct furniture item" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
-                <memberEnd Id="47ed122f-4d25-483b-a26a-1e713319853f" name="User with binded chips" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="dad977e4-4af8-4e3d-a92c-c4643c87c754" />
+                <memberEnd Id="6e75b66a-b9a0-4f23-b516-1ada8d386ca1" name="User with binded chips" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="1bb82e78-095a-460c-9fb0-e1b08f5c865a" />
                 </memberEnd>
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
-                <memberEnd Id="ed05f397-3a36-4657-90e3-ea04a0194a47" name="Get an instruction to construct a furniture item " isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="f1c810c4-82c1-4689-bc86-636d9172ce64" />
+                <memberEnd Id="9ac37a49-a7d7-41d2-aec7-7508d88b7ec5" name="Construct furniture item" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="b6b310f1-aad5-44fa-bbb8-78d5cb036a40" />
                 </memberEnd>
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
-            <elementDefinition Id="02d32436-0597-4393-b923-82d9550c30c8" />
+            <elementDefinition Id="3b3adc79-a4b0-45fe-9b36-1ae77922ff61" />
           </association>
         </targetEnds>
       </actor>
@@ -297,20 +367,12 @@
         </subjects>
       </useCase>
     </packageHasNamedElement>
-    <packageHasNamedElement>
-      <useCase Id="94f6b997-a67e-4f37-a2c2-b3475bb4ee4d" name="Design custom individual furniture items from given parts" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="6237233b-6f27-4b34-8c5f-82721020a3a5" />
-        <subjects>
-          <subsystemMoniker Id="95843d90-6d58-49c6-a504-a5ba0c4211ca" LastKnownName="FurnitureHelper" />
-        </subjects>
-      </useCase>
-    </packageHasNamedElement>
     <useCaseModelRootHasTypes>
       <actor Id="8aa76107-1484-4ece-a0f0-698366cf86a6" name="Admin" isAbstract="false" isLeaf="false">
         <elementDefinition Id="17cb0073-4adc-47b8-9209-90be3ab9f96b" />
         <targetEnds>
           <association Id="767d891e-82a9-4d00-837c-a14ee5bba9e3" isDerived="false" sourceEndRoleName="Admin" targetEndRoleName="Create new furniture item for global use" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="6a349d71-e7fc-4e27-a504-7287b3fd3ece" LastKnownName="Design new furniture items for global use" />
+            <useCaseMoniker Id="6a349d71-e7fc-4e27-a504-7287b3fd3ece" LastKnownName="Design new furniture items" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd Id="b1503e5a-6d9c-4838-a28e-6c2100873212" name="Admin" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
@@ -325,11 +387,43 @@
             </relationshipOwnedElementsInternal>
             <elementDefinition Id="4fafd4c5-b5a6-41f5-9022-31e5f8bc9b3a" />
           </association>
+          <association Id="efff1102-27d4-4175-abda-372d6000efe0" isDerived="false" sourceEndRoleName="Admin" targetEndRoleName="Register new concrete parts" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="297f6c42-c5fc-461c-b86c-b3d13686d29d" LastKnownName="Register new concrete parts" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="433702d6-4b81-40c3-a3ec-1605d3653dc8" name="Admin" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="bbbae394-17e4-4fb9-9be1-3b0985a213d6" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="199b8593-79c5-4e97-868e-833b4ec3dab7" name="Register new concrete parts" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="e0d23807-c76e-4bbc-aed9-6232cc483555" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="823f1b8c-f3c1-431c-8f05-4465a67489f8" />
+          </association>
+          <association Id="571be3d7-1a3a-4771-afa6-1d526506bb07" isDerived="false" sourceEndRoleName="Admin" targetEndRoleName="Register new concrete controllers" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="641e9072-39cf-48fe-847a-bd57778b04e9" LastKnownName="Register new concrete controllers" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="d8a3edaa-67a6-4f71-8625-e0f55f723344" name="Admin" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="e15cafbf-161e-4c1f-8495-02e02c064cb6" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="1a799b87-9034-4b9f-afe7-de0f6324e44a" name="Register new concrete controllers" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="5a32ed7f-f7fd-4cb4-9aaa-36b3011d61f8" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="6e29c991-659f-4091-b62d-5013c2582651" />
+          </association>
         </targetEnds>
       </actor>
     </useCaseModelRootHasTypes>
     <packageHasNamedElement>
-      <useCase Id="6a349d71-e7fc-4e27-a504-7287b3fd3ece" name="Design new furniture items for global use" isAbstract="false" isLeaf="false">
+      <useCase Id="6a349d71-e7fc-4e27-a504-7287b3fd3ece" name="Design new furniture items" isAbstract="false" isLeaf="false">
         <elementDefinition Id="35ab9f51-10b4-4259-a10d-aec729fe2a86" />
         <subjects>
           <subsystemMoniker Id="95843d90-6d58-49c6-a504-a5ba0c4211ca" LastKnownName="FurnitureHelper" />
@@ -421,148 +515,15 @@
         </subjects>
       </useCase>
     </packageHasNamedElement>
-    <useCaseModelRootHasTypes>
-      <actor Id="ad6b5a50-77e4-4cf8-92eb-abc4046d57d6" name="Embedded Controller" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="61c3ff8c-a0da-4778-9de4-ea122d6aa321" />
-        <targetEnds>
-          <association Id="53250f02-67d4-4969-a9fb-17996813494f" isDerived="false" sourceEndRoleName="Embedded Controller" targetEndRoleName="Send all AP RSSI data" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="0afbdf2b-25d8-4cd1-82b5-1d677b695138" LastKnownName="Send all AP RSSI data" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="85baeb13-c49b-4ec9-8644-9a32d9c4b76a" name="Embedded Controller" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="3da16bec-0bfa-44b6-847f-992c1e112f84" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="d0b933ba-13ac-41f4-9092-07baa589e6e1" name="Send all AP RSSI data" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="42c73c55-28e2-46da-851c-d8969d7a0168" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="0175fb4d-4b1b-4c1a-ac9f-a17a123558d8" />
-          </association>
-          <association Id="1b981d31-6928-410f-ae2e-92b8df765c05" isDerived="false" sourceEndRoleName="Embedded Controller" targetEndRoleName="Produce an audio signal when constructing wrong" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="9a61718e-f667-488a-981b-a91780062a55" LastKnownName="Produce an audio signal when constructing wrong" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="419af065-337c-472b-85a2-947e09e279aa" name="Embedded Controller" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="b7aedc5f-e601-4244-9d26-82ff2dbc44b1" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="5151684f-4a6d-445f-a48b-c67ed40f7809" name="Produce an audio signal when constructing wrong" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="3299fe44-e6d4-4aaa-99c9-dab87402f0d0" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="49196411-d4f9-449d-9db1-05a286669085" />
-          </association>
-          <association Id="adaf659b-6d98-4731-8142-66e2bfa0f141" isDerived="false" sourceEndRoleName="Embedded Controller" targetEndRoleName="Produce an audio signal when constructing correct" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="bbdc51aa-d089-4c4b-8d4a-93ab82989a7f" LastKnownName="Produce an audio signal when constructing correct" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="f5eccc8f-44d9-4a60-9798-f24fde0ae1f2" name="Embedded Controller" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="d53d43c5-ac52-46a9-b2e6-05b4bd12959c" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="57c8f7e9-f742-4016-9561-8e32a83a0c6c" name="Produce an audio signal when constructing correct" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="741b8be1-e50d-47b0-a136-b03bac6471ee" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="1495295b-ec42-4627-84c5-940305e16c5e" />
-          </association>
-        </targetEnds>
-      </actor>
-    </useCaseModelRootHasTypes>
     <packageHasNamedElement>
       <useCase Id="5e0ebb5f-096f-4176-bef3-b6da315a39ea" name="Construct furniture item" isAbstract="false" isLeaf="false">
         <elementDefinition Id="376a4de1-c0b8-4dec-bca5-e6cf5091e951" />
-        <extendedCases>
-          <extend Id="476505a4-446c-4354-a945-5ef006bbbc03">
+        <additions>
+          <include Id="a0cc1109-de0a-4132-9c28-905de414b40d">
             <useCaseMoniker Id="d2d048e9-6d7b-4b93-913f-068acda51dc8" LastKnownName="Get an instruction to construct a furniture item " />
-            <elementDefinition Id="e4268371-97d2-47be-ae31-aa0de9be24e3" />
-          </extend>
-        </extendedCases>
-        <subjects>
-          <subsystemMoniker Id="95843d90-6d58-49c6-a504-a5ba0c4211ca" LastKnownName="FurnitureHelper" />
-        </subjects>
-      </useCase>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <useCase Id="0afbdf2b-25d8-4cd1-82b5-1d677b695138" name="Send all AP RSSI data" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="2e622fc8-3e99-4369-bcaf-9c182701a071" />
-        <targetEnds>
-          <association Id="4fc1c24d-1fe1-4b13-a86e-793f84cd0ffa" isDerived="false" sourceEndRoleName="Send all AP RSSI data" targetEndRoleName="Construct furniture item" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="5e0ebb5f-096f-4176-bef3-b6da315a39ea" LastKnownName="Construct furniture item" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="17c7e6ca-f234-4a49-b0f9-c9ee1a99b56d" name="Send all AP RSSI data" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="5fef8e14-bf56-4118-9ff1-5ff15e55616b" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="77dc85bf-f879-415a-b732-d059b6749f9c" name="Construct furniture item" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="5e97f61a-deb4-4796-9485-8b6c42e049b5" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="d4ee938b-e562-4656-92ab-312df27f8ee9" />
-          </association>
-        </targetEnds>
-        <subjects>
-          <subsystemMoniker Id="95843d90-6d58-49c6-a504-a5ba0c4211ca" LastKnownName="FurnitureHelper" />
-        </subjects>
-      </useCase>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <useCase Id="9a61718e-f667-488a-981b-a91780062a55" name="Produce an audio signal when constructing wrong" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="84a1f37e-06be-4eda-96a7-3beab1383409" />
-        <targetEnds>
-          <association Id="3bf2afb5-aeb2-4cb1-8a58-48313e5ddce5" isDerived="false" sourceEndRoleName="Produce an audio signal when constructing wrong" targetEndRoleName="Construct furniture item" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="5e0ebb5f-096f-4176-bef3-b6da315a39ea" LastKnownName="Construct furniture item" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="8742f698-319c-44b2-8eaf-f79aac3ff69d" name="Produce an audio signal when constructing wrong" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="9b4659b6-554e-441a-b8fb-7c4e5d6aa56c" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="5dbf3e38-278e-4f15-aab0-a1d8df46c7ff" name="Construct furniture item" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="74f0f689-0949-4313-befa-9c13a352cda0" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="22020d3b-2bd9-427c-bfc7-011a73d67a41" />
-          </association>
-        </targetEnds>
-        <subjects>
-          <subsystemMoniker Id="95843d90-6d58-49c6-a504-a5ba0c4211ca" LastKnownName="FurnitureHelper" />
-        </subjects>
-      </useCase>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <useCase Id="bbdc51aa-d089-4c4b-8d4a-93ab82989a7f" name="Produce an audio signal when constructing correct" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="675598d2-1612-478e-9500-a632f50508da" />
-        <targetEnds>
-          <association Id="ee4c4973-6ccc-402e-88e6-a1fbac553f17" isDerived="false" sourceEndRoleName="Produce an audio signal when constructing correct" targetEndRoleName="Construct furniture item" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="5e0ebb5f-096f-4176-bef3-b6da315a39ea" LastKnownName="Construct furniture item" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="541aa15b-b0ff-4f9b-ab22-2f0b475f576d" name="Produce an audio signal when constructing correct" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="ce0ef886-4b72-4eb2-bb00-52eec5c9841a" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="b58e83d6-4e13-4665-813b-bc115a613099" name="Construct furniture item" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="908507a9-4c4d-4017-85e2-a8bf01a94508" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="9c3539dc-8b11-49d3-b78c-59664cd6740e" />
-          </association>
-        </targetEnds>
+            <elementDefinition Id="972a1024-c614-4903-b1e5-37c45123ac48" />
+          </include>
+        </additions>
         <subjects>
           <subsystemMoniker Id="95843d90-6d58-49c6-a504-a5ba0c4211ca" LastKnownName="FurnitureHelper" />
         </subjects>
@@ -587,6 +548,22 @@
     <packageHasNamedElement>
       <useCase Id="46e130ac-75cb-4205-9c9a-1add0722a3de" name="AddAdmin" isAbstract="false" isLeaf="false">
         <elementDefinition Id="6d1a1828-59d8-432e-ad65-fe0df05f62a2" />
+        <subjects>
+          <subsystemMoniker Id="95843d90-6d58-49c6-a504-a5ba0c4211ca" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="297f6c42-c5fc-461c-b86c-b3d13686d29d" name="Register new concrete parts" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c0d1f829-6168-4ff9-ab2d-2686a4fb8c25" />
+        <subjects>
+          <subsystemMoniker Id="95843d90-6d58-49c6-a504-a5ba0c4211ca" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="641e9072-39cf-48fe-847a-bd57778b04e9" name="Register new concrete controllers" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="67bdf3ab-a455-4a34-9826-c4c6c9570121" />
         <subjects>
           <subsystemMoniker Id="95843d90-6d58-49c6-a504-a5ba0c4211ca" LastKnownName="FurnitureHelper" />
         </subjects>

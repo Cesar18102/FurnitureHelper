@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/dsltools/UseCaseModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
   Id="478763cb-6a1f-4068-a9bc-3d5a6e992de2"
   name="BackEnd" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -575,20 +575,20 @@
         </generalsInternal>
         <targetEnds>
           <association
-            Id="02d32436-0597-4393-b923-82d9550c30c8"
+            Id="3b3adc79-a4b0-45fe-9b36-1ae77922ff61"
             isDerived="false"
             sourceEndRoleName="User with binded chips"
-            targetEndRoleName="Get an instruction to construct a furniture item "
+            targetEndRoleName="Construct furniture item"
             isLeaf="false"
             isAbstract="false">
             <useCaseMoniker
-              Id="b01afec3-1aa0-41a0-be0b-db7467cc44e6"
-              LastKnownName="Get an instruction to construct a furniture item "
+              Id="376a4de1-c0b8-4dec-bca5-e6cf5091e951"
+              LastKnownName="Construct furniture item"
               LastKnownLocation="BackEnd.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="dad977e4-4af8-4e3d-a92c-c4643c87c754"
+                  Id="1bb82e78-095a-460c-9fb0-e1b08f5c865a"
                   name="User with binded chips"
                   isLeaf="false"
                   isStatic="false"
@@ -601,8 +601,8 @@
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="f1c810c4-82c1-4689-bc86-636d9172ce64"
-                  name="Get an instruction to construct a furniture item "
+                  Id="b6b310f1-aad5-44fa-bbb8-78d5cb036a40"
+                  name="Construct furniture item"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
@@ -705,14 +705,7 @@
         Id="6237233b-6f27-4b34-8c5f-82721020a3a5"
         name="Design custom individual furniture items from given parts"
         isAbstract="false"
-        isLeaf="false">
-        <subjects>
-          <subsystemMoniker
-            Id="90fd7975-99a0-4020-9b4b-f49f5eb806db"
-            LastKnownName="FurnitureHelper"
-            LastKnownLocation="BackEnd.uml" />
-        </subjects>
-      </useCase>
+        isLeaf="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <actor
@@ -730,7 +723,7 @@
             isAbstract="false">
             <useCaseMoniker
               Id="35ab9f51-10b4-4259-a10d-aec729fe2a86"
-              LastKnownName="Design new furniture items for global use"
+              LastKnownName="Design new furniture items"
               LastKnownLocation="BackEnd.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
@@ -760,13 +753,91 @@
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
           </association>
+          <association
+            Id="823f1b8c-f3c1-431c-8f05-4465a67489f8"
+            isDerived="false"
+            sourceEndRoleName="Admin"
+            targetEndRoleName="Register new concrete parts"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="c0d1f829-6168-4ff9-ab2d-2686a4fb8c25"
+              LastKnownName="Register new concrete parts"
+              LastKnownLocation="BackEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="bbbae394-17e4-4fb9-9be1-3b0985a213d6"
+                  name="Admin"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e0d23807-c76e-4bbc-aed9-6232cc483555"
+                  name="Register new concrete parts"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="6e29c991-659f-4091-b62d-5013c2582651"
+            isDerived="false"
+            sourceEndRoleName="Admin"
+            targetEndRoleName="Register new concrete controllers"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="67bdf3ab-a455-4a34-9826-c4c6c9570121"
+              LastKnownName="Register new concrete controllers"
+              LastKnownLocation="BackEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e15cafbf-161e-4c1f-8495-02e02c064cb6"
+                  name="Admin"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="5a32ed7f-f7fd-4cb4-9aaa-36b3011d61f8"
+                  name="Register new concrete controllers"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
         </targetEnds>
       </actor>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <useCase
         Id="35ab9f51-10b4-4259-a10d-aec729fe2a86"
-        name="Design new furniture items for global use"
+        name="Design new furniture items"
         isAbstract="false"
         isLeaf="false">
         <subjects>
@@ -983,7 +1054,7 @@
             isAbstract="false">
             <useCaseMoniker
               Id="2e622fc8-3e99-4369-bcaf-9c182701a071"
-              LastKnownName="Send all AP RSSI data"
+              LastKnownName="Send request when some parts become connected"
               LastKnownLocation="BackEnd.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
@@ -1156,15 +1227,15 @@
         name="Construct furniture item"
         isAbstract="false"
         isLeaf="false">
-        <extendedCases>
-          <extend
-            Id="e4268371-97d2-47be-ae31-aa0de9be24e3">
+        <additions>
+          <include
+            Id="972a1024-c614-4903-b1e5-37c45123ac48">
             <useCaseMoniker
               Id="b01afec3-1aa0-41a0-be0b-db7467cc44e6"
               LastKnownName="Get an instruction to construct a furniture item "
               LastKnownLocation="BackEnd.uml" />
-          </extend>
-        </extendedCases>
+          </include>
+        </additions>
         <subjects>
           <subsystemMoniker
             Id="90fd7975-99a0-4020-9b4b-f49f5eb806db"
@@ -1176,57 +1247,9 @@
     <packageHasNamedElement>
       <useCase
         Id="2e622fc8-3e99-4369-bcaf-9c182701a071"
-        name="Send all AP RSSI data"
+        name="Send request when some parts become connected"
         isAbstract="false"
-        isLeaf="false">
-        <targetEnds>
-          <association
-            Id="d4ee938b-e562-4656-92ab-312df27f8ee9"
-            isDerived="false"
-            sourceEndRoleName="Send all AP RSSI data"
-            targetEndRoleName="Construct furniture item"
-            isLeaf="false"
-            isAbstract="false">
-            <useCaseMoniker
-              Id="376a4de1-c0b8-4dec-bca5-e6cf5091e951"
-              LastKnownName="Construct furniture item"
-              LastKnownLocation="BackEnd.uml" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="5fef8e14-bf56-4118-9ff1-5ff15e55616b"
-                  name="Send all AP RSSI data"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="false"
-                  isNavigableOwned="false" />
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="5e97f61a-deb4-4796-9485-8b6c42e049b5"
-                  name="Construct furniture item"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="false" />
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-          </association>
-        </targetEnds>
-        <subjects>
-          <subsystemMoniker
-            Id="90fd7975-99a0-4020-9b4b-f49f5eb806db"
-            LastKnownName="FurnitureHelper"
-            LastKnownLocation="BackEnd.uml" />
-        </subjects>
-      </useCase>
+        isLeaf="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <useCase
@@ -1275,12 +1298,6 @@
             </relationshipOwnedElementsInternal>
           </association>
         </targetEnds>
-        <subjects>
-          <subsystemMoniker
-            Id="90fd7975-99a0-4020-9b4b-f49f5eb806db"
-            LastKnownName="FurnitureHelper"
-            LastKnownLocation="BackEnd.uml" />
-        </subjects>
       </useCase>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1330,12 +1347,6 @@
             </relationshipOwnedElementsInternal>
           </association>
         </targetEnds>
-        <subjects>
-          <subsystemMoniker
-            Id="90fd7975-99a0-4020-9b4b-f49f5eb806db"
-            LastKnownName="FurnitureHelper"
-            LastKnownLocation="BackEnd.uml" />
-        </subjects>
       </useCase>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1393,7 +1404,7 @@
             isAbstract="false">
             <useCaseMoniker
               Id="35ab9f51-10b4-4259-a10d-aec729fe2a86"
-              LastKnownName="Design new furniture items for global use"
+              LastKnownName="Design new furniture items"
               LastKnownLocation="BackEnd.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
@@ -3915,6 +3926,34 @@
       <undefinedType
         Id="2cffddc6-d7b6-40dd-8be3-10c4107ebe67"
         name="IDictionary&lt;BackEnd::ConcretePart, float&gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="c0d1f829-6168-4ff9-ab2d-2686a4fb8c25"
+        name="Register new concrete parts"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="90fd7975-99a0-4020-9b4b-f49f5eb806db"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="BackEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="67bdf3ab-a455-4a34-9826-c4c6c9570121"
+        name="Register new concrete controllers"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="90fd7975-99a0-4020-9b4b-f49f5eb806db"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="BackEnd.uml" />
+        </subjects>
+      </useCase>
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType
