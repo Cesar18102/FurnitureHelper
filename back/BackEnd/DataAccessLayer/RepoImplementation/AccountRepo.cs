@@ -34,5 +34,11 @@ namespace DataAccess.RepoImplementation
             AccountEntity accountEntity = Context.accounts.FirstOrDefault(account => account.email == email);
             return accountEntity == null ? null : Mapper.Map<AccountEntity, AccountModel>(accountEntity);
         }
+
+        public AccountExtensionModel GetExtensionById(int id)
+        {
+            AccountExtensionEntity accountExtensionEntity = Context.accounts_extensions.FirstOrDefault(extension => extension.id == id);
+            return accountExtensionEntity == null ? null : Mapper.Map<AccountExtensionEntity, AccountExtensionModel>(accountExtensionEntity);
+        }
     }
 }

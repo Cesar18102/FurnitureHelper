@@ -129,6 +129,7 @@ CREATE TABLE concrete_parts(
     color_id INTEGER NOT NULL,
     create_date DATE NOT NULL,
 	controller_mac CHAR(17) NOT NULL UNIQUE,
+	last_sell_date DATE,
     FOREIGN KEY(part_id) REFERENCES parts(id) ON UPDATE CASCADE ON DELETE NO ACTION,
     FOREIGN KEY(material_id) REFERENCES materials(id) ON UPDATE CASCADE ON DELETE NO ACTION,
     FOREIGN KEY(color_id) REFERENCES colors(id) ON UPDATE CASCADE ON DELETE NO ACTION

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
@@ -7,6 +6,9 @@ namespace Models
 {
     public class ConcretePartModel : IModel
     {
+        [JsonProperty("id")]
+        public int Id { get; private set; }
+
         [JsonProperty("material")]
         public MaterialModel SelectedMaterial { get; private set; }
 
@@ -21,5 +23,8 @@ namespace Models
 
         [JsonProperty("create_date")]
         public DateTime CreateDate { get; private set; } = DateTime.Now;
+
+        [JsonProperty("last_sell_date")]
+        public DateTime? LastSellDate { get; private set; }
     }
 }

@@ -6,5 +6,6 @@ namespace DataAccessContract
     {
         AccountModel GetByLogin(string login);
         AccountModel GetByEmail(string email);
+        AccountExtensionModel GetExtensionById(int id);
     }
 }

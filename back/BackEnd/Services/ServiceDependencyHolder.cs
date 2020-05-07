@@ -5,6 +5,8 @@ using Autofac;
 using AutoMapper;
 
 using Models;
+using Models.Trade;
+using Services.Payment;
 using ServicesContract;
 using ServicesContract.Dto;
 
@@ -38,6 +40,7 @@ namespace Services
                    .AsSelf().SingleInstance();
 
             builder.RegisterType<SessionService>().AsSelf().SingleInstance();
+            builder.RegisterType<LiqPayPaymentService>().As<PaymentService>().SingleInstance();
 
             builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
             builder.RegisterType<AdminService>().As<IAdminService>().AsSelf().SingleInstance();
@@ -46,6 +49,7 @@ namespace Services
             builder.RegisterType<MaterialService>().As<IMaterialService>().SingleInstance();
             builder.RegisterType<PartService>().As<IPartService>().SingleInstance();
             builder.RegisterType<FurnitureService>().As<IFurnitureService>().SingleInstance();
+            builder.RegisterType<TradeService>().As<ITradeService>().SingleInstance();
 
             MapperConfiguration config = new MapperConfiguration(cnf => ConfigMapper(cnf));
             TypedParameter mapperConfigParameter = new TypedParameter(typeof(IConfigurationProvider), config);
@@ -160,6 +164,11 @@ namespace Services
                   .ForPath(model => model.SelectedColor.Id, cnf => cnf.MapFrom(dto => dto.ColorId))
                   .ForPath(model => model.Part.Id, cnf => cnf.MapFrom(dto => dto.PartId))
                   .ForMember(model => model.ControllerMac, cnf => cnf.MapFrom(dto => dto.ControllerMac.ToUpper()));
+
+            /*****************/
+
+            config.CreateMap<AccountExtensionDto, AccountExtensionModel>();
+            config.CreateMap<PaymentConfirmDto, PaymentInfo>();
         }
     }
 }

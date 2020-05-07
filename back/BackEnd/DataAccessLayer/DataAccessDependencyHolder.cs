@@ -266,6 +266,7 @@ namespace DataAccess
                   .ForMember(entity => entity.material_id, cnf => cnf.MapFrom(model => model.SelectedMaterial.Id))
                   .ForMember(entity => entity.color_id, cnf => cnf.MapFrom(model => model.SelectedColor.Id))
                   .ForMember(entity => entity.create_date, cnf => cnf.MapFrom(model => model.CreateDate))
+                  .ForMember(entity => entity.last_sell_date, cnf => cnf.MapFrom(model => model.LastSellDate))
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<ConcretePartEntity, ConcretePartModel>()
@@ -273,7 +274,8 @@ namespace DataAccess
                   .ForMember(model => model.ControllerMac, cnf => cnf.MapFrom(entity => entity.controller_mac.ToUpper()))
                   .ForMember(model => model.SelectedMaterial, cnf => cnf.MapFrom(entity => entity.materials))
                   .ForMember(model => model.SelectedColor, cnf => cnf.MapFrom(entity => entity.colors))
-                  .ForMember(model => model.CreateDate, cnf => cnf.MapFrom(entity => entity.create_date));
+                  .ForMember(model => model.CreateDate, cnf => cnf.MapFrom(entity => entity.create_date))
+                  .ForMember(model => model.LastSellDate, cnf => cnf.MapFrom(entity => entity.last_sell_date));
 
             /******************/
         }

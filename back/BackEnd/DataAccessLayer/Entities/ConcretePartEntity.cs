@@ -22,6 +22,9 @@ namespace DataAccess.Entities
         public int material_id { get; set; }
         public int color_id { get; set; }
 
+        [Column(TypeName = "date")]
+        public DateTime? last_sell_date { get; set; }
+
         [Column(TypeName = "char")]
         [Required]
         [StringLength(17)]
