@@ -7,6 +7,7 @@ using DataAccess.Entities;
 using DataAccess.RepoImplementation;
 
 using Models;
+using System;
 
 namespace DataAccess
 {
@@ -142,17 +143,21 @@ namespace DataAccess
 
             /******************/
 
-            config.CreateMap<EmbedControllerPositionModel, PartControllerEmbedRelativePositionEntity>()
+            config.CreateMap<ConnectionHelperModel, PartControllerEmbedRelativePositionEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
                   .ForMember(entity => entity.pos_x, cnf => cnf.MapFrom(model => model.PosX))
                   .ForMember(entity => entity.pos_y, cnf => cnf.MapFrom(model => model.PosY))
                   .ForMember(entity => entity.pos_z, cnf => cnf.MapFrom(model => model.PosZ))
+                  .ForMember(entity => entity.indicator_pin_number, cnf => cnf.MapFrom(model => model.IndicatorPinNumber))
+                  .ForMember(entity => entity.reader_pin_number, cnf => cnf.MapFrom(model => model.ReaderPinNumber))
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
-            config.CreateMap<PartControllerEmbedRelativePositionEntity, EmbedControllerPositionModel>()
+            config.CreateMap<PartControllerEmbedRelativePositionEntity, ConnectionHelperModel>()
                   .ForMember(model => model.PosX, cnf => cnf.MapFrom(entity => entity.pos_x))
                   .ForMember(model => model.PosY, cnf => cnf.MapFrom(entity => entity.pos_y))
-                  .ForMember(model => model.PosZ, cnf => cnf.MapFrom(entity => entity.pos_z));
+                  .ForMember(model => model.PosZ, cnf => cnf.MapFrom(entity => entity.pos_z))
+                  .ForMember(model => model.IndicatorPinNumber, cnf => cnf.MapFrom(entity => entity.indicator_pin_number))
+                  .ForMember(model => model.ReaderPinNumber, cnf => cnf.MapFrom(entity => entity.reader_pin_number));
 
             config.CreateMap<PartModel, PartEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
@@ -160,13 +165,13 @@ namespace DataAccess
                   .ForMember(entity => entity.materials, cnf => cnf.Ignore())
                   .ForMember(
                       entity => entity.part_controllers_embed_relative_positions, 
-                      cnf => cnf.MapFrom(model => model.EmbedControllersPositions)
+                      cnf => cnf.MapFrom(model => model.ConnectionHelpers)
                   ).ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<PartEntity, PartModel>()
                   .ForMember(model => model.ModelUrl, cnf => cnf.MapFrom(entity => entity.model_url))
                   .ForMember(model => model.PossibleMaterials, cnf => cnf.MapFrom(entity => entity.materials))
-                  .ForMember(model => model.EmbedControllersPositions, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions));
+                  .ForMember(model => model.ConnectionHelpers, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions));
 
             /******************/
 
@@ -192,9 +197,12 @@ namespace DataAccess
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
                   .ForMember(entity => entity.comment_text, cnf => cnf.MapFrom(model => model.Comment))
                   .ForMember(entity => entity.order_number, cnf => cnf.MapFrom(model => model.OrderNumber))
-                  .ForMember(entity => entity.part_controller_id, cnf => cnf.MapFrom(model => model.ControllerPosition.Id))
-                  .ForMember(entity => entity.part_controller_other_id, cnf => cnf.MapFrom(model => model.ControllerPositionOther.Id))
+                  .ForMember(entity => entity.part_controller_id, cnf => cnf.MapFrom(model => model.ConnectionHelper.Id))
+                  .ForMember(entity => entity.part_controller_other_id, cnf => cnf.MapFrom(model => model.ConnectionHelperOther.Id))
                   .ForMember(entity => entity.two_parts_connection_glues, cnf => cnf.MapFrom(model => model.ConnectionGlues))
+                  .ForMember(entity => entity.nested_global_connection_order_number, cnf => cnf.MapFrom(model => model.NestedGlobalConnectionOrderNumber))
+                  .ForMember(entity => entity.nested_two_parts_connection_order_number, cnf => cnf.MapFrom(model => model.NestedTwoPartsConnectionOrderNumber))
+                  .ForMember(entity => entity.connect_to_first_if_equal, cnf => cnf.MapFrom(model => model.ConnectToFirstIfEqual))
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<GlobalPartsConnectionModel, FurnitureItemPartsConnectionEntity>()
@@ -215,7 +223,7 @@ namespace DataAccess
 
             config.CreateMap<TwoPartsConnectionGlueEntity, ConnectionGlueModel>()
                  .ForMember(model => model.Comment, cnf => cnf.MapFrom(entity => entity.comment_text))
-                 .ForPath(model => model.GluePart.Id, cnf => cnf.MapFrom(entity => entity.glue_part_id.GetValueOrDefault()))
+                 .ForPath(model => model.GluePart, cnf => cnf.MapFrom(entity => entity.parts))
                  .ForMember(model => model.PosX, cnf => cnf.MapFrom(entity => entity.pos_x))
                  .ForMember(model => model.PosY, cnf => cnf.MapFrom(entity => entity.pos_y))
                  .ForMember(model => model.PosZ, cnf => cnf.MapFrom(entity => entity.pos_z));
@@ -230,11 +238,15 @@ namespace DataAccess
             config.CreateMap<TwoPartsConnectionEntity, TwoPartsConnectionModel>()
                   .ForMember(model => model.Comment, cnf => cnf.MapFrom(entity => entity.comment_text))
                   .ForMember(model => model.OrderNumber, cnf => cnf.MapFrom(entity => entity.order_number))
-                  .ForMember(model => model.ControllerPosition, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions))
-                  .ForMember(model => model.ControllerPositionOther, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions1))
+                  .ForMember(model => model.ConnectionHelper, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions))
+                  .ForMember(model => model.ConnectionHelperOther, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions1))
                   .ForMember(model => model.ConnectionGlues, cnf => cnf.MapFrom(entity => entity.two_parts_connection_glues))
                   .ForMember(model => model.Part, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions.parts))
-                  .ForMember(model => model.PartOther, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions1.parts));
+                  .ForMember(model => model.PartOther, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions1.parts))
+                  .ForMember(model => model.NestedGlobalConnectionOrderNumber, cnf => cnf.MapFrom(entity => entity.nested_global_connection_order_number))
+                  .ForMember(model => model.NestedTwoPartsConnectionOrderNumber, cnf => cnf.MapFrom(entity => entity.nested_two_parts_connection_order_number))
+                  .ForMember(model => model.ConnectToFirstIfEqual, cnf => cnf.MapFrom(entity => entity.connect_to_first_if_equal))
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<FurnitureItemPartsConnectionEntity, GlobalPartsConnectionModel>()
                   .ForMember(model => model.Comment, cnf => cnf.MapFrom(entity => entity.comment_text))
@@ -247,33 +259,21 @@ namespace DataAccess
 
             /******************/
 
-            config.CreateMap<ConcreteControllerModel, ConcreteControllerEntity>()
-                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
-                  .ForMember(entity => entity.mac, cnf => cnf.MapFrom(model => model.MAC.ToUpper()))
-                  .ForMember(entity => entity.embed_position_id, cnf => cnf.MapFrom(model => model.EmbedPosition.Id))
-                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
-
             config.CreateMap<ConcretePartModel, ConcretePartEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
                   .ForMember(entity => entity.part_id, cnf => cnf.MapFrom(model => model.Part.Id))
+                  .ForMember(entity => entity.controller_mac, cnf => cnf.MapFrom(model => model.ControllerMac.ToUpper()))
                   .ForMember(entity => entity.material_id, cnf => cnf.MapFrom(model => model.SelectedMaterial.Id))
                   .ForMember(entity => entity.color_id, cnf => cnf.MapFrom(model => model.SelectedColor.Id))
                   .ForMember(entity => entity.create_date, cnf => cnf.MapFrom(model => model.CreateDate))
-                  .ForMember(entity => entity.concrete_controllers, cnf => cnf.MapFrom(model => model.EmbedControllers))
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
-
-            /******************/
-
-            config.CreateMap<ConcreteControllerEntity, ConcreteControllerModel>()
-                 .ForMember(model => model.MAC, cnf => cnf.MapFrom(entity => entity.mac.ToUpper()))
-                 .ForMember(model => model.EmbedPosition, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions));
 
             config.CreateMap<ConcretePartEntity, ConcretePartModel>()
                   .ForMember(model => model.Part, cnf => cnf.MapFrom(entity => entity.parts))
+                  .ForMember(model => model.ControllerMac, cnf => cnf.MapFrom(entity => entity.controller_mac.ToUpper()))
                   .ForMember(model => model.SelectedMaterial, cnf => cnf.MapFrom(entity => entity.materials))
                   .ForMember(model => model.SelectedColor, cnf => cnf.MapFrom(entity => entity.colors))
-                  .ForMember(model => model.CreateDate, cnf => cnf.MapFrom(entity => entity.create_date))
-                  .ForMember(model => model.EmbedControllers, cnf => cnf.MapFrom(entity => entity.concrete_controllers));
+                  .ForMember(model => model.CreateDate, cnf => cnf.MapFrom(entity => entity.create_date));
 
             /******************/
         }

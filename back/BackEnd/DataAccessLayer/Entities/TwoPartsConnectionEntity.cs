@@ -20,6 +20,10 @@ namespace DataAccess.Entities
         public int part_controller_id { get; set; }
         public int part_controller_other_id { get; set; }
 
+        public int? nested_global_connection_order_number { get; set; }
+        public int? nested_two_parts_connection_order_number { get; set; }
+        public bool? connect_to_first_if_equal { get; set; }
+
         [Column(TypeName = "text")]
         [StringLength(65535)]
         public string comment_text { get; set; }
@@ -31,7 +35,5 @@ namespace DataAccess.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TwoPartsConnectionGlueEntity> two_parts_connection_glues { get; set; }
-
-        
     }
 }

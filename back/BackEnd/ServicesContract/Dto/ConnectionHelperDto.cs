@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace ServicesContract.Dto
 {
-    public class EmbedControllerPositionDto : IDto
+    public class ConnectionHelperDto : IDto
     {
         [Required(ErrorMessage = "pos_x is required")]
         [JsonProperty("pos_x")]
@@ -17,6 +17,14 @@ namespace ServicesContract.Dto
         [Required(ErrorMessage = "pos_z is required")]
         [JsonProperty("pos_z")]
         public float? PosZ { get; set; }
+
+        [Required(ErrorMessage = "indicator_pin_number is required")]
+        [JsonProperty("indicator_pin_number")]
+        public int? IndicatorPinNumber { get; set; }
+
+        [Required(ErrorMessage = "reader_pin_number is required")]
+        [JsonProperty("reader_pin_number")]
+        public int? ReaderPinNumber { get; set; }
 
         public void Validate()
         {

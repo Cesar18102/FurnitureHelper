@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Collections.Generic;
 
 using Autofac;
 
@@ -34,21 +35,10 @@ namespace Services
             if (color == null)
                 throw new NotFoundException("possible color");
 
-            if(part.EmbedControllersPositions.Count() != dto.EmbeddedControllers.Count())
-                throw new NotFoundException("controller embed position");
-
-            foreach (EmbedControllerPositionModel position in part.EmbedControllersPositions)
-                if(dto.EmbeddedControllers.FirstOrDefault(controller => controller.EmbedPositionId == position.Id) == null)
-                    throw new NotFoundException("controller embed position");
-
-            if(dto.EmbeddedControllers.Select(controller => controller.MAC).Distinct().Count() != dto.EmbeddedControllers.Count())
+            if (ConcretePartRepo.GetPartByMac(dto.ControllerMac) != null)
                 throw new ConflictException("mac address");
 
             ConcretePartModel model = Mapper.Map<AddConcretePartDto, ConcretePartModel>(dto);
-            foreach (ConcreteControllerModel controller in model.EmbedControllers)
-                if (ConcretePartRepo.GetEmbeddedControllerByMac(controller.MAC) != null)
-                    throw new ConflictException("mac address");
-
             return ProtectedExecute<AddConcretePartDto, ConcretePartModel>(
                 concretePart => ConcretePartRepo.Create(concretePart),
                 model
@@ -59,6 +49,8 @@ namespace Services
         {
             AdminService.CheckActiveSuperAdmin(dto.SuperAdminSession);
             PartModel model = Mapper.Map<AddPartDto, PartModel>(dto);
+            CheckPinConflict(model);
+
             return ProtectedExecute<AddPartDto, PartModel>(part => PartRepo.Create(part), model);
         }
 
@@ -66,11 +58,23 @@ namespace Services
         {
             AdminService.CheckActiveSuperAdmin(dto.SuperAdminSession);
             PartModel model = Mapper.Map<UpdatePartDto, PartModel>(dto);
+            CheckPinConflict(model);
 
             return ProtectedExecute<UpdatePartDto, PartModel>(
                 part => PartRepo.Update(part.Id, part), 
                 model
             );
+        }
+
+        private void CheckPinConflict(PartModel part)
+        {
+            List<int> usedPins = part.ConnectionHelpers.Aggregate(
+                new List<int>(),
+                (acc, helper) => acc.Append(helper.IndicatorPinNumber).Append(helper.ReaderPinNumber).ToList()
+            );
+
+            if (usedPins.Distinct().Count() != usedPins.Count())
+                throw new ConflictException("pin");
         }
     }
 }

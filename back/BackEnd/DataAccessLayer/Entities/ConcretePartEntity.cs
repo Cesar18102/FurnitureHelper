@@ -12,7 +12,6 @@ namespace DataAccess.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ConcretePartEntity()
         {
-            concrete_controllers = new HashSet<ConcreteControllerEntity>();
             manufacturer_sell_positions = new HashSet<ManufacturerSellPositionEntity>();
             ownings = new HashSet<OwningEntity>();
             user_sell_positions = new HashSet<UserSellPositionEntity>();
@@ -23,13 +22,15 @@ namespace DataAccess.Entities
         public int material_id { get; set; }
         public int color_id { get; set; }
 
+        [Column(TypeName = "char")]
+        [Required]
+        [StringLength(17)]
+        public string controller_mac { get; set; }
+
         [Column(TypeName = "date")]
         public DateTime create_date { get; set; }
 
         public virtual PartColorEntity colors { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ConcreteControllerEntity> concrete_controllers { get; set; }
 
         public virtual PartEntity parts { get; set; }
 
@@ -43,7 +44,5 @@ namespace DataAccess.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserSellPositionEntity> user_sell_positions { get; set; }
-
-        
     }
 }

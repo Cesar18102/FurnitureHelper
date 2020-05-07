@@ -12,7 +12,6 @@ namespace DataAccess.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PartControllerEmbedRelativePositionEntity()
         {
-            concrete_controllers = new HashSet<ConcreteControllerEntity>();
             two_parts_connection = new HashSet<TwoPartsConnectionEntity>();
             two_parts_connection1 = new HashSet<TwoPartsConnectionEntity>();
         }
@@ -22,9 +21,8 @@ namespace DataAccess.Entities
         public float pos_x { get; set; }
         public float pos_y { get; set; }
         public float pos_z { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ConcreteControllerEntity> concrete_controllers { get; set; }
+        public int indicator_pin_number { get; set; }
+        public int reader_pin_number { get; set; }
 
         public virtual PartEntity parts { get; set; }
 

@@ -108,20 +108,22 @@ namespace Services
 
             /*****************/
 
-            config.CreateMap<EmbedControllerPositionDto, EmbedControllerPositionModel>()
+            config.CreateMap<ConnectionHelperDto, ConnectionHelperModel>()
                   .ForMember(model => model.PosX, cnf => cnf.MapFrom(dto => dto.PosX.GetValueOrDefault()))
                   .ForMember(model => model.PosY, cnf => cnf.MapFrom(dto => dto.PosY.GetValueOrDefault()))
-                  .ForMember(model => model.PosZ, cnf => cnf.MapFrom(dto => dto.PosZ.GetValueOrDefault()));
+                  .ForMember(model => model.PosZ, cnf => cnf.MapFrom(dto => dto.PosZ.GetValueOrDefault()))
+                  .ForMember(model => model.IndicatorPinNumber, cnf => cnf.MapFrom(dto => dto.IndicatorPinNumber))
+                  .ForMember(model => model.ReaderPinNumber, cnf => cnf.MapFrom(dto => dto.ReaderPinNumber));
 
             /*****************/
 
             config.CreateMap<AddPartDto, PartModel>()
                   .ForMember(model => model.PossibleMaterials, cnf => cnf.MapFrom(dto => dto.PossibleMaterials))
-                  .ForMember(model => model.EmbedControllersPositions, cnf => cnf.MapFrom(dto => dto.EmbedControllersPositions));
+                  .ForMember(model => model.ConnectionHelpers, cnf => cnf.MapFrom(dto => dto.ConnectionHelpers));
 
             config.CreateMap<UpdatePartDto, PartModel>()
                   .ForMember(model => model.PossibleMaterials, cnf => cnf.MapFrom(dto => dto.PossibleMaterials))
-                  .ForMember(model => model.EmbedControllersPositions, cnf => cnf.MapFrom(dto => dto.EmbedControllersPositions));
+                  .ForMember(model => model.ConnectionHelpers, cnf => cnf.MapFrom(dto => dto.ConnectionHelpers));
 
             /*****************/
 
@@ -133,9 +135,12 @@ namespace Services
 
             config.CreateMap<TwoPartsConnectionDto, TwoPartsConnectionModel>()
                   .ForMember(model => model.OrderNumber, cnf => cnf.MapFrom(dto => dto.OrderNumber.GetValueOrDefault()))
-                  .ForPath(model => model.ControllerPosition.Id, cnf => cnf.MapFrom(dto => dto.EmbedControllerPositionId))
-                  .ForPath(model => model.ControllerPositionOther.Id, cnf => cnf.MapFrom(dto => dto.EmbedControllerPositionOtherId))
-                  .ForPath(model => model.ConnectionGlues, cnf => cnf.MapFrom(dto => dto.ConnectionGlues));
+                  .ForPath(model => model.ConnectionHelper.Id, cnf => cnf.MapFrom(dto => dto.ConnectionHelperId))
+                  .ForPath(model => model.ConnectionHelperOther.Id, cnf => cnf.MapFrom(dto => dto.ConnectionHelperOtherId))
+                  .ForPath(model => model.ConnectionGlues, cnf => cnf.MapFrom(dto => dto.ConnectionGlues))
+                  .ForMember(model => model.NestedGlobalConnectionOrderNumber, cnf => cnf.MapFrom(dto => dto.NestedGlobalConnectionOrderNumber))
+                  .ForMember(model => model.NestedTwoPartsConnectionOrderNumber, cnf => cnf.MapFrom(dto => dto.NestedTwoPartsConnectionOrderNumber))
+                  .ForMember(model => model.ConnectToFirstIfEqual, cnf => cnf.MapFrom(dto => dto.ConnectToFirstIfEqual));
 
             config.CreateMap<GlobalConnectionDto, GlobalPartsConnectionModel>()
                   .ForMember(model => model.OrderNumber, cnf => cnf.MapFrom(dto => dto.OrderNumber.GetValueOrDefault()))
@@ -150,15 +155,11 @@ namespace Services
 
             /*****************/
 
-            config.CreateMap<ConcreteControllerDto, ConcreteControllerModel>()
-                  .ForMember(model => model.MAC, cnf => cnf.MapFrom(dto => dto.MAC.ToUpper()))
-                  .ForPath(model => model.EmbedPosition.Id, cnf => cnf.MapFrom(dto => dto.EmbedPositionId.GetValueOrDefault()));
-
             config.CreateMap<AddConcretePartDto, ConcretePartModel>()
                   .ForPath(model => model.SelectedMaterial.Id, cnf => cnf.MapFrom(dto => dto.MaterialId))
                   .ForPath(model => model.SelectedColor.Id, cnf => cnf.MapFrom(dto => dto.ColorId))
                   .ForPath(model => model.Part.Id, cnf => cnf.MapFrom(dto => dto.PartId))
-                  .ForMember(model => model.EmbedControllers, cnf => cnf.MapFrom(dto => dto.EmbeddedControllers));
+                  .ForMember(model => model.ControllerMac, cnf => cnf.MapFrom(dto => dto.ControllerMac.ToUpper()));
         }
     }
 }

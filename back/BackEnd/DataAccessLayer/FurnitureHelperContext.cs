@@ -21,7 +21,6 @@ namespace DataAccess
         public virtual DbSet<SuperAdminEntity> super_admins { get; set; }
         public virtual DbSet<AccountExtensionEntity> accounts_extensions { get; set; }
         public virtual DbSet<PartColorEntity> colors { get; set; }
-        public virtual DbSet<ConcreteControllerEntity> concrete_controllers { get; set; }
         public virtual DbSet<ConcretePartEntity> concrete_parts { get; set; }
         public virtual DbSet<FurnitureItemPartsConnectionEntity> furniture_item_parts_connections { get; set; }
         public virtual DbSet<FurnitureItemEntity> furniture_items { get; set; }
@@ -171,21 +170,8 @@ namespace DataAccess
                 .HasForeignKey(e => e.color_id)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<ConcreteControllerEntity>()
-                .ToTable("concrete_controllers");
-
-            modelBuilder.Entity<ConcreteControllerEntity>()
-                .Property(e => e.mac)
-                .IsUnicode(false);
-
             modelBuilder.Entity<ConcretePartEntity>()
                 .ToTable("concrete_parts");
-
-            modelBuilder.Entity<ConcretePartEntity>()
-                .HasMany(e => e.concrete_controllers)
-                .WithRequired(e => e.concrete_parts)
-                .HasForeignKey(e => e.concrete_part_id)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ConcretePartEntity>()
                 .HasMany(e => e.manufacturer_sell_positions)
@@ -277,11 +263,6 @@ namespace DataAccess
 
             modelBuilder.Entity<PartControllerEmbedRelativePositionEntity>()
                 .ToTable("part_controllers_embed_relative_positions");
-
-            modelBuilder.Entity<PartControllerEmbedRelativePositionEntity>()
-                .HasMany(e => e.concrete_controllers)
-                .WithRequired(e => e.part_controllers_embed_relative_positions)
-                .HasForeignKey(e => e.embed_position_id);
 
             modelBuilder.Entity<PartControllerEmbedRelativePositionEntity>()
                 .HasMany(e => e.two_parts_connection)

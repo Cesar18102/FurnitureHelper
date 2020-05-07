@@ -10,10 +10,10 @@ namespace DataAccess.RepoImplementation
     {
         public ConcretePartRepo(FurnitureHelperContext context) : base(context) { }
 
-        public ConcreteControllerModel GetEmbeddedControllerByMac(string mac)
+        public ConcretePartModel GetPartByMac(string mac)
         {
-            ConcreteControllerEntity controller = Context.concrete_controllers.FirstOrDefault(ctrl => ctrl.mac == mac);
-            return controller == null ? null : Mapper.Map<ConcreteControllerEntity, ConcreteControllerModel>(controller);
+            ConcretePartEntity part = Context.concrete_parts.FirstOrDefault(ctrl => ctrl.controller_mac.ToUpper() == mac.ToUpper());
+            return part == null ? null : Mapper.Map<ConcretePartEntity, ConcretePartModel>(part);
         }
     }
 }

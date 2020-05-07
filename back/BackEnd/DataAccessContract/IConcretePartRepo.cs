@@ -4,6 +4,6 @@ namespace DataAccessContract
 {
     public interface IConcretePartRepo : IRepo<ConcretePartModel>
     {
-        ConcreteControllerModel GetEmbeddedControllerByMac(string mac);
+        ConcretePartModel GetPartByMac(string mac);
     }
 }

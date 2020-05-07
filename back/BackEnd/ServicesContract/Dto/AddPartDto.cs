@@ -30,8 +30,8 @@ namespace ServicesContract.Dto
         [JsonProperty("possible_materials")]
         public IEnumerable<int> PossibleMaterials { get; set; }
 
-        [JsonProperty("embed_controllers_positions")]
-        public IEnumerable<EmbedControllerPositionDto> EmbedControllersPositions { get; set; }
+        [JsonProperty("connection_helpers")]
+        public IEnumerable<ConnectionHelperDto> ConnectionHelpers { get; set; }
 
         public void Validate()
         {

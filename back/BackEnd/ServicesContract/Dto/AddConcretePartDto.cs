@@ -23,8 +23,9 @@ namespace ServicesContract.Dto
         [JsonProperty("color_id")]
         public int? ColorId { get; set; }
 
-        [JsonProperty("embedded_controllers")]
-        public IEnumerable<ConcreteControllerDto> EmbeddedControllers { get; set; }
+        [RegularExpression("^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$", ErrorMessage = "controller_mac is invalid")]
+        [JsonProperty("controller_mac")]
+        public string ControllerMac { get; set; }
 
         public void Validate()
         {

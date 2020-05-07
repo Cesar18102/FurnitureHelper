@@ -2,7 +2,7 @@
 
 namespace Models
 {
-    public class EmbedControllerPositionModel : IModel
+    public class ConnectionHelperModel : IModel
     {
         [JsonProperty("id")]
         public int Id { get; private set; }
@@ -14,6 +14,12 @@ namespace Models
         public float PosY { get; private set; }
 
         [JsonProperty("pos_z")]
-        public float PosZ { get; private set; }   
+        public float PosZ { get; private set; }
+
+        [JsonProperty("indicator_pin_number")]
+        public int IndicatorPinNumber { get; private set; }
+
+        [JsonProperty("reader_pin_number")]
+        public int ReaderPinNumber { get; private set; }
     }
 }

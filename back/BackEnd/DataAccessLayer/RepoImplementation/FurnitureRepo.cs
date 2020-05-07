@@ -22,6 +22,9 @@ namespace DataAccess.RepoImplementation
                 Context.Entry<FurnitureItemPartsConnectionEntity>(globalConnection).Collection(connection => connection.parts_connection_glues).Load();
                 Context.Entry<FurnitureItemPartsConnectionEntity>(globalConnection).Collection(connection => connection.two_parts_connection).Load();
 
+                foreach (PartsConnectionGlueEntity globalGlue in globalConnection.parts_connection_glues)
+                    Context.Entry<PartsConnectionGlueEntity>(globalGlue).Reference(glue => glue.parts).Load();
+
                 foreach (TwoPartsConnectionEntity twoPartConnection in globalConnection.two_parts_connection)
                 {
                     DbEntityEntry<TwoPartsConnectionEntity> twoPartsConnectionEntry = Context.Entry<TwoPartsConnectionEntity>(twoPartConnection);
@@ -29,6 +32,9 @@ namespace DataAccess.RepoImplementation
                     twoPartsConnectionEntry.Reference(connection => connection.part_controllers_embed_relative_positions).Load();
                     twoPartsConnectionEntry.Reference(connection => connection.part_controllers_embed_relative_positions1).Load();
                     twoPartsConnectionEntry.Collection(connection => connection.two_parts_connection_glues).Load();
+
+                    foreach (TwoPartsConnectionGlueEntity twoPartsGlue in twoPartConnection.two_parts_connection_glues)
+                        Context.Entry<TwoPartsConnectionGlueEntity>(twoPartsGlue).Reference(glue => glue.parts).Load();
                 }
             }
         }
@@ -51,9 +57,11 @@ namespace DataAccess.RepoImplementation
             Context.furniture_items.Include(furniture => furniture.furniture_item_parts_connections);
             Context.furniture_item_parts_connections.Include(connection => connection.parts_connection_glues)
                                                     .Include(connection => connection.two_parts_connection);
+            Context.parts_connection_glues.Include(glue => glue.parts);
             Context.two_parts_connection.Include(connection => connection.part_controllers_embed_relative_positions)
                                         .Include(connection => connection.part_controllers_embed_relative_positions1)
                                         .Include(connection => connection.two_parts_connection_glues);
+            Context.two_parts_connection_glues.Include(glue => glue.parts);
         }
 
         public override FurnitureItemModel Create(FurnitureItemModel model)
@@ -85,10 +93,10 @@ namespace DataAccess.RepoImplementation
 
                 foreach (TwoPartsConnectionModel subConnection in connection.SubConnections)
                 {
-                    if (Context.part_controllers_embed_relative_positions.FirstOrDefault(position => position.id == subConnection.ControllerPosition.Id) == null)
+                    if (Context.part_controllers_embed_relative_positions.FirstOrDefault(position => position.id == subConnection.ConnectionHelper.Id) == null)
                         throw new EntityNotFoundException("controller position");
 
-                    if (Context.part_controllers_embed_relative_positions.FirstOrDefault(position => position.id == subConnection.ControllerPositionOther.Id) == null)
+                    if (Context.part_controllers_embed_relative_positions.FirstOrDefault(position => position.id == subConnection.ConnectionHelperOther.Id) == null)
                         throw new EntityNotFoundException("controller position");
 
                     foreach (ConnectionGlueModel glue in subConnection.ConnectionGlues)

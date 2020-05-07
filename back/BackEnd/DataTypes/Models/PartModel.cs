@@ -24,7 +24,7 @@ namespace Models
         [JsonProperty("possible_materials")]
         public IEnumerable<MaterialModel> PossibleMaterials { get; private set; }
 
-        [JsonProperty("embedded_controllers_positions")]
-        public IEnumerable<EmbedControllerPositionModel> EmbedControllersPositions { get; private set; }
+        [JsonProperty("connection_helpers")]
+        public IEnumerable<ConnectionHelperModel> ConnectionHelpers { get; private set; }
     }
 }
