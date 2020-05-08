@@ -24,7 +24,7 @@ CREATE TABLE accounts_extensions(
     account_id INTEGER NOT NULL,
     phone VARCHAR(32) NOT NULL,
     address VARCHAR(256) NOT NULL,
-    last_used DATE NOT NULL,
+    last_used DATE,
     FOREIGN KEY(account_id) REFERENCES accounts(id) ON UPDATE CASCADE ON DELETE NO ACTION
 );
 

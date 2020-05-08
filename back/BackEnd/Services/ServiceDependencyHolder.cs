@@ -167,7 +167,10 @@ namespace Services
 
             /*****************/
 
-            config.CreateMap<AccountExtensionDto, AccountExtensionModel>();
+            config.CreateMap<AccountExtensionDto, AccountExtensionModel>()
+                  .ForMember(model => model.AccountId, cnf => cnf.MapFrom(dto => dto.AccountId.GetValueOrDefault()));
+
+            config.CreateMap<AccountExtensionModel, AccountExtensionModel>();
             config.CreateMap<PaymentConfirmDto, PaymentInfo>();
         }
     }

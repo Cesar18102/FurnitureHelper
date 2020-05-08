@@ -9,6 +9,9 @@ namespace Models
         [JsonProperty("id")]
         public int Id { get; private set; }
 
+        [JsonProperty("account_id")]
+        public int AccountId { get; private set; }
+
         [JsonProperty("phone")]
         public string Phone { get; private set; }
 
@@ -16,6 +19,6 @@ namespace Models
         public string Address { get; private set; }
 
         [JsonProperty("last_used_date")]
-        public DateTime LastUsedDate { get; private set; }
+        public DateTime LastUsedDate { get; set; } = DateTime.Now;
     }
 }

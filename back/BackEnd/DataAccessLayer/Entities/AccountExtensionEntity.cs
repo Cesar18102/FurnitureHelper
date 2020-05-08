@@ -29,7 +29,7 @@ namespace DataAccess.Entities
         public string address { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime last_used { get; set; }
+        public DateTime? last_used { get; set; }
 
         public virtual AccountEntity accounts { get; set; }
 
@@ -40,8 +40,6 @@ namespace DataAccess.Entities
         public virtual ICollection<UserSellEntity> user_sells { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserSellEntity> user_sells1 { get; set; }
-
-        
+        public virtual ICollection<UserSellEntity> user_sells1 { get; set; }        
     }
 }

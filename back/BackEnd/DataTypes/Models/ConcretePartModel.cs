@@ -25,6 +25,6 @@ namespace Models
         public DateTime CreateDate { get; private set; } = DateTime.Now;
 
         [JsonProperty("last_sell_date")]
-        public DateTime? LastSellDate { get; private set; }
+        public DateTime? LastSellDate { get; set; }
     }
 }

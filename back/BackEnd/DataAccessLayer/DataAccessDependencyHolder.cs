@@ -8,6 +8,7 @@ using DataAccess.RepoImplementation;
 
 using Models;
 using System;
+using System.Collections.Generic;
 
 namespace DataAccess
 {
@@ -35,6 +36,11 @@ namespace DataAccess
 
             builder.RegisterType<AccountRepo>()
                    .As<IAccountRepo>().As<IRepo<AccountModel>>().AsSelf()
+                   .UsingConstructor(typeof(FurnitureHelperContext))
+                   .WithParameter(contextParameter).SingleInstance();
+
+            builder.RegisterType<AccountExtensionRepo>()
+                   .As<IAccountExtensionRepo>().As<IRepo<AccountExtensionModel>>().AsSelf()
                    .UsingConstructor(typeof(FurnitureHelperContext))
                    .WithParameter(contextParameter).SingleInstance();
 
@@ -73,6 +79,16 @@ namespace DataAccess
                   .UsingConstructor(typeof(FurnitureHelperContext))
                   .WithParameter(contextParameter).SingleInstance();
 
+            builder.RegisterType<ManufacturerSellRepo>()
+                  .As<IManufacturerSellsRepo>().As<IRepo<ManufacturerSellModel>>()
+                  .UsingConstructor(typeof(FurnitureHelperContext))
+                  .WithParameter(contextParameter).SingleInstance();
+
+            builder.RegisterType<OwnershipRepo>()
+                  .As<IOwnershipRepo>().As<IRepo<OwnershipModel>>()
+                  .UsingConstructor(typeof(FurnitureHelperContext))
+                  .WithParameter(contextParameter).SingleInstance();
+
             MapperConfiguration config = new MapperConfiguration(cnf => ConfigMapper(cnf, dbContext));
             TypedParameter mapperConfigParameter = new TypedParameter(typeof(IConfigurationProvider), config);
 
@@ -91,6 +107,7 @@ namespace DataAccess
                   .ForMember(entity => entity.first_name, cnf => cnf.MapFrom(model => model.FirstName))
                   .ForMember(entity => entity.last_name, cnf => cnf.MapFrom(model => model.LastName))
                   .ForMember(entity => entity.pwd, cnf => cnf.MapFrom(model => model.Password))
+                  .ForMember(entity => entity.accounts_extensions, cnf => cnf.MapFrom(model => model.AccountExtensions))
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<AccountEntity, AccountModel>()
@@ -98,6 +115,15 @@ namespace DataAccess
                   .ForMember(model => model.FirstName, cnf => cnf.MapFrom(entity => entity.first_name))
                   .ForMember(model => model.LastName, cnf => cnf.MapFrom(entity => entity.last_name))
                   .ForMember(model => model.AccountExtensions, cnf => cnf.MapFrom(entity => entity.accounts_extensions));
+
+            config.CreateMap<AccountExtensionModel, AccountExtensionEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.account_id, cnf => cnf.MapFrom(model => model.AccountId))
+                  .ForMember(entity => entity.last_used, cnf => cnf.MapFrom(model => model.LastUsedDate));
+
+            config.CreateMap<AccountExtensionEntity, AccountExtensionModel>()
+                  .ForMember(model => model.AccountId, cnf => cnf.MapFrom(entity => entity.account_id))
+                  .ForMember(model => model.LastUsedDate, cnf => cnf.MapFrom(entity => entity.last_used));
 
             /******************/
 
@@ -278,6 +304,37 @@ namespace DataAccess
                   .ForMember(model => model.LastSellDate, cnf => cnf.MapFrom(entity => entity.last_sell_date));
 
             /******************/
+
+            config.CreateMap<SellPositionModel, ManufacturerSellPositionEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.concrete_part_id, cnf => cnf.MapFrom(model => model.ConcretePart.Id))
+                  .ForMember(entity => entity.price, cnf => cnf.MapFrom(model => model.Price));
+
+            config.CreateMap<ManufacturerSellPositionEntity, SellPositionModel>()
+                  .ForMember(model => model.ConcretePart, cnf => cnf.MapFrom(entity => entity.concrete_parts));
+
+            config.CreateMap<ManufacturerSellModel, ManufacturerSellEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.accounts_extension_id, cnf => cnf.MapFrom(model => model.BuyerAccountExtension.Id))
+                  .ForMember(entity => entity.manufacturer_sell_positions, cnf => cnf.MapFrom(model => model.SellPositions))
+                  .ForMember(entity => entity.sell_date, cnf => cnf.MapFrom(model => model.SellDate))
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
+
+            config.CreateMap<ManufacturerSellEntity, ManufacturerSellModel>()
+                  .ForMember(model => model.BuyerAccountExtension, cnf => cnf.MapFrom(entity => entity.accounts_extensions))
+                  .ForMember(model => model.SellPositions, cnf => cnf.MapFrom(entity => entity.manufacturer_sell_positions))
+                  .ForMember(model => model.SellDate, cnf => cnf.MapFrom(entity => entity.sell_date));
+
+            /******************/
+
+            config.CreateMap<OwnershipModel, OwningEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.account_id, cnf => cnf.MapFrom(model => model.AccountId))
+                  .ForMember(entity => entity.concrete_part_id, cnf => cnf.MapFrom(model => model.ConcretePart.Id));
+
+            config.CreateMap<OwningEntity, OwnershipModel>()
+                  .ForMember(model => model.AccountId, cnf => cnf.MapFrom(entity => entity.account_id))
+                  .ForMember(model => model.ConcretePart, cnf => cnf.MapFrom(entity => entity.concrete_parts));
         }
     }
 }

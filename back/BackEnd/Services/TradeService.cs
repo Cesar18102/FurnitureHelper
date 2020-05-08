@@ -19,28 +19,40 @@ namespace Services
 {
     public class TradeService : ServiceBase, ITradeService
     {
+        private static readonly IAccountExtensionRepo AccountExtensionRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IAccountExtensionRepo>();
+        private static readonly IManufacturerSellsRepo ManufacturerSellRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IManufacturerSellsRepo>();
         private static readonly IConcretePartRepo ConcretePartRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IConcretePartRepo>();
+        private static readonly IOwnershipRepo OwnershipRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IOwnershipRepo>();
         private static readonly IAccountRepo AccountRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IAccountRepo>();
 
         private static readonly PaymentService PaymentService = ServiceDependencyHolder.ServicesDependencies.Resolve<PaymentService>();
         private static readonly SessionService SessionService = ServiceDependencyHolder.ServicesDependencies.Resolve<SessionService>();
 
         private IDictionary<string, ManufacturerSellModel> PendingOrders = new Dictionary<string, ManufacturerSellModel>();
-        private List<int> ReservedConcretePartsIds = new List<int>();
+        private ICollection<int> ReservedConcretePartsIds = new List<int>();
 
         public PaymentInfo CreateManufacturerTradePromise(AddManufacturerSellDto manufacturerSellDto, string callbackEndpoint)
         {
             if (manufacturerSellDto.NewAccountExtension == null && manufacturerSellDto.ExisitingAccountExtensionId == null)
                 throw new NotFoundException("nor old neither new account extension");
 
-            //SessionService.CheckSession(manufacturerSellDto.Session);
+            SessionService.CheckSession(manufacturerSellDto.Session);
 
-            AccountExtensionModel accountExtension = manufacturerSellDto.ExisitingAccountExtensionId == null || 
+            if (manufacturerSellDto.NewAccountExtension != null && manufacturerSellDto.NewAccountExtension.AccountId != manufacturerSellDto.Session.UserId)
+                throw new ForbiddenException("account owner");
+
+            AccountExtensionModel accountExtension = manufacturerSellDto.ExisitingAccountExtensionId == null ||
                                                      !manufacturerSellDto.ExisitingAccountExtensionId.HasValue ?
                                                      Mapper.Map<AccountExtensionDto, AccountExtensionModel>(manufacturerSellDto.NewAccountExtension) :
-                                                     AccountRepo.GetExtensionById(manufacturerSellDto.ExisitingAccountExtensionId.Value);
+                                                     AccountExtensionRepo.Get(manufacturerSellDto.ExisitingAccountExtensionId.Value);
 
-            ManufacturerSellModel sellModel = new ManufacturerSellModel(accountExtension, BuildOrder(manufacturerSellDto.Positions));
+            if (accountExtension == null)
+                throw new NotFoundException("account extension");
+
+            if(accountExtension.AccountId != manufacturerSellDto.Session.UserId)
+                throw new ForbiddenException("account owner");
+
+            ManufacturerSellModel sellModel = BuildOrderFromManufacturer(accountExtension, manufacturerSellDto.Positions);
             string orderId = Guid.NewGuid().ToString();
 
             PendingOrders.Add(orderId, sellModel);
@@ -65,26 +77,58 @@ namespace Services
                 throw new NotFoundException("pending order");
 
             ManufacturerSellModel sell = PendingOrders[orderId];
-            PendingOrders.Remove(orderId);
+            sell.SellDate = DateTime.Now;
 
-            if(sell.BuyerAccountExtension.Id == 0)
-            {
-                //register account extension
-            }
-            else
-            {
-                //update account extension last used date
-            }
+            UpdateSellPositionsSellDates(sell);
+            RemoveReservation(orderId, sell);
+            AttachAccountExtension(sell);
 
-            //add manufacturer sells
-            //add ownership
+            ManufacturerSellModel createdSell = ManufacturerSellRepo.Create(sell);
+            CreateOwnerships(createdSell);
 
-            return sell;
+            return createdSell;
         }
 
-        public IDictionary<ConcretePartModel, float> BuildOrder(IEnumerable<SellPositionDto> sellPositions)
+        private void CreateOwnerships(ManufacturerSellModel sell)
         {
-            IDictionary<ConcretePartModel, float> concretePartsOrdered = new Dictionary<ConcretePartModel, float>();
+            foreach (SellPositionModel sellPosition in sell.SellPositions)
+            {
+                OwnershipModel ownership = new OwnershipModel(sell.BuyerAccountExtension.AccountId, sellPosition.ConcretePart);
+                OwnershipModel createdOwnership = OwnershipRepo.Create(ownership);
+            }
+        }
+
+        private void AttachAccountExtension(ManufacturerSellModel sell)
+        {
+            sell.BuyerAccountExtension.LastUsedDate = sell.SellDate;
+            AccountExtensionModel accountExtension = sell.BuyerAccountExtension.Id == 0 ?
+                                                     AccountExtensionRepo.Create(sell.BuyerAccountExtension) :
+                                                     AccountExtensionRepo.Update(sell.BuyerAccountExtension.Id, sell.BuyerAccountExtension);
+
+            Mapper.Map<AccountExtensionModel, AccountExtensionModel>(accountExtension, sell.BuyerAccountExtension);
+        }
+
+        private void UpdateSellPositionsSellDates(ManufacturerSellModel sell)
+        {
+            foreach (SellPositionModel sellPosition in sell.SellPositions)
+            {
+                sellPosition.ConcretePart.LastSellDate = sell.SellDate;
+                ConcretePartRepo.Update(sellPosition.ConcretePart.Id, sellPosition.ConcretePart);
+            }
+        }
+
+        private void RemoveReservation(string orderId, ManufacturerSellModel sell)
+        {
+            foreach (SellPositionModel sellPosition in sell.SellPositions)
+                ReservedConcretePartsIds.Remove(sellPosition.ConcretePart.Id);
+
+            PendingOrders.Remove(orderId);
+        }
+
+        private ManufacturerSellModel BuildOrderFromManufacturer(AccountExtensionModel accountExtension, IEnumerable<SellPositionDto> sellPositions)
+        {
+            ManufacturerSellModel order = new ManufacturerSellModel(accountExtension);
+
             foreach (SellPositionDto position in sellPositions)
             {
                 IEnumerable<ConcretePartModel> concretePartsToOrder = ConcretePartRepo.GetManufacturerPartsForSelling(
@@ -99,11 +143,14 @@ namespace Services
                 foreach (ConcretePartModel concretePartToOrder in concretePartsToOrder)
                 {
                     float price = concretePartToOrder.Part.Price * concretePartToOrder.SelectedMaterial.PriceCoefficient;
-                    concretePartsOrdered.Add(concretePartToOrder, price);
+                    SellPositionModel sellPosition = new SellPositionModel(price, concretePartToOrder);
+
                     ReservedConcretePartsIds.Add(concretePartToOrder.Id);
+                    order.SellPositions.Add(sellPosition);
                 }
             }
-            return concretePartsOrdered;
+
+            return order;
         }
     }
 }

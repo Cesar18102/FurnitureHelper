@@ -7,7 +7,7 @@ using Autofac;
 using AutoMapper;
 
 using Models;
-using DataAccessLayer.Exceptions;
+using DataAccess.Exceptions;
 
 using DataAccessContract;
 using DataAccessContract.Exceptions;

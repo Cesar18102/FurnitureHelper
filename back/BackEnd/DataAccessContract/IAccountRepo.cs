@@ -1,4 +1,6 @@
-﻿using Models;
+﻿using System;
+
+using Models;
 
 namespace DataAccessContract
 {
@@ -6,6 +8,10 @@ namespace DataAccessContract
     {
         AccountModel GetByLogin(string login);
         AccountModel GetByEmail(string email);
-        AccountExtensionModel GetExtensionById(int id);
+
+        /*AccountModel AddAccountExtension(AccountExtensionModel accountExtension);
+        AccountModel UpdateAccountExtensionLastUsedDate(int accountExtensionId, DateTime lastUsedDate);
+
+        AccountExtensionModel GetExtensionById(int id);*/
     }
 }
