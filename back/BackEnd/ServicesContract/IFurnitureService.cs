@@ -1,4 +1,6 @@
-﻿using Models;
+﻿using System.Collections.Generic;
+
+using Models;
 using ServicesContract.Dto;
 
 namespace ServicesContract
@@ -7,5 +9,9 @@ namespace ServicesContract
     {
         FurnitureItemModel RegisterFurnitureItem(AddFurnitureDto dto);
         FurnitureItemModel UpdateFurnitureItem(UpdateFurnitureDto dto);
+
+        FurnitureItemModel UpdateConnections(ConnectionsDto dto);
+
+        IEnumerable<FurnitureItemModel> GetAll();
     }
 }

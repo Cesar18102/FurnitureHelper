@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Models;
 using DataAccessContract;
 using DataAccess.Entities;
+using DataAccessContract.Exceptions;
 
 namespace DataAccess.RepoImplementation
 {
@@ -26,6 +27,16 @@ namespace DataAccess.RepoImplementation
             ).Take(amount).ToList();
 
             return Mapper.Map<IEnumerable<ConcretePartEntity>, IEnumerable<ConcretePartModel>>(parts);
+        }
+
+        public IEnumerable<ConcretePartModel> GetOwnedByUser(int userId)
+        {
+            AccountEntity user = Context.accounts.FirstOrDefault(account => account.id == userId);
+
+            if (user == null)
+                throw new EntityNotFoundException("user");
+
+            return Mapper.Map<IEnumerable<ConcretePartEntity>, IEnumerable<ConcretePartModel>>( user.ownings.Select(owning => owning.concrete_parts).ToList());
         }
     }
 }

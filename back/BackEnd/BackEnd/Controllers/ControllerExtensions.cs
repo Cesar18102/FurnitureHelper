@@ -76,61 +76,56 @@ namespace BackEnd.Controllers
             return GetErrorType(currentType, subSequence);
         }
 
-        public static HttpResponseMessage ExecuteProtectedAndWrapResult<TSource, TResult>(
-            this HttpRequestMessage request, Func<TSource, TResult> executor,
-            ModelStateDictionary modelState, TSource arg) where TSource : IDto
-                                                          where TResult : IModel
+        private static void ValidateModelState<TSource>(ModelStateDictionary modelState) where TSource : IDto
+        {
+            ValidationException ex = new ValidationException();
+            bool shouldBeThrown = false;
+
+            foreach (KeyValuePair<string, ModelState> fieldState in modelState)
+                foreach (ModelError error in fieldState.Value.Errors)
+                {
+                    int firstIndexOfDot = fieldState.Key.IndexOf('.');
+
+                    if (firstIndexOfDot == -1)
+                    {
+                        shouldBeThrown = true;
+                        continue;
+                    }
+
+                    string errorFieldSequence = fieldState.Key.Substring(firstIndexOfDot + 1);
+                    int lastIndexOfDot = errorFieldSequence.LastIndexOf('.');
+
+                    Type errorType = typeof(TSource);
+                    string errorField = errorFieldSequence;
+
+                    if (lastIndexOfDot != -1)
+                    {
+                        errorField = errorFieldSequence.Substring(lastIndexOfDot + 1);
+                        errorType = GetErrorType(typeof(TSource), errorFieldSequence.Substring(0, lastIndexOfDot));
+                    }
+
+                    if (errorType == null || errorType.GetProperty(errorField) == null)
+                    {
+                        shouldBeThrown = true;
+                        continue;
+                    }
+
+                    ValidationFailInfo failInfo = ValidationFailInfo.CreateValidationFailInfo(
+                        errorType, errorField, error.ErrorMessage //"Invalid data for " + errorField + " provided" 
+                    );
+
+                    ex.ValidationFailInfos.Add(failInfo);
+                }
+
+            if (ex.ValidationFailInfos.Count > 0 || shouldBeThrown)
+                throw ex;
+        }
+
+        private static HttpResponseMessage ExecuteProtectedAndWrapResultCommon<TResult>(this HttpRequestMessage request, Func<TResult> executor)
         {
             try
             {
-                if (arg == null)
-                    throw new ValidationException();
-
-                ValidationException ex = new ValidationException();
-                bool shouldBeThrown = false;
-
-                foreach (KeyValuePair<string, ModelState> fieldState in modelState)
-                    foreach (ModelError error in fieldState.Value.Errors)
-                    {
-                        int firstIndexOfDot = fieldState.Key.IndexOf('.');
-
-                        if (firstIndexOfDot == -1)
-                        {
-                            shouldBeThrown = true;
-                            continue;
-                        }
-
-                        string errorFieldSequence = fieldState.Key.Substring(firstIndexOfDot + 1);
-                        int lastIndexOfDot = errorFieldSequence.LastIndexOf('.');
-
-                        Type errorType = typeof(TSource);
-                        string errorField = errorFieldSequence;
-
-                        if (lastIndexOfDot != -1)
-                        {
-                            errorField = errorFieldSequence.Substring(lastIndexOfDot + 1);
-                            errorType = GetErrorType(typeof(TSource), errorFieldSequence.Substring(0, lastIndexOfDot));                            
-                        }
-
-                        if(errorType == null || errorType.GetProperty(errorField) == null)
-                        {
-                            shouldBeThrown = true;
-                            continue;
-                        }
-
-                        ValidationFailInfo failInfo = ValidationFailInfo.CreateValidationFailInfo(
-                            errorType, errorField, error.ErrorMessage //"Invalid data for " + errorField + " provided" 
-                        );
-
-                        ex.ValidationFailInfos.Add(failInfo);
-                    }
-
-                if (ex.ValidationFailInfos.Count > 0 || shouldBeThrown)
-                    throw ex;
-
-                arg.Validate();
-
-                TResult result = executor(arg);
+                TResult result = executor();
                 ResultWrapper<TResult> wrappedResult = new ResultWrapper<TResult>(result);
                 return request.CreateResponse(HttpStatusCode.OK, wrappedResult);
             }
@@ -139,6 +134,50 @@ namespace BackEnd.Controllers
             catch (ConflictException ex) { return request.CreateResponse(HttpStatusCode.Conflict, new ResultWrapper<TResult>(ex)); }
             catch(NotFoundException ex) { return request.CreateResponse(HttpStatusCode.NotFound, new ResultWrapper<TResult>(ex)); }
             catch(ValidationException ex) { return request.CreateResponse(HttpStatusCode.BadRequest, new ResultWrapper<TResult>(ex)); }
+        }
+
+        private static HttpResponseMessage ExecuteProtectedAndWrapResultWithArgument<TSource, TResult>
+            (this HttpRequestMessage request, Func<TSource, TResult> executor, ModelStateDictionary modelState, TSource arg) where TSource : IDto
+        {
+            return ExecuteProtectedAndWrapResultCommon<TResult>(
+                request, () => {
+                    if (arg == null)
+                        throw new ValidationException();
+
+                    arg.Validate();
+                    ValidateModelState<TSource>(modelState);
+
+                    return executor(arg);
+                }
+            );
+        }
+
+        public static HttpResponseMessage ExecuteProtectedAndWrapResult<TSource, TResult>
+            (this HttpRequestMessage request, Func<TSource, TResult> executor, 
+             ModelStateDictionary modelState, TSource arg) where TSource : IDto
+                                                           where TResult : IModel
+        {
+            return ExecuteProtectedAndWrapResultWithArgument<TSource, TResult>(request, executor, modelState, arg);
+        }
+
+        public static HttpResponseMessage ExecuteProtectedAndWrapResult<TSource, TResult>
+            (this HttpRequestMessage request, Func<TSource, IEnumerable<TResult>> executor,
+             ModelStateDictionary modelState, TSource arg) where TSource : IDto
+                                                           where TResult : IModel
+        {
+            return ExecuteProtectedAndWrapResultWithArgument<TSource, IEnumerable<TResult>>(request, executor, modelState, arg);
+        }
+
+        public static HttpResponseMessage ExecuteProtectedAndWrapResult<TResult>
+            (this HttpRequestMessage request, Func<TResult> executor) where TResult : IModel
+        {
+            return ExecuteProtectedAndWrapResultCommon<TResult>(request, executor);
+        }
+
+        public static HttpResponseMessage ExecuteProtectedAndWrapResult<TResult>
+            (this HttpRequestMessage request, Func<IEnumerable<TResult>> executor) where TResult : IModel
+        {
+            return ExecuteProtectedAndWrapResultCommon<IEnumerable<TResult>>(request, executor);
         }
     }
 }

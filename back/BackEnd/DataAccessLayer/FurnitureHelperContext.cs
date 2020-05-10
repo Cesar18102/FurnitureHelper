@@ -33,6 +33,7 @@ namespace DataAccess
         public virtual DbSet<PartsConnectionGlueEntity> parts_connection_glues { get; set; }
         public virtual DbSet<TwoPartsConnectionEntity> two_parts_connection { get; set; }
         public virtual DbSet<TwoPartsConnectionGlueEntity> two_parts_connection_glues { get; set; }
+        public virtual DbSet<UsedPartEntity> used_parts { get; set; }
         public virtual DbSet<UserSellPositionEntity> user_sell_positions { get; set; }
         public virtual DbSet<UserSellEntity> user_sells { get; set; }
 
@@ -223,6 +224,11 @@ namespace DataAccess
                 .WithRequired(e => e.furniture_items)
                 .HasForeignKey(e => e.furniture_item_id);
 
+            modelBuilder.Entity<FurnitureItemEntity>()
+                .HasMany(e => e.used_parts)
+                .WithRequired(e => e.furniture_items)
+                .HasForeignKey(e => e.furniture_item_id);
+
             modelBuilder.Entity<ManufacturerSellEntity>()
                 .ToTable("manufacturer_sells");
 
@@ -315,6 +321,11 @@ namespace DataAccess
                 .WithMany(e => e.parts)
                 .Map(m => m.ToTable("parts_possible_materials").MapLeftKey("part_id").MapRightKey("material_id"));
 
+            modelBuilder.Entity<PartEntity>()
+                .HasMany(e => e.used_parts)
+                .WithOptional(e => e.parts)
+                .HasForeignKey(e => e.part_id);
+
             modelBuilder.Entity<PartsConnectionGlueEntity>()
                 .ToTable("parts_connection_glues");
 
@@ -355,6 +366,19 @@ namespace DataAccess
 
             modelBuilder.Entity<OwningEntity>()
                 .ToTable("ownings");
+
+            modelBuilder.Entity<UsedPartEntity>()
+                .ToTable("used_parts");
+
+            modelBuilder.Entity<UsedPartEntity>()
+                .HasMany(e => e.two_parts_connection)
+                .WithRequired(e => e.used_parts)
+                .HasForeignKey(e => e.used_part_id);
+
+            modelBuilder.Entity<UsedPartEntity>()
+                .HasMany(e => e.two_parts_connection1)
+                .WithRequired(e => e.used_parts1)
+                .HasForeignKey(e => e.used_part_other_id);
         }
     }
 }

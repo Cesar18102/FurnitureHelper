@@ -22,8 +22,11 @@ namespace ServicesContract.Dto
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty("global_connections")]
-        public IEnumerable<GlobalConnectionDto> GlobalConnections { get; set; }
+        [JsonProperty("used_parts_to_remove")]
+        public IEnumerable<int> UsedPartsToRemove { get; set; } = new List<int>();
+
+        [JsonProperty("used_parts_to_add")]
+        public IEnumerable<UsedPartsDto> UsedPartsToAdd { get; set; } = new List<UsedPartsDto>();
 
         public void Validate() { }
     }

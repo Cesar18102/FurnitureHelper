@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 
 using Autofac;
@@ -131,6 +133,21 @@ namespace Services
 
             /*****************/
 
+            config.CreateMap<AddFurnitureDto, FurnitureItemModel>()
+                  .ForMember(
+                      model => model.UsedParts,
+                      cnf => cnf.MapFrom(
+                          dto => dto.UsedParts.Aggregate(new List<UsedPartModel>(),
+                              (acc, parts) => acc.Concat(Enumerable.Repeat(new UsedPartModel(parts.PartId.GetValueOrDefault()), parts.Count.GetValueOrDefault())).ToList()
+                          )
+                      )
+                  );
+
+            config.CreateMap<UpdateFurnitureDto, FurnitureItemModel>()
+                  .ForMember(model => model.UsedParts, cnf => cnf.Ignore());
+
+            /********************/
+
             config.CreateMap<ConnectionGlueDto, ConnectionGlueModel>()
                   .ForPath(model => model.GluePart.Id, cnf => cnf.MapFrom(dto => dto.GluePartId.GetValueOrDefault()))
                   .ForMember(model => model.PosX, cnf => cnf.MapFrom(dto => dto.PosX.GetValueOrDefault()))
@@ -142,20 +159,13 @@ namespace Services
                   .ForPath(model => model.ConnectionHelper.Id, cnf => cnf.MapFrom(dto => dto.ConnectionHelperId))
                   .ForPath(model => model.ConnectionHelperOther.Id, cnf => cnf.MapFrom(dto => dto.ConnectionHelperOtherId))
                   .ForPath(model => model.ConnectionGlues, cnf => cnf.MapFrom(dto => dto.ConnectionGlues))
-                  .ForMember(model => model.NestedGlobalConnectionOrderNumber, cnf => cnf.MapFrom(dto => dto.NestedGlobalConnectionOrderNumber))
-                  .ForMember(model => model.NestedTwoPartsConnectionOrderNumber, cnf => cnf.MapFrom(dto => dto.NestedTwoPartsConnectionOrderNumber))
-                  .ForMember(model => model.ConnectToFirstIfEqual, cnf => cnf.MapFrom(dto => dto.ConnectToFirstIfEqual));
+                  .ForMember(model => model.UsedPartId, cnf => cnf.MapFrom(dto => dto.UsedPartId))
+                  .ForMember(model => model.UsedPartOtherId, cnf => cnf.MapFrom(dto => dto.UsedPartOtherId));
 
             config.CreateMap<GlobalConnectionDto, GlobalPartsConnectionModel>()
                   .ForMember(model => model.OrderNumber, cnf => cnf.MapFrom(dto => dto.OrderNumber.GetValueOrDefault()))
                   .ForMember(model => model.GlobalConnectionGlues, cnf => cnf.MapFrom(dto => dto.GlobalConnectionGlues))
                   .ForMember(model => model.SubConnections, cnf => cnf.MapFrom(dto => dto.SubConnections));
-
-            config.CreateMap<AddFurnitureDto, FurnitureItemModel>()
-                  .ForMember(model => model.GlobalConnections, cnf => cnf.MapFrom(dto => dto.GlobalConnections));
-
-            config.CreateMap<UpdateFurnitureDto, FurnitureItemModel>()
-                  .ForMember(model => model.GlobalConnections, cnf => cnf.MapFrom(dto => dto.GlobalConnections));
 
             /*****************/
 

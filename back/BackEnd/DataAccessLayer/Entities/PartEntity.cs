@@ -16,6 +16,7 @@ namespace DataAccess.Entities
             part_controllers_embed_relative_positions = new HashSet<PartControllerEmbedRelativePositionEntity>();
             parts_connection_glues = new HashSet<PartsConnectionGlueEntity>();
             two_parts_connection_glues = new HashSet<TwoPartsConnectionGlueEntity>();
+            used_parts = new HashSet<UsedPartEntity>();
             materials = new HashSet<MaterialEntity>();
         }
 
@@ -49,5 +50,8 @@ namespace DataAccess.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaterialEntity> materials { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UsedPartEntity> used_parts { get; set; }
     }
 }

@@ -23,7 +23,6 @@ namespace Services
         private static readonly IManufacturerSellsRepo ManufacturerSellRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IManufacturerSellsRepo>();
         private static readonly IConcretePartRepo ConcretePartRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IConcretePartRepo>();
         private static readonly IOwnershipRepo OwnershipRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IOwnershipRepo>();
-        private static readonly IAccountRepo AccountRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IAccountRepo>();
 
         private static readonly PaymentService PaymentService = ServiceDependencyHolder.ServicesDependencies.Resolve<PaymentService>();
         private static readonly SessionService SessionService = ServiceDependencyHolder.ServicesDependencies.Resolve<SessionService>();
@@ -64,29 +63,32 @@ namespace Services
             return payment;
         }
 
-        public ManufacturerSellModel ConfirmManufacturerTradePromise(PaymentConfirmDto paymentConfirmDto)
+        public ManufacturerSellModel ConfirmManufacturerTradePromise(PaymentConfirmDto dto)
         {
-            PaymentInfo payment = Mapper.Map<PaymentConfirmDto, PaymentInfo>(paymentConfirmDto);
+            return ProtectedExecute<PaymentConfirmDto, ManufacturerSellModel>(paymentConfirmDto =>
+            {
+                PaymentInfo payment = Mapper.Map<PaymentConfirmDto, PaymentInfo>(paymentConfirmDto);
 
-            if(!PaymentService.IsPaymentAuthorized(payment))
-                throw new UnauthorizedException();
+                if (!PaymentService.IsPaymentAuthorized(payment))
+                    throw new UnauthorizedException();
 
-            string orderId = PaymentService.GetOrderId(payment);
+                string orderId = PaymentService.GetOrderId(payment);
 
-            if (!PendingOrders.ContainsKey(orderId))
-                throw new NotFoundException("pending order");
+                if (!PendingOrders.ContainsKey(orderId))
+                    throw new NotFoundException("pending order");
 
-            ManufacturerSellModel sell = PendingOrders[orderId];
-            sell.SellDate = DateTime.Now;
+                ManufacturerSellModel sell = PendingOrders[orderId];
+                sell.SellDate = DateTime.Now;
 
-            UpdateSellPositionsSellDates(sell);
-            RemoveReservation(orderId, sell);
-            AttachAccountExtension(sell);
+                UpdateSellPositionsSellDates(sell);
+                RemoveReservation(orderId, sell);
+                AttachAccountExtension(sell);
 
-            ManufacturerSellModel createdSell = ManufacturerSellRepo.Create(sell);
-            CreateOwnerships(createdSell);
+                ManufacturerSellModel createdSell = ManufacturerSellRepo.Create(sell);
+                CreateOwnerships(createdSell);
 
-            return createdSell;
+                return createdSell;
+            }, dto);
         }
 
         private void CreateOwnerships(ManufacturerSellModel sell)

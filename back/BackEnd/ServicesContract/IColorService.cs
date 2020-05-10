@@ -1,4 +1,6 @@
-﻿using Models;
+﻿using System.Collections.Generic;
+
+using Models;
 
 using ServicesContract.Dto;
 
@@ -8,5 +10,6 @@ namespace ServicesContract
     {
         PartColorModel RegisterColor(AddColorDto dto);
         PartColorModel UpdateColor(UpdateColorDto dto);
+        IEnumerable<PartColorModel> GetAll();
     }
 }

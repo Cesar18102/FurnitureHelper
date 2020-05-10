@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+
+using Autofac;
 
 using Models;
 
@@ -18,28 +20,34 @@ namespace Services
 
         public MaterialModel RegisterMaterial(AddMaterialDto dto)
         {
-            AdminService.CheckActiveSuperAdmin(dto.SuperAdminSession);
-            MaterialModel model = Mapper.Map<AddMaterialDto, MaterialModel>(dto);
+            return ProtectedExecute<AddMaterialDto, MaterialModel>(materialDto => {
+                AdminService.CheckActiveSuperAdmin(materialDto.SuperAdminSession);
+                MaterialModel model = Mapper.Map<AddMaterialDto, MaterialModel>(materialDto);
 
-            if (MaterialRepo.GetByName(model.Name) != null)
-                throw new ConflictException("Material name");
+                if (MaterialRepo.GetByName(model.Name) != null)
+                    throw new ConflictException("Material name");
 
-            return ProtectedExecute<AddMaterialDto, MaterialModel>(material => MaterialRepo.Create(material), model);
+                return MaterialRepo.Create(model);
+            }, dto);
         }
 
         public MaterialModel UpdateMaterial(UpdateMaterialDto dto)
         {
-            AdminService.CheckActiveSuperAdmin(dto.SuperAdminSession);
-            MaterialModel model = Mapper.Map<UpdateMaterialDto, MaterialModel>(dto);
-            MaterialModel foundMaterial = MaterialRepo.GetByName(model.Name);
+            return ProtectedExecute<UpdateMaterialDto, MaterialModel>(materialDto => {
+                AdminService.CheckActiveSuperAdmin(materialDto.SuperAdminSession);
+                MaterialModel model = Mapper.Map<UpdateMaterialDto, MaterialModel>(materialDto);
+                MaterialModel foundMaterial = MaterialRepo.GetByName(model.Name);
 
-            if (foundMaterial != null && foundMaterial.Id != dto.Id)
-                throw new ConflictException("Material name");
+                if (foundMaterial != null && foundMaterial.Id != dto.Id)
+                    throw new ConflictException("Material name");
 
-            return ProtectedExecute<UpdateMaterialDto, MaterialModel>(
-                material => MaterialRepo.Update(material.Id, material), 
-                model
-            );
+                return MaterialRepo.Update(model.Id, model);
+            }, dto);
+        }
+
+        public IEnumerable<MaterialModel> GetAll()
+        {
+            return MaterialRepo.GetAll();
         }
     }
 }

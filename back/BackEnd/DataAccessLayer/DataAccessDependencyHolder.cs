@@ -7,8 +7,6 @@ using DataAccess.Entities;
 using DataAccess.RepoImplementation;
 
 using Models;
-using System;
-using System.Collections.Generic;
 
 namespace DataAccess
 {
@@ -199,7 +197,7 @@ namespace DataAccess
                   .ForMember(model => model.PossibleMaterials, cnf => cnf.MapFrom(entity => entity.materials))
                   .ForMember(model => model.ConnectionHelpers, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions));
 
-            /******************/
+            /*******************/
 
             config.CreateMap<ConnectionGlueModel, TwoPartsConnectionGlueEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
@@ -226,9 +224,8 @@ namespace DataAccess
                   .ForMember(entity => entity.part_controller_id, cnf => cnf.MapFrom(model => model.ConnectionHelper.Id))
                   .ForMember(entity => entity.part_controller_other_id, cnf => cnf.MapFrom(model => model.ConnectionHelperOther.Id))
                   .ForMember(entity => entity.two_parts_connection_glues, cnf => cnf.MapFrom(model => model.ConnectionGlues))
-                  .ForMember(entity => entity.nested_global_connection_order_number, cnf => cnf.MapFrom(model => model.NestedGlobalConnectionOrderNumber))
-                  .ForMember(entity => entity.nested_two_parts_connection_order_number, cnf => cnf.MapFrom(model => model.NestedTwoPartsConnectionOrderNumber))
-                  .ForMember(entity => entity.connect_to_first_if_equal, cnf => cnf.MapFrom(model => model.ConnectToFirstIfEqual))
+                  .ForMember(entity => entity.used_part_id, cnf => cnf.MapFrom(model => model.UsedPartId))
+                  .ForMember(entity => entity.used_part_other_id, cnf => cnf.MapFrom(model => model.UsedPartOtherId))
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<GlobalPartsConnectionModel, FurnitureItemPartsConnectionEntity>()
@@ -239,13 +236,7 @@ namespace DataAccess
                   .ForMember(entity => entity.two_parts_connection, cnf => cnf.MapFrom(model => model.SubConnections))
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
-            config.CreateMap<FurnitureItemModel, FurnitureItemEntity>()
-                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
-                  .ForMember(entity => entity.furniture_item_parts_connections, cnf => cnf.MapFrom(model => model.GlobalConnections))
-                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
-
-
-            /******************/
+            /***/
 
             config.CreateMap<TwoPartsConnectionGlueEntity, ConnectionGlueModel>()
                  .ForMember(model => model.Comment, cnf => cnf.MapFrom(entity => entity.comment_text))
@@ -269,9 +260,8 @@ namespace DataAccess
                   .ForMember(model => model.ConnectionGlues, cnf => cnf.MapFrom(entity => entity.two_parts_connection_glues))
                   .ForMember(model => model.Part, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions.parts))
                   .ForMember(model => model.PartOther, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions1.parts))
-                  .ForMember(model => model.NestedGlobalConnectionOrderNumber, cnf => cnf.MapFrom(entity => entity.nested_global_connection_order_number))
-                  .ForMember(model => model.NestedTwoPartsConnectionOrderNumber, cnf => cnf.MapFrom(entity => entity.nested_two_parts_connection_order_number))
-                  .ForMember(model => model.ConnectToFirstIfEqual, cnf => cnf.MapFrom(entity => entity.connect_to_first_if_equal))
+                  .ForMember(model => model.UsedPartId, cnf => cnf.MapFrom(entity => entity.used_part_id))
+                  .ForMember(model => model.UsedPartOtherId, cnf => cnf.MapFrom(entity => entity.used_part_other_id))
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<FurnitureItemPartsConnectionEntity, GlobalPartsConnectionModel>()
@@ -280,8 +270,26 @@ namespace DataAccess
                   .ForMember(model => model.SubConnections, cnf => cnf.MapFrom(entity => entity.two_parts_connection))
                   .ForMember(model => model.GlobalConnectionGlues, cnf => cnf.MapFrom(entity => entity.parts_connection_glues));
 
+            /******************/
+
+            config.CreateMap<UsedPartModel, UsedPartEntity>()
+                 .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                 .ForMember(entity => entity.furniture_item_id, cnf => cnf.MapFrom(model => model.FurnitureItemId))
+                 .ForMember(entity => entity.part_id, cnf => cnf.MapFrom(model => model.PartId))
+                 .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
+
+            config.CreateMap<FurnitureItemModel, FurnitureItemEntity>()
+                  .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.used_parts, cnf => cnf.MapFrom(model => model.UsedParts))
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
+
+            config.CreateMap<UsedPartEntity, UsedPartModel>()
+                  .ForMember(model => model.PartId, cnf => cnf.MapFrom(entity => entity.part_id))
+                  .ForMember(model => model.FurnitureItemId, cnf => cnf.MapFrom(entity => entity.furniture_item_id));
+
             config.CreateMap<FurnitureItemEntity, FurnitureItemModel>()
-                  .ForMember(model => model.GlobalConnections, cnf => cnf.MapFrom(entity => entity.furniture_item_parts_connections));
+                  .ForMember(model => model.GlobalConnections, cnf => cnf.MapFrom(entity => entity.furniture_item_parts_connections))
+                  .ForMember(model => model.UsedParts, cnf => cnf.MapFrom(entity => entity.used_parts));
 
             /******************/
 

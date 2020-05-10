@@ -82,6 +82,14 @@ CREATE TABLE furniture_items(
 	description TEXT
 );
 
+CREATE TABLE used_parts(
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    part_id INTEGER,
+    furniture_item_id INTEGER NOT NULL,
+    FOREIGN KEY(part_id) REFERENCES parts(id) ON UPDATE CASCADE ON DELETE SET NULL,
+    FOREIGN KEY(furniture_item_id) REFERENCES furniture_items(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 CREATE TABLE furniture_item_parts_connections(
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
     furniture_item_id INTEGER NOT NULL,
@@ -104,13 +112,14 @@ CREATE TABLE two_parts_connection(
     part_controller_id INTEGER NOT NULL,
     part_controller_other_id INTEGER NOT NULL,
 	order_number INTEGER NOT NULL DEFAULT 0,
-	nested_global_connection_order_number INTEGER,
-	nested_two_parts_connection_order_number INTEGER,
-	connect_to_first_if_equal BOOL,
+	used_part_id INTEGER NOT NULL,
+	used_part_other_id INTEGER NOT NULL,
 	comment_text TEXT,
+	FOREIGN KEY(used_part_id) REFERENCES used_parts(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY(used_part_other_id) REFERENCES used_parts(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY(global_connection_id) REFERENCES furniture_item_parts_connections(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY(part_controller_id) REFERENCES part_controllers_embed_relative_positions(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY(part_controller_other_id) REFERENCES part_controllers_embed_relative_positions(id) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY(part_controller_other_id) REFERENCES part_controllers_embed_relative_positions(id) ON UPDATE CASCADE ON DELETE CASCADE,
 );
 
 CREATE TABLE two_parts_connection_glues(
@@ -183,12 +192,4 @@ CREATE TABLE user_sell_positions(
     price FLOAT NOT NULL,
     FOREIGN KEY(user_sell_id) REFERENCES user_sells(id) ON UPDATE CASCADE ON DELETE NO ACTION,
     FOREIGN KEY(concrete_part_id) REFERENCES concrete_parts(id) ON UPDATE CASCADE ON DELETE NO ACTION
-);
-
-CREATE TABLE furniture_item_instructions(
-    id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    global_connection_id INTEGER NOT NULL,
-    global_connection_order_number INTEGER NOT NULL DEFAULT 0,
-    step_text TEXT,
-    FOREIGN KEY(global_connection_id) REFERENCES furniture_item_parts_connections(id) ON UPDATE CASCADE ON DELETE CASCADE
 );

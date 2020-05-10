@@ -1,4 +1,7 @@
-﻿using Models;
+﻿using System.Collections.Generic;
+
+using Models;
+
 using ServicesContract.Dto;
 
 namespace ServicesContract
@@ -7,5 +10,6 @@ namespace ServicesContract
     {
         MaterialModel RegisterMaterial(AddMaterialDto dto);
         MaterialModel UpdateMaterial(UpdateMaterialDto dto);
+        IEnumerable<MaterialModel> GetAll();
     }
 }

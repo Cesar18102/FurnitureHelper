@@ -22,14 +22,13 @@ namespace ServicesContract.Dto
         [JsonProperty("connection_helper_other_id")]
         public int? ConnectionHelperOtherId { get; set; }
 
-        [JsonProperty("nested_global_connection_order_number")]
-        public int? NestedGlobalConnectionOrderNumber { get; set; }
+        [Required(ErrorMessage = "used_part_id is required")]
+        [JsonProperty("used_part_id")]
+        public int? UsedPartId { get; private set; }
 
-        [JsonProperty("nested_two_parts_connection_order_number")]
-        public int? NestedTwoPartsConnectionOrderNumber { get; set; }
-
-        [JsonProperty("connect_to_first_if_equal")]
-        public bool? ConnectToFirstIfEqual { get; set; }
+        [Required(ErrorMessage = "used_part_other_id is required")]
+        [JsonProperty("used_part_other_id")]
+        public int? UsedPartOtherId { get; private set; }
 
         [JsonProperty("connection_glues")]
         public IEnumerable<ConnectionGlueDto> ConnectionGlues { get; set; }

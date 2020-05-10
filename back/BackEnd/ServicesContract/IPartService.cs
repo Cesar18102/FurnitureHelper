@@ -1,4 +1,6 @@
-﻿using Models;
+﻿using System.Collections.Generic;
+
+using Models;
 using ServicesContract.Dto;
 
 namespace ServicesContract
@@ -8,5 +10,9 @@ namespace ServicesContract
         PartModel RegisterPart(AddPartDto dto);
         PartModel UpdatePart(UpdatePartDto dto);
         ConcretePartModel RegisterConcretePart(AddConcretePartDto dto);
+
+        PartStore GetStore();
+        PartStore GetOwned(SessionDto ownerSession);
+        IEnumerable<ConcretePartModel> GetOwnedConcrete(SessionDto session);
     }
 }

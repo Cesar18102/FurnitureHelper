@@ -15,6 +15,9 @@ namespace Models
         [JsonProperty("description")]
         public string Description { get; private set; }
 
+        [JsonProperty("used_parts")]
+        public ICollection<UsedPartModel> UsedParts { get; private set; }
+
         [JsonProperty("global_connections")]
         public IEnumerable<GlobalPartsConnectionModel> GlobalConnections { get; private set; }   
     }

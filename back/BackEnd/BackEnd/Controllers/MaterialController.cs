@@ -33,5 +33,11 @@ namespace BackEnd.Controllers
                 ModelState, materialDto
             );
         }
+
+        [HttpGet]
+        public HttpResponseMessage Get()
+        {
+            return Request.ExecuteProtectedAndWrapResult<MaterialModel>(() => MaterialService.GetAll());
+        }
     }
 }

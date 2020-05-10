@@ -41,38 +41,44 @@ namespace Services
 
         public AdminModel AddAdmin(AddAdminDto dto)
         {
-            CheckActiveSuperAdmin(dto.SuperAdminSession);
+            return ProtectedExecute<AddAdminDto, AdminModel>(adminDto =>
+            {
+                CheckActiveSuperAdmin(adminDto.SuperAdminSession);
 
-            if (AccountRepo.Get(dto.AccountId.GetValueOrDefault()) == null)
-                throw new NotFoundException("Account");
+                if (AccountRepo.Get(adminDto.AccountId.GetValueOrDefault()) == null)
+                    throw new NotFoundException("Account");
 
-            if (IsAdmin(dto.AccountId.GetValueOrDefault()))
-                throw new ConflictException("admin account");
+                if (IsAdmin(adminDto.AccountId.GetValueOrDefault()))
+                    throw new ConflictException("admin account");
 
-            AdminModel model = Mapper.Map<AddAdminDto, AdminModel>(dto);
-            return AdminRepo.Create(model);
+                AdminModel model = Mapper.Map<AddAdminDto, AdminModel>(adminDto);
+                return AdminRepo.Create(model);
+            }, dto);
         }
 
         public SuperAdminModel AddSuperAdmin(AddAdminDto dto)
         {
-            CheckActiveSuperAdmin(dto.SuperAdminSession);
-
-            if (AccountRepo.Get(dto.AccountId.GetValueOrDefault()) == null)
-                throw new NotFoundException("Account");
-
-            if (IsSuperAdmin(dto.AccountId.GetValueOrDefault()))
-                throw new ConflictException("super-admin account");
-
-            AdminModel admin = AdminRepo.GetByAccountId(dto.AccountId.GetValueOrDefault());
-
-            if (admin == null)
+            return ProtectedExecute<AddAdminDto, SuperAdminModel>(adminDto =>
             {
-                AdminModel adminModel = Mapper.Map<AddAdminDto, AdminModel>(dto);
-                admin = AdminRepo.Create(adminModel);
-            }
+                CheckActiveSuperAdmin(adminDto.SuperAdminSession);
 
-            SuperAdminModel model = Mapper.Map<AdminModel, SuperAdminModel>(admin);
-            return SuperAdminRepo.Create(model);
+                if (AccountRepo.Get(adminDto.AccountId.GetValueOrDefault()) == null)
+                    throw new NotFoundException("Account");
+
+                if (IsSuperAdmin(adminDto.AccountId.GetValueOrDefault()))
+                    throw new ConflictException("super-admin account");
+
+                AdminModel admin = AdminRepo.GetByAccountId(adminDto.AccountId.GetValueOrDefault());
+
+                if (admin == null)
+                {
+                    AdminModel adminModel = Mapper.Map<AddAdminDto, AdminModel>(adminDto);
+                    admin = AdminRepo.Create(adminModel);
+                }
+
+                SuperAdminModel model = Mapper.Map<AdminModel, SuperAdminModel>(admin);
+                return SuperAdminRepo.Create(model);
+            }, dto);
         }
     }
 }

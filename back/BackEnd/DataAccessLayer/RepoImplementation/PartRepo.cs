@@ -64,5 +64,10 @@ namespace DataAccess.RepoImplementation
                 return Mapper.Map<PartEntity, PartModel>(part);
             }, entity);
         }
+
+        public int GetCountOfStored(int partId)
+        {
+            return Context.concrete_parts.Where(part => part.part_id == partId && part.last_sell_date == null).Count();
+        }
     }
 }

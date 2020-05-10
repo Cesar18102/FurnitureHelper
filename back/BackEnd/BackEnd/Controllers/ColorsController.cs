@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Web.Http;
+using System.Collections.Generic;
 
 using Autofac;
 
@@ -31,6 +32,12 @@ namespace BackEnd.Controllers
                 dto => ColorsService.UpdateColor(dto),
                 ModelState, colorDto
             );
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Get()
+        {
+            return Request.ExecuteProtectedAndWrapResult<PartColorModel>(() => ColorsService.GetAll());
         }
     }
 }

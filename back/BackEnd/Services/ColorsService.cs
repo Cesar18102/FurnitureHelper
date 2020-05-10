@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+
+using Autofac;
 using AutoMapper;
 
 using Models;
@@ -18,30 +20,37 @@ namespace Services
 
         public PartColorModel RegisterColor(AddColorDto dto)
         {
-            AdminService.CheckActiveSuperAdmin(dto.SuperAdminSession);
+            return ProtectedExecute<AddColorDto, PartColorModel>(colorDto =>
+            {
+                AdminService.CheckActiveSuperAdmin(colorDto.SuperAdminSession);
+                PartColorModel model = Mapper.Map<AddColorDto, PartColorModel>(colorDto);
 
-            PartColorModel model = Mapper.Map<AddColorDto, PartColorModel>(dto);
+                if (ColorRepo.GetByName(model.Name) != null)
+                    throw new ConflictException("Color name");
 
-            if (ColorRepo.GetByName(model.Name) != null)
-                throw new ConflictException("Color name");
-
-            return ProtectedExecute<AddColorDto, PartColorModel>(colorModel => ColorRepo.Create(colorModel), model);
+                return ColorRepo.Create(model);
+            }, dto);
         }
 
         public PartColorModel UpdateColor(UpdateColorDto dto)
         {
-            AdminService.CheckActiveSuperAdmin(dto.SuperAdminSession);
+            return ProtectedExecute<UpdateColorDto, PartColorModel>(colorDto =>
+            {
+                AdminService.CheckActiveSuperAdmin(colorDto.SuperAdminSession);
 
-            PartColorModel model = Mapper.Map<UpdateColorDto, PartColorModel>(dto);
-            PartColorModel foundColor = ColorRepo.GetByName(model.Name);
+                PartColorModel model = Mapper.Map<UpdateColorDto, PartColorModel>(colorDto);
+                PartColorModel foundColor = ColorRepo.GetByName(model.Name);
 
-            if (foundColor != null && foundColor.Id != model.Id)
-                throw new ConflictException("Color name");
+                if (foundColor != null && foundColor.Id != model.Id)
+                    throw new ConflictException("Color name");
 
-            return ProtectedExecute<UpdateColorDto, PartColorModel>(
-                colorModel => ColorRepo.Update(colorModel.Id, colorModel), 
-                model
-            );
+                return ColorRepo.Update(model.Id, model);
+            }, dto);
+        }
+
+        public IEnumerable<PartColorModel> GetAll()
+        {
+            return ColorRepo.GetAll();
         }
     }
 }

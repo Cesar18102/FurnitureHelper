@@ -31,5 +31,27 @@ namespace BackEnd.Controllers
                 ModelState, furnitureDto
             );
         }
+
+        [HttpPost]
+        public HttpResponseMessage UpdateConnections([FromBody] ConnectionsDto connectionsDto)
+        {
+            return Request.ExecuteProtectedAndWrapResult<ConnectionsDto, FurnitureItemModel>(
+                dto => FurnitureService.UpdateConnections(dto),
+                ModelState, connectionsDto
+            );
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Get()
+        {
+            return Request.ExecuteProtectedAndWrapResult<FurnitureItemModel>(FurnitureService.GetAll);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GetBuildList(SessionDto sessionDto)
+        {
+            //TODO
+            return null;
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace DataAccess.Entities
         public FurnitureItemEntity()
         {
             furniture_item_parts_connections = new HashSet<FurnitureItemPartsConnectionEntity>();
+            used_parts = new HashSet<UsedPartEntity>();
         }
 
         public int id { get; set; }
@@ -28,6 +29,7 @@ namespace DataAccess.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FurnitureItemPartsConnectionEntity> furniture_item_parts_connections { get; set; }
 
-        
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UsedPartEntity> used_parts { get; set; }
     }
 }

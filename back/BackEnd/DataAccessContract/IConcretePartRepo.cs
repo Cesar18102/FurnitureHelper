@@ -8,5 +8,6 @@ namespace DataAccessContract
     {
         ConcretePartModel GetPartByMac(string mac);
         IEnumerable<ConcretePartModel> GetManufacturerPartsForSelling(int partId, int amount, IEnumerable<int> reservedIds);
+        IEnumerable<ConcretePartModel> GetOwnedByUser(int userId);
     }
 }

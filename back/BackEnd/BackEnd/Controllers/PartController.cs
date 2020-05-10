@@ -9,12 +9,13 @@ using ServicesContract;
 using ServicesContract.Dto;
 
 using ServiceHolder;
+using System.Collections.Generic;
 
 namespace BackEnd.Controllers
 {
     public class PartController : ApiController
     {
-        private IPartService PartService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<IPartService>();
+        private static readonly IPartService PartService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<IPartService>();
 
         [HttpPost]
         public HttpResponseMessage Add([FromBody] AddPartDto partDto)
@@ -40,6 +41,30 @@ namespace BackEnd.Controllers
             return Request.ExecuteProtectedAndWrapResult<AddConcretePartDto, ConcretePartModel>(
                 dto => PartService.RegisterConcretePart(dto),
                 ModelState, concretePartDto
+            );
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Get()
+        {
+            return Request.ExecuteProtectedAndWrapResult<PartStore>(PartService.GetStore);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GetOwned(SessionDto session)
+        {
+            return Request.ExecuteProtectedAndWrapResult<SessionDto, PartStore>(
+                sess => PartService.GetOwned(sess), 
+                ModelState, session
+            );
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GetOwnedConcrete(SessionDto session)
+        {
+            return Request.ExecuteProtectedAndWrapResult(
+                sess => PartService.GetOwnedConcrete(sess),
+                ModelState, session
             );
         }
     }

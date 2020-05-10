@@ -21,16 +21,19 @@ namespace Services
 
         public AccountModel SignUp(SignUpDto dto)
         {
-            dto.Password = Hasher.GetHash(dto.Password);
-            AccountModel account = Mapper.Map<SignUpDto, AccountModel>(dto);
+            return ProtectedExecute<SignUpDto, AccountModel>(accountDto =>
+            {
+                accountDto.Password = Hasher.GetHash(accountDto.Password);
+                AccountModel model = Mapper.Map<SignUpDto, AccountModel>(accountDto);
 
-            if (AccountRepo.GetByLogin(account.Login) != null)
-                throw new ConflictException("Login");
+                if (AccountRepo.GetByLogin(model.Login) != null)
+                    throw new ConflictException("Login");
 
-            if (AccountRepo.GetByEmail(account.Email) != null)
-                throw new ConflictException("Email");
+                if (AccountRepo.GetByEmail(model.Email) != null)
+                    throw new ConflictException("Email");
 
-            return ProtectedExecute<SignUpDto, AccountModel>(model => AccountRepo.Create(model), account);
+                return AccountRepo.Create(model);
+            }, dto);
         }
 
         public SessionModel LogIn(LogInDto dto)
@@ -49,18 +52,18 @@ namespace Services
 
         public AccountModel Update(UpdateAccountDto dto)
         {
-            SessionService.CheckSession(dto.Session);
+            return ProtectedExecute<UpdateAccountDto, AccountModel>(accountDto =>
+            {
+                SessionService.CheckSession(accountDto.Session);
 
-            if (dto.Id != dto.Session.UserId)
-                throw new ForbiddenException("Account owner");
+                if (accountDto.Id != accountDto.Session.UserId)
+                    throw new ForbiddenException("Account owner");
 
-            dto.Password = Hasher.GetHash(dto.Password);
-            AccountModel account = Mapper.Map<UpdateAccountDto, AccountModel>(dto);
+                accountDto.Password = Hasher.GetHash(accountDto.Password);
+                AccountModel model = Mapper.Map<UpdateAccountDto, AccountModel>(accountDto);
 
-            return ProtectedExecute<UpdateAccountDto, AccountModel>(
-                model => AccountRepo.Update(model.Id, model), 
-                account
-            );
+                return AccountRepo.Update(model.Id, model);
+            }, dto);
         }
     }
 }

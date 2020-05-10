@@ -1,4 +1,7 @@
-﻿using Autofac;
+﻿using System.Linq;
+using System.Collections.Generic;
+
+using Autofac;
 
 using Models;
 using DataAccessContract;
@@ -16,24 +19,45 @@ namespace Services
 
         public FurnitureItemModel RegisterFurnitureItem(AddFurnitureDto dto)
         {
-            AdminService.CheckActiveAdmin(dto.AdminSession);
-            FurnitureItemModel model = Mapper.Map<AddFurnitureDto, FurnitureItemModel>(dto);
-
-            return ProtectedExecute<AddFurnitureDto, FurnitureItemModel>(
-                furniture => FurnitureRepo.Create(furniture),
-                model
-            );
+            return ProtectedExecute<AddFurnitureDto, FurnitureItemModel>(furnitureDto =>
+            {
+                AdminService.CheckActiveAdmin(furnitureDto.AdminSession);
+                FurnitureItemModel model = Mapper.Map<AddFurnitureDto, FurnitureItemModel>(furnitureDto);
+                return FurnitureRepo.Create(model);
+            }, dto);
         }
 
         public FurnitureItemModel UpdateFurnitureItem(UpdateFurnitureDto dto)
         {
-            AdminService.CheckActiveAdmin(dto.AdminSession);
-            FurnitureItemModel model = Mapper.Map<UpdateFurnitureDto, FurnitureItemModel>(dto);
+            return ProtectedExecute<UpdateFurnitureDto, FurnitureItemModel>(furnitureDto =>
+            {
+                AdminService.CheckActiveAdmin(furnitureDto.AdminSession);
 
-            return ProtectedExecute<UpdateFurnitureDto, FurnitureItemModel>(
-                furniture => FurnitureRepo.Update(furniture.Id, furniture),
-                model
-            );
+                FurnitureItemModel model = Mapper.Map<UpdateFurnitureDto, FurnitureItemModel>(furnitureDto);
+                IEnumerable<UsedPartModel> partsToAdd = furnitureDto.UsedPartsToAdd.Aggregate(
+                    new List<UsedPartModel>(),
+                    (acc, parts) => acc.Concat(Enumerable.Repeat(new UsedPartModel(parts.PartId.GetValueOrDefault()), parts.Count.GetValueOrDefault())).ToList()
+                );
+
+                return FurnitureRepo.Update(model.Id, model, furnitureDto.UsedPartsToRemove, partsToAdd);
+            }, dto);
+        }
+
+        public FurnitureItemModel UpdateConnections(ConnectionsDto dto)
+        {
+            return ProtectedExecute<ConnectionsDto, FurnitureItemModel>(connDto =>
+            {
+                AdminService.CheckActiveAdmin(connDto.AdminSession);
+                return FurnitureRepo.UpdateConnections(
+                    connDto.FurnitureItemId.GetValueOrDefault(),
+                    Mapper.Map<IEnumerable<GlobalConnectionDto>, IEnumerable<GlobalPartsConnectionModel>>(connDto.GlobalConnections)
+                );
+            }, dto);
+        }
+
+        public IEnumerable<FurnitureItemModel> GetAll()
+        {
+            return FurnitureRepo.GetAll();
         }
     }
 }
