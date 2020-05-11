@@ -18,10 +18,5 @@ namespace ServicesContract.Dto
         [Required(ErrorMessage = "account_id is required")]
         [JsonProperty("account_id")]
         public int? AccountId { get; set; }
-
-        public void Validate()
-        {
-
-        }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace DataAccessContract
 {
-    public interface IManufacturerSellsRepo : IRepo<ManufacturerSellModel>
+    public interface IManufacturerSellsRepo : IRepo<SellModel>
     {
     }
 }

@@ -19,7 +19,5 @@ namespace ServicesContract.Dto
 
         [JsonProperty("global_connection_glues")]
         public IEnumerable<ConnectionGlueDto> GlobalConnectionGlues { get; set; }
-
-        public void Validate() { }
     }
 }

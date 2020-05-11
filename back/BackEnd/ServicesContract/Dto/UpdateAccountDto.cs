@@ -25,10 +25,5 @@ namespace ServicesContract.Dto
         [RegularExpression("^[A-Za-zА-Яа-яІіЇїЄєЙйЁё]+(\\-[A-Za-zА-Яа-яІіЇїЄєЙйЁё]+)*$", ErrorMessage = "last_name is invalid")]
         [JsonProperty("last_name")]
         public string LastName { get; set; }
-
-        public void Validate()
-        {
-            
-        }
     }
 }

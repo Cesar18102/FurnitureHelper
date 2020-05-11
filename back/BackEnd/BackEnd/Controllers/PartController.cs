@@ -50,6 +50,12 @@ namespace BackEnd.Controllers
             return Request.ExecuteProtectedAndWrapResult<PartStore>(PartService.GetStore);
         }
 
+        [HttpGet]
+        public HttpResponseMessage GetBids()
+        {
+            return Request.ExecuteProtectedAndWrapResult<PartStore>(PartService.GetUserBids);
+        }
+
         [HttpPost]
         public HttpResponseMessage GetOwned(SessionDto session)
         {

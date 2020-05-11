@@ -24,9 +24,5 @@ namespace ServicesContract.Dto
         [Required(ErrorMessage = "pos_z is required")]
         [JsonProperty("pos_z")]
         public float? PosZ { get; set; }
-
-        public void Validate()
-        {
-        }
     }
 }

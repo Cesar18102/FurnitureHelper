@@ -2508,6 +2508,24 @@
                 LastKnownLocation="BackEnd.uml" />
             </type_NamedElement>
           </property>
+          <property
+            Id="0256edfb-19f5-4d7b-b4e9-e8304fafddfc"
+            name="Mac"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="555073cd-fdd0-450d-9d8f-f5d9cdcce8fe"
+                LastKnownName="byte[]"
+                LastKnownLocation="BackEnd.uml" />
+            </type_NamedElement>
+          </property>
         </ownedAttributesInternal>
         <ownedOperationsInternal>
           <operation
@@ -3501,6 +3519,42 @@
                 LastKnownLocation="BackEnd.uml" />
             </type_NamedElement>
           </property>
+          <property
+            Id="cb73c189-66d6-488d-9d94-06ec8cfa6b72"
+            name="indicator_pin"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="3da37ae7-42bc-4e33-a04f-08cdd877f157"
+                LastKnownName="int"
+                LastKnownLocation="BackEnd.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="c6d2000f-75aa-484f-9d31-4eb2ea39f99f"
+            name="reader_pin"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="3da37ae7-42bc-4e33-a04f-08cdd877f157"
+                LastKnownName="int"
+                LastKnownLocation="BackEnd.uml" />
+            </type_NamedElement>
+          </property>
         </ownedAttributesInternal>
       </class>
     </packageHasNamedElement>
@@ -3946,14 +4000,7 @@
         Id="67bdf3ab-a455-4a34-9826-c4c6c9570121"
         name="Register new concrete controllers"
         isAbstract="false"
-        isLeaf="false">
-        <subjects>
-          <subsystemMoniker
-            Id="90fd7975-99a0-4020-9b4b-f49f5eb806db"
-            LastKnownName="FurnitureHelper"
-            LastKnownLocation="BackEnd.uml" />
-        </subjects>
-      </useCase>
+        isLeaf="false" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

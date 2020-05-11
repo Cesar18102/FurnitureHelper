@@ -17,9 +17,5 @@ namespace ServicesContract.Dto
 
         [JsonProperty("global_connections")]
         public IEnumerable<GlobalConnectionDto> GlobalConnections { get; set; }
-
-        public void Validate()
-        {
-        }
     }
 }

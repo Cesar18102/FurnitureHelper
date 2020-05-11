@@ -27,10 +27,37 @@ namespace BackEnd.Controllers
         [HttpPost]
         public HttpResponseMessage ConfirmOrderFromManufacturer(PaymentConfirmDto paymentConfirmDto)
         {
-            return Request.ExecuteProtectedAndWrapResult<PaymentConfirmDto, ManufacturerSellModel>(
+            return Request.ExecuteProtectedAndWrapResult<PaymentConfirmDto, SellModel>(
                 dto => TradeService.ConfirmManufacturerTradePromise(dto),
                 ModelState, paymentConfirmDto
             );
         }
+
+        [HttpPost]
+        public HttpResponseMessage BidParts([FromBody] TradeOwnedPartsDto partsToBid)
+        {
+            return Request.ExecuteProtectedAndWrapResult<TradeOwnedPartsDto, ConcretePartModel>(
+                dto => TradeService.BidParts(dto),
+                ModelState, partsToBid
+            );
+        }
+
+        [HttpPost]
+        public HttpResponseMessage UnbidParts([FromBody] TradeOwnedPartsDto partsToUnbid)
+        {
+            return Request.ExecuteProtectedAndWrapResult<TradeOwnedPartsDto, ConcretePartModel>(
+                dto => TradeService.UnbidParts(dto),
+                ModelState, partsToUnbid
+            );
+        }
+
+        /*[HttpPost]
+        public HttpResponseMessage AskParts([FromBody] TradeOwnedPartsDto partsToAsk)
+        {
+            return Request.ExecuteProtectedAndWrapResult<TradeOwnedPartsDto, PaymentInfo>(
+                dto => TradeService.CreateUserToUserTradePromise(dto),
+                ModelState, partsToAsk
+            );
+        }*/
     }
 }

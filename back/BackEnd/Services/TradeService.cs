@@ -20,6 +20,27 @@ namespace Services
 {
     public class TradeService : ServiceBase, ITradeService
     {
+        private class Sell
+        {
+            private const int SECONDS_TO_EXPIRE_ORDER = 120;
+
+            public string OrderId { get; private set; }
+            public SellModel SellModel { get; private set; }
+            public DateTime Expires { get; private set; }
+
+            public Sell(string orderId, SellModel sellModel)
+            {
+                OrderId = orderId;
+                SellModel = sellModel;
+                Expires = DateTime.UtcNow.AddSeconds(SECONDS_TO_EXPIRE_ORDER);
+            }
+
+            public bool Contains(int concretePartId)
+            {
+                return SellModel.SellPositions.FirstOrDefault(position => position.ConcretePart.Id == concretePartId) != null;
+            }
+        }
+
         private static readonly IAccountExtensionRepo AccountExtensionRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IAccountExtensionRepo>();
         private static readonly IManufacturerSellsRepo ManufacturerSellRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IManufacturerSellsRepo>();
         private static readonly IConcretePartRepo ConcretePartRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IConcretePartRepo>();
@@ -27,12 +48,10 @@ namespace Services
 
         private static readonly PaymentService PaymentService = ServiceDependencyHolder.ServicesDependencies.Resolve<PaymentService>();
         private static readonly SessionService SessionService = ServiceDependencyHolder.ServicesDependencies.Resolve<SessionService>();
+        private static readonly IPartService PartService = ServiceDependencyHolder.ServicesDependencies.Resolve<IPartService>();
 
-        private IDictionary<string, ManufacturerSellModel> PendingOrders = new Dictionary<string, ManufacturerSellModel>();
-        private ICollection<int> ReservedConcretePartsIds = new List<int>();
-        private const int SECONDS_TO_EXPIRE_ORDER = 120;
+        private IDictionary<string, Sell> PendingOrders = new Dictionary<string, Sell>();
 
-        private IDictionary<string, DateTime> Expires = new Dictionary<string, DateTime>();
         private Task CleanerTask { get; set; }
         private const int CLEANER_DELAY = 60;
 
@@ -42,12 +61,11 @@ namespace Services
             {
                 while (true)
                 {
-                    IEnumerable<string> expired = Expires.Where(ex => ex.Value < DateTime.UtcNow)
-                                                         .Select(ex => ex.Key).ToList();
+                    IEnumerable<string> expired = PendingOrders.Where(order => order.Value.Expires < DateTime.UtcNow)
+                                                               .Select(ex => ex.Key).ToList();
 
-                    foreach(string orderId in expired)
-                        if (PendingOrders.ContainsKey(orderId))
-                            RemoveReservation(orderId, PendingOrders[orderId]);
+                    foreach (string orderId in expired)
+                        RemoveReservation(orderId);
 
                     CleanerTask.Wait(CLEANER_DELAY * 1000);
                 }
@@ -76,23 +94,22 @@ namespace Services
                 throw new ForbiddenException("account owner");
 
             string orderId = Guid.NewGuid().ToString();
-            ManufacturerSellModel sellModel = BuildOrderFromManufacturer(orderId, accountExtension, manufacturerSellDto.Positions);
+            SellModel sellModel = BuildOrderFromManufacturer(orderId, accountExtension, manufacturerSellDto.Positions);
 
-            DateTime expiration = DateTime.UtcNow.AddSeconds(SECONDS_TO_EXPIRE_ORDER);
-            PendingOrders.Add(orderId, sellModel);
-            Expires.Add(orderId, expiration);
+            Sell sell = new Sell(orderId, sellModel);
+            PendingOrders.Add(orderId, sell);
 
             PaymentPrepareModel paymentPrepare = new PaymentPrepareModel(orderId, sellModel.TotalPrice);
             paymentPrepare.CallbackUrl = callbackEndpoint;
-            paymentPrepare.Expired = expiration;
+            paymentPrepare.Expired = sell.Expires;
 
-            PaymentInfo payment = PaymentService.CreatePaymentToManufacturer(paymentPrepare);
+            PaymentInfo payment = PaymentService.CreateFromUserPayment(paymentPrepare);
             return payment;
         }
 
-        public ManufacturerSellModel ConfirmManufacturerTradePromise(PaymentConfirmDto dto)
+        public SellModel ConfirmManufacturerTradePromise(PaymentConfirmDto dto)
         {
-            return ProtectedExecute<PaymentConfirmDto, ManufacturerSellModel>(paymentConfirmDto =>
+            return ProtectedExecute<PaymentConfirmDto, SellModel>(paymentConfirmDto =>
             {
                 PaymentInfo payment = Mapper.Map<PaymentConfirmDto, PaymentInfo>(paymentConfirmDto);
 
@@ -104,25 +121,26 @@ namespace Services
                 if (!PendingOrders.ContainsKey(orderId))
                     throw new NotFoundException("pending order");
 
-                ManufacturerSellModel sell = PendingOrders[orderId];
+                Sell sell = PendingOrders[orderId];
 
                 if (!PaymentService.IsSucceed(payment))
-                    RemoveReservation(orderId, sell);
+                    RemoveReservation(orderId);
 
-                sell.SellDate = DateTime.Now;
+                sell.SellModel.SellDate = DateTime.Now;
 
-                UpdateSellPositionsSellDates(sell);
-                RemoveReservation(orderId, sell);
-                AttachAccountExtension(sell);
+                UpdateSellPositionsSellDates(sell.SellModel);
+                AttachAccountExtension(sell.SellModel);
 
-                ManufacturerSellModel createdSell = ManufacturerSellRepo.Create(sell);
+                SellModel createdSell = ManufacturerSellRepo.Create(sell.SellModel);
                 CreateOwnerships(createdSell);
+
+                RemoveReservation(orderId);
 
                 return createdSell;
             }, dto);
         }
 
-        private void CreateOwnerships(ManufacturerSellModel sell)
+        private void CreateOwnerships(SellModel sell)
         {
             foreach (SellPositionModel sellPosition in sell.SellPositions)
             {
@@ -131,7 +149,7 @@ namespace Services
             }
         }
 
-        private void AttachAccountExtension(ManufacturerSellModel sell)
+        private void AttachAccountExtension(SellModel sell)
         {
             sell.BuyerAccountExtension.LastUsedDate = sell.SellDate;
             AccountExtensionModel accountExtension = sell.BuyerAccountExtension.Id == 0 ?
@@ -141,7 +159,7 @@ namespace Services
             Mapper.Map<AccountExtensionModel, AccountExtensionModel>(accountExtension, sell.BuyerAccountExtension);
         }
 
-        private void UpdateSellPositionsSellDates(ManufacturerSellModel sell)
+        private void UpdateSellPositionsSellDates(SellModel sell)
         {
             foreach (SellPositionModel sellPosition in sell.SellPositions)
             {
@@ -150,47 +168,95 @@ namespace Services
             }
         }
 
-        private void RemoveReservation(string orderId, ManufacturerSellModel sell)
+        private void RemoveReservation(string orderId)
         {
-            foreach (SellPositionModel sellPosition in sell.SellPositions)
-                ReservedConcretePartsIds.Remove(sellPosition.ConcretePart.Id);
-
             if (PendingOrders.ContainsKey(orderId))
                 PendingOrders.Remove(orderId);
-
-            if (Expires.ContainsKey(orderId))
-                Expires.Remove(orderId);
         }
 
-        private ManufacturerSellModel BuildOrderFromManufacturer(string orderId, AccountExtensionModel accountExtension, IEnumerable<SellPositionDto> sellPositions)
+        private bool IsReserved(int concretePartId)
         {
-            ManufacturerSellModel order = new ManufacturerSellModel(accountExtension);
+            return PendingOrders.Values.FirstOrDefault(order => order.Contains(concretePartId)) != null;
+        }
 
-            foreach (SellPositionDto position in sellPositions)
+        private IEnumerable<ConcretePartModel> GetOrderFromSource(
+            IEnumerable<SellPositionDto> needed, 
+            IEnumerable<ConcretePartModel> source, 
+            string notEnoughMessage
+        )
+        {
+            ICollection<ConcretePartModel> result = new List<ConcretePartModel>();
+
+            foreach (SellPositionDto sellPosition in needed)
             {
-                IEnumerable<ConcretePartModel> concretePartsToOrder = ConcretePartRepo.GetManufacturerPartsForSelling(
-                    position.PartId.GetValueOrDefault(),
-                    position.Count.GetValueOrDefault(),
-                    ReservedConcretePartsIds
-                );
+                int partId = sellPosition.PartId.GetValueOrDefault();
+                int count = sellPosition.Count.GetValueOrDefault();
 
-                if (concretePartsToOrder.Count() != position.Count)
-                {
-                    RemoveReservation(orderId, order);
-                    throw new NotFoundException("part " + position.PartId.GetValueOrDefault());
-                }
+                IEnumerable<ConcretePartModel> possible = source.Where(part => part.Part.Id == partId);
+                IEnumerable<ConcretePartModel> order = possible.Where(part => !IsReserved(part.Id)).Take(count).ToList();
 
-                foreach (ConcretePartModel concretePartToOrder in concretePartsToOrder)
-                {
-                    float price = concretePartToOrder.Part.Price * concretePartToOrder.SelectedMaterial.PriceCoefficient;
-                    SellPositionModel sellPosition = new SellPositionModel(price, concretePartToOrder);
+                if (order.Count() != count)
+                    throw new NotFoundException($"{notEnoughMessage} {partId}");
 
-                    ReservedConcretePartsIds.Add(concretePartToOrder.Id);
-                    order.SellPositions.Add(sellPosition);
-                }
+                result = result.Concat(order).ToList();
             }
 
-            return order;
+            return result;
         }
+
+        private SellModel BuildOrderFromManufacturer(string orderId, AccountExtensionModel accountExtension, IEnumerable<SellPositionDto> sellPositions)
+        {
+            SellModel sell = new SellModel(accountExtension);
+
+            IEnumerable<ConcretePartModel> source = ConcretePartRepo.GetUnsoldParts();
+            IEnumerable<ConcretePartModel> order = GetOrderFromSource(sellPositions, source, "part ");
+
+            foreach (ConcretePartModel concretePart in order)
+            {
+                float price = concretePart.Part.Price * concretePart.SelectedMaterial.PriceCoefficient;
+                SellPositionModel sellPosition = new SellPositionModel(price, concretePart);
+                sell.SellPositions.Add(sellPosition);
+            }
+
+            return sell;
+        }
+
+        public IEnumerable<ConcretePartModel> BidParts(TradeOwnedPartsDto partsToBid)
+        {
+            SessionService.CheckSession(partsToBid.Session);
+
+            IEnumerable<ConcretePartModel> source = PartService.GetOwnedConcrete(partsToBid.Session)
+                .Where(part => !part.IsInUse && !part.IsForSell).ToList();
+
+            IEnumerable<ConcretePartModel> forSell = GetOrderFromSource(partsToBid.Positions, source, "owned part");
+            return ConcretePartRepo.MarkPartsForSell(forSell);
+        }
+
+        public IEnumerable<ConcretePartModel> UnbidParts(TradeOwnedPartsDto partsToUnbid)
+        {
+            SessionService.CheckSession(partsToUnbid.Session);
+
+            IEnumerable<ConcretePartModel> source = PartService.GetOwnedConcrete(partsToUnbid.Session)
+                .Where(part => !part.IsInUse && part.IsForSell).ToList();
+
+            IEnumerable<ConcretePartModel> forSell = GetOrderFromSource(partsToUnbid.Positions, source, "bid part");
+            return ConcretePartRepo.UnmarkPartsForSell(forSell);
+        }
+
+        /*public PaymentInfo CreateUserToUserTradePromise(TradeOwnedPartsDto partsToBuy)
+        {
+            SessionService.CheckSession(partsToBuy.Session);
+
+            IEnumerable<int> owned = ConcretePartRepo
+                .GetOwnedByUser(partsToBuy.Session.UserId.GetValueOrDefault())
+                .Select(part => part.Id).ToList();
+
+            IEnumerable<ConcretePartModel> source = ConcretePartRepo.GetForSellParts().Where(part => !owned.Contains(part.Id));
+            IEnumerable<ConcretePartModel> order = GetOrderFromSource(partsToBuy.Positions, source, "bid part");
+
+            //Sell
+
+            PaymentService.CreateFromUserPayment()
+        }*/
     }
 }

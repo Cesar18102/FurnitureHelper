@@ -21,6 +21,12 @@ namespace Models
         [JsonProperty("part")]
         public PartModel Part { get; private set; }
 
+        [JsonProperty("in_use")]
+        public bool IsInUse { get; private set; }
+
+        [JsonProperty("for_sell")]
+        public bool IsForSell { get; private set; }
+
         [JsonProperty("create_date")]
         public DateTime CreateDate { get; private set; } = DateTime.Now;
 

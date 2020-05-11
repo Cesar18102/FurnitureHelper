@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Models;
 using ServicesContract.Dto;
@@ -12,6 +13,7 @@ namespace ServicesContract
         ConcretePartModel RegisterConcretePart(AddConcretePartDto dto);
 
         PartStore GetStore();
+        PartStore GetUserBids();
         PartStore GetOwned(SessionDto ownerSession);
         IEnumerable<ConcretePartModel> GetOwnedConcrete(SessionDto session);
     }

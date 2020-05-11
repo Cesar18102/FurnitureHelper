@@ -22,6 +22,9 @@ namespace DataAccess.Entities
         public int material_id { get; set; }
         public int color_id { get; set; }
 
+        public bool in_use { get; set; } = false;
+        public bool for_sell { get; set; } = false;
+
         [Column(TypeName = "date")]
         public DateTime? last_sell_date { get; set; }
 

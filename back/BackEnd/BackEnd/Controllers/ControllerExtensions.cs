@@ -144,7 +144,6 @@ namespace BackEnd.Controllers
                     if (arg == null)
                         throw new ValidationException();
 
-                    arg.Validate();
                     ValidateModelState<TSource>(modelState);
 
                     return executor(arg);

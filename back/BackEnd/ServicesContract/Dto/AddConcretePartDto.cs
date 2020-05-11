@@ -28,10 +28,5 @@ namespace ServicesContract.Dto
 
         [JsonProperty("amount")]
         public int? Amount { get; set; }
-
-        public void Validate()
-        {
-            
-        }
     }
 }

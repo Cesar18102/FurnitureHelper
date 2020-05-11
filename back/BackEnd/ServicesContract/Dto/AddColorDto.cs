@@ -31,10 +31,5 @@ namespace ServicesContract.Dto
         [Range(0, 255, ErrorMessage = "blue must be an integer between 0 and 255")]
         [JsonProperty("blue")]
         public int? Blue { get; set; }
-
-        public virtual void Validate()
-        {
-            
-        }
     }
 }

@@ -13,10 +13,5 @@ namespace ServicesContract.Dto
         [Required(ErrorMessage = "count is required")]
         [JsonProperty("count")]
         public int? Count { get; set; }
-
-        public void Validate()
-        {
-            
-        }
     }
 }

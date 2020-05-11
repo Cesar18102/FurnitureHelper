@@ -72,20 +72,6 @@
       </propertyInstances>
     </stereotypeInstance>
   </appliedStereotypesInternal>
-  <profileInstances>
-    <packageHasProfileInstances Id="7bc4d1c2-fd6d-4a5c-a80e-e484f1bfcb9f">
-      <profileInstance Id="3cffd4fc-6987-4379-8cb2-8f2a7d5e6062" name="CSharpProfile">
-        <elementDefinition Id="b5103e82-cfa4-487f-9e12-2b044f406170" />
-      </profileInstance>
-      <elementDefinition Id="4b50c38f-4736-49e0-95c3-437064287f50" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="d8fa95b1-af4f-446d-b7f8-bff699a1e46e">
-      <profileInstance Id="c00ee622-dc11-4d6b-9254-1025bc645064" name="TextTemplateBindings">
-        <elementDefinition Id="b0fafa02-203c-4a3f-a30c-9f19812454f2" />
-      </profileInstance>
-      <elementDefinition Id="c7fe5a33-c86f-4ae6-979f-6a9e15c1cbec" />
-    </packageHasProfileInstances>
-  </profileInstances>
   <packagedElements>
     <useCaseModelRootHasTypes>
       <subsystem Id="95843d90-6d58-49c6-a504-a5ba0c4211ca" name="FurnitureHelper" isAbstract="false" isLeaf="false" isActiveClass="false">
@@ -403,22 +389,6 @@
             </relationshipOwnedElementsInternal>
             <elementDefinition Id="823f1b8c-f3c1-431c-8f05-4465a67489f8" />
           </association>
-          <association Id="571be3d7-1a3a-4771-afa6-1d526506bb07" isDerived="false" sourceEndRoleName="Admin" targetEndRoleName="Register new concrete controllers" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="641e9072-39cf-48fe-847a-bd57778b04e9" LastKnownName="Register new concrete controllers" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="d8a3edaa-67a6-4f71-8625-e0f55f723344" name="Admin" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="e15cafbf-161e-4c1f-8495-02e02c064cb6" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="1a799b87-9034-4b9f-afe7-de0f6324e44a" name="Register new concrete controllers" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="5a32ed7f-f7fd-4cb4-9aaa-36b3011d61f8" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="6e29c991-659f-4091-b62d-5013c2582651" />
-          </association>
         </targetEnds>
       </actor>
     </useCaseModelRootHasTypes>
@@ -561,14 +531,6 @@
         </subjects>
       </useCase>
     </packageHasNamedElement>
-    <packageHasNamedElement>
-      <useCase Id="641e9072-39cf-48fe-847a-bd57778b04e9" name="Register new concrete controllers" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="67bdf3ab-a455-4a34-9826-c4c6c9570121" />
-        <subjects>
-          <subsystemMoniker Id="95843d90-6d58-49c6-a504-a5ba0c4211ca" LastKnownName="FurnitureHelper" />
-        </subjects>
-      </useCase>
-    </packageHasNamedElement>
   </packagedElements>
   <package Id="dfeb934c-c591-43f9-8130-43123db4847f" name="BackEnd">
     <elementDefinition Id="478763cb-6a1f-4068-a9bc-3d5a6e992de2" />
@@ -584,6 +546,18 @@
           <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
         </profileInstance>
         <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="7bc4d1c2-fd6d-4a5c-a80e-e484f1bfcb9f">
+        <profileInstance Id="3cffd4fc-6987-4379-8cb2-8f2a7d5e6062" name="CSharpProfile">
+          <elementDefinition Id="b5103e82-cfa4-487f-9e12-2b044f406170" />
+        </profileInstance>
+        <elementDefinition Id="4b50c38f-4736-49e0-95c3-437064287f50" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="d8fa95b1-af4f-446d-b7f8-bff699a1e46e">
+        <profileInstance Id="c00ee622-dc11-4d6b-9254-1025bc645064" name="TextTemplateBindings">
+          <elementDefinition Id="b0fafa02-203c-4a3f-a30c-9f19812454f2" />
+        </profileInstance>
+        <elementDefinition Id="c7fe5a33-c86f-4ae6-979f-6a9e15c1cbec" />
       </packageHasProfileInstances>
     </profileInstances>
   </package>

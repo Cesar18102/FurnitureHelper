@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 using Newtonsoft.Json;
 
@@ -20,10 +19,5 @@ namespace ServicesContract.Dto
 
         [JsonProperty("new_account_extension")]
         public AccountExtensionDto NewAccountExtension { get; set; }
-
-        public void Validate()
-        {
-            
-        }
     }
 }

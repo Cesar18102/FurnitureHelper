@@ -32,10 +32,5 @@ namespace ServicesContract.Dto
 
         [JsonProperty("connection_glues")]
         public IEnumerable<ConnectionGlueDto> ConnectionGlues { get; set; }
-
-        public void Validate()
-        {
-            
-        }
     }
 }

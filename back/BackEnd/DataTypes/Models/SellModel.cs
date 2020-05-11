@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Models
 {
-    public class ManufacturerSellModel : IModel
+    public class SellModel : IModel
     {
         public int Id { get; private set; }
         public DateTime SellDate { get; set; } = DateTime.Now;
@@ -13,9 +13,9 @@ namespace Models
 
         public float TotalPrice => SellPositions.Sum(order => order.Price);
 
-        public ManufacturerSellModel() { }
+        public SellModel() { }
 
-        public ManufacturerSellModel(AccountExtensionModel extension)
+        public SellModel(AccountExtensionModel extension)
         {
             BuyerAccountExtension = extension;
         }

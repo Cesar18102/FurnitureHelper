@@ -17,10 +17,5 @@ namespace ServicesContract.Dto
         [Required(ErrorMessage = "salt is required")]
         [JsonProperty("salt")]
         public string Salt { get; set; }
-
-        public void Validate()
-        {
-            
-        }
     }
 }

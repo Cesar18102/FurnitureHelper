@@ -87,7 +87,7 @@ namespace Services.Payment
         private const string ACTION = "pay";
         private const string CURRENCY = "UAH";
 
-        public override PaymentInfo CreatePaymentToManufacturer(PaymentPrepareModel paymentPrepare)
+        public override PaymentInfo CreateFromUserPayment(PaymentPrepareModel paymentPrepare)
         {
             LiqPayPaymentInfo liqPayPayment = new LiqPayPaymentInfo(paymentPrepare)
             {

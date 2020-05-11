@@ -25,10 +25,5 @@ namespace ServicesContract.Dto
         [Required(ErrorMessage = "reader_pin_number is required")]
         [JsonProperty("reader_pin_number")]
         public int? ReaderPinNumber { get; set; }
-
-        public void Validate()
-        {
-            
-        }
     }
 }

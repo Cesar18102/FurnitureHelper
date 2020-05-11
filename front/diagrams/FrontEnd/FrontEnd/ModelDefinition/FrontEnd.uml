@@ -1,0 +1,1915 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/dsltools/UseCaseModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm11="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner"
+  dslVersion="1.0.0.0"
+  Id="4d0c699c-8761-497c-8287-8281948e59b3"
+  name="FrontEnd" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <profileInstances>
+    <packageHasProfileInstances
+      Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
+      <profileInstance
+        Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791"
+        name="StandardProfileL2" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="29349502-908c-4fda-9054-c48619c59ed0">
+      <profileInstance
+        Id="532ea607-fb19-44b8-8502-3351b05452be"
+        name="StandardProfileL3" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <useCase
+        Id="3095363e-4095-430e-bcd0-408221c11655"
+        name="Bind embedded chips' ids and MACs to the owner's account"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="a1152ade-0da9-43d7-8efc-19a6c1201c02"
+        name="Register new concrete controllers"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="2a5931d8-c6ca-44c4-9d74-69b76cf3c933"
+        name="Register new concrete parts"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="c23da1b7-343c-43c7-bb4e-f3aa1a217f77"
+        name="Design new furniture items"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="7d43e551-383b-4137-bf6b-b5fa64d9970d">
+            <useCaseMoniker
+              Id="705e1594-43d2-4b66-a671-47a196c4ca6c"
+              LastKnownName="Provide list of used parts"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+          <include
+            Id="60f7553e-3aaf-497d-9301-aa85ee09b8ce">
+            <useCaseMoniker
+              Id="656dcb7f-306f-43d8-8dfb-0d2705da1411"
+              LastKnownName="Provide connections data"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="71bbdf3c-4765-4683-babb-fa6247bc7254"
+        name="Create new furniture parts"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="5ab689e5-33da-45f5-b366-b78f56a8b8ab">
+            <useCaseMoniker
+              Id="37b36436-588d-4bd2-93da-f65d638936e2"
+              LastKnownName="Select Possible Materials"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+          <include
+            Id="9ff5c4d6-d2b8-4d2a-9b63-0e1883ccf246">
+            <useCaseMoniker
+              Id="b69ab0a2-a7a7-4e57-8c3d-c64f217cdc74"
+              LastKnownName="Locate Connection Helpers"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+          <include
+            Id="f7407ad9-6336-41b1-b89f-a9f7b34a02da">
+            <useCaseMoniker
+              Id="3e891be2-8898-433e-a075-7fd3fa07c59d"
+              LastKnownName="Provide 3D Model"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="7fa0dc7d-946b-4a06-997e-b465452dca98"
+        name="Add new materials"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="7b4c1a8a-c7f3-4a02-9b08-477f393cba37">
+            <useCaseMoniker
+              Id="a036ac54-3a8e-4961-8ce4-9f8df8504c51"
+              LastKnownName="Select Possible Colors"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+          <include
+            Id="2fd4b8ca-d891-4cbf-9a43-898979cfc66a">
+            <useCaseMoniker
+              Id="73cf614c-92c0-4710-8c6a-5aa88c2aa3fd"
+              LastKnownName="Provide Texture"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="33641ff6-2a8d-43c3-8012-8697698d9cb8"
+        name="Add new colors"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="3122384c-6922-4af1-822a-8af098ac379b"
+        name="AddAdmin"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="ebc46e81-e29f-4dc6-98ba-c4189c513714">
+            <useCaseMoniker
+              Id="15d692f4-bde1-43aa-bcf2-87e78ddd0ce8"
+              LastKnownName="Select User Account"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="2d6fa1b3-3e1d-498a-949c-8935d480aa06"
+        name="Get furniture items list"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="63cd3b67-9cb6-4872-a687-712570bb439f"
+        name="Get list of furniture items which may be built of owned parts"
+        isAbstract="false"
+        isLeaf="false">
+        <generalsInternal>
+          <generalization
+            Id="b2c1a73e-8f52-4e72-a7e6-e02ebb07acca"
+            isSubstitutable="false">
+            <useCaseMoniker
+              Id="2d6fa1b3-3e1d-498a-949c-8935d480aa06"
+              LastKnownName="Get furniture items list"
+              LastKnownLocation="FrontEnd.uml" />
+          </generalization>
+        </generalsInternal>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="20a090fe-247f-4a22-a786-ddb820cbf379"
+        name="Select a furniture item from the list"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="b1ea0941-74d2-458b-aff8-3346aaa0b3e0">
+            <useCaseMoniker
+              Id="63cd3b67-9cb6-4872-a687-712570bb439f"
+              LastKnownName="Get list of furniture items which may be built of owned parts"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="097f698f-772d-4749-9021-49f333494f3e"
+        name="Get an instruction to construct a furniture item "
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="3fccefec-41c2-4fc3-8e06-d5469f0eb45c">
+            <useCaseMoniker
+              Id="20a090fe-247f-4a22-a786-ddb820cbf379"
+              LastKnownName="Select a furniture item from the list"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="06ad579e-7545-4bbd-b016-7f8b5c35c386"
+        name="Construct furniture item"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="dc0707ba-b523-4bdc-a9e5-ad337139db60">
+            <useCaseMoniker
+              Id="097f698f-772d-4749-9021-49f333494f3e"
+              LastKnownName="Get an instruction to construct a furniture item "
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+          <include
+            Id="4a07581f-4648-4372-96fa-0850830e636c">
+            <useCaseMoniker
+              Id="4adec198-0c5d-4189-a1cc-3668f0b2a29a"
+              LastKnownName="Get interactive instruction"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+          <include
+            Id="e3432cee-f97f-41a3-9211-2e7a018e557d">
+            <useCaseMoniker
+              Id="ed5790df-8090-4464-a8fe-8dcdd24c7a21"
+              LastKnownName="Perform constructing step"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="d2099848-fff4-467d-a25d-3a866164ac6e"
+        name="Rebind embedded chips' ids and MACs to the new owner's account"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="51831c0f-48a6-48ea-b028-5aae596c91b9"
+        name="Get furniture parts list"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="5ed3eb34-8453-4941-be3d-1640d6375a37"
+        name="Buy furniture parts from  another user"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="64fb2eca-ab84-4caf-bc47-3c911c79d35c">
+            <useCaseMoniker
+              Id="e1844c75-1dbf-4d2f-9bd3-4954013dcb57"
+              LastKnownName="Select wanted parts from &quot;for sell&quot; list"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+          <include
+            Id="398f1891-0cea-49a8-84bc-dfbc2b31fb60">
+            <useCaseMoniker
+              Id="173cfffa-b4d6-4890-b3a0-f62c6b3cec60"
+              LastKnownName="Pay"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="a5ce07e9-9f20-44ea-8559-fddf19d69e06"
+        name="Sell furniture parts to another user"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="409f4237-d0b0-4e90-9be5-a2fcb08d8474">
+            <useCaseMoniker
+              Id="d8e29d38-0af3-4c2d-b338-ce4ab628607d"
+              LastKnownName="Mark parts &quot;for sell&quot;"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="0f89910f-2e8d-4ae6-9448-717517aefa38"
+        name="Checkout furniture parts from the manufacturer"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="c6bfb1f9-d932-426b-bbc8-930e2c800d0f">
+            <useCaseMoniker
+              Id="173cfffa-b4d6-4890-b3a0-f62c6b3cec60"
+              LastKnownName="Pay"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+          <include
+            Id="6a8b4d59-d8fb-4236-acdb-63dceb807c92">
+            <useCaseMoniker
+              Id="231f6439-e47a-4be8-abe7-955e6ca4d658"
+              LastKnownName="Fill cart"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="747923f1-61d5-4a1a-9f0c-79986f76e4e0"
+        name="Bind embedded chips' ids and MACs to the owner's account1"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <subsystem
+        Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+        name="Subsystem1"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="3117fa3d-8a09-4f54-8534-943b61a068b7"
+        name="Admin"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="a2a27132-f050-4bff-8350-27dcf092df03"
+            isDerived="false"
+            sourceEndRoleName="Admin"
+            targetEndRoleName="Register new concrete parts"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="2a5931d8-c6ca-44c4-9d74-69b76cf3c933"
+              LastKnownName="Register new concrete parts"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b90595b9-6a9c-435f-981f-980ae81f35ea"
+                  name="Admin"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="3e32c8ce-ec5e-4dcd-85bc-7485fa451e76"
+                  name="Register new concrete parts"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="f6809bf8-8a06-4832-85dc-531c34f76aa7"
+            isDerived="false"
+            sourceEndRoleName="Admin"
+            targetEndRoleName="Design new furniture items"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="c23da1b7-343c-43c7-bb4e-f3aa1a217f77"
+              LastKnownName="Design new furniture items"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="2bc16948-c4e9-4063-8b06-33a1323fb156"
+                  name="Admin"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b62ab9db-24a4-4f7d-bd3c-b6ebb442cb3e"
+                  name="Design new furniture items"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="42b3d723-f025-4cdf-b157-debfbf4f5354"
+        name="Superadmin"
+        isAbstract="false"
+        isLeaf="false">
+        <generalsInternal>
+          <generalization
+            Id="d1a69a7d-6c24-4af8-a613-03a1e0ffa7fe"
+            isSubstitutable="false">
+            <actorMoniker
+              Id="3117fa3d-8a09-4f54-8534-943b61a068b7"
+              LastKnownName="Admin"
+              LastKnownLocation="FrontEnd.uml" />
+          </generalization>
+        </generalsInternal>
+        <targetEnds>
+          <association
+            Id="0569fbd2-89c1-445e-86de-45791b7c6f61"
+            isDerived="false"
+            sourceEndRoleName="Superadmin"
+            targetEndRoleName="Create new furniture parts"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="71bbdf3c-4765-4683-babb-fa6247bc7254"
+              LastKnownName="Create new furniture parts"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="d19719ee-64b0-4b87-b40e-e4269d31d114"
+                  name="Superadmin"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e0998526-abc2-48a2-81f8-9818b28dfad9"
+                  name="Create new furniture parts"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="efbd16a9-0208-4c62-9d86-dfff5b05aff5"
+            isDerived="false"
+            sourceEndRoleName="Superadmin"
+            targetEndRoleName="Add new materials"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="7fa0dc7d-946b-4a06-997e-b465452dca98"
+              LastKnownName="Add new materials"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="dd0617c1-c0a5-4600-b6d7-63f6c14b7272"
+                  name="Superadmin"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="566e3ae2-49b5-431f-bb06-82a1701cc9b5"
+                  name="Add new materials"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="cb1d8d44-1a39-4cd9-b740-752fb83c3e3a"
+            isDerived="false"
+            sourceEndRoleName="Superadmin"
+            targetEndRoleName="Add new colors"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="33641ff6-2a8d-43c3-8012-8697698d9cb8"
+              LastKnownName="Add new colors"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b8d46571-f16f-46ca-bb7b-d747f5cf4605"
+                  name="Superadmin"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="c437f096-6b58-4f19-9e5e-26d746a9e2d6"
+                  name="Add new colors"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="a9abeaa5-dee7-4afb-a1bd-84e1dc578e89"
+            isDerived="false"
+            sourceEndRoleName="Superadmin"
+            targetEndRoleName="AddAdmin"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="3122384c-6922-4af1-822a-8af098ac379b"
+              LastKnownName="AddAdmin"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="aa817ad1-1d7d-4f7c-963d-3f293904a042"
+                  name="Superadmin"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="38cbab36-b9fb-4118-9dc0-9917466cca85"
+                  name="AddAdmin"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="081b5ee8-080d-458a-897d-2ae826326edc"
+            isDerived="false"
+            sourceEndRoleName="Superadmin"
+            targetEndRoleName="Add Superadmin"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="b35968e4-7aaa-4e5b-ab8d-8e7391b0dedf"
+              LastKnownName="Add Superadmin"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="bd7635d5-bb21-4ffc-b0c3-d3a1dd7adabf"
+                  name="Superadmin"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="36ffec68-88ad-4727-bde4-ecbe1850f73e"
+                  name="Add Superadmin"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="b35968e4-7aaa-4e5b-ab8d-8e7391b0dedf"
+        name="Add Superadmin"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="83ce0943-fad1-4e9e-88ef-f57e0ed3557b">
+            <useCaseMoniker
+              Id="15d692f4-bde1-43aa-bcf2-87e78ddd0ce8"
+              LastKnownName="Select User Account"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="15d692f4-bde1-43aa-bcf2-87e78ddd0ce8"
+        name="Select User Account"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="a036ac54-3a8e-4961-8ce4-9f8df8504c51"
+        name="Select Possible Colors"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="37b36436-588d-4bd2-93da-f65d638936e2"
+        name="Select Possible Materials"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="b69ab0a2-a7a7-4e57-8c3d-c64f217cdc74"
+        name="Locate Connection Helpers"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="73cf614c-92c0-4710-8c6a-5aa88c2aa3fd"
+        name="Provide Texture"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="3e891be2-8898-433e-a075-7fd3fa07c59d"
+        name="Provide 3D Model"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="705e1594-43d2-4b66-a671-47a196c4ca6c"
+        name="Provide list of used parts"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="656dcb7f-306f-43d8-8dfb-0d2705da1411"
+        name="Provide connections data"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="196f0150-0f92-464d-84ef-5ecf2ad22b4c"
+        name="Register single part with MAC specified"
+        isAbstract="false"
+        isLeaf="false">
+        <generalsInternal>
+          <generalization
+            Id="62384f89-3d95-44fe-827d-f3ae7ee456a0"
+            isSubstitutable="false">
+            <useCaseMoniker
+              Id="2a5931d8-c6ca-44c4-9d74-69b76cf3c933"
+              LastKnownName="Register new concrete parts"
+              LastKnownLocation="FrontEnd.uml" />
+          </generalization>
+        </generalsInternal>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="d9c5faef-e75c-49c5-a89b-b10becf87ac6"
+        name="Register amount of concrete parts without MAC specified"
+        isAbstract="false"
+        isLeaf="false">
+        <generalsInternal>
+          <generalization
+            Id="521bb4df-000a-42c6-bb5f-6f80f53b88ea"
+            isSubstitutable="false">
+            <useCaseMoniker
+              Id="2a5931d8-c6ca-44c4-9d74-69b76cf3c933"
+              LastKnownName="Register new concrete parts"
+              LastKnownLocation="FrontEnd.uml" />
+          </generalization>
+        </generalsInternal>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="bd03ffb7-b089-4d91-b2be-ea5a9b000ddd"
+        name="Visitor"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="1000168d-6b45-450d-b3b2-796baccee5d9"
+            isDerived="false"
+            sourceEndRoleName="Visitor"
+            targetEndRoleName="Get furniture items list"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="2d6fa1b3-3e1d-498a-949c-8935d480aa06"
+              LastKnownName="Get furniture items list"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="75bb474e-da83-4a8a-8908-72da3f180610"
+                  name="Visitor"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="5296df98-7186-4e00-abc3-6c370757a9f5"
+                  name="Get furniture items list"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="fde2e507-54de-4f7d-9044-cf098205bc30"
+            isDerived="false"
+            sourceEndRoleName="Visitor"
+            targetEndRoleName="Get furniture parts list"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="51831c0f-48a6-48ea-b028-5aae596c91b9"
+              LastKnownName="Get furniture parts list"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="bf870c3f-4159-460e-8355-96f4a06311cb"
+                  name="Visitor"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="2cb1167c-2fd6-44ea-8f18-8a7f5d0af142"
+                  name="Get furniture parts list"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="adbd3df9-f577-4e81-a00d-3b3d10f8a3a3"
+            isDerived="false"
+            sourceEndRoleName="Visitor"
+            targetEndRoleName="Get &quot;for sell&quot; list"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="cb510f2b-231e-4a74-be90-e0fd9fb03d2b"
+              LastKnownName="Get &quot;for sell&quot; list"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="988a275a-9299-412c-8892-e669dffec7b2"
+                  name="Visitor"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="2f58858e-55aa-42b6-9f96-34371a3ac5b0"
+                  name="Get &quot;for sell&quot; list"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="0f2d1895-e405-436f-b7fb-415a9747d517"
+        name="Registered User"
+        isAbstract="false"
+        isLeaf="false">
+        <generalsInternal>
+          <generalization
+            Id="22679cb7-6330-4f12-a9ab-7fab2ab5ad9c"
+            isSubstitutable="false">
+            <actorMoniker
+              Id="bd03ffb7-b089-4d91-b2be-ea5a9b000ddd"
+              LastKnownName="Visitor"
+              LastKnownLocation="FrontEnd.uml" />
+          </generalization>
+        </generalsInternal>
+        <targetEnds>
+          <association
+            Id="a6ffc1e8-ff0e-4967-b726-00984508d80a"
+            isDerived="false"
+            sourceEndRoleName="Registered User"
+            targetEndRoleName="Checkout furniture parts from the manufacturer"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="0f89910f-2e8d-4ae6-9448-717517aefa38"
+              LastKnownName="Checkout furniture parts from the manufacturer"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="3bdfa8d9-cd19-4e1b-be86-aabdc4b474d9"
+                  name="Registered User"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="99045e18-dc01-4fa3-9673-8ea39eb40ec8"
+                  name="Checkout furniture parts from the manufacturer"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="4b310387-3de0-4e85-8c83-efd4f7a92a24"
+            isDerived="false"
+            sourceEndRoleName="Registered User"
+            targetEndRoleName="Buy furniture parts from  another user"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="5ed3eb34-8453-4941-be3d-1640d6375a37"
+              LastKnownName="Buy furniture parts from  another user"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="cac73197-3428-47d2-bc13-3fe2a1b91f5f"
+                  name="Registered User"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ce203358-b013-46f8-bd1e-8694f089577a"
+                  name="Buy furniture parts from  another user"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="0b6e838b-ef66-4f1b-8bda-4dc46040666a"
+            isDerived="false"
+            sourceEndRoleName="Registered User"
+            targetEndRoleName="Sell furniture parts to another user"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="a5ce07e9-9f20-44ea-8559-fddf19d69e06"
+              LastKnownName="Sell furniture parts to another user"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="191907bb-2f50-4897-9889-247d588859a7"
+                  name="Registered User"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ecd46bb8-b9d0-4f15-bfab-2aec9fa9e69d"
+                  name="Sell furniture parts to another user"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="84d77c95-347e-4803-9e5e-3b3e2da4540e"
+        name="User with binded chips"
+        isAbstract="false"
+        isLeaf="false">
+        <generalsInternal>
+          <generalization
+            Id="0683ef44-f432-42e9-acd9-e3efa8ba2fba"
+            isSubstitutable="false">
+            <actorMoniker
+              Id="0f2d1895-e405-436f-b7fb-415a9747d517"
+              LastKnownName="Registered User"
+              LastKnownLocation="FrontEnd.uml" />
+          </generalization>
+        </generalsInternal>
+        <targetEnds>
+          <association
+            Id="ee89c6fd-4842-4fca-bc06-a8ea05f9b680"
+            isDerived="false"
+            sourceEndRoleName="User with binded chips"
+            targetEndRoleName="Construct furniture item"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="06ad579e-7545-4bbd-b016-7f8b5c35c386"
+              LastKnownName="Construct furniture item"
+              LastKnownLocation="FrontEnd.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="5293a01b-8fbf-4fb0-b563-9c9f3461be7a"
+                  name="User with binded chips"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="2ca93c1e-11f7-49f3-9a96-1d2cbd8db66c"
+                  name="Construct furniture item"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="231f6439-e47a-4be8-abe7-955e6ca4d658"
+        name="Fill cart"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="70360caa-fb03-4016-a810-d18fe21c43f3">
+            <useCaseMoniker
+              Id="51831c0f-48a6-48ea-b028-5aae596c91b9"
+              LastKnownName="Get furniture parts list"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="173cfffa-b4d6-4890-b3a0-f62c6b3cec60"
+        name="Pay"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="d8e29d38-0af3-4c2d-b338-ce4ab628607d"
+        name="Mark parts &quot;for sell&quot;"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="c954ca1f-20ac-45c0-adf4-0dbc6e4a1c64"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="e1844c75-1dbf-4d2f-9bd3-4954013dcb57"
+        name="Select wanted parts from &quot;for sell&quot; list"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="a58dac1e-b3b0-4736-98a9-98a04206571f">
+            <useCaseMoniker
+              Id="cb510f2b-231e-4a74-be90-e0fd9fb03d2b"
+              LastKnownName="Get &quot;for sell&quot; list"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="cb510f2b-231e-4a74-be90-e0fd9fb03d2b"
+        name="Get &quot;for sell&quot; list"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="4adec198-0c5d-4189-a1cc-3668f0b2a29a"
+        name="Get interactive instruction"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="ed5790df-8090-4464-a8fe-8dcdd24c7a21"
+        name="Perform constructing step"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="dd380627-6e93-45ba-972d-d02679064d11">
+            <useCaseMoniker
+              Id="1fc72977-29cd-47e7-9289-6b943e8434cc"
+              LastKnownName="Get connection indicator signals"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="1fc72977-29cd-47e7-9289-6b943e8434cc"
+        name="Get connection indicator signals"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="110f5568-bf48-469c-bd04-4944d0a36adf"
+        name="Connect parts correctly"
+        isAbstract="false"
+        isLeaf="false">
+        <extendedCases>
+          <extend
+            Id="9a2201fd-d8ac-4ad4-978a-5bef96add4b9">
+            <useCaseMoniker
+              Id="ed5790df-8090-4464-a8fe-8dcdd24c7a21"
+              LastKnownName="Perform constructing step"
+              LastKnownLocation="FrontEnd.uml" />
+          </extend>
+        </extendedCases>
+        <additions>
+          <include
+            Id="7865ccb9-4dd3-4eea-8188-21d9fcc4394a">
+            <useCaseMoniker
+              Id="1ef85783-43df-41a0-bd1e-a1bf57d071aa"
+              LastKnownName="Get OK sound signal"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="08df1221-cc56-409d-95dd-9244f4a8754e"
+        name="Connect parts incorrectly"
+        isAbstract="false"
+        isLeaf="false">
+        <extendedCases>
+          <extend
+            Id="861e7882-200b-410d-aba5-a4824f577169">
+            <useCaseMoniker
+              Id="ed5790df-8090-4464-a8fe-8dcdd24c7a21"
+              LastKnownName="Perform constructing step"
+              LastKnownLocation="FrontEnd.uml" />
+          </extend>
+        </extendedCases>
+        <additions>
+          <include
+            Id="5e75ec83-721b-49a1-9535-c730015ced84">
+            <useCaseMoniker
+              Id="95488ab3-5fd7-4056-be6c-565f04d0be01"
+              LastKnownName="Get ERROR sound signal"
+              LastKnownLocation="FrontEnd.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="1ef85783-43df-41a0-bd1e-a1bf57d071aa"
+        name="Get OK sound signal"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="95488ab3-5fd7-4056-be6c-565f04d0be01"
+        name="Get ERROR sound signal"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="0b88ac89-1fcf-44c8-8a62-31b1ce3d4999"
+            LastKnownName="Subsystem1"
+            LastKnownLocation="FrontEnd.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <activity
+        Id="03104157-9a1e-4968-8cbc-058813dd0909"
+        name="StateChartFrontEnd"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <initialNode
+            Id="2144eaa7-72fb-4629-b1d8-62a89feaf19e"
+            name="Initial1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="3f7b6aa6-3630-47b4-95ea-9b4beee5e249"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="21498218-2204-477d-827c-4cd57e4511c1"
+                  LastKnownName="Join3"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <decisionNode
+            Id="9277dc74-b371-4f5a-aed6-686113581e73"
+            name="IsAuthorized"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="b1082a16-1230-465c-96bd-e8dc2e6f8887"
+                guard="Not Authorized"
+                isLeaf="false">
+                <forkNodeMoniker
+                  Id="e632405f-3309-4cf5-83c5-37939e9aa595"
+                  LastKnownName="Fork2"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="1fb7cc68-4579-45e7-9b17-cc00905417f3"
+                guard="Authorired"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="890e1b67-c530-44c1-967f-bfde69604591"
+                  LastKnownName="Join2"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <forkNode
+            Id="e632405f-3309-4cf5-83c5-37939e9aa595"
+            name="Fork2"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="86aeb8a5-7ad8-4d6f-a6b1-570c2a7c96ca"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="46e791d2-654e-4bac-8db1-1f1e3c28e0b9"
+                  LastKnownName="Register"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="e9e491b5-9e88-46f0-9355-69777a96a730"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="c42535eb-3a86-45b8-a52f-04f34084c1d9"
+                  LastKnownName="Authorize"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="3c894402-82fd-4035-9cd0-17fcd04064bf"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="62e8e18a-910c-4246-a4bb-b68f64b34455"
+                  LastKnownName="Join1"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <opaqueAction
+            Id="46e791d2-654e-4bac-8db1-1f1e3c28e0b9"
+            name="Register"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="aba1c151-7fe5-4ac3-a7df-12d8869c03a3"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="c42535eb-3a86-45b8-a52f-04f34084c1d9"
+                  LastKnownName="Authorize"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="c42535eb-3a86-45b8-a52f-04f34084c1d9"
+            name="Authorize"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="a8bc6144-905a-4e0b-9d1f-dbdc3da3a31f"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="21498218-2204-477d-827c-4cd57e4511c1"
+                  LastKnownName="Join3"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="f501029d-df8d-4579-b951-5776def4c121"
+            name="Get Furniture Items List"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="6208c530-9ca6-406b-8531-458d1fca35ee"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="de6fd8be-b114-418b-8c24-f44d7e5c7264"
+                  LastKnownName="Get Furniture Item Info"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="ae36e0ee-68fd-4e24-87b9-b2f110b6ccbc"
+            name="Get furniture parts list"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="b5aeb525-f69a-4b75-9bcd-66ba2a8a26e2"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="f316e75e-be43-490c-a0c5-b57331cc7529"
+                  LastKnownName="Add to cart"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="5bbcc398-a8ca-4ed4-85ea-2d220d7379be"
+            name="Get &quot;for sell&quot; parts list"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="92b0e1ff-2cee-4e5c-8f40-ef418e3fafb4"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="efc67f7b-1218-45a9-835e-5b955abd8629"
+                  LastKnownName="Join4"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <joinNode
+            Id="62e8e18a-910c-4246-a4bb-b68f64b34455"
+            name="Join1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="4c7a74bd-fe4b-40ee-8ca8-6ced51329a55"
+                isLeaf="false">
+                <forkNodeMoniker
+                  Id="26115b36-56de-427b-9abc-b3c14c86da75"
+                  LastKnownName="Fork3"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </joinNode>
+          <forkNode
+            Id="26115b36-56de-427b-9abc-b3c14c86da75"
+            name="Fork3"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="f5d1341b-604e-4904-9e49-8878066169fa"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="5bbcc398-a8ca-4ed4-85ea-2d220d7379be"
+                  LastKnownName="Get &quot;for sell&quot; parts list"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="fcf0c6c8-441b-4c00-a57f-c2a05af7779f"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="ae36e0ee-68fd-4e24-87b9-b2f110b6ccbc"
+                  LastKnownName="Get furniture parts list"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="9f7deec3-b640-433f-9cd6-e5839d930d27"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="f501029d-df8d-4579-b951-5776def4c121"
+                  LastKnownName="Get Furniture Items List"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <joinNode
+            Id="21498218-2204-477d-827c-4cd57e4511c1"
+            name="Join3"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="abb4b807-847c-429a-b085-845877185db3"
+                isLeaf="false">
+                <decisionNodeMoniker
+                  Id="9277dc74-b371-4f5a-aed6-686113581e73"
+                  LastKnownName="IsAuthorized"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </joinNode>
+          <opaqueAction
+            Id="177056a6-5ad4-459b-8bf4-db07beecfe48"
+            name="Buy parts"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="4033865b-d31a-4b0c-b069-44d2b4bba495"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="1c9e7238-af16-4bd1-8d27-0a6528dc7ece"
+                  LastKnownName="Pay"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="07eac6e3-2e89-48a1-8ab7-306dcc571927"
+            name="Get Owned Parts List"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="89ba525e-2463-4022-91d7-9ab0dc4f36b8"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="2ead4291-966a-48d2-853a-ba6ec27ab073"
+                  LastKnownName="Mark parts as &quot;for sell&quot;"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <forkNode
+            Id="3297fb4d-4fd9-434e-ba32-34922950a0cd"
+            name="Fork1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="411789ab-3be3-415a-b453-26ad5312bf9b"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="62e8e18a-910c-4246-a4bb-b68f64b34455"
+                  LastKnownName="Join1"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="1a66daa2-d83d-448e-a7d1-bec6814a1bce"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="07eac6e3-2e89-48a1-8ab7-306dcc571927"
+                  LastKnownName="Get Owned Parts List"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="052fd826-8b2a-4e46-a220-752a0066996f"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="80765fea-39a9-4173-9677-b5a53337c3e5"
+                  LastKnownName="Get Owned Concrete Parts List"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="21db6f31-32fa-40d8-9213-678d1b527f19"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="3fbcf3be-e42e-4f3b-849b-9bd0cac1b801"
+                  LastKnownName="Get Build List"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <opaqueAction
+            Id="80765fea-39a9-4173-9677-b5a53337c3e5"
+            name="Get Owned Concrete Parts List"
+            isLeaf="false" />
+          <opaqueAction
+            Id="2ead4291-966a-48d2-853a-ba6ec27ab073"
+            name="Mark parts as &quot;for sell&quot;"
+            isLeaf="false" />
+          <opaqueAction
+            Id="f316e75e-be43-490c-a0c5-b57331cc7529"
+            name="Add to cart"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="d9a324fc-1006-4bfc-af58-70169ec4bd97"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="efc67f7b-1218-45a9-835e-5b955abd8629"
+                  LastKnownName="Join4"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="1c9e7238-af16-4bd1-8d27-0a6528dc7ece"
+            name="Pay"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="b5267c06-e21c-496f-937d-5f1ae63f086f"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="890e1b67-c530-44c1-967f-bfde69604591"
+                  LastKnownName="Join2"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <joinNode
+            Id="890e1b67-c530-44c1-967f-bfde69604591"
+            name="Join2"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="10182b61-d71a-48b1-a6d3-51982f69163c"
+                isLeaf="false">
+                <forkNodeMoniker
+                  Id="3297fb4d-4fd9-434e-ba32-34922950a0cd"
+                  LastKnownName="Fork1"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </joinNode>
+          <opaqueAction
+            Id="de6fd8be-b114-418b-8c24-f44d7e5c7264"
+            name="Get Furniture Item Info"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="fe94b459-cef3-4e85-846d-318bf8af92ed"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="efc67f7b-1218-45a9-835e-5b955abd8629"
+                  LastKnownName="Join4"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="3fbcf3be-e42e-4f3b-849b-9bd0cac1b801"
+            name="Get Build List"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="65a62511-a099-4d78-b3e0-c2ff5259b12a"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="470547eb-7442-4a29-8677-efcbea2eab6c"
+                  LastKnownName="Select furnituire item to build"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <joinNode
+            Id="efc67f7b-1218-45a9-835e-5b955abd8629"
+            name="Join4"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="9392bfee-a501-4db7-a801-ae50a4c3fa71"
+                isLeaf="false">
+                <decisionNodeMoniker
+                  Id="782e6ada-1690-448e-a1a8-c521d822ea33"
+                  LastKnownName="Decision1"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </joinNode>
+          <decisionNode
+            Id="782e6ada-1690-448e-a1a8-c521d822ea33"
+            name="Decision1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="0c98e010-f138-4ea1-9fe2-c7bbbac9488a"
+                guard="Authorired"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="177056a6-5ad4-459b-8bf4-db07beecfe48"
+                  LastKnownName="Buy parts"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="7ac796fd-1536-48b9-8525-dcd1ccb96b51"
+                guard="Not Authorired"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="c42535eb-3a86-45b8-a52f-04f34084c1d9"
+                  LastKnownName="Authorize"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <opaqueAction
+            Id="470547eb-7442-4a29-8677-efcbea2eab6c"
+            name="Select furnituire item to build"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="9eca4b3b-dece-44c2-97fa-f13961a4e388"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="def15907-8fdf-4d64-86b8-7d872c213943"
+                  LastKnownName="Perform instruction steps"
+                  LastKnownLocation="FrontEnd.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="def15907-8fdf-4d64-86b8-7d872c213943"
+            name="Perform instruction steps"
+            isLeaf="false" />
+        </nodes>
+      </activity>
+    </packageHasNamedElement>
+  </packagedElements>
+  <primitiveType
+    Id="220a3521-e091-4221-bae9-3ef9018e845c"
+    name="Integer"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+    name="Boolean"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+    name="String"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="3ab42e7d-4969-445a-b209-471f5cb8209c"
+    name="UnlimitedNatural"
+    isAbstract="false"
+    isLeaf="false" />
+</modelStoreModel>

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using Autofac;
@@ -24,18 +25,13 @@ namespace Services
         public PartStore GetOwned(SessionDto ownerSession)
         {
             IEnumerable<ConcretePartModel> concreteParts = GetOwnedConcrete(ownerSession);
-            PartStore store = new PartStore();
+            return new PartStore(concreteParts);
+        }
 
-            foreach(ConcretePartModel concretePart in concreteParts)
-            {
-                PartStorePosition storePosition = store.Positions.FirstOrDefault(position => position.Part.Id == concretePart.Part.Id);
-                if (storePosition == null)
-                    store.Positions.Add(new PartStorePosition(concretePart.Part, 1));
-                else
-                    storePosition.Increase();
-            }
-
-            return store;
+        public PartStore GetUserBids()
+        {
+            IEnumerable<ConcretePartModel> forSellParts = ConcretePartRepo.GetForSellParts();
+            return new PartStore(forSellParts);
         }
 
         public IEnumerable<ConcretePartModel> GetOwnedConcrete(SessionDto ownerSession)
@@ -88,7 +84,7 @@ namespace Services
                     ConcretePartModel model = Mapper.Map<AddConcretePartDto, ConcretePartModel>(partDto);
                     return ConcretePartRepo.Create(model);
                 }
-                else
+                else if (part.ConnectionHelpers.Count() == 0)
                 {
                     ICollection<ConcretePartModel> created = new List<ConcretePartModel>();
                     ConcretePartModel model = Mapper.Map<AddConcretePartDto, ConcretePartModel>(partDto);
@@ -98,6 +94,9 @@ namespace Services
 
                     return created.LastOrDefault();
                 }
+                else
+                    throw new NotFoundException("controller mac");
+
             }, dto);
         }
 
@@ -125,6 +124,7 @@ namespace Services
 
         private void CheckPinConflict(PartModel part)
         {
+            //pin service
             List<int> usedPins = part.ConnectionHelpers.Aggregate(
                 new List<int>(),
                 (acc, helper) => acc.Append(helper.IndicatorPinNumber).Append(helper.ReaderPinNumber).ToList()

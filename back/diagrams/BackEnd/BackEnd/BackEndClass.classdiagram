@@ -511,32 +511,6 @@
             </relationshipOwnedElementsInternal>
             <elementDefinition Id="1edac5d7-9821-4e31-bb56-efb5b4d41f02" />
           </association>
-          <association Id="9974e929-b303-42c0-9f98-fb27182d94fd" isDerived="false" sourceEndRoleName="ConcretePart" targetEndRoleName="ConcreteController" isLeaf="false" isAbstract="false">
-            <classMoniker Id="84cfdcd4-b120-4d1d-912d-6c3902f550f7" LastKnownName="ConcreteController" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="73943d8c-3eec-425f-aa24-2a2676013405" name="ConcretePart" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="93add2e8-4514-42ae-b1e1-f1838f82d495" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="6c9b49fc-5af2-4176-9386-09f645cda313" name="ConcreteController" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <lowerValueInternal>
-                    <literalString Id="be268ff4-d6b1-4d21-8c78-7500b4754c51" name="Lower" value="*">
-                      <elementDefinition Id="dc08e4ea-f749-455f-a505-777a34be29a6" />
-                    </literalString>
-                  </lowerValueInternal>
-                  <upperValueInternal>
-                    <literalString Id="ded637f3-4883-4cd2-943f-654a5635f566" name="Upper" value="*">
-                      <elementDefinition Id="0bd96605-4d6c-4e99-b1f1-97f4fbec625e" />
-                    </literalString>
-                  </upperValueInternal>
-                  <elementDefinition Id="9fd9bbfb-4f30-43f4-a337-f04e2022a251" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="2dd7e185-2f39-43aa-bd35-662376149881" />
-          </association>
         </targetEnds>
         <ownedAttributesInternal>
           <property Id="931fba5d-faec-41fd-bd4c-405bd9bae287" name="SelectedMaterial" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
@@ -549,6 +523,12 @@
             <elementDefinition Id="631658e2-c50a-47f9-9696-84380497858f" />
             <type_NamedElement>
               <referencedTypeMoniker Id="3bde5f29-7db7-49ae-92a9-d3c1e7127e63" LastKnownName="PartColor" />
+            </type_NamedElement>
+          </property>
+          <property Id="9830ea2b-62b6-4650-900e-0698c4b67372" name="Mac" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0256edfb-19f5-4d7b-b4e9-e8304fafddfc" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="1ac046b0-4a37-416e-bbe0-8b5e948310e0" LastKnownName="byte[]" />
             </type_NamedElement>
           </property>
         </ownedAttributesInternal>
@@ -973,55 +953,19 @@
               <referencedTypeMoniker Id="fee182e0-c78a-46fe-aa65-03530a3d1e69" LastKnownName="float" />
             </type_NamedElement>
           </property>
-        </ownedAttributesInternal>
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="84cfdcd4-b120-4d1d-912d-6c3902f550f7" name="ConcreteController" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="83bdadd2-2e6f-4f38-9aca-68390d82327c" />
-        <generalsInternal>
-          <generalization Id="ff56ac0b-187e-428b-969e-eac374594227" isSubstitutable="false">
-            <classMoniker Id="7e09fe51-decf-4734-b2b6-f1925bb8f59f" LastKnownName="EmbedControllerPosition" />
-            <elementDefinition Id="b9f0db45-629f-4cdc-a6ea-63b67ef99c5b" />
-          </generalization>
-        </generalsInternal>
-        <ownedAttributesInternal>
-          <property Id="169e593f-009a-484c-8e84-e2e060200b3d" name="ControllerId" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-            <elementDefinition Id="f8f5b790-98dc-4cd6-8210-c47d1825aa3f" />
+          <property Id="c0ae994b-23a7-4066-a71f-f39d82f5e1ea" name="indicator_pin" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cb73c189-66d6-488d-9d94-06ec8cfa6b72" />
             <type_NamedElement>
-              <referencedTypeMoniker Id="4591dc35-e366-4f60-885f-f379b3dbc1b0" LastKnownName="int" />
+              <referencedTypeMoniker Id="1cdff766-2472-4eb3-ac3a-13b4fe49bc02" LastKnownName="int" />
             </type_NamedElement>
           </property>
-          <property Id="c17132e5-9453-4762-a1da-47f151ac64ad" name="Mac" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-            <elementDefinition Id="b273cfac-c728-4218-a04e-b5b57e1887c9" />
+          <property Id="a1a4c734-9b8a-47a2-b1b8-d325e89da1a5" name="reader_pin" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c6d2000f-75aa-484f-9d31-4eb2ea39f99f" />
             <type_NamedElement>
-              <referencedTypeMoniker Id="4c82ede1-be1a-4445-86be-fcbb9ffa3c34" LastKnownName="byte[]" />
+              <referencedTypeMoniker Id="bc006fa8-7ecc-4238-9470-829b71d055a4" LastKnownName="int" />
             </type_NamedElement>
           </property>
         </ownedAttributesInternal>
-        <ownedOperationsInternal>
-          <operation Id="836a81de-4f37-4409-abae-941938b7628b" name="GetParentConcretePart" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
-            <elementDefinition Id="e4cc5b3b-f330-4991-b41e-2f1362c7ab71" />
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="7f170d77-67ee-46a6-a05a-52393643295e" direction="Return">
-                  <elementDefinition Id="34c623f1-0dcd-41f3-9499-4ca0ca4f5dc5" />
-                  <type_NamedElement>
-                    <referencedTypeMoniker Id="aec7b46c-1a88-4db5-b7a6-26a2b6052a8a" LastKnownName="ConcretePart" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="e151c6c1-774f-4282-a63c-977a2d7c12bc" name="concreteControllerId" direction="In">
-                  <elementDefinition Id="f4fd6c9f-5c1c-4673-9466-4c1eb1e21506" />
-                  <type_NamedElement>
-                    <referencedTypeMoniker Id="7e22b959-da71-4076-9ba4-ff4f5b9a1ea9" LastKnownName="id" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
@@ -1188,26 +1132,6 @@
     <packageHasNamedElement>
       <referencedType Id="40ffa529-a845-4f56-8fec-da53a9ac250b" name="Material" isAbstract="false" isLeaf="false" cachedFullName="BackEnd::Material">
         <elementDefinition Id="d22a57da-826f-4802-8b3c-07aa9c04e59b" />
-      </referencedType>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <referencedType Id="4591dc35-e366-4f60-885f-f379b3dbc1b0" name="int" isAbstract="false" isLeaf="false" cachedFullName="int">
-        <elementDefinition Id="3da37ae7-42bc-4e33-a04f-08cdd877f157" />
-      </referencedType>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <referencedType Id="4c82ede1-be1a-4445-86be-fcbb9ffa3c34" name="byte[]" isAbstract="false" isLeaf="false" cachedFullName="byte[]">
-        <elementDefinition Id="555073cd-fdd0-450d-9d8f-f5d9cdcce8fe" />
-      </referencedType>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <referencedType Id="aec7b46c-1a88-4db5-b7a6-26a2b6052a8a" name="ConcretePart" isAbstract="false" isLeaf="false" cachedFullName="BackEnd::ConcretePart">
-        <elementDefinition Id="d33c275f-07ed-4979-92d8-4aeefbc684aa" />
-      </referencedType>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <referencedType Id="7e22b959-da71-4076-9ba4-ff4f5b9a1ea9" name="id" isAbstract="false" isLeaf="false" cachedFullName="id">
-        <elementDefinition Id="3cc3c496-0743-48e8-9de9-a2ca6ccad80b" />
       </referencedType>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1413,6 +1337,21 @@
     <packageHasNamedElement>
       <referencedType Id="f2b1bac4-567f-49e8-bb77-5ee26edc70da" name="IEnumerable&lt;BackEnd::ConnectionGlue&gt;" isAbstract="false" isLeaf="false" cachedFullName="IEnumerable&lt;BackEnd::ConnectionGlue&gt;">
         <elementDefinition Id="ac4af884-b757-456c-bfcf-99ed700ad400" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="1ac046b0-4a37-416e-bbe0-8b5e948310e0" name="byte[]" isAbstract="false" isLeaf="false" cachedFullName="byte[]">
+        <elementDefinition Id="555073cd-fdd0-450d-9d8f-f5d9cdcce8fe" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="bc006fa8-7ecc-4238-9470-829b71d055a4" name="int" isAbstract="false" isLeaf="false" cachedFullName="int">
+        <elementDefinition Id="3da37ae7-42bc-4e33-a04f-08cdd877f157" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="1cdff766-2472-4eb3-ac3a-13b4fe49bc02" name="int" isAbstract="false" isLeaf="false" cachedFullName="int">
+        <elementDefinition Id="3da37ae7-42bc-4e33-a04f-08cdd877f157" />
       </referencedType>
     </packageHasNamedElement>
   </packagedElements>

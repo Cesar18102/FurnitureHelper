@@ -26,7 +26,5 @@ namespace ServicesContract.Dto
 
         [JsonProperty("used_parts_to_add")]
         public IEnumerable<UsedPartsDto> UsedPartsToAdd { get; set; } = new List<UsedPartsDto>();
-
-        public void Validate() { }
     }
 }

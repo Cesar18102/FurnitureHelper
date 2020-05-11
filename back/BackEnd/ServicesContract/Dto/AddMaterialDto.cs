@@ -29,10 +29,5 @@ namespace ServicesContract.Dto
 
         [JsonProperty("possible_colors")]
         public IEnumerable<int> PossibleColors { get; set; }
-
-        public void Validate()
-        {
-            
-        }
     }
 }

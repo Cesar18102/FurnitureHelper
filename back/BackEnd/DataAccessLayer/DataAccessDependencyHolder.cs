@@ -78,7 +78,7 @@ namespace DataAccess
                   .WithParameter(contextParameter).SingleInstance();
 
             builder.RegisterType<ManufacturerSellRepo>()
-                  .As<IManufacturerSellsRepo>().As<IRepo<ManufacturerSellModel>>()
+                  .As<IManufacturerSellsRepo>().As<IRepo<SellModel>>()
                   .UsingConstructor(typeof(FurnitureHelperContext))
                   .WithParameter(contextParameter).SingleInstance();
 
@@ -309,7 +309,9 @@ namespace DataAccess
                   .ForMember(model => model.SelectedMaterial, cnf => cnf.MapFrom(entity => entity.materials))
                   .ForMember(model => model.SelectedColor, cnf => cnf.MapFrom(entity => entity.colors))
                   .ForMember(model => model.CreateDate, cnf => cnf.MapFrom(entity => entity.create_date))
-                  .ForMember(model => model.LastSellDate, cnf => cnf.MapFrom(entity => entity.last_sell_date));
+                  .ForMember(model => model.LastSellDate, cnf => cnf.MapFrom(entity => entity.last_sell_date))
+                  .ForMember(model => model.IsInUse, cnf => cnf.MapFrom(entity => entity.in_use))
+                  .ForMember(model => model.IsForSell, cnf => cnf.MapFrom(entity => entity.for_sell));
 
             /******************/
 
@@ -321,14 +323,14 @@ namespace DataAccess
             config.CreateMap<ManufacturerSellPositionEntity, SellPositionModel>()
                   .ForMember(model => model.ConcretePart, cnf => cnf.MapFrom(entity => entity.concrete_parts));
 
-            config.CreateMap<ManufacturerSellModel, ManufacturerSellEntity>()
+            config.CreateMap<SellModel, ManufacturerSellEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
                   .ForMember(entity => entity.accounts_extension_id, cnf => cnf.MapFrom(model => model.BuyerAccountExtension.Id))
                   .ForMember(entity => entity.manufacturer_sell_positions, cnf => cnf.MapFrom(model => model.SellPositions))
                   .ForMember(entity => entity.sell_date, cnf => cnf.MapFrom(model => model.SellDate))
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
-            config.CreateMap<ManufacturerSellEntity, ManufacturerSellModel>()
+            config.CreateMap<ManufacturerSellEntity, SellModel>()
                   .ForMember(model => model.BuyerAccountExtension, cnf => cnf.MapFrom(entity => entity.accounts_extensions))
                   .ForMember(model => model.SellPositions, cnf => cnf.MapFrom(entity => entity.manufacturer_sell_positions))
                   .ForMember(model => model.SellDate, cnf => cnf.MapFrom(entity => entity.sell_date));

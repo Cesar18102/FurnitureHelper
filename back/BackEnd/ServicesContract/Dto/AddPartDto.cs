@@ -32,10 +32,5 @@ namespace ServicesContract.Dto
 
         [JsonProperty("connection_helpers")]
         public IEnumerable<ConnectionHelperDto> ConnectionHelpers { get; set; }
-
-        public void Validate()
-        {
-            
-        }
     }
 }
