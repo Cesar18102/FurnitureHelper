@@ -65,5 +65,11 @@ namespace Services
                 return AccountRepo.Update(model.Id, model);
             }, dto);
         }
+
+        public AccountModel GetInfo(SessionDto dto)
+        {
+            SessionService.CheckSession(dto);
+            return AccountRepo.Get(dto.UserId.GetValueOrDefault());
+        }
     }
 }

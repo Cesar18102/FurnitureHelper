@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Web.Http;
 
 using Autofac;
@@ -12,7 +13,8 @@ namespace BackEnd.Controllers
 {
     public class FurnitureController : ApiController
     {
-        private IFurnitureService FurnitureService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<IFurnitureService>();
+        private static readonly IFurnitureService FurnitureService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<IFurnitureService>();
+        private static readonly IPartService PartService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<IPartService>();
 
         [HttpPost]
         public HttpResponseMessage Add([FromBody] AddFurnitureDto furnitureDto)
@@ -50,8 +52,16 @@ namespace BackEnd.Controllers
         [HttpPost]
         public HttpResponseMessage GetBuildList(SessionDto sessionDto)
         {
-            //TODO
-            return null;
+            return Request.ExecuteProtectedAndWrapResult<SessionDto, FurnitureItemModel>(
+                dto => FurnitureService.GetBuildList(dto),
+                ModelState, sessionDto
+            );
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetPartStoreForFurniture(int furnitureItemId)
+        {
+            return Request.ExecuteProtectedAndWrapResult<PartStore>(() => FurnitureService.GetPartStore(furnitureItemId));
         }
     }
 }

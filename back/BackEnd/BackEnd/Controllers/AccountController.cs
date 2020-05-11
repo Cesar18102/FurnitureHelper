@@ -41,5 +41,14 @@ namespace BackEnd.Controllers
                 ModelState, updateAccountDto
             );
         }
+
+        [HttpPost]
+        public HttpResponseMessage GetInfo([FromBody] SessionDto sessionDto)
+        {
+            return Request.ExecuteProtectedAndWrapResult<SessionDto, AccountModel>(
+                dto => AccountService.GetInfo(dto),
+                ModelState, sessionDto
+            );
+        }
     }
 }

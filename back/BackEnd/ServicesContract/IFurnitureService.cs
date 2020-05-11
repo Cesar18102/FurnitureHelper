@@ -12,6 +12,8 @@ namespace ServicesContract
 
         FurnitureItemModel UpdateConnections(ConnectionsDto dto);
 
+        PartStore GetPartStore(int furnitureItemId);
         IEnumerable<FurnitureItemModel> GetAll();
+        IEnumerable<FurnitureItemModel> GetBuildList(SessionDto session);
     }
 }

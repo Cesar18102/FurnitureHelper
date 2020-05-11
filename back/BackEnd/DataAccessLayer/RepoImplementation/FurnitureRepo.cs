@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Data.Entity;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
@@ -72,6 +73,17 @@ namespace DataAccess.RepoImplementation
             Context.two_parts_connection_glues.Include(glue => glue.parts);
         }
 
+        public override FurnitureItemModel Create(FurnitureItemModel model)
+        {
+            CheckValidUsedPartsToAdd(model.UsedParts);
+            return base.Create(model);
+        }
+
+        public override FurnitureItemModel Update(int id, FurnitureItemModel model)
+        {
+            throw new NotSupportedException();
+        }
+
         public FurnitureItemModel Update(int id, FurnitureItemModel model, IEnumerable<int> usedPartsToRemove, IEnumerable<UsedPartModel> usedPartsToAdd)
         {
             FurnitureItemEntity entity = Context.furniture_items.FirstOrDefault(furniture => furniture.id == id);
@@ -83,6 +95,7 @@ namespace DataAccess.RepoImplementation
             foreach (UsedPartEntity deletedEntity in partsToDelete)
                 Context.Entry<UsedPartEntity>(deletedEntity).State = EntityState.Deleted;
 
+            CheckValidUsedPartsToAdd(usedPartsToAdd);
             IEnumerable<UsedPartEntity> usedPartToAddEntities = Mapper.Map<IEnumerable<UsedPartModel>, IEnumerable<UsedPartEntity>>(usedPartsToAdd);
             foreach (UsedPartEntity usedPart in usedPartToAddEntities)
             {
@@ -108,36 +121,70 @@ namespace DataAccess.RepoImplementation
             return Mapper.Map<FurnitureItemEntity, FurnitureItemModel>(entity);
         }
 
+        private void CheckValidUsedPartsToAdd(IEnumerable<UsedPartModel> usedParts)
+        {
+            foreach (UsedPartModel usedPart in usedParts)
+                if (Context.parts.FirstOrDefault(part => part.id == usedPart.PartId) == null)
+                    throw new EntityNotFoundException("part");
+        }
+
+        private void CheckValid(ConnectionGlueModel glue, Dictionary<int, int> usedParts, bool isGlobal)
+        {
+            string globalText = isGlobal ? "global " : "";
+            if (!usedParts.ContainsKey(glue.GluePart.Id) || usedParts[glue.GluePart.Id] == 0)
+                throw new EntityNotFoundException($"used part for {globalText}glue part");
+            --usedParts[glue.GluePart.Id];
+        }
+
+        private void CheckValid(FurnitureItemEntity furnitureItem, TwoPartsConnectionModel subConnection, Dictionary<int, int> usedParts, List<int> mentioned)
+        {
+            UsedPartEntity part = furnitureItem.used_parts.FirstOrDefault(p => p.id == subConnection.UsedPartId);
+
+            if (part == null || !part.part_id.HasValue || !usedParts.ContainsKey(part.part_id.Value) || usedParts[part.part_id.Value] == 0)
+                throw new EntityNotFoundException($"used part for connection part {part.id}");
+
+            if(part.parts.part_controllers_embed_relative_positions.FirstOrDefault(helper => helper.id == subConnection.ConnectionHelper.Id) == null)
+                throw new EntityNotFoundException($"connection helper {subConnection.ConnectionHelper.Id}");
+
+            if (!mentioned.Contains(subConnection.UsedPartId))
+            {
+                --usedParts[part.part_id.Value];
+                mentioned.Add(subConnection.UsedPartId);
+            }
+
+
+            UsedPartEntity partOther = furnitureItem.used_parts.FirstOrDefault(p => p.id == subConnection.UsedPartOtherId);
+
+            if (partOther == null || !partOther.part_id.HasValue || !usedParts.ContainsKey(partOther.part_id.Value) || usedParts[partOther.part_id.Value] == 0)
+                throw new EntityNotFoundException($"used part for connection part {partOther.id}");
+
+            if (partOther.parts.part_controllers_embed_relative_positions.FirstOrDefault(helper => helper.id == subConnection.ConnectionHelperOther.Id) == null)
+                throw new EntityNotFoundException($"connection helper {subConnection.ConnectionHelperOther.Id}");
+
+            if (!mentioned.Contains(subConnection.UsedPartOtherId))
+            {
+                --usedParts[partOther.part_id.Value];
+                mentioned.Add(subConnection.UsedPartOtherId);
+            }
+        }
+
         private void CheckValid(FurnitureItemEntity entity, IEnumerable<GlobalPartsConnectionModel> connections)
         {
+            Dictionary<int, int> usedParts = entity.used_parts.Where(part => part.part_id.HasValue)
+                                                              .GroupBy(part => part.part_id.Value)
+                                                              .ToDictionary(group => group.Key, group => group.Count());
+            List<int> mentioned = new List<int>();
+
             foreach (GlobalPartsConnectionModel connection in connections)
             {
                 foreach (ConnectionGlueModel glue in connection.GlobalConnectionGlues)
-                    if (Context.parts.FirstOrDefault(part => part.id == glue.GluePart.Id) == null)
-                        throw new EntityNotFoundException("global glue part");
+                    CheckValid(glue, usedParts, true);
 
                 foreach (TwoPartsConnectionModel subConnection in connection.SubConnections)
                 {
-                    UsedPartEntity usedPart = entity.used_parts.FirstOrDefault(used => used.id == subConnection.UsedPartId);
-
-                    if (usedPart == null)
-                        throw new EntityNotFoundException("used part");
-
-                    if(usedPart.parts.part_controllers_embed_relative_positions.FirstOrDefault(position => position.id == subConnection.ConnectionHelper.Id) == null)
-                        throw new EntityNotFoundException("connection helper");
-
-
-                    UsedPartEntity usedPartOther = entity.used_parts.FirstOrDefault(used => used.id == subConnection.UsedPartOtherId);
-
-                    if (usedPartOther == null)
-                        throw new EntityNotFoundException("used part other");
-
-                    if (usedPartOther.parts.part_controllers_embed_relative_positions.FirstOrDefault(position => position.id == subConnection.ConnectionHelperOther.Id) == null)
-                        throw new EntityNotFoundException("connection helper other");
-
+                    CheckValid(entity, subConnection, usedParts, mentioned);
                     foreach (ConnectionGlueModel glue in subConnection.ConnectionGlues)
-                        if (Context.parts.FirstOrDefault(part => part.id == glue.GluePart.Id) == null)
-                            throw new EntityNotFoundException("subconnection glue part");
+                        CheckValid(glue, usedParts, false);
                 }
             }
         }

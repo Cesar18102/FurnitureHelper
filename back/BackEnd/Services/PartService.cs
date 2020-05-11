@@ -77,11 +77,27 @@ namespace Services
                 if (color == null)
                     throw new NotFoundException("possible color");
 
-                if (ConcretePartRepo.GetPartByMac(partDto.ControllerMac) != null)
+                if (partDto.ControllerMac == null && partDto.Amount == null)
+                    throw new NotFoundException("nor controller_mac neither amount");
+
+                if (partDto.ControllerMac != null && ConcretePartRepo.GetPartByMac(partDto.ControllerMac) != null)
                     throw new ConflictException("mac address");
 
-                ConcretePartModel model = Mapper.Map<AddConcretePartDto, ConcretePartModel>(partDto);
-                return ConcretePartRepo.Create(model);
+                if (partDto.ControllerMac != null)
+                {
+                    ConcretePartModel model = Mapper.Map<AddConcretePartDto, ConcretePartModel>(partDto);
+                    return ConcretePartRepo.Create(model);
+                }
+                else
+                {
+                    ICollection<ConcretePartModel> created = new List<ConcretePartModel>();
+                    ConcretePartModel model = Mapper.Map<AddConcretePartDto, ConcretePartModel>(partDto);
+
+                    for (int i = 0; i < partDto.Amount.GetValueOrDefault(); ++i)
+                        created.Add(ConcretePartRepo.Create(model));
+
+                    return created.LastOrDefault();
+                }
             }, dto);
         }
 

@@ -7,5 +7,6 @@ namespace Services.Payment
         public abstract PaymentInfo CreatePaymentToManufacturer(PaymentPrepareModel paymentPrepare);
         public abstract bool IsPaymentAuthorized(PaymentInfo payment);
         public abstract string GetOrderId(PaymentInfo payment);
+        public abstract bool IsSucceed(PaymentInfo payment);
     }
 }

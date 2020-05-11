@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
@@ -26,6 +25,9 @@ namespace ServicesContract.Dto
         [RegularExpression("^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$", ErrorMessage = "controller_mac is invalid")]
         [JsonProperty("controller_mac")]
         public string ControllerMac { get; set; }
+
+        [JsonProperty("amount")]
+        public int? Amount { get; set; }
 
         public void Validate()
         {

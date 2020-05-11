@@ -39,6 +39,9 @@ namespace Services.Payment
             [JsonProperty("server_url")]
             public string CallbackUrl { get; private set; }
 
+            [JsonProperty("expired_date")]
+            public string Expired { get; private set; }
+
             [JsonConstructor]
             public LiqPayPaymentInfo() { }
 
@@ -48,7 +51,31 @@ namespace Services.Payment
                 OrderId = prepare.OrderId;
                 Description = prepare.Description;
                 CallbackUrl = prepare.CallbackUrl;
+                Expired = GetDate(prepare.Expired);
             }
+
+            private string GetDate(DateTime dt)
+            {
+                StringBuilder date = new StringBuilder($"{dt.Year}-");
+                AppendDateItem(dt.Month, date).Append("-");
+                AppendDateItem(dt.Day, date).Append(" ");
+                AppendDateItem(dt.Hour, date).Append(":");
+                AppendDateItem(dt.Minute, date).Append(":");
+                return AppendDateItem(dt.Second, date).ToString();
+            }
+
+            private StringBuilder AppendDateItem(int item, StringBuilder builder)
+            {
+                if (item < 10)
+                    builder.Append("0");
+                return builder.Append(item);
+            }
+        }
+
+        private class LiqpayResult
+        {
+            [JsonProperty("status")]
+            public string Status { get; private set; }
         }
 
         private static readonly HashAlgorithm Sha1 = SHA1.Create();
@@ -100,6 +127,14 @@ namespace Services.Payment
 
             LiqPayPaymentInfo liqPayPayment = JsonConvert.DeserializeObject<LiqPayPaymentInfo>(json);
             return liqPayPayment.OrderId;
+        }
+
+        public override bool IsSucceed(PaymentInfo payment)
+        {
+            byte[] dataBytes = Convert.FromBase64String(payment.Data);
+            string data = Encoding.UTF8.GetString(dataBytes);
+            LiqpayResult result = JsonConvert.DeserializeObject<LiqpayResult>(data);
+            return result.Status == "success";
         }
     }
 }

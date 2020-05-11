@@ -9,13 +9,18 @@ using DataAccessHolder;
 
 using ServicesContract;
 using ServicesContract.Dto;
+using ServicesContract.Exceptions;
 
 namespace Services
 {
     public class FurnitureService : ServiceBase, IFurnitureService
     {
         private static readonly IFurnitureRepo FurnitureRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IFurnitureRepo>();
+        private static readonly IPartRepo PartRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IPartRepo>();
+
+        private static readonly SessionService SessionService = ServiceDependencyHolder.ServicesDependencies.Resolve<SessionService>();
         private static readonly AdminService AdminService = ServiceDependencyHolder.ServicesDependencies.Resolve<AdminService>();
+        private static readonly IPartService PartService = ServiceDependencyHolder.ServicesDependencies.Resolve<IPartService>();
 
         public FurnitureItemModel RegisterFurnitureItem(AddFurnitureDto dto)
         {
@@ -53,6 +58,52 @@ namespace Services
                     Mapper.Map<IEnumerable<GlobalConnectionDto>, IEnumerable<GlobalPartsConnectionModel>>(connDto.GlobalConnections)
                 );
             }, dto);
+        }
+
+        public PartStore GetPartStore(int furnitureItemId)
+        {
+            FurnitureItemModel furniture = FurnitureRepo.Get(furnitureItemId);
+
+            if (furniture == null)
+                throw new NotFoundException("furniture");
+
+            IEnumerable<IGrouping<int, UsedPartModel>> usedParts = furniture.UsedParts.Where(part => part.PartId.HasValue)
+                                                                                      .GroupBy(part => part.PartId.Value);
+
+            PartStore store = new PartStore();
+            foreach (IGrouping<int, UsedPartModel> used in usedParts)
+            {
+                PartModel part = PartRepo.Get(used.Key);
+                PartStorePosition position = new PartStorePosition(part, used.Count());
+                store.Positions.Add(position);
+            }
+            return store;
+        }
+
+        public bool CanBuild(SessionDto session, int furnitureItemId)
+        {
+            SessionService.CheckSession(session);
+            PartStore itemPartStore = GetPartStore(furnitureItemId);
+            PartStore userPartStore = PartService.GetOwned(session);
+            return userPartStore.Contains(itemPartStore);
+        }
+
+        public IEnumerable<FurnitureItemModel> GetBuildList(SessionDto session)
+        {
+            return ProtectedExecute<SessionDto, FurnitureItemModel>(sessionDto =>
+            {
+                SessionService.CheckSession(session);
+
+                Dictionary<FurnitureItemModel, PartStore> partStores = GetAll().ToDictionary(
+                    furniture => furniture, 
+                    furniture => GetPartStore(furniture.Id)
+                );
+
+                PartStore userPartStore = PartService.GetOwned(sessionDto);
+                return partStores.Where(store => userPartStore.Contains(store.Value))
+                                 .Select(store => store.Key);
+
+            }, session);
         }
 
         public IEnumerable<FurnitureItemModel> GetAll()

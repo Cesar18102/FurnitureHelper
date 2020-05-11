@@ -9,5 +9,6 @@ namespace ServicesContract
         SessionModel LogIn(LogInDto dto);
 
         AccountModel Update(UpdateAccountDto dto);
+        AccountModel GetInfo(SessionDto dto);
     }
 }

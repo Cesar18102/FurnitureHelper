@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Autofac;
@@ -29,6 +30,29 @@ namespace Services
 
         private IDictionary<string, ManufacturerSellModel> PendingOrders = new Dictionary<string, ManufacturerSellModel>();
         private ICollection<int> ReservedConcretePartsIds = new List<int>();
+        private const int SECONDS_TO_EXPIRE_ORDER = 120;
+
+        private IDictionary<string, DateTime> Expires = new Dictionary<string, DateTime>();
+        private Task CleanerTask { get; set; }
+        private const int CLEANER_DELAY = 60;
+
+        public TradeService()
+        {
+            CleanerTask = Task.Run(() =>
+            {
+                while (true)
+                {
+                    IEnumerable<string> expired = Expires.Where(ex => ex.Value < DateTime.UtcNow)
+                                                         .Select(ex => ex.Key).ToList();
+
+                    foreach(string orderId in expired)
+                        if (PendingOrders.ContainsKey(orderId))
+                            RemoveReservation(orderId, PendingOrders[orderId]);
+
+                    CleanerTask.Wait(CLEANER_DELAY * 1000);
+                }
+            });
+        }
 
         public PaymentInfo CreateManufacturerTradePromise(AddManufacturerSellDto manufacturerSellDto, string callbackEndpoint)
         {
@@ -51,13 +75,16 @@ namespace Services
             if(accountExtension.AccountId != manufacturerSellDto.Session.UserId)
                 throw new ForbiddenException("account owner");
 
-            ManufacturerSellModel sellModel = BuildOrderFromManufacturer(accountExtension, manufacturerSellDto.Positions);
             string orderId = Guid.NewGuid().ToString();
+            ManufacturerSellModel sellModel = BuildOrderFromManufacturer(orderId, accountExtension, manufacturerSellDto.Positions);
 
+            DateTime expiration = DateTime.UtcNow.AddSeconds(SECONDS_TO_EXPIRE_ORDER);
             PendingOrders.Add(orderId, sellModel);
+            Expires.Add(orderId, expiration);
 
             PaymentPrepareModel paymentPrepare = new PaymentPrepareModel(orderId, sellModel.TotalPrice);
             paymentPrepare.CallbackUrl = callbackEndpoint;
+            paymentPrepare.Expired = expiration;
 
             PaymentInfo payment = PaymentService.CreatePaymentToManufacturer(paymentPrepare);
             return payment;
@@ -78,6 +105,10 @@ namespace Services
                     throw new NotFoundException("pending order");
 
                 ManufacturerSellModel sell = PendingOrders[orderId];
+
+                if (!PaymentService.IsSucceed(payment))
+                    RemoveReservation(orderId, sell);
+
                 sell.SellDate = DateTime.Now;
 
                 UpdateSellPositionsSellDates(sell);
@@ -124,10 +155,14 @@ namespace Services
             foreach (SellPositionModel sellPosition in sell.SellPositions)
                 ReservedConcretePartsIds.Remove(sellPosition.ConcretePart.Id);
 
-            PendingOrders.Remove(orderId);
+            if (PendingOrders.ContainsKey(orderId))
+                PendingOrders.Remove(orderId);
+
+            if (Expires.ContainsKey(orderId))
+                Expires.Remove(orderId);
         }
 
-        private ManufacturerSellModel BuildOrderFromManufacturer(AccountExtensionModel accountExtension, IEnumerable<SellPositionDto> sellPositions)
+        private ManufacturerSellModel BuildOrderFromManufacturer(string orderId, AccountExtensionModel accountExtension, IEnumerable<SellPositionDto> sellPositions)
         {
             ManufacturerSellModel order = new ManufacturerSellModel(accountExtension);
 
@@ -140,7 +175,10 @@ namespace Services
                 );
 
                 if (concretePartsToOrder.Count() != position.Count)
+                {
+                    RemoveReservation(orderId, order);
                     throw new NotFoundException("part " + position.PartId.GetValueOrDefault());
+                }
 
                 foreach (ConcretePartModel concretePartToOrder in concretePartsToOrder)
                 {

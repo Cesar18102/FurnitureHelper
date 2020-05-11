@@ -26,7 +26,6 @@ namespace DataAccess.Entities
         public DateTime? last_sell_date { get; set; }
 
         [Column(TypeName = "char")]
-        [Required]
         [StringLength(17)]
         public string controller_mac { get; set; }
 

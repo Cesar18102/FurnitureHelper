@@ -15,7 +15,6 @@ namespace ServicesContract.Dto
         [JsonProperty("id")]
         public int? Id { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "name is required")]
         [JsonProperty("name")]
         public string Name { get; set; }
 
