@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Net.Http.Headers;
 
 namespace BackEnd
@@ -8,6 +9,8 @@ namespace BackEnd
     {
         public static void Register(HttpConfiguration config)
         {
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
+
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

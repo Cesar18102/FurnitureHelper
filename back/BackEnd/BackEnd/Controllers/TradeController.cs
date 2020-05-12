@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 using Autofac;
 
@@ -11,6 +12,7 @@ using ServicesContract.Dto;
 
 namespace BackEnd.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TradeController : ApiController
     {
         private ITradeService TradeService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<ITradeService>();

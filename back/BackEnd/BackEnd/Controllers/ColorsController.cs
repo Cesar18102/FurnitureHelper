@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 using System.Web.Http;
-using System.Collections.Generic;
+using System.Web.Http.Cors;
 
 using Autofac;
 
@@ -12,6 +12,7 @@ using ServicesContract.Dto;
 
 namespace BackEnd.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ColorsController : ApiController
     {
         private IColorService ColorsService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<IColorService>();

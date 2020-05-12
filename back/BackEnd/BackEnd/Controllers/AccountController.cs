@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using System.Net.Http;
+using System.Web.Http.Cors;
 
 using Autofac;
 
@@ -11,6 +12,7 @@ using ServicesContract.Dto;
 
 namespace BackEnd.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AccountController : ApiController
     {
         private IAccountService AccountService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<IAccountService>();
