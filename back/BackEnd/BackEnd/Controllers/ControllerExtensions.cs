@@ -13,20 +13,20 @@ using ServicesContract.Exceptions;
 
 namespace BackEnd.Controllers
 {
-    public class ResultWrapper<TResult>
+    public class ResultWrapper<TResult> where TResult : class
     {
-        public string error { get; private set; }
-        public string data { get; private set; }
+        public CustomException error { get; private set; }
+        public TResult data { get; private set; }
 
         public ResultWrapper(TResult result)
         {
             error = null;
-            data = JsonConvert.SerializeObject(result);
+            data = result;
         }
 
-        public ResultWrapper(Exception exception)
+        public ResultWrapper(CustomException exception)
         {
-            error = JsonConvert.SerializeObject(exception);
+            error = exception;
             data = null;
         }
     }
@@ -121,7 +121,7 @@ namespace BackEnd.Controllers
                 throw ex;
         }
 
-        private static HttpResponseMessage ExecuteProtectedAndWrapResultCommon<TResult>(this HttpRequestMessage request, Func<TResult> executor)
+        private static HttpResponseMessage ExecuteProtectedAndWrapResultCommon<TResult>(this HttpRequestMessage request, Func<TResult> executor) where TResult : class
         {
             try
             {
@@ -138,6 +138,7 @@ namespace BackEnd.Controllers
 
         private static HttpResponseMessage ExecuteProtectedAndWrapResultWithArgument<TSource, TResult>
             (this HttpRequestMessage request, Func<TSource, TResult> executor, ModelStateDictionary modelState, TSource arg) where TSource : IDto
+                                                                                                                             where TResult : class
         {
             return ExecuteProtectedAndWrapResultCommon<TResult>(
                 request, () => {
@@ -154,7 +155,7 @@ namespace BackEnd.Controllers
         public static HttpResponseMessage ExecuteProtectedAndWrapResult<TSource, TResult>
             (this HttpRequestMessage request, Func<TSource, TResult> executor, 
              ModelStateDictionary modelState, TSource arg) where TSource : IDto
-                                                           where TResult : IModel
+                                                           where TResult : class, IModel
         {
             return ExecuteProtectedAndWrapResultWithArgument<TSource, TResult>(request, executor, modelState, arg);
         }
@@ -168,7 +169,7 @@ namespace BackEnd.Controllers
         }
 
         public static HttpResponseMessage ExecuteProtectedAndWrapResult<TResult>
-            (this HttpRequestMessage request, Func<TResult> executor) where TResult : IModel
+            (this HttpRequestMessage request, Func<TResult> executor) where TResult : class, IModel
         {
             return ExecuteProtectedAndWrapResultCommon<TResult>(request, executor);
         }

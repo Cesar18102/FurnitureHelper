@@ -1,0 +1,27 @@
+.loader, .centered-loader, .default-loader {
+	width : 4em;
+	height : 4em;
+	
+	position : fixed;
+	
+	border : 0.5em solid;
+	border-left : 0.5em solid #FFFFFF00;
+	
+	border-radius : 3.5em;
+	animation: spin 2s linear infinite;
+}
+
+.centered-loader {
+	top : calc(50vh - 2.5em);
+	left : calc(50vw - 2.5em);
+}
+
+.default-loader {
+	border-color : gray;
+	border-left-color : #FFFFFF00;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,49 @@
+html, body {
+	margin : 0;
+	padding : 0;
+}
+
+.default-form {
+	width : 20em;
+	
+	margin-top : 35vh;
+	margin-left : calc(50vw - 10em);
+}
+
+.form-input-wrapper, .form-submit-wrapper {
+	margin-top : 0.6em;
+}
+
+.form-input-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.form-label-required::before {
+	color: red;
+	content : "* ";
+	font-size : 1em;
+	font-weight : bold;
+}
+
+.form-input {
+	height : 1.7em;
+	border-radius : 0.5em;
+	border : 0.05em solid black;
+}
+
+.form-input:valid {
+	color : #00FF00;
+}
+
+.form-input:invalid {
+	color : #CD5C5C
+}
+
+.form-submit {
+	border : 0;
+	height : 1.7em;
+	border-radius : 0.5em;
+	color : black;
+}

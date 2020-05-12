@@ -2,15 +2,59 @@
 	<head>
 		<meta charset="utf-8"/>
 		<title>Furniture Helper</title>
+		<link rel="stylesheet" href="styles/page_wrapper.css"/>
+		<link rel="stylesheet" href="styles/fall_down_menu.css"/>
 	</head>
 	<body>
+		<div class="header">
+			<div id="colors" class="head-navigation-button-left">
+				<span>Colors</span>
+				<div class="fall-down-menu">
+					<div class="fall-down-menu-option">View catalogue</div>
+				</div>
+			</div>
+			<div class="head-navigation-button-left">
+				<span>Materials</span>
+				<div class="fall-down-menu">
+					<div class="fall-down-menu-option">View catalogue</div>
+				</div>
+			</div>
+			<div class="head-navigation-button-left">
+				<span>Furniture</span>
+				<div class="fall-down-menu">
+					<div class="fall-down-menu-option">View catalogue</div>
+				</div>
+			</div>
+			<div class="head-navigation-button-left">
+				<span>Part Store</span>
+				<div class="fall-down-menu">
+					<div class="fall-down-menu-option">View catalogue</div>
+					<div class="fall-down-menu-option">Add</div>
+					<div class="fall-down-menu-option">Update</div>
+				</div>
+			</div>
+			<div class="head-navigation-button-left">
+				<span>User Sells</span>
+				<div class="fall-down-menu">
+					<div class="fall-down-menu-option">hello</div>
+				</div>
+			</div>
+			
+			<div class="head-navigation-button-right" onclick="changeContent('pages/log_in.html')">Log In</div>
+			<div class="head-navigation-button-right" onclick="changeContent('pages/sign_up.html')">Sign Up</div>
+		</div>
+		
+		<iframe id="content" class="iframe-body" src="pages/sign_up.html"></iframe>
+		
+		<div class="footer"></div>
 		
 		<script>
-			let CON;
-			import("./scripts/connector.js").then(module => {
-				CON = module;
-			});
+			let FRAME = document.getElementById("content");
+			
+			function changeContent(source) {
+				if(FRAME.getAttribute("src") != source)
+					FRAME.setAttribute("src", source);
+			}
 		</script>
-		
 	</body>
 </html>
