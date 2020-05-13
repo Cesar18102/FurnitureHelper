@@ -1,0 +1,44 @@
+<div class="header">
+	<div id="colors" class="head-navigation-button-left">
+		<span>Colors</span>
+		<div class="fall-down-menu">
+			<div class="fall-down-menu-option" onclick="changeContent('pages/color_list.html')">View catalogue</div>
+		</div>
+	</div>
+	<div class="head-navigation-button-left">
+		<span>Materials</span>
+		<div class="fall-down-menu">
+			<div class="fall-down-menu-option">View catalogue</div>
+		</div>
+	</div>
+	<div class="head-navigation-button-left">
+		<span>Furniture</span>
+		<div class="fall-down-menu">
+			<div class="fall-down-menu-option">View catalogue</div>
+		</div>
+	</div>
+	<div class="head-navigation-button-left">
+		<span>Part Store</span>
+		<div class="fall-down-menu">
+			<div class="fall-down-menu-option">View catalogue</div>
+			<div class="fall-down-menu-option">Add</div>
+			<div class="fall-down-menu-option">Update</div>
+		</div>
+	</div>
+	<div class="head-navigation-button-left">
+		<span>User Sells</span>
+		<div class="fall-down-menu">
+			<div class="fall-down-menu-option">hello</div>
+		</div>
+	</div>	
+	<div class="head-navigation-button-right" onclick="changeContent('pages/log_in.html')">Log In</div>
+	<div class="head-navigation-button-right" onclick="changeContent('pages/sign_up.html')">Sign Up</div>
+</div>
+<script>
+	let PATH_PREFIX = "/FurnitureFrontEnd/"
+			
+	function changeContent(source) {
+		if(window.location.pathname != PATH_PREFIX + source)
+			window.location = PATH_PREFIX + source;
+	}
+</script>

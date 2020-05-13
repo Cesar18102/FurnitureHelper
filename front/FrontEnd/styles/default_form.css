@@ -1,12 +1,7 @@
-html, body {
-	margin : 0;
-	padding : 0;
-}
-
 .default-form {
 	width : 20em;
 	
-	margin-top : 35vh;
+	padding-top : 30vh;
 	margin-left : calc(50vw - 10em);
 }
 

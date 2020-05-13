@@ -1,9 +1,9 @@
-async function handleContinious(e, loader, continious, prevent = true) {
-	if(!e.originalEvent.defaultPrevented) {
+async function handleContinious(continious, loader, e, prevent = true) {
+	if(e == null || e == undefined || !e.originalEvent.defaultPrevented) {
 		loader.hidden = false;
 		let result = await continious();
 		
-		if(prevent) {
+		if(e != null && e != undefined && prevent) {
 			e.originalEvent.preventDefault();
 			e.originalEvent.stopPropagation();
 		}

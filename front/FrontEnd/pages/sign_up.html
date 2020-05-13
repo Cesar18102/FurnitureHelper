@@ -2,8 +2,11 @@
 	<head>
 		<meta charset="utf-8"/>
 		<title>Furniture Helper</title>
-		<link rel="stylesheet" href="../styles/default_form.css"/>
+		<link rel="stylesheet" href="../styles/common.css"/>
+		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
+		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
 		<link rel="stylesheet" href="../styles/loader.css"/>
+		<link rel="stylesheet" href="../styles/default_form.css"/>
 		<script src="../scripts/libs/jquery.js"></script>
 		<script src="../scripts/libs/jquery.serializejson.js"></script>
 		<script src="../scripts/connector.js"></script>
@@ -12,39 +15,46 @@
 		<script src="../scripts/response_handler.js"></script>
 	</head>
 	<body onload="init()">
-		<div id="loader" class="centered-loader default-loader" hidden></div>
+		<div id="header-wrapper"></div>
 		
-		<form class="default-form" id="signUpForm">
-			<div class="form-input-wrapper">
-				<label class="form-label-required" for="login">Login:</label>
-				<input class="form-input" name="login" pattern="^\w{5,64}$" required />
-			</div>
-			<div class="form-input-wrapper">
-				<label class="form-label-required" for="password">Password:</label>
-				<input class="form-input" name="password" id="pwd" pattern="^\w{8,64}$" type="password" required />
-			</div>
-			<div class="form-input-wrapper">
-				<label class="form-label-required" for="confirm_password" required>Confirm password:</label>
-				<input class="form-input" id="cpwd" type="password" required />
-			</div>
-			<div class="form-input-wrapper">
-				<label class="form-label-required" for="email" required>Email:</label>
-				<input class="form-input" name="email" type="email" required />
-			</div>
-			<div class="form-input-wrapper">
-				<label class="form-label-required" for="first_name" required>First name:</label>
-				<input class="form-input" name="first_name" pattern="^[A-Za-zА-Яа-яІіЇїЄєЙйЁё]+(\\-[A-Za-zА-Яа-яІіЇїЄєЙйЁё]+)*$" required />
-			</div>
-			<div class="form-input-wrapper">
-				<label class="form-label-required" for="last_name" required>Last name:</label>
-				<input class="form-input" name="last_name" pattern="^[A-Za-zА-Яа-яІіЇїЄєЙйЁё]+(\\-[A-Za-zА-Яа-яІіЇїЄєЙйЁё]+)*$" required />
-			</div>
-			<center class="form-submit-wrapper">
-				<input class="form-submit" type="submit" value="Sign Up" />
-			</center>
-		</form>
+		<div class="content">
+			<div id="loader" class="centered-loader default-loader" hidden></div>
+			<form class="default-form" id="signUpForm">
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="login">Login:</label>
+					<input class="form-input" name="login" pattern="^\w{5,64}$" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="password">Password:</label>
+					<input class="form-input" name="password" id="pwd" pattern="^\w{8,64}$" type="password" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="confirm_password" required>Confirm password:</label>
+					<input class="form-input" id="cpwd" type="password" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="email" required>Email:</label>
+					<input class="form-input" name="email" type="email" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="first_name" required>First name:</label>
+					<input class="form-input" name="first_name" pattern="^[A-Za-zА-Яа-яІіЇїЄєЙйЁё]+(\\-[A-Za-zА-Яа-яІіЇїЄєЙйЁё]+)*$" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="last_name" required>Last name:</label>
+					<input class="form-input" name="last_name" pattern="^[A-Za-zА-Яа-яІіЇїЄєЙйЁё]+(\\-[A-Za-zА-Яа-яІіЇїЄєЙйЁё]+)*$" required />
+				</div>
+				<center class="form-submit-wrapper">
+					<input class="form-submit" type="submit" value="Sign Up" />
+				</center>
+			</form>
+		</div>
+		
+		<div class="footer"></div>
 	
 		<script>
+			$(function(){ $("#header-wrapper").load("header.html"); });
+		
 			function init() {
 				let pwd = document.getElementById("pwd");
 				let confirm = document.getElementById("cpwd");
@@ -52,7 +62,7 @@
 				let loader = document.getElementById("loader");
 				
 				addValidation(form, confirm, "password mismatch", cpwd => cpwd.value == pwd.value);
-				$(form).submit(async e => signUpHandler(await handleContinious(e, loader, signUp)));
+				$(form).submit(async e => signUpHandler(await handleContinious(signUp, loader, e)));
 			}
 			
 			async function signUp() {
