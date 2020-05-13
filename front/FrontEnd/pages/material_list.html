@@ -1,0 +1,80 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Furniture Helper</title>
+		<link rel="stylesheet" href="../styles/common.css"/>
+		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
+		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
+		<link rel="stylesheet" href="../styles/loader.css"/>
+		<link rel="stylesheet" href="../styles/color_list.css"/>
+		<link rel="stylesheet" href="../styles/material_list.css"/>
+		<script src="../scripts/libs/vue.js"></script>
+		<script src="../scripts/libs/jquery.js"></script>
+		<script src="../scripts/connector.js"></script>
+		<script src="../scripts/continious_handler.js"></script>
+		<script src="../scripts/response_handler.js"></script>
+	</head>
+	<body>
+		<div id="header-wrapper"></div>
+		
+		<div class="content">
+			<div id="loader" class="centered-loader default-loader"></div>
+			<div id="material-list-wrapper" class="default-list">
+				<div v-for="material in materials" class="default-list-item">
+					<div class="material-list-item-content">
+						#{{ material.id }} "{{ material.name }}" — {{ material.description }}
+					</div>
+					<div class="material-possible-colors-list">
+						<div v-for="color in material.possible_colors" 
+							 v-bind:style="material | materialColorData color" 
+							 class="default-sampler material-sampler"
+							 v-bind:title="color | colorTooltip"
+						></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="footer"></div>
+		
+		<script>
+			Vue.filter('materialColorData', function (material, color) {
+				return "--texture: url(" + material.texture_url + ");" + 
+					   "--color-mask: #" + color.hex + ";"
+					  
+			});
+			
+			Vue.filter('colorTooltip', function (color) {
+				return "#" + color.id + " " + color.name;
+			});
+		
+			$(function(){ $("#header-wrapper").load("header.html"); });
+		
+			async function init() {
+				let loader = document.getElementById("loader");
+				materialListHandler(await handleContinious(getMaterialList, loader));
+			}
+			
+			async function getMaterialList() {
+				return await SendGetAsync("material/get");
+			}
+			
+			function materialListHandler(result) {
+				handleResponse(
+					result,
+					error => alert(error.error_message),
+					data => buildMaterialList(data)
+				);
+			}
+			
+			function buildMaterialList(materialList) {
+				new Vue({
+					el : "#material-list-wrapper",
+					data : { materials : materialList } 
+				});
+			}
+			
+			init();
+		</script>
+	</body>
+</html>

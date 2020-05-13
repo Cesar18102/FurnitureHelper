@@ -31,5 +31,10 @@ namespace ServicesContract.Dto
         [Range(0, 255, ErrorMessage = "blue must be an integer between 0 and 255")]
         [JsonProperty("blue")]
         public int? Blue { get; set; }
+
+        [Required(ErrorMessage = "alpha is required")]
+        [Range(0, 255, ErrorMessage = "alpha must be an integer between 0 and 255")]
+        [JsonProperty("alpha")]
+        public int? Alpha { get; set; }
     }
 }

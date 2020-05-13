@@ -82,20 +82,22 @@ namespace Services
                   .ForMember(
                       model => model.Hex,
                       cnf => cnf.MapFrom(dto => (
-                          dto.Red.GetValueOrDefault() * 256 * 256 + 
-                          dto.Green.GetValueOrDefault() * 256 +
-                          dto.Blue.GetValueOrDefault()
-                      ).ToString("X6"))
+                          dto.Red.GetValueOrDefault() * 256 * 256 * 256 + 
+                          dto.Green.GetValueOrDefault() * 256 * 256 +
+                          dto.Blue.GetValueOrDefault() * 256 + 
+                          dto.Alpha.GetValueOrDefault()
+                      ).ToString("X8"))
                   );
 
             config.CreateMap<UpdateColorDto, PartColorModel>()
                   .ForMember(
                       model => model.Hex, 
                       cnf => cnf.MapFrom(dto => (
-                          dto.Red.GetValueOrDefault() * 256 * 256 + 
-                          dto.Green.GetValueOrDefault() * 256 + 
-                          dto.Blue.GetValueOrDefault()
-                      ).ToString("X6"))
+                          dto.Red.GetValueOrDefault() * 256 * 256 * 256 + 
+                          dto.Green.GetValueOrDefault() * 256 * 256 + 
+                          dto.Blue.GetValueOrDefault() * 256 + 
+                          dto.Alpha.GetValueOrDefault()
+                      ).ToString("X8"))
                   );
 
             config.CreateMap<int, PartColorModel>()

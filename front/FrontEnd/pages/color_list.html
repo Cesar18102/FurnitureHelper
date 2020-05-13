@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
 		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
 		<link rel="stylesheet" href="../styles/loader.css"/>
+		<link rel="stylesheet" href="../styles/color_list.css"/>
 		<script src="../scripts/libs/vue.js"></script>
 		<script src="../scripts/libs/jquery.js"></script>
 		<script src="../scripts/connector.js"></script>
@@ -17,15 +18,23 @@
 		
 		<div class="content">
 			<div id="loader" class="centered-loader default-loader"></div>
-			
-			<div id="color-list-wrapper" v-for="color in colors">
-				<span>{{ color.name }}</span>
+			<div id="color-list-wrapper" class="default-list">
+				<div v-for="color in colors" class="default-list-item">
+					<div v-bind:style="color.hex | hexToBackColor" class="default-sampler"></div>
+					<div class="color-list-item-content">
+						#{{ color.id }} "{{ color.name }}" — {{ color.description }}
+					</div>
+				</div>
 			</div>
 		</div>
 		
 		<div class="footer"></div>
 		
 		<script>
+			Vue.filter('hexToBackColor', function (hex) {
+				return "background-color : #" + hex + ";";
+			});
+		
 			$(function(){ $("#header-wrapper").load("header.html"); });
 		
 			async function init() {
