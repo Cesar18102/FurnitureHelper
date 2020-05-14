@@ -22,7 +22,7 @@
 				<div v-for="color in colors" class="default-list-item">
 					<div v-bind:style="color.hex | hexToBackColor" class="default-sampler"></div>
 					<div class="color-list-item-content">
-						#{{ color.id }} "{{ color.name }}" — {{ color.description }}
+						#{{ color.id }} "{{ color.name }}" <span v-if="color.description != ''">— {{ color.description }}</span>
 					</div>
 				</div>
 			</div>

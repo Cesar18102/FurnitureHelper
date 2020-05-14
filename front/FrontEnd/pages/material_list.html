@@ -6,7 +6,6 @@
 		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
 		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
 		<link rel="stylesheet" href="../styles/loader.css"/>
-		<link rel="stylesheet" href="../styles/color_list.css"/>
 		<link rel="stylesheet" href="../styles/material_list.css"/>
 		<script src="../scripts/libs/vue.js"></script>
 		<script src="../scripts/libs/jquery.js"></script>
@@ -22,7 +21,7 @@
 			<div id="material-list-wrapper" class="default-list">
 				<div v-for="material in materials" class="default-list-item">
 					<div class="material-list-item-content">
-						#{{ material.id }} "{{ material.name }}" — {{ material.description }}
+						#{{ material.id }} "{{ material.name }}" <span v-if="material.description != ''">— {{ material.description }}</span>
 					</div>
 					<div class="material-possible-colors-list">
 						<div v-for="color in material.possible_colors" 

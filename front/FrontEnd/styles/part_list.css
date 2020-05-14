@@ -1,0 +1,16 @@
+.part-sampler {
+	width : 10em;
+	height : 10em;
+}
+
+.part-material-differ-list {
+	
+}
+
+.part-color-differ-list {
+	display : inline-block;	
+}
+
+.part-renderer {
+	border-radius : 0.2em;
+}
