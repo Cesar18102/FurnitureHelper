@@ -9,11 +9,11 @@ namespace ServicesContract
     {
         FurnitureItemModel RegisterFurnitureItem(AddFurnitureDto dto);
         FurnitureItemModel UpdateFurnitureItem(UpdateFurnitureDto dto);
-
         FurnitureItemModel UpdateConnections(ConnectionsDto dto);
 
-        PartStore GetPartStore(int furnitureItemId);
         IEnumerable<FurnitureItemModel> GetAll();
         IEnumerable<FurnitureItemModel> GetBuildList(SessionDto session);
+
+        InvariantPartStore GetPartStore(int furnitureItemId);
     }
 }

@@ -40,5 +40,11 @@ namespace BackEnd.Controllers
         {
             return Request.ExecuteProtectedAndWrapResult<PartColorModel>(() => ColorsService.GetAll());
         }
+
+        [HttpGet]
+        public HttpResponseMessage Get(int colorId)
+        {
+            return Request.ExecuteProtectedAndWrapResult<PartColorModel>(() => ColorsService.Get(colorId));
+        }
     }
 }

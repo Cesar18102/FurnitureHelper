@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Data.Entity;
 using System.Collections.Generic;
 
 using Models;
@@ -11,6 +12,27 @@ namespace DataAccess.RepoImplementation
     public class ConcretePartRepo : RepoBase<ConcretePartModel, ConcretePartEntity>, IConcretePartRepo
     {
         public ConcretePartRepo(FurnitureHelperContext context) : base(context) { }
+
+        protected override void SingleInclude(ConcretePartEntity entity)
+        {
+            Context.Entry<ConcretePartEntity>(entity).Reference(cpart => cpart.parts).Load();
+            Context.Entry<ConcretePartEntity>(entity).Reference(cpart => cpart.materials).Load();
+            Context.Entry<ConcretePartEntity>(entity).Reference(cpart => cpart.colors).Load();
+        }
+
+        protected override void WholeInclude()
+        {
+            Context.concrete_parts.Include(cpart => cpart.parts)
+                                  .Include(cpart => cpart.materials)
+                                  .Include(cpart => cpart.colors)
+                                  .Load();
+        }
+
+        private void IncludeForEach(IEnumerable<ConcretePartEntity> concreteParts)
+        {
+            foreach (ConcretePartEntity concretePart in concreteParts)
+                SingleInclude(concretePart);
+        }
 
         public ConcretePartModel GetPartByMac(string mac)
         {
@@ -28,15 +50,55 @@ namespace DataAccess.RepoImplementation
             return Mapper.Map<IEnumerable<ConcretePartEntity>, IEnumerable<ConcretePartModel>>( user.ownings.Select(owning => owning.concrete_parts).ToList());
         }
 
-        public IEnumerable<ConcretePartModel> GetUnsoldParts()
+        public IEnumerable<ConcretePartModel> GetStored()
         {
-            List<ConcretePartEntity> parts = Context.concrete_parts.Where(part => part.last_sell_date == null).ToList();
+            IEnumerable<ConcretePartEntity> parts = Context.concrete_parts.Where(part => part.last_sell_date == null);
+            IncludeForEach(parts);
+
+            return Mapper.Map<IEnumerable<ConcretePartEntity>, IEnumerable<ConcretePartModel>>(parts);
+        }
+
+        public IEnumerable<ConcretePartModel> GetStored(int partId)
+        {
+            IEnumerable<ConcretePartEntity> parts = Context.concrete_parts.Where(part =>
+                part.part_id == partId &&
+                part.last_sell_date == null
+            );
+            IncludeForEach(parts);
+
+            return Mapper.Map<IEnumerable<ConcretePartEntity>, IEnumerable<ConcretePartModel>>(parts);
+        }
+
+        public IEnumerable<ConcretePartModel> GetStored(int partId, int materialId)
+        {
+            IEnumerable<ConcretePartEntity> parts = Context.concrete_parts.Where(part =>
+                part.part_id == partId &&
+                part.material_id == materialId &&
+                part.last_sell_date == null
+            );
+            IncludeForEach(parts);
+
+            return Mapper.Map<IEnumerable<ConcretePartEntity>, IEnumerable<ConcretePartModel>>(parts);
+        }
+
+        public IEnumerable<ConcretePartModel> GetStored(int partId, int materialId, int colorId)
+        {
+            IEnumerable<ConcretePartEntity> parts = Context.concrete_parts.Where(part =>
+                part.part_id == partId &&
+                part.material_id == materialId &&
+                part.color_id == colorId &&
+                part.last_sell_date == null
+            );
+            IncludeForEach(parts);
+
             return Mapper.Map<IEnumerable<ConcretePartEntity>, IEnumerable<ConcretePartModel>>(parts);
         }
 
         public IEnumerable<ConcretePartModel> GetForSellParts()
         {
             List<ConcretePartEntity> parts = Context.concrete_parts.Where(part => part.for_sell).ToList();
+            IncludeForEach(parts);
+
             return Mapper.Map<IEnumerable<ConcretePartEntity>, IEnumerable<ConcretePartModel>>(parts);
         }
 

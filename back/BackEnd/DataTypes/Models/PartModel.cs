@@ -6,6 +6,12 @@ namespace Models
 {
     public class PartModel : IModel
     {
+        public class PartComparer : IEqualityComparer<PartModel>
+        {
+            public bool Equals(PartModel x, PartModel y) => x.Id == y.Id;
+            public int GetHashCode(PartModel obj) => 0;
+        }
+
         [JsonProperty("id")]
         public int Id { get; private set; }
 

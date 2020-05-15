@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 
 using Newtonsoft.Json;
@@ -11,38 +10,23 @@ namespace Models
         [JsonProperty("positions")]
         public ICollection<PartStorePosition> Positions { get; private set; } = new List<PartStorePosition>();
 
-        public PartStore() { }
+        private PartStore() { }
+
+        public PartStore(IEnumerable<PartModel> parts, IEnumerable<ConcretePartModel> concreteParts)
+        {
+            Positions = parts.Select(part => 
+                PartStorePosition.CreateByPossible(part, concreteParts.Where(cpart => cpart.Part.Id == part.Id))
+            ).ToList();
+        }
 
         public PartStore(IEnumerable<ConcretePartModel> concreteParts)
         {
-            foreach (ConcretePartModel concretePart in concreteParts)
-            {
-                PartStorePosition storePosition = Positions.FirstOrDefault(position => position.Part.Id == concretePart.Part.Id);
-                if (storePosition == null)
-                    Positions.Add(new PartStorePosition(concretePart.Part, 1));
-                else
-                    storePosition.Increase();
-            }
-        }
+            IEnumerable<IGrouping<PartModel, ConcretePartModel>> partGroups = concreteParts.GroupBy(
+                part => part.Part, new PartModel.PartComparer()
+            );
 
-        public bool Contains(PartStore store) => Contains(store.Positions);
-
-        public bool Contains(IEnumerable<PartStorePosition> positions)
-        {
-            foreach (PartStorePosition position in positions)
-            {
-                PartStorePosition localPosition = positions.FirstOrDefault(pos => pos.Part.Id == position.Part.Id);
-
-                if (localPosition == null || localPosition.Amount < position.Amount)
-                    return false;
-            }
-
-            return true;
-        }
-
-        public void Filter(Predicate<PartStorePosition> predicate)
-        {
-            Positions = Positions.Where(position => predicate(position)).ToList();
+            foreach (IGrouping<PartModel, ConcretePartModel> partGroup in partGroups)
+                Positions.Add(PartStorePosition.CreateByConcrete(partGroup.Key, partGroup.ToList()));
         }
     }
 }

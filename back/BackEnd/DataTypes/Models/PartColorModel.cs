@@ -1,9 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+
+using Newtonsoft.Json;
 
 namespace Models
 {
     public class PartColorModel : IModel
     {
+        public class ColorComparer : IEqualityComparer<PartColorModel>
+        {
+            public bool Equals(PartColorModel x, PartColorModel y) => x.Id == y.Id;
+            public int GetHashCode(PartColorModel obj) => 0;
+        }
+
         [JsonProperty("id")]
         public int Id { get; private set; }
 

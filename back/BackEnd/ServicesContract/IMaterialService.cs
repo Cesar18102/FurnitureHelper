@@ -10,6 +10,8 @@ namespace ServicesContract
     {
         MaterialModel RegisterMaterial(AddMaterialDto dto);
         MaterialModel UpdateMaterial(UpdateMaterialDto dto);
+
+        MaterialModel Get(int materialId);
         IEnumerable<MaterialModel> GetAll();
     }
 }

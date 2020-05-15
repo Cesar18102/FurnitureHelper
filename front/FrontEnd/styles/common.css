@@ -34,3 +34,29 @@ html, body {
 	border-radius : 0.2em;
 	border : 0.05em solid rgb(53, 54, 58);
 }
+
+.pay-cheque {
+	display : inline;
+	text-decoration : underline;
+}
+
+.pay-button {
+	width : 5em;
+	height : 1em;
+	
+	margin-left : 2em;
+	
+	padding : 0.5em;
+	text-align : center;
+	color : rgb(53, 54, 58);
+	display : inline-block;
+	
+	border-radius : 0.2em;
+	border : 0.1em solid rgb(53, 54, 58);
+}
+
+.pay-button:hover {
+	color : white;
+	background-color : rgb(53, 54, 58);
+	transition : color 0.5s, background-color 0.5s;	
+}

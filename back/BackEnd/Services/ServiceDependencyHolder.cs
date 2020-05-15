@@ -184,10 +184,6 @@ namespace Services
 
             config.CreateMap<AccountExtensionModel, AccountExtensionModel>();
             config.CreateMap<PaymentConfirmDto, PaymentInfo>();
-
-            config.CreateMap<SellPositionDto, PartStorePosition>()
-                  .ForMember(model => model.Amount, cnf => cnf.MapFrom(dto => dto.Count.GetValueOrDefault()))
-                  .ForPath(model => model.Part.Id, cnf => cnf.MapFrom(dto => dto.PartId.GetValueOrDefault()));
         }
     }
 }

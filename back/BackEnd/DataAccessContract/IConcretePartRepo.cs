@@ -9,7 +9,11 @@ namespace DataAccessContract
         ConcretePartModel GetPartByMac(string mac);
         IEnumerable<ConcretePartModel> GetOwnedByUser(int userId);
 
-        IEnumerable<ConcretePartModel> GetUnsoldParts();
+        IEnumerable<ConcretePartModel> GetStored();
+        IEnumerable<ConcretePartModel> GetStored(int partId);
+        IEnumerable<ConcretePartModel> GetStored(int partId, int materialId);
+        IEnumerable<ConcretePartModel> GetStored(int partId, int materialId, int colorId);
+
         IEnumerable<ConcretePartModel> GetForSellParts();
 
         IEnumerable<ConcretePartModel> MarkPartsForSell(IEnumerable<ConcretePartModel> parts);

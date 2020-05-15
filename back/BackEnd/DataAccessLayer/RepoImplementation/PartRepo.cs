@@ -7,6 +7,7 @@ using Models;
 using DataAccessContract;
 using DataAccess.Entities;
 using DataAccessContract.Exceptions;
+using System;
 
 namespace DataAccess.RepoImplementation
 {
@@ -63,11 +64,6 @@ namespace DataAccess.RepoImplementation
                 Context.SaveChanges();
                 return Mapper.Map<PartEntity, PartModel>(part);
             }, entity);
-        }
-
-        public int GetCountOfStored(int partId)
-        {
-            return Context.concrete_parts.Where(part => part.part_id == partId && part.last_sell_date == null).Count();
         }
     }
 }

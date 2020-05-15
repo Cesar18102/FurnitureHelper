@@ -29,7 +29,7 @@ namespace Services
             string token = GenerateToken();
             DateTime expires = DateTime.Now.AddSeconds(SESSION_DURATION);
 
-            SessionModel session = new SessionModel(token, expires);
+            SessionModel session = new SessionModel(accountId, token, expires);
             Sessions.Add(accountId, session);
             return session;
         }

@@ -6,9 +6,14 @@
 		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
 		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
 		<link rel="stylesheet" href="../styles/loader.css"/>
+		<link rel="stylesheet" href="../styles/popup.css"/>
 		<link rel="stylesheet" href="../styles/default_form.css"/>
+		
+		<script src="../scripts/libs/vue.js"></script>
 		<script src="../scripts/libs/jquery.js"></script>
 		<script src="../scripts/libs/jquery.serializejson.js"></script>
+		
+		<script src="../scripts/popup.js"></script>
 		<script src="../scripts/connector.js"></script>
 		<script src="../scripts/validate.js"></script>
 		<script src="../scripts/continious_handler.js"></script>
@@ -50,9 +55,22 @@
 			</form>
 		</div>
 		
+		<center id="errorPopupHolder"></center>
 		<div class="footer"></div>
 	
 		<script>
+			let error = { message : undefined };
+			let errorPopup = createPopup({
+				holder : "errorPopupHolder", bodyStyle : "popup-body", wrapperStyle : "popup-wrapper",
+				content : "<div id='errorPopup'>{{ message }}</div>",
+				vue : () => {
+					new Vue({
+						el : "#errorPopup",
+						data : error
+					});
+				}
+			});
+		
 			$(function(){ $("#header-wrapper").load("header.html"); });
 		
 			function init() {
@@ -74,8 +92,11 @@
 			function signUpHandler(result) {
 				handleResponse(
 					result,
-					error => alert(error.error_message),
-					data => { return; }
+					err => {
+						error.message = err.error_message;
+						errorPopup.show();
+					},
+					data => { changeContent('pages/log_in.html'); }
 				);
 			}
 		</script>

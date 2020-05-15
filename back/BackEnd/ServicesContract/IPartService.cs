@@ -13,8 +13,11 @@ namespace ServicesContract
         ConcretePartModel RegisterConcretePart(AddConcretePartDto dto);
 
         PartStore GetStore();
+        PartModel Get(int partId);
+
         PartStore GetUserBids();
         PartStore GetOwned(SessionDto ownerSession);
+        InvariantPartStore GetOwnedInvariant(SessionDto ownerSession);
         IEnumerable<ConcretePartModel> GetOwnedConcrete(SessionDto session);
     }
 }

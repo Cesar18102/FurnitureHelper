@@ -6,6 +6,12 @@ namespace Models
 {
     public class MaterialModel : IModel
     {
+        public class MaterialComparer : IEqualityComparer<MaterialModel>
+        {
+            public bool Equals(MaterialModel x, MaterialModel y) => x.Id == y.Id;
+            public int GetHashCode(MaterialModel obj) => 0;
+        }
+
         [JsonProperty("id")]
         public int Id { get; private set; }
 

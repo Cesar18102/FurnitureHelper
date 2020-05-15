@@ -62,7 +62,7 @@ namespace BackEnd.Controllers
         [HttpGet]
         public HttpResponseMessage GetPartStoreForFurniture(int furnitureItemId)
         {
-            return Request.ExecuteProtectedAndWrapResult<PartStore>(() => FurnitureService.GetPartStore(furnitureItemId));
+            return Request.ExecuteProtectedAndWrapResult<InvariantPartStore>(() => FurnitureService.GetPartStore(furnitureItemId));
         }
     }
 }

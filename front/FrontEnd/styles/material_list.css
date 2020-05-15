@@ -14,7 +14,3 @@
 	background-repeat : no-repeat;
 	background-image : var(--texture);
 }
-
-.material-sampler:tooltip {
-	background-color : red;
-}

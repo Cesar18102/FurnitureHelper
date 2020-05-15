@@ -24,8 +24,14 @@ namespace Services
 
         public PartStore GetOwned(SessionDto ownerSession)
         {
-            IEnumerable<ConcretePartModel> concreteParts = GetOwnedConcrete(ownerSession);
-            return new PartStore(concreteParts);
+            SessionService.CheckSession(ownerSession);
+            return new PartStore(GetOwnedConcrete(ownerSession));
+        }
+
+        public InvariantPartStore GetOwnedInvariant(SessionDto ownerSession)
+        {
+            SessionService.CheckSession(ownerSession);
+            return new InvariantPartStore(GetOwnedConcrete(ownerSession));
         }
 
         public PartStore GetUserBids()
@@ -45,14 +51,7 @@ namespace Services
 
         public PartStore GetStore()
         {
-            PartStore store = new PartStore();
-            foreach (PartModel part in PartRepo.GetAll())
-            {
-                int stored = PartRepo.GetCountOfStored(part.Id);
-                PartStorePosition position = new PartStorePosition(part, stored);
-                store.Positions.Add(position);
-            }
-            return store;
+            return new PartStore(PartRepo.GetAll(), ConcretePartRepo.GetStored());
         }
 
         public ConcretePartModel RegisterConcretePart(AddConcretePartDto dto)
@@ -76,15 +75,16 @@ namespace Services
                 if (partDto.ControllerMac == null && partDto.Amount == null)
                     throw new NotFoundException("nor controller_mac neither amount");
 
+                if(partDto.ControllerMac == null && part.ConnectionHelpers.Count() != 0)
+                    throw new NotFoundException("controller mac for assigned connection helpers");
+                
+                if (partDto.ControllerMac != null && part.ConnectionHelpers.Count() == 0)
+                    throw new NotFoundException("connection helpers to embed controller");
+
                 if (partDto.ControllerMac != null && ConcretePartRepo.GetPartByMac(partDto.ControllerMac) != null)
                     throw new ConflictException("mac address");
 
-                if (partDto.ControllerMac != null)
-                {
-                    ConcretePartModel model = Mapper.Map<AddConcretePartDto, ConcretePartModel>(partDto);
-                    return ConcretePartRepo.Create(model);
-                }
-                else if (part.ConnectionHelpers.Count() == 0)
+                if (partDto.ControllerMac == null)
                 {
                     ICollection<ConcretePartModel> created = new List<ConcretePartModel>();
                     ConcretePartModel model = Mapper.Map<AddConcretePartDto, ConcretePartModel>(partDto);
@@ -94,9 +94,8 @@ namespace Services
 
                     return created.LastOrDefault();
                 }
-                else
-                    throw new NotFoundException("controller mac");
 
+                return ConcretePartRepo.Create(Mapper.Map<AddConcretePartDto, ConcretePartModel>(partDto));
             }, dto);
         }
 
@@ -132,6 +131,11 @@ namespace Services
 
             if (usedPins.Distinct().Count() != usedPins.Count())
                 throw new ConflictException("pin");
+        }
+
+        public PartModel Get(int partId)
+        {
+            return PartRepo.Get(partId);
         }
     }
 }

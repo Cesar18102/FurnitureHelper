@@ -60,7 +60,7 @@ namespace Services
             }, dto);
         }
 
-        public PartStore GetPartStore(int furnitureItemId)
+        public InvariantPartStore GetPartStore(int furnitureItemId)
         {
             FurnitureItemModel furniture = FurnitureRepo.Get(furnitureItemId);
 
@@ -70,11 +70,11 @@ namespace Services
             IEnumerable<IGrouping<int, UsedPartModel>> usedParts = furniture.UsedParts.Where(part => part.PartId.HasValue)
                                                                                       .GroupBy(part => part.PartId.Value);
 
-            PartStore store = new PartStore();
+            InvariantPartStore store = new InvariantPartStore();
             foreach (IGrouping<int, UsedPartModel> used in usedParts)
             {
                 PartModel part = PartRepo.Get(used.Key);
-                PartStorePosition position = new PartStorePosition(part, used.Count());
+                InvariantPartStorePosition position = new InvariantPartStorePosition(part, used.Count());
                 store.Positions.Add(position);
             }
             return store;
@@ -83,8 +83,8 @@ namespace Services
         public bool CanBuild(SessionDto session, int furnitureItemId)
         {
             SessionService.CheckSession(session);
-            PartStore itemPartStore = GetPartStore(furnitureItemId);
-            PartStore userPartStore = PartService.GetOwned(session);
+            InvariantPartStore itemPartStore = GetPartStore(furnitureItemId);
+            InvariantPartStore userPartStore = PartService.GetOwnedInvariant(session);
             return userPartStore.Contains(itemPartStore);
         }
 
@@ -94,12 +94,12 @@ namespace Services
             {
                 SessionService.CheckSession(session);
 
-                Dictionary<FurnitureItemModel, PartStore> partStores = GetAll().ToDictionary(
+                Dictionary<FurnitureItemModel, InvariantPartStore> partStores = GetAll().ToDictionary(
                     furniture => furniture, 
                     furniture => GetPartStore(furniture.Id)
                 );
 
-                PartStore userPartStore = PartService.GetOwned(sessionDto);
+                InvariantPartStore userPartStore = PartService.GetOwnedInvariant(sessionDto);
                 return partStores.Where(store => userPartStore.Contains(store.Value))
                                  .Select(store => store.Key);
 

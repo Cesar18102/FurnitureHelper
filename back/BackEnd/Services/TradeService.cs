@@ -190,9 +190,16 @@ namespace Services
             foreach (SellPositionDto sellPosition in needed)
             {
                 int partId = sellPosition.PartId.GetValueOrDefault();
+                int materialId = sellPosition.MaterialId.GetValueOrDefault();
+                int colorId = sellPosition.ColorId.GetValueOrDefault();
                 int count = sellPosition.Count.GetValueOrDefault();
 
-                IEnumerable<ConcretePartModel> possible = source.Where(part => part.Part.Id == partId);
+                IEnumerable<ConcretePartModel> possible = source.Where(part => 
+                    part.Part.Id == partId &&
+                    part.SelectedMaterial.Id == materialId &&
+                    part.SelectedColor.Id == colorId
+                );
+
                 IEnumerable<ConcretePartModel> order = possible.Where(part => !IsReserved(part.Id)).Take(count).ToList();
 
                 if (order.Count() != count)
@@ -208,7 +215,7 @@ namespace Services
         {
             SellModel sell = new SellModel(accountExtension);
 
-            IEnumerable<ConcretePartModel> source = ConcretePartRepo.GetUnsoldParts();
+            IEnumerable<ConcretePartModel> source = ConcretePartRepo.GetStored();
             IEnumerable<ConcretePartModel> order = GetOrderFromSource(sellPositions, source, "part ");
 
             foreach (ConcretePartModel concretePart in order)

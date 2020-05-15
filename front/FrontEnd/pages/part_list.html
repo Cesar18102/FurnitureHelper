@@ -7,9 +7,16 @@
 		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
 		<link rel="stylesheet" href="../styles/loader.css"/>
 		<link rel="stylesheet" href="../styles/part_list.css"/>
+		<link rel="stylesheet" href="../styles/default_form.css"/>
+		<link rel="stylesheet" href="../styles/popup.css"/>
+		
 		<script src="../scripts/libs/vue.js"></script>
 		<script src="../scripts/libs/jquery.js"></script>
 		<script src="../scripts/libs/three.js"></script>
+		
+		<script src="../scripts/pay.js"></script>
+		<script src="../scripts/cart.js"></script>
+		<script src="../scripts/popup.js"></script>
 		<script src="../scripts/connector.js"></script>
 		<script src="../scripts/continious_handler.js"></script>
 		<script src="../scripts/response_handler.js"></script>
@@ -20,51 +27,101 @@
 		<div class="content">
 			<div id="loader" class="centered-loader default-loader"></div>
 			<div id="part-list-wrapper" class="default-list">
-				<div v-for="partEntry in partStore" class="default-list-item">
+				<div v-for="partPosition in partStore" class="default-list-item">
 					<div class="part-info">
-						#{{ partEntry.part.id }} "{{ partEntry.part.name }}" <span v-if="partEntry.part.description != ''">— {{ partEntry.part.description }}</span>
+						#{{ partPosition.part.id }} "{{ partPosition.part.name }}" 
+						<span v-if="partPosition.part.description != ''">— {{ partPosition.part.description }}</span>
 					</div>
-					<div class="part-price">
-						{{ partEntry.part.price }}UAH
-					</div>
-					<div v-for="material in partEntry.part.possible_materials" class="part-material-differ-list">
-						<div v-for="color in material.possible_colors" class="part-color-differ-list">
-							<div v-bind:model="partEntry.part.model_url" 
-								 v-bind:texture="material.texture_url" 
-								 v-bind:color="color.hex" 
-								 v-bind:title="color.name"
-								 class="part-sampler" 
-							></div>
-						</div>
-					</div>
+					<table v-for="materialPosition in partPosition.material_positions" cellspacing="5">
+						<th v-bind:colspan="materialPosition.color_positions.length">
+							Material: #{{ materialPosition.material.id }} {{ materialPosition.material.name }} — 
+							{{ Math.round(partPosition.part.price * materialPosition.material.price_coeff * 100) / 100 }} UAH
+						</th>
+						<tr>
+							<td v-for="colorPosition in materialPosition.color_positions">
+								<center>
+									<span v-if="colorPosition.amount == 0">Not available</span>
+									<span v-if="colorPosition.amount != 0">Stored amount: {{ colorPosition.amount }}</span>
+								</center>
+							</td>
+						</tr>
+						<tr>
+							<td v-for="colorPosition in materialPosition.color_positions">
+								<div v-bind:model="partPosition.part.model_url" 
+									 v-bind:texture="materialPosition.material.texture_url" 
+									 v-bind:color="colorPosition.color.hex" 
+									 v-bind:title="partPosition.part | partTooltip materialPosition.material colorPosition.color"
+									 v-bind:part-id="partPosition.part.id"
+									 v-bind:part-name="partPosition.part.name"
+									 v-bind:part-price="partPosition.part.price"
+									 v-bind:material-id="materialPosition.material.id"
+									 v-bind:material-name="materialPosition.material.name"
+									 v-bind:material-price="materialPosition.material.price_coeff"
+									 v-bind:color-id="colorPosition.color.id"
+									 v-bind:color-name="colorPosition.color.name"
+									 v-bind:max-amount="colorPosition.amount"
+									 onclick="updateSelectedPart()"
+									 class="part-sampler" 
+								></div>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
 		
+		<center id="popupHolder"></center>
+		<center id="errorPopupHolder"></center>
+		
 		<div class="footer"></div>
 		
-		<script id="vertexShader" type="x-shader/x-vertex">
-			uniform float time;
-			uniform vec2 resolution;
-			void main()	{
-				gl_Position = vec4( position, 1.0 );
-			}
-		</script>
-
-		<script id="fragmentShader" type="x-shader/x-fragment">
-			uniform float time;
-			uniform vec2 resolution;
-			void main()	{
-				gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-			}
-		</script>
-		
 		<script>
-			$(function(){ $("#header-wrapper").load("header.html"); });
+			
+			let selectedPart = { part : undefined, material : undefined, color : undefined, max_amount : undefined };
+			let addToCartPopup = createPopup({
+				holder : "popupHolder", bodyStyle : "popup-body", wrapperStyle : "popup-wrapper",
+				content : "<div id='add-to-cart-popup'>" + 
+								"Add to cart \"{{ part.name }}\" made of \"{{ material.name }}\" colored \"{{ color.name }}\" <br/><br/>" + 
+								"<form id='add-to-cart-form'>" + 
+									"<div class='form-input-wrapper'>" + 
+										"<label for='amount'>Amount: </label>" + 
+										"<input class='form-input' name='amount' v-model='amount' type='number' min='1' value='1' v-bind:max='max_amount'></input>" +
+									"</div>" + 
+									"<br/><center>" + 
+										"<span> Total: {{ Math.round(part.price * material.price * (amount == null ? 0 : amount) * 100) / 100 }}UAH &nbsp&nbsp&nbsp</span>" + 
+										"<input class='form-submit' onclick='addToCart()' type='submit' value='Add to cart'></input>" + 
+									"</center>" + 
+								"</form>" + 
+						  "</div>",
+				vue : () => {
+					new Vue({
+						el : "#add-to-cart-popup",
+						data : selectedPart
+					});
+				}
+			});
+			
+			let error = { message : undefined };
+			let errorPopup = createPopup({
+				holder : "errorPopupHolder", bodyStyle : "popup-body", wrapperStyle : "popup-wrapper",
+				content : "<div id='errorPopup'>{{ message }}</div>",
+				vue : () => {
+					new Vue({
+						el : "#errorPopup",
+						data : error
+					});
+				}
+			});
+			
+			Vue.filter("partTooltip", (part, material, color) => {
+				return "#" + part.id + " " + part.name + ", #" + material.id + " " + material.name + ", #" + color.id + " " + color.name;
+			});
 		
 			async function init() {
 				let loader = document.getElementById("loader");
 				partListHandler(await handleContinious(getPartList, loader));
+		
+				$(function(){ $("#header-wrapper").load("header.html"); });
 			}
 			
 			async function getPartList() {
@@ -74,7 +131,10 @@
 			function partListHandler(result) {
 				handleResponse(
 					result,
-					error => alert(error.error_message),
+					err => {
+						error.message = err.error_message;
+						errorPopup.show();
+					},
 					data => buildPartList(data)
 				);
 			}
@@ -84,6 +144,41 @@
 					el : "#part-list-wrapper",
 					data : { partStore : partList.positions } 
 				});
+			}
+			
+			async function addToCart() {
+				if(!document.getElementById("add-to-cart-form").checkValidity()) {
+					error.message = "Invalid data!";
+					errorPopup.show();
+				} else {
+					await dropPaymentInfo();
+					addToCartPopup.hide();
+					await addToCartStore(selectedPart);
+				}
+			}
+			
+			function updateSelectedPart() {
+				let part = window.event.currentTarget;
+				let newSelectedPart = {
+					part : {
+						id : part.getAttribute("part-id"),
+						name : part.getAttribute("part-name"),
+						price : part.getAttribute("part-price")
+					}, material : {
+						id : part.getAttribute("material-id"),
+						name : part.getAttribute("material-name"),
+						price : part.getAttribute("material-price")
+					}, color : {
+						id : part.getAttribute("color-id"),
+						name : part.getAttribute("color-name"),
+					}, max_amount : part.getAttribute("max-amount")
+				}
+			
+				Object.assign(selectedPart, newSelectedPart);
+				addToCartPopup.show();
+				
+				window.event.preventDefault();
+				window.event.stopPropagation();
 			}
 			
 			function render(renderer, scene, camera, motion) {

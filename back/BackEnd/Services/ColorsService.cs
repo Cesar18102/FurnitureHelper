@@ -52,5 +52,10 @@ namespace Services
         {
             return ColorRepo.GetAll();
         }
+
+        public PartColorModel Get(int colorId)
+        {
+            return ColorRepo.Get(colorId);
+        }
     }
 }

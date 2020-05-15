@@ -49,5 +49,10 @@ namespace Services
         {
             return MaterialRepo.GetAll();
         }
+
+        public MaterialModel Get(int materialId)
+        {
+            return MaterialRepo.Get(materialId);
+        }
     }
 }

@@ -10,6 +10,8 @@ namespace ServicesContract
     {
         PartColorModel RegisterColor(AddColorDto dto);
         PartColorModel UpdateColor(UpdateColorDto dto);
+        
+        PartColorModel Get(int colorId);
         IEnumerable<PartColorModel> GetAll();
     }
 }
