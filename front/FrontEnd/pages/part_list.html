@@ -11,8 +11,9 @@
 		<link rel="stylesheet" href="../styles/popup.css"/>
 		
 		<script src="../scripts/libs/vue.js"></script>
-		<script src="../scripts/libs/jquery.js"></script>
 		<script src="../scripts/libs/three.js"></script>
+		<script src="../scripts/libs/OBJLoader.js"></script>
+		<script src="../scripts/libs/jquery.js"></script>
 		
 		<script src="../scripts/pay.js"></script>
 		<script src="../scripts/cart.js"></script>
@@ -20,8 +21,11 @@
 		<script src="../scripts/connector.js"></script>
 		<script src="../scripts/continious_handler.js"></script>
 		<script src="../scripts/response_handler.js"></script>
+		
+		<script src="../scripts/draw/part_render.js"></script>
+		<script src="../scripts/draw/scene_render.js"></script>
 	</head>
-	<body>
+	<body onload="initRender()">
 		<div id="header-wrapper"></div>
 		
 		<div class="content">
@@ -187,84 +191,42 @@
 				motion();
 			}
 			
-			function initPartRenderers() {
+			function initRender() {
+				initPartRenderers();
+			}
+			
+			function getCenterPoint(mesh) {
+				mesh.geometry.computeBoundingBox();   
+				let center = mesh.geometry.boundingBox.getCenter();
+				mesh.localToWorld(center);
+				return center;
+			}
+			
+			async function initPartRenderers() {
 				let partRenderers = $(".part-sampler");
-				for(let partRenderer of partRenderers) {
-					let hex = partRenderer.getAttribute("color");
-					let red = parseInt(hex.substr(0, 2), 16) / 256;
-					let green = parseInt(hex.substr(2, 2), 16) / 256;
-					let blue = parseInt(hex.substr(4, 2), 16) / 256;
-					let alpha = parseInt(hex.substr(6, 2), 16) / 256;
-					
-					let textureUrl = partRenderer.getAttribute("texture");
-					let modelUrl = partRenderer.getAttribute("model");
+				let OBJLoader = new THREE.OBJLoader();
 				
-					let scene = new THREE.Scene();
-					scene.background = new THREE.Color(0xFFFFFF);
-					
-					let renderer = new THREE.WebGLRenderer();
-					renderer.shadowMap.enabled = true;
-					renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-					renderer.domElement.classList.add("part-renderer");
-					renderer.setSize(partRenderer.offsetWidth, partRenderer.offsetHeight);
-					partRenderer.appendChild(renderer.domElement);
-					
-					let camera = new THREE.PerspectiveCamera(30, partRenderer.offsetWidth / partRenderer.offsetHeight, 0.1, 1000);
-					camera.position.set(2, 3, 5);
-					camera.lookAt(new THREE.Vector3(0, 0, 0));
-					
-					let partGeometry = new THREE.BoxGeometry().rotateY(-0.4);
-					let partTexture = new THREE.TextureLoader().load(textureUrl);
-					let partMaterial = new THREE.MeshMatcapMaterial( { map: partTexture } );
-					
-					partMaterial.onBeforeCompile = shader => {
-						shader.uniforms.mycolor = { value : new THREE.Color(red * alpha, green * alpha, blue * alpha) };
-						shader.fragmentShader = shader.fragmentShader.replace(
-							"uniform vec3 diffuse;", 
-							"uniform vec3 mycolor;\nuniform vec3 diffuse;"
-						);
-						shader.fragmentShader = shader.fragmentShader.replace(
-							"gl_FragColor = vec4( outgoingLight", 
-							"outgoingLight = vec3((outgoingLight.x + mycolor.x) / 2.0, (outgoingLight.y + mycolor.y) / 2.0, (outgoingLight.z + mycolor.z) / 2.0);\n gl_FragColor = vec4( outgoingLight"
-						);
+				for(let partRenderer of partRenderers) {
+					let renderInfo = renderScene(partRenderer, "part-renderer");
+					let partRenderInfo = {
+						model_url : partRenderer.getAttribute("model"),
+						texture_url : partRenderer.getAttribute("texture"),
+						color : partRenderer.getAttribute("color")
 					};
-					
-					let part = new THREE.Mesh(partGeometry, partMaterial);
-					part.castShadow = true;
-					scene.add(part);
-					
-					let light = new THREE.PointLight(0xFFFFFF, 1);
-					light.position.set(10, 10, 10);
-					light.castShadow = true;
-					scene.add(light);
-					
-					let bottomPlaneGeometry = new THREE.PlaneGeometry(20, 20, 32, 32).rotateX(-Math.PI / 2).translate(0, -2, 0);
-					let bottomPlaneMaterial = new THREE.MeshPhysicalMaterial( { color: 0xFFFFFF } );
-					let bottomPlane = new THREE.Mesh(bottomPlaneGeometry, bottomPlaneMaterial);
-					bottomPlane.receiveShadow = true;
-					scene.add(bottomPlane);
-					
-					let backPlaneGeometry = new THREE.PlaneGeometry(20, 20, 32, 32).translate(0, 0, -2);
-					let backPlaneMaterial = new THREE.MeshPhysicalMaterial( { color: 0xEEEEEE } );
-					let backPlane = new THREE.Mesh(backPlaneGeometry, backPlaneMaterial);
-					backPlane.receiveShadow = true;
-					scene.add(backPlane);
-					
-					let leftPlaneGeometry = new THREE.PlaneGeometry(20, 20, 32, 32).rotateY(Math.PI / 2).translate(-2, 0, 0);
-					let leftPlaneMaterial = new THREE.MeshPhysicalMaterial( { color: 0xDDDDDD } );
-					let leftPlane = new THREE.Mesh(leftPlaneGeometry, leftPlaneMaterial);
-					leftPlane.receiveShadow = true;
-					scene.add(leftPlane);
-					
-					render(renderer, scene, camera, () => {
-						part.geometry.rotateX(0.01);
-						part.geometry.rotateY(0.01);
-					});
+					renderPart(
+						partRenderInfo, 
+						renderInfo, 
+						OBJLoader,
+						part => {
+							part.geometry.rotateX(0.01);
+							part.geometry.rotateY(0.01);
+							part.geometry.rotateZ(0.01);
+						}
+					);
 				}
 			}
 			
 			init();
-			$(document).ready(() => initPartRenderers());
 		</script>
 	</body>
 </html>
