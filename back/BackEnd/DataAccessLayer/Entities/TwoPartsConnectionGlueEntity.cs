@@ -17,9 +17,6 @@ namespace DataAccess.Entities
         public string comment_text { get; set; }
 
         public int id { get; set; }
-        public float pos_x { get; set; }
-        public float pos_y { get; set; }
-        public float pos_z { get; set; }
         public virtual PartEntity parts { get; set; }
         public virtual TwoPartsConnectionEntity two_parts_connection { get; set; }
 

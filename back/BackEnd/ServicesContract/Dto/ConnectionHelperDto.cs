@@ -30,18 +30,6 @@ namespace ServicesContract.Dto
         [JsonProperty("pos_z_other")]
         public float? PosZOther { get; set; }
 
-        [Required(ErrorMessage = "pos_x_help is required")]
-        [JsonProperty("pos_x_help")]
-        public float PosXHelp { get; set; }
-
-        [Required(ErrorMessage = "pos_y_help is required")]
-        [JsonProperty("pos_y_help")]
-        public float PosYHelp { get; set; }
-
-        [Required(ErrorMessage = "pos_z_help is required")]
-        [JsonProperty("pos_z_help")]
-        public float PosZHelp { get; set; }
-
         [Required(ErrorMessage = "indicator_pin_number is required")]
         [JsonProperty("indicator_pin_number")]
         public int? IndicatorPinNumber { get; set; }

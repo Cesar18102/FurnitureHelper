@@ -103,9 +103,6 @@ namespace Services
             /*****************/
 
             config.CreateMap<ConnectionHelperDto, ConnectionHelperModel>()
-                  .ForMember(model => model.PosX, cnf => cnf.MapFrom(dto => dto.PosX.GetValueOrDefault()))
-                  .ForMember(model => model.PosY, cnf => cnf.MapFrom(dto => dto.PosY.GetValueOrDefault()))
-                  .ForMember(model => model.PosZ, cnf => cnf.MapFrom(dto => dto.PosZ.GetValueOrDefault()))
                   .ForMember(model => model.IndicatorPinNumber, cnf => cnf.MapFrom(dto => dto.IndicatorPinNumber))
                   .ForMember(model => model.ReaderPinNumber, cnf => cnf.MapFrom(dto => dto.ReaderPinNumber));
 
@@ -137,10 +134,7 @@ namespace Services
             /********************/
 
             config.CreateMap<ConnectionGlueDto, ConnectionGlueModel>()
-                  .ForPath(model => model.GluePart.Id, cnf => cnf.MapFrom(dto => dto.GluePartId.GetValueOrDefault()))
-                  .ForMember(model => model.PosX, cnf => cnf.MapFrom(dto => dto.PosX.GetValueOrDefault()))
-                  .ForMember(model => model.PosY, cnf => cnf.MapFrom(dto => dto.PosY.GetValueOrDefault()))
-                  .ForMember(model => model.PosZ, cnf => cnf.MapFrom(dto => dto.PosZ.GetValueOrDefault()));
+                  .ForPath(model => model.GluePart.Id, cnf => cnf.MapFrom(dto => dto.GluePartId.GetValueOrDefault()));
 
             config.CreateMap<TwoPartsConnectionDto, TwoPartsConnectionModel>()
                   .ForMember(model => model.OrderNumber, cnf => cnf.MapFrom(dto => dto.OrderNumber.GetValueOrDefault()))

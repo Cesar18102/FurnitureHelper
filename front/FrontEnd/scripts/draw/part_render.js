@@ -32,8 +32,8 @@ export function renderPart(part, renderInfo, prepare, motion) {
 			renderInfo.scene.add(mesh);
 							
 			if(prepare != undefined) {
-				prepare(mesh.geometry);		
-			}		
+				prepare(mesh);		
+			}
 			
 			render(renderInfo.renderer, renderInfo.scene, renderInfo.camera, motion == undefined ? undefined : () => motion(mesh));
 			resolve(mesh);

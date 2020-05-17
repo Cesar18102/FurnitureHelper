@@ -24,15 +24,6 @@ namespace Models
 
         [JsonProperty("pos_z_other")]
         public float PosZOther { get; private set; }
-        
-        [JsonProperty("pos_x_help")]
-        public float PosXHelp { get; private set; }
-
-        [JsonProperty("pos_y_help")]
-        public float PosYHelp { get; private set; }
-
-        [JsonProperty("pos_z_help")]
-        public float PosZHelp { get; private set; }
 
         [JsonProperty("indicator_pin_number")]
         public int IndicatorPinNumber { get; private set; }

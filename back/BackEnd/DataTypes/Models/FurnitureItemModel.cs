@@ -18,6 +18,9 @@ namespace Models
         [JsonProperty("scale")]
         public float? Scale { get; private set; }
 
+        [JsonProperty("model_url")]
+        public string ModelUrl { get; private set; }
+
         [JsonProperty("used_parts")]
         public ICollection<UsedPartModel> UsedParts { get; private set; }
 

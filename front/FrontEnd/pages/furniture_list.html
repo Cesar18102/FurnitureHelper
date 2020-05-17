@@ -102,7 +102,7 @@
 				);
 			}
 			
-			function buildFurnitureList(list) {
+			async function buildFurnitureList(list) {
 				let vm = new Vue({
 					el : "#furniture-list-wrapper",
 					data : { furnitures : list },
@@ -110,7 +110,24 @@
 				
 				for(let furniture of list) {
 					let wrapper = document.getElementById("furniture-renderer-wrapper-" + furniture.id);
-					renderFurniture(furniture, wrapper, "furniture-renderer");
+					let furnitureRenderInfo = await renderFurniture(
+						furniture, wrapper, "furniture-renderer",
+						part => {
+							part.geometry.scale(furniture.scale, furniture.scale, furniture.scale);
+						},
+						part => {
+							/*part.rotateX(0.01);
+							part.rotateY(0.01);
+							part.rotateZ(0.01);*/
+						}
+					);
+					
+					/*if(furnitureRenderInfo.partMeshesInfo["58"] != undefined) {
+						furnitureRenderInfo.partMeshesInfo["58"].geometry.computeBoundingBox();
+						let frame = new THREE.Box3Helper(furnitureRenderInfo.partMeshesInfo["58"].geometry.boundingBox, 256);
+						furnitureRenderInfo.sceneInfo.scene.add(frame);
+					}*/
+					
 				}
 			}
 			

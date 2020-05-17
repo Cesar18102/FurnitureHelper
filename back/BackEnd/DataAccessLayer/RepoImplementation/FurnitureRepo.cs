@@ -100,6 +100,10 @@ namespace DataAccess.RepoImplementation
                 Context.Entry<UsedPartEntity>(usedPart).State = EntityState.Added;
             }
 
+            ICollection<UsedPartEntity> usedParts = entity.used_parts.ToList();
+            Mapper.Map<FurnitureItemModel, FurnitureItemEntity>(model, entity);
+            entity.used_parts = usedParts;
+
             Context.SaveChanges();
 
             return Mapper.Map<FurnitureItemEntity, FurnitureItemModel>(entity);

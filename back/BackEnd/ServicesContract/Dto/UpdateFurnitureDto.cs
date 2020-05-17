@@ -24,6 +24,10 @@ namespace ServicesContract.Dto
         [JsonProperty("scale")]
         public float? Scale { get; set; }
 
+        [Url(ErrorMessage = "model_url must be url")]
+        [JsonProperty("model_url")]
+        public string ModelUrl { get; private set; }
+
         [JsonProperty("used_parts_to_remove")]
         public IEnumerable<int> UsedPartsToRemove { get; set; } = new List<int>();
 

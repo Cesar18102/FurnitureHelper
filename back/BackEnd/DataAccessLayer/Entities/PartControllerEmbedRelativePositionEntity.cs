@@ -24,9 +24,6 @@ namespace DataAccess.Entities
         public float pos_x_other { get; set; }
         public float pos_y_other { get; set; }
         public float pos_z_other { get; set; }
-        public float pos_x_help { get; set; }
-        public float pos_y_help { get; set; }
-        public float pos_z_help { get; set; }
         public int indicator_pin_number { get; set; }
         public int reader_pin_number { get; set; }
         public int reader_pin_number_other { get; set; }

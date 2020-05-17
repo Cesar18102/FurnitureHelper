@@ -30,9 +30,6 @@ namespace Models
         [JsonProperty("scale")]
         public float? Scale { get; private set; }
 
-        [JsonProperty("in_furniture_scale")]
-        public float? InFurnitureScale { get; private set; }
-
         [JsonProperty("possible_materials")]
         public IEnumerable<MaterialModel> PossibleMaterials { get; private set; }
 

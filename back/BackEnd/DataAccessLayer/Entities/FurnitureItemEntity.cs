@@ -28,6 +28,10 @@ namespace DataAccess.Entities
 
         public float scale { get; set; }
 
+        [Required]
+        [StringLength(1024)]
+        public string model_url { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FurnitureItemPartsConnectionEntity> furniture_item_parts_connections { get; set; }
 
