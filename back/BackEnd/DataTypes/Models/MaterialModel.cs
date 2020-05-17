@@ -22,7 +22,7 @@ namespace Models
         public string Description { get; private set; }
 
         [JsonProperty("price_coeff")]
-        public float PriceCoefficient { get; private set; }
+        public float? PriceCoefficient { get; private set; }
 
         [JsonProperty("texture_url")]
         public string TextureUrl { get; private set; }

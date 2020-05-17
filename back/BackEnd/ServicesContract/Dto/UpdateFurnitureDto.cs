@@ -21,6 +21,9 @@ namespace ServicesContract.Dto
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("scale")]
+        public float? Scale { get; set; }
+
         [JsonProperty("used_parts_to_remove")]
         public IEnumerable<int> UsedPartsToRemove { get; set; } = new List<int>();
 

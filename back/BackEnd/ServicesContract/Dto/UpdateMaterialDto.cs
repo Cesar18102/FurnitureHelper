@@ -21,7 +21,6 @@ namespace ServicesContract.Dto
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "price_coeff is required")]
         [JsonProperty("price_coeff")]
         public float? PriceCoefficient { get; set; }
 

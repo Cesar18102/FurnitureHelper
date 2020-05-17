@@ -220,7 +220,7 @@ namespace Services
 
             foreach (ConcretePartModel concretePart in order)
             {
-                float price = concretePart.Part.Price * concretePart.SelectedMaterial.PriceCoefficient;
+                float price = concretePart.Part.Price.Value * concretePart.SelectedMaterial.PriceCoefficient.Value;
                 SellPositionModel sellPosition = new SellPositionModel(price, concretePart);
                 sell.SellPositions.Add(sellPosition);
             }

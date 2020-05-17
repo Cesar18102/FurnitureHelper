@@ -32,6 +32,10 @@ namespace DataAccess.Entities
 
         public float price { get; set; }
 
+        public float scale { get; set; }
+
+        public float in_furniture_scale { get; set; }
+
         [Column(TypeName = "text")]
         [StringLength(65535)]
         public string description { get; set; }

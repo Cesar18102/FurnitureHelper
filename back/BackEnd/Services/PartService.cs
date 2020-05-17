@@ -123,10 +123,12 @@ namespace Services
 
         private void CheckPinConflict(PartModel part)
         {
+            if (part.ConnectionHelpers == null)
+                return;
+
             //pin service
-            List<int> usedPins = part.ConnectionHelpers.Aggregate(
-                new List<int>(),
-                (acc, helper) => acc.Append(helper.IndicatorPinNumber).Append(helper.ReaderPinNumber).ToList()
+            List<int> usedPins = part.ConnectionHelpers.Aggregate(new List<int>(), (acc, helper) => 
+                acc.Append(helper.IndicatorPinNumber).Append(helper.ReaderPinNumber).Append(helper.ReaderPinNumberOther).ToList()
             );
 
             if (usedPins.Distinct().Count() != usedPins.Count())

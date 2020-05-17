@@ -18,6 +18,10 @@ namespace ServicesContract.Dto
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "scale is required")]
+        [JsonProperty("scale")]
+        public float? Scale { get; set; }
+
         [JsonProperty("used_parts")]
         public IEnumerable<UsedPartsDto> UsedParts { get; set; } = new List<UsedPartsDto>();
     }

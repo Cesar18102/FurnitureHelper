@@ -53,7 +53,12 @@ namespace Services
             builder.RegisterType<FurnitureService>().As<IFurnitureService>().SingleInstance();
             builder.RegisterType<TradeService>().As<ITradeService>().SingleInstance();
 
-            MapperConfiguration config = new MapperConfiguration(cnf => ConfigMapper(cnf));
+            MapperConfiguration config = new MapperConfiguration(cnf =>
+            {
+                cnf.AllowNullCollections = true;
+                ConfigMapper(cnf);
+            });
+
             TypedParameter mapperConfigParameter = new TypedParameter(typeof(IConfigurationProvider), config);
 
             builder.RegisterType<Mapper>().AsSelf()
@@ -78,27 +83,8 @@ namespace Services
 
             /*****************/
 
-            config.CreateMap<AddColorDto, PartColorModel>()
-                  .ForMember(
-                      model => model.Hex,
-                      cnf => cnf.MapFrom(dto => (
-                          dto.Red.GetValueOrDefault() * 256 * 256 * 256 + 
-                          dto.Green.GetValueOrDefault() * 256 * 256 +
-                          dto.Blue.GetValueOrDefault() * 256 + 
-                          dto.Alpha.GetValueOrDefault()
-                      ).ToString("X8"))
-                  );
-
-            config.CreateMap<UpdateColorDto, PartColorModel>()
-                  .ForMember(
-                      model => model.Hex, 
-                      cnf => cnf.MapFrom(dto => (
-                          dto.Red.GetValueOrDefault() * 256 * 256 * 256 + 
-                          dto.Green.GetValueOrDefault() * 256 * 256 + 
-                          dto.Blue.GetValueOrDefault() * 256 + 
-                          dto.Alpha.GetValueOrDefault()
-                      ).ToString("X8"))
-                  );
+            config.CreateMap<AddColorDto, PartColorModel>();
+            config.CreateMap<UpdateColorDto, PartColorModel>();
 
             config.CreateMap<int, PartColorModel>()
                   .ForMember(model => model.Id, cnf => cnf.MapFrom(id => id));

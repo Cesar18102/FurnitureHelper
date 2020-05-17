@@ -1,4 +1,4 @@
-function renderScene(domWrapper, style) {
+export function renderScene(domWrapper, style) {
 	let scene = new THREE.Scene();
 	scene.background = new THREE.Color(0xFFFFFF);
 					
@@ -14,7 +14,7 @@ function renderScene(domWrapper, style) {
 	domWrapper.appendChild(renderer.domElement);
 					
 	let camera = new THREE.PerspectiveCamera(20, domWrapper.offsetWidth / domWrapper.offsetHeight, 0.1, 10000);
-	camera.position.set(500, 300, 500);
+	camera.position.set(600, 400, 600);
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 	
 	let light = new THREE.PointLight(0xFFFFFF, 1.2);

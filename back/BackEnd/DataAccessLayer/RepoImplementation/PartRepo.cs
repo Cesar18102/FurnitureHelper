@@ -7,7 +7,6 @@ using Models;
 using DataAccessContract;
 using DataAccess.Entities;
 using DataAccessContract.Exceptions;
-using System;
 
 namespace DataAccess.RepoImplementation
 {
@@ -28,10 +27,22 @@ namespace DataAccess.RepoImplementation
             if (entity == null)
                 throw new EntityNotFoundException("part");
 
-            Context.part_controllers_embed_relative_positions.RemoveRange(entity.part_controllers_embed_relative_positions);
+            Context.Entry<PartEntity>(entity).Reload();
+            IEnumerable<MaterialModel> materials = model.PossibleMaterials == null ? null : model.PossibleMaterials.ToList();
+            if (entity.concrete_parts.Count == 0 && entity.used_parts.Count == 0)
+            {
+                Context.part_controllers_embed_relative_positions.RemoveRange(entity.part_controllers_embed_relative_positions);
+                PartModel updatedPart = base.Update(id, model);
+            }
+            else
+            {
+                List<PartControllerEmbedRelativePositionEntity> positions = entity.part_controllers_embed_relative_positions.ToList();
+                Mapper.Map<PartModel, PartEntity>(model, entity);
+                entity.part_controllers_embed_relative_positions = positions;
+                Context.SaveChanges();
+            }
 
-            PartModel updatedPart = base.Update(id, model);
-            return UpdateAttachedMaterials(id, model.PossibleMaterials);
+            return UpdateAttachedMaterials(id, materials);
         }
 
         protected override void SingleInclude(PartEntity entity)
@@ -50,6 +61,10 @@ namespace DataAccess.RepoImplementation
         public PartModel UpdateAttachedMaterials(int partId, IEnumerable<MaterialModel> materials)
         {
             PartEntity entity = Context.parts.FirstOrDefault(part => part.id == partId);
+
+            if (materials == null)
+                return Mapper.Map<PartEntity, PartModel>(entity);
+
             entity.materials.Clear();
 
             foreach (MaterialModel material in materials)

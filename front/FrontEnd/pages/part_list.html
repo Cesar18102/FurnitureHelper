@@ -21,9 +21,6 @@
 		<script src="../scripts/connector.js"></script>
 		<script src="../scripts/continious_handler.js"></script>
 		<script src="../scripts/response_handler.js"></script>
-		
-		<script src="../scripts/draw/part_render.js"></script>
-		<script src="../scripts/draw/scene_render.js"></script>
 	</head>
 	<body onload="initRender()">
 		<div id="header-wrapper"></div>
@@ -58,6 +55,7 @@
 									 v-bind:part-id="partPosition.part.id"
 									 v-bind:part-name="partPosition.part.name"
 									 v-bind:part-price="partPosition.part.price"
+									 v-bind:part-scale="partPosition.part.scale"
 									 v-bind:material-id="materialPosition.material.id"
 									 v-bind:material-name="materialPosition.material.name"
 									 v-bind:material-price="materialPosition.material.price_coeff"
@@ -185,42 +183,45 @@
 				window.event.stopPropagation();
 			}
 			
-			function render(renderer, scene, camera, motion) {
-				requestAnimationFrame(() => render(renderer, scene, camera, motion));
-				renderer.render(scene, camera);
-				motion();
-			}
+			let PART_RENDER = undefined;
+			let PART_RENDER_PROMISE = import("../scripts/draw/part_render.js").then(module => PART_RENDER = module);
+			
+			let SCENE_RENDER = undefined;
+			let SCENE_RENDER_PROMISE = import("../scripts/draw/scene_render.js").then(module => SCENE_RENDER = module);
 			
 			function initRender() {
 				initPartRenderers();
 			}
 			
-			function getCenterPoint(mesh) {
-				mesh.geometry.computeBoundingBox();   
-				let center = mesh.geometry.boundingBox.getCenter();
-				mesh.localToWorld(center);
-				return center;
-			}
-			
 			async function initPartRenderers() {
 				let partRenderers = $(".part-sampler");
-				let OBJLoader = new THREE.OBJLoader();
 				
-				for(let partRenderer of partRenderers) {
-					let renderInfo = renderScene(partRenderer, "part-renderer");
+				if(PART_RENDER == undefined) {
+					await PART_RENDER_PROMISE;
+				}
+				
+				if(SCENE_RENDER == undefined) {
+					await SCENE_RENDER_PROMISE;
+				}
+				
+				for(let partRendererWrapper of partRenderers) {
+					let renderInfo = SCENE_RENDER.renderScene(partRendererWrapper, "part-renderer");
 					let partRenderInfo = {
-						model_url : partRenderer.getAttribute("model"),
-						texture_url : partRenderer.getAttribute("texture"),
-						color : partRenderer.getAttribute("color")
+						model_url : partRendererWrapper.getAttribute("model"),
+						texture_url : partRendererWrapper.getAttribute("texture"),
+						color : partRendererWrapper.getAttribute("color")
 					};
-					renderPart(
+					let scale = parseFloat(partRendererWrapper.getAttribute("part-scale"));
+					PART_RENDER.renderPart(
 						partRenderInfo, 
 						renderInfo, 
-						OBJLoader,
 						part => {
-							part.geometry.rotateX(0.01);
-							part.geometry.rotateY(0.01);
-							part.geometry.rotateZ(0.01);
+							part.scale(scale, scale, scale);
+						}, 
+						part => {
+							//part.rotateX(-0.02);
+							//part.rotateY(0.01);
+							//part.rotateZ(0.01);
 						}
 					);
 				}

@@ -25,7 +25,13 @@ namespace Models
         public string ModelUrl { get; private set; }
 
         [JsonProperty("price")]
-        public float Price { get; private set; }
+        public float? Price { get; private set; }
+
+        [JsonProperty("scale")]
+        public float? Scale { get; private set; }
+
+        [JsonProperty("in_furniture_scale")]
+        public float? InFurnitureScale { get; private set; }
 
         [JsonProperty("possible_materials")]
         public IEnumerable<MaterialModel> PossibleMaterials { get; private set; }

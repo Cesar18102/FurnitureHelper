@@ -44,6 +44,7 @@ namespace Services
             try { return executor(); }
             catch (InvalidDataException<TModel> ex) { throw CatchInvalidaDataException<TDto, TModel>(ex); }
             catch (EntityNotFoundException ex) { throw new NotFoundException(ex.NotFoundSubject); }
+            catch (EntityConflictException ex) { throw new ConflictException(ex.ConflictSubject); }
         }
 
         protected TOut ProtectedExecute<TDto, TOut>(Func<TOut> executor) where TDto : IDto

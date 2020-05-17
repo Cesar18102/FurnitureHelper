@@ -25,9 +25,14 @@ namespace ServicesContract.Dto
         [JsonProperty("model_url")]
         public string ModelUrl { get; set; }
 
-        [Required(ErrorMessage = "price is required")]
         [JsonProperty("price")]
         public float? Price { get; set; }
+
+        [JsonProperty("scale")]
+        public float? Scale { get; set; }
+
+        [JsonProperty("in_furniture_scale")]
+        public float? InFurnitureScale { get; private set; }
 
         [JsonProperty("possible_materials")]
         public IEnumerable<int> PossibleMaterials { get; set; }

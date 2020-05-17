@@ -1,36 +1,58 @@
-function renderPart(part, renderInfo, loader, motion) {
-	let red = parseInt(part.color.substr(0, 2), 16) / 256;
-	let green = parseInt(part.color.substr(2, 2), 16) / 256;
-	let blue = parseInt(part.color.substr(4, 2), 16) / 256;
-	let alpha = parseInt(part.color.substr(6, 2), 16) / 256;
+let OBJLoader = new THREE.OBJLoader();
+
+export function renderPart(part, renderInfo, prepare, motion) {
+	let red = undefined, green = undefined, blue = undefined, alpha = undefined;
+	if(part.color != undefined) {
+		red = parseInt(part.color.substr(0, 2), 16) / 256;
+		green = parseInt(part.color.substr(2, 2), 16) / 256;
+		blue = parseInt(part.color.substr(4, 2), 16) / 256;
+		alpha = parseInt(part.color.substr(6, 2), 16) / 256;
+	}
 	
-	loader.load(part.model_url, object => {
-		let texture = new THREE.TextureLoader().load(part.texture_url);
-		
-		let material = new THREE.MeshPhysicalMaterial({ 
-			map : texture, 
-			flatShading : true
-		});
-						
-		material.onBeforeCompile = shader => {
-			shader.uniforms.mycolor = { value : new THREE.Color(red * alpha, green * alpha, blue * alpha) };
-			shader.uniforms.sampler = { value : material.map };
+	return new Promise((resolve, reject) => {
+		OBJLoader.load(part.model_url, object => {
+			let texture = new THREE.TextureLoader().load(part.texture_url);
+			
+			let material = new THREE.MeshPhysicalMaterial({ 
+				map : texture, 
+				flatShading : true
+			});
 							
-			shader.vertexShader = vertex();
-			shader.fragmentShader = fragment();
-		};
-						
-		let geometry = object.children[0].geometry;
-		let mesh = new THREE.Mesh(geometry, material);
-		renderInfo.scene.add(mesh);
-										
-		render(renderInfo.renderer, renderInfo.scene, renderInfo.camera, () => motion(mesh));
-	}, undefined, function (error) {
-						
+			material.onBeforeCompile = shader => {
+				if(part.color != undefined) {
+					shader.uniforms.mycolor = { value : new THREE.Color(red * alpha, green * alpha, blue * alpha) };
+				}
+								
+				shader.vertexShader = vertex();
+				shader.fragmentShader = fragment(part.color != undefined);
+			};
+							
+			let geometry = object.children[0].geometry;
+			let mesh = new THREE.Mesh(geometry, material);
+			renderInfo.scene.add(mesh);
+							
+			if(prepare != undefined) {
+				prepare(mesh.geometry);		
+			}		
+			
+			render(renderInfo.renderer, renderInfo.scene, renderInfo.camera, motion == undefined ? undefined : () => motion(mesh));
+			resolve(mesh);
+		}, undefined, function (error) {
+			reject(error);
+		});
 	});
 }
 
-function fragment() {
+function render(renderer, scene, camera, motion) {
+	requestAnimationFrame(() => render(renderer, scene, camera, motion));
+	renderer.render(scene, camera);
+	
+	if(motion != undefined) {
+		motion();
+	}
+}
+
+function fragment(colorEffect) {//uniform sampler2D sampler;
 	return `#define STANDARD
 			#ifdef PHYSICAL
 				#define REFLECTIVITY
@@ -38,7 +60,6 @@ function fragment() {
 				#define TRANSPARENCY
 			#endif
 			uniform vec3 mycolor;
-			uniform sampler2D sampler;
 			
 			uniform vec3 diffuse;
 			uniform vec3 emissive;
@@ -119,7 +140,11 @@ function fragment() {
 				#ifdef TRANSPARENCY
 					diffuseColor.a *= saturate( 1. - transparency + linearToRelativeLuminance( reflectedLight.directSpecular + reflectedLight.indirectSpecular ) );
 				#endif
-				gl_FragColor = vec4( (outgoingLight.x + mycolor.x) / 2.0, (outgoingLight.y + mycolor.y) / 2.0, (outgoingLight.z + mycolor.z) / 2.0, diffuseColor.a );
+				` + 
+				(colorEffect ?
+				'gl_FragColor = vec4((outgoingLight.x + mycolor.x) / 2.0, (outgoingLight.y + mycolor.y) / 2.0, (outgoingLight.z + mycolor.z) / 2.0, diffuseColor.a);' : 
+				'gl_FragColor = vec4(outgoingLight.x, outgoingLight.y, outgoingLight.z, diffuseColor.a);') +
+				`
 				#include <tonemapping_fragment>
 				#include <encodings_fragment>
 				#include <fog_fragment>

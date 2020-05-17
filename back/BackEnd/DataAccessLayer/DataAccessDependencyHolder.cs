@@ -7,6 +7,7 @@ using DataAccess.Entities;
 using DataAccess.RepoImplementation;
 
 using Models;
+using System;
 
 namespace DataAccess
 {
@@ -87,7 +88,12 @@ namespace DataAccess
                   .UsingConstructor(typeof(FurnitureHelperContext))
                   .WithParameter(contextParameter).SingleInstance();
 
-            MapperConfiguration config = new MapperConfiguration(cnf => ConfigMapper(cnf, dbContext));
+            MapperConfiguration config = new MapperConfiguration(cnf =>
+            {
+                cnf.AllowNullCollections = true;
+                ConfigMapper(cnf, dbContext);
+            });
+
             TypedParameter mapperConfigParameter = new TypedParameter(typeof(IConfigurationProvider), config);
 
             builder.RegisterType<Mapper>().AsSelf()
@@ -156,8 +162,9 @@ namespace DataAccess
             config.CreateMap<MaterialModel, MaterialEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
                   .ForMember(entity => entity.texture_url, cnf => cnf.MapFrom(model => model.TextureUrl))
-                  .ForMember(entity => entity.price_coeff, cnf => cnf.MapFrom(model => model.PriceCoefficient))
-                  .ForMember(entity => entity.colors, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.price_coeff, cnf => cnf.MapFrom((model, entity) => 
+                        model.PriceCoefficient == null || !model.PriceCoefficient.HasValue ? entity.price_coeff : model.PriceCoefficient.Value)
+                  ).ForMember(entity => entity.colors, cnf => cnf.Ignore())
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<MaterialEntity, MaterialModel>()
@@ -172,29 +179,45 @@ namespace DataAccess
                   .ForMember(entity => entity.pos_x, cnf => cnf.MapFrom(model => model.PosX))
                   .ForMember(entity => entity.pos_y, cnf => cnf.MapFrom(model => model.PosY))
                   .ForMember(entity => entity.pos_z, cnf => cnf.MapFrom(model => model.PosZ))
+                  .ForMember(entity => entity.pos_x_other, cnf => cnf.MapFrom(model => model.PosXOther))
+                  .ForMember(entity => entity.pos_y_other, cnf => cnf.MapFrom(model => model.PosYOther))
+                  .ForMember(entity => entity.pos_z_other, cnf => cnf.MapFrom(model => model.PosZOther))
+                  .ForMember(entity => entity.pos_x_help, cnf => cnf.MapFrom(model => model.PosXHelp))
+                  .ForMember(entity => entity.pos_y_help, cnf => cnf.MapFrom(model => model.PosYHelp))
+                  .ForMember(entity => entity.pos_z_help, cnf => cnf.MapFrom(model => model.PosZHelp))
                   .ForMember(entity => entity.indicator_pin_number, cnf => cnf.MapFrom(model => model.IndicatorPinNumber))
                   .ForMember(entity => entity.reader_pin_number, cnf => cnf.MapFrom(model => model.ReaderPinNumber))
+                  .ForMember(entity => entity.reader_pin_number_other, cnf => cnf.MapFrom(model => model.ReaderPinNumberOther))
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<PartControllerEmbedRelativePositionEntity, ConnectionHelperModel>()
                   .ForMember(model => model.PosX, cnf => cnf.MapFrom(entity => entity.pos_x))
                   .ForMember(model => model.PosY, cnf => cnf.MapFrom(entity => entity.pos_y))
                   .ForMember(model => model.PosZ, cnf => cnf.MapFrom(entity => entity.pos_z))
+                  .ForMember(model => model.PosXOther, cnf => cnf.MapFrom(entity => entity.pos_x_other))
+                  .ForMember(model => model.PosYOther, cnf => cnf.MapFrom(entity => entity.pos_y_other))
+                  .ForMember(model => model.PosZOther, cnf => cnf.MapFrom(entity => entity.pos_z_other))
+                  .ForMember(model => model.PosXHelp, cnf => cnf.MapFrom(entity => entity.pos_x_help))
+                  .ForMember(model => model.PosYHelp, cnf => cnf.MapFrom(entity => entity.pos_y_help))
+                  .ForMember(model => model.PosZHelp, cnf => cnf.MapFrom(entity => entity.pos_z_help))
                   .ForMember(model => model.IndicatorPinNumber, cnf => cnf.MapFrom(entity => entity.indicator_pin_number))
-                  .ForMember(model => model.ReaderPinNumber, cnf => cnf.MapFrom(entity => entity.reader_pin_number));
+                  .ForMember(model => model.ReaderPinNumber, cnf => cnf.MapFrom(entity => entity.reader_pin_number))
+                  .ForMember(model => model.ReaderPinNumberOther, cnf => cnf.MapFrom(entity => entity.reader_pin_number_other));
 
             config.CreateMap<PartModel, PartEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
                   .ForMember(entity => entity.model_url, cnf => cnf.MapFrom(model => model.ModelUrl))
                   .ForMember(entity => entity.materials, cnf => cnf.Ignore())
-                  .ForMember(
-                      entity => entity.part_controllers_embed_relative_positions, 
-                      cnf => cnf.MapFrom(model => model.ConnectionHelpers)
-                  ).ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
+                  .ForMember(entity => entity.price, cnf => cnf.MapFrom((model, entity) => model.Price == null || !model.Price.HasValue ? entity.price : model.Price.Value))
+                  .ForMember(entity => entity.scale, cnf => cnf.MapFrom((model, entity) => model.Scale == null || !model.Scale.HasValue ? entity.scale : model.Scale.Value))
+                  .ForMember(entity => entity.in_furniture_scale, cnf => cnf.MapFrom((model, entity) => model.InFurnitureScale == null || !model.InFurnitureScale.HasValue ? entity.in_furniture_scale : model.InFurnitureScale.Value))
+                  .ForMember(entity => entity.part_controllers_embed_relative_positions, cnf => cnf.MapFrom(model => model.ConnectionHelpers))
+                  .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<PartEntity, PartModel>()
                   .ForMember(model => model.ModelUrl, cnf => cnf.MapFrom(entity => entity.model_url))
                   .ForMember(model => model.PossibleMaterials, cnf => cnf.MapFrom(entity => entity.materials))
+                  .ForMember(model => model.InFurnitureScale, cnf => cnf.MapFrom(entity => entity.in_furniture_scale))
                   .ForMember(model => model.ConnectionHelpers, cnf => cnf.MapFrom(entity => entity.part_controllers_embed_relative_positions));
 
             /*******************/
@@ -280,6 +303,7 @@ namespace DataAccess
 
             config.CreateMap<FurnitureItemModel, FurnitureItemEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
+                  .ForMember(entity => entity.scale, cnf => cnf.MapFrom((model, entity) => model.Scale == null || !model.Scale.HasValue ? entity.scale : model.Scale.Value))
                   .ForMember(entity => entity.used_parts, cnf => cnf.MapFrom(model => model.UsedParts))
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 

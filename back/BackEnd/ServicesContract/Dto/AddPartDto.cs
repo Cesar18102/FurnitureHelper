@@ -27,6 +27,14 @@ namespace ServicesContract.Dto
         [JsonProperty("price")]
         public float? Price { get; set; }
 
+        [Required(ErrorMessage = "scale is required")]
+        [JsonProperty("scale")]
+        public float? Scale { get; set; }
+
+        [Required(ErrorMessage = "in_furniture_scale is required")]
+        [JsonProperty("in_furniture_scale")]
+        public float? InFurnitureScale { get; private set; }
+
         [JsonProperty("possible_materials")]
         public IEnumerable<int> PossibleMaterials { get; set; }
 

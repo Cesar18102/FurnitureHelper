@@ -46,31 +46,28 @@ namespace DataAccess.RepoImplementation
         {
             foreach (FurnitureItemPartsConnectionEntity globalConnection in entity.furniture_item_parts_connections)
             {
-                Context.parts_connection_glues.RemoveRange(globalConnection.parts_connection_glues);
                 foreach (TwoPartsConnectionEntity connection in globalConnection.two_parts_connection)
                     Context.two_parts_connection_glues.RemoveRange(connection.two_parts_connection_glues);
-                Context.two_parts_connection.RemoveRange(globalConnection.two_parts_connection);
-            }
-        }
 
-        private void RemoveAttached(FurnitureItemEntity entity)
-        {
-            RemoveAttachedConnections(entity);
+                Context.two_parts_connection.RemoveRange(globalConnection.two_parts_connection);
+                Context.parts_connection_glues.RemoveRange(globalConnection.parts_connection_glues);
+            }
+
             Context.furniture_item_parts_connections.RemoveRange(entity.furniture_item_parts_connections);
-            Context.used_parts.RemoveRange(entity.used_parts);
         }
 
         protected override void WholeInclude()
         {
-            Context.furniture_items.Include(furniture => furniture.furniture_item_parts_connections);
-            Context.furniture_items.Include(furniture => furniture.used_parts);
+            Context.furniture_items.Include(furniture => furniture.furniture_item_parts_connections).Load();
+            Context.furniture_items.Include(furniture => furniture.used_parts).Load();
             Context.furniture_item_parts_connections.Include(connection => connection.parts_connection_glues)
-                                                    .Include(connection => connection.two_parts_connection);
-            Context.parts_connection_glues.Include(glue => glue.parts);
+                                                    .Include(connection => connection.two_parts_connection)
+                                                    .Load();
+            Context.parts_connection_glues.Include(glue => glue.parts).Load();
             Context.two_parts_connection.Include(connection => connection.part_controllers_embed_relative_positions)
                                         .Include(connection => connection.part_controllers_embed_relative_positions1)
-                                        .Include(connection => connection.two_parts_connection_glues);
-            Context.two_parts_connection_glues.Include(glue => glue.parts);
+                                        .Include(connection => connection.two_parts_connection_glues).Load();
+            Context.two_parts_connection_glues.Include(glue => glue.parts).Load();
         }
 
         public override FurnitureItemModel Create(FurnitureItemModel model)
@@ -112,10 +109,15 @@ namespace DataAccess.RepoImplementation
         {
             FurnitureItemEntity entity = Context.furniture_items.FirstOrDefault(furniture => furniture.id == id);
 
+            if (entity == null)
+                throw new EntityNotFoundException("furniture item");
+
+            SingleInclude(entity);
             CheckValid(entity, connections);
             RemoveAttachedConnections(entity);
 
             entity.furniture_item_parts_connections = Mapper.Map<IEnumerable<GlobalPartsConnectionModel>, ICollection<FurnitureItemPartsConnectionEntity>>(connections);
+
             Context.SaveChanges();
 
             return Mapper.Map<FurnitureItemEntity, FurnitureItemModel>(entity);
@@ -140,8 +142,9 @@ namespace DataAccess.RepoImplementation
         {
             UsedPartEntity part = furnitureItem.used_parts.FirstOrDefault(p => p.id == subConnection.UsedPartId);
 
-            if (part == null || !part.part_id.HasValue || !usedParts.ContainsKey(part.part_id.Value) || usedParts[part.part_id.Value] == 0)
-                throw new EntityNotFoundException($"used part for connection part {part.id}");
+            if (part == null || !part.part_id.HasValue || !usedParts.ContainsKey(part.part_id.Value) || 
+                (usedParts[part.part_id.Value] == 0 && !mentioned.Contains(subConnection.UsedPartId)))
+                throw new EntityNotFoundException($"used part for connection part {part?.id}");
 
             if(part.parts.part_controllers_embed_relative_positions.FirstOrDefault(helper => helper.id == subConnection.ConnectionHelper.Id) == null)
                 throw new EntityNotFoundException($"connection helper {subConnection.ConnectionHelper.Id}");
@@ -155,7 +158,8 @@ namespace DataAccess.RepoImplementation
 
             UsedPartEntity partOther = furnitureItem.used_parts.FirstOrDefault(p => p.id == subConnection.UsedPartOtherId);
 
-            if (partOther == null || !partOther.part_id.HasValue || !usedParts.ContainsKey(partOther.part_id.Value) || usedParts[partOther.part_id.Value] == 0)
+            if (partOther == null || !partOther.part_id.HasValue || !usedParts.ContainsKey(partOther.part_id.Value) || 
+                (usedParts[partOther.part_id.Value] == 0 && !mentioned.Contains(subConnection.UsedPartOtherId)))
                 throw new EntityNotFoundException($"used part for connection part {partOther.id}");
 
             if (partOther.parts.part_controllers_embed_relative_positions.FirstOrDefault(helper => helper.id == subConnection.ConnectionHelperOther.Id) == null)
@@ -187,6 +191,9 @@ namespace DataAccess.RepoImplementation
                         CheckValid(glue, usedParts, false);
                 }
             }
+
+            if (usedParts.Values.Count(count => count != 0) > 0)
+                throw new EntityConflictException("used part");
         }
     }
 }

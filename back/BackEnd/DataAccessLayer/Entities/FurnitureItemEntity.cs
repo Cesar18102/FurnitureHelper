@@ -26,6 +26,8 @@ namespace DataAccess.Entities
         [StringLength(65535)]
         public string description { get; set; }
 
+        public float scale { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FurnitureItemPartsConnectionEntity> furniture_item_parts_connections { get; set; }
 
