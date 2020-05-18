@@ -1,4 +1,4 @@
-const SERVER_URL = "http://localhost:5000/api/";
+const SERVER_URL = "http://109.86.209.135:5000/api/";
 const CONTENT_TYPE_JSON = "application/json";
 
 const POST_METHOD = "POST";

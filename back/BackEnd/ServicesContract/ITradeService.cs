@@ -11,6 +11,8 @@ namespace ServicesContract
         PaymentInfo CreateManufacturerTradePromise(AddManufacturerSellDto manufacturerSellDto, string callbackEndpoint);
         SellModel ConfirmManufacturerTradePromise(PaymentConfirmDto paymentConfirmDto);
 
+        IEnumerable<ConcretePartModel> GetPendingPartsList();
+
         //PaymentInfo CreateUserToUserTradePromise(TradeOwnedPartsDto partsToBuy);
         //SellModel<UserToUserSellPosition> ConfirmUserToUserTradePromise(PaymentConfirmDto paymentConfirmDto);
 

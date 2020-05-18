@@ -5,8 +5,6 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Web.Http.ModelBinding;
 
-using Newtonsoft.Json;
-
 using Models;
 using ServicesContract.Dto;
 using ServicesContract.Exceptions;
@@ -15,7 +13,7 @@ namespace BackEnd.Controllers
 {
     public class ResultWrapper<TResult> where TResult : class
     {
-        public CustomException error { get; private set; }
+        public Exception error { get; private set; }
         public TResult data { get; private set; }
 
         public ResultWrapper(TResult result)
@@ -24,7 +22,7 @@ namespace BackEnd.Controllers
             data = result;
         }
 
-        public ResultWrapper(CustomException exception)
+        public ResultWrapper(Exception exception)
         {
             error = exception;
             data = null;
@@ -134,6 +132,7 @@ namespace BackEnd.Controllers
             catch (ConflictException ex) { return request.CreateResponse(HttpStatusCode.Conflict, new ResultWrapper<TResult>(ex)); }
             catch(NotFoundException ex) { return request.CreateResponse(HttpStatusCode.NotFound, new ResultWrapper<TResult>(ex)); }
             catch(ValidationException ex) { return request.CreateResponse(HttpStatusCode.BadRequest, new ResultWrapper<TResult>(ex)); }
+            catch(ArgumentException ex) { return request.CreateResponse(HttpStatusCode.BadRequest, new ResultWrapper<TResult>(ex)); }
         }
 
         private static HttpResponseMessage ExecuteProtectedAndWrapResultWithArgument<TSource, TResult>

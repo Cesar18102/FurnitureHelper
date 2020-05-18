@@ -1,18 +1,23 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Models
 {
+    public enum ProbeStatus
+    {
+        DONE,
+        ERROR,
+        PENDING,
+        FINISHED
+    };
+
     public class StepProbeResultModel : IModel
     {
-        [JsonProperty("wrong_pins")]
-        public IEnumerable<int> WrongPins { get; private set; } = new List<int>();
+        [JsonProperty("status")]
+        public ProbeStatus Status { get; private set; }
 
-        public StepProbeResultModel(IEnumerable<int> wrongPins)
+        public StepProbeResultModel(ProbeStatus status)
         {
-            WrongPins = wrongPins.ToList();
+            Status = status;
         }
     }
 }

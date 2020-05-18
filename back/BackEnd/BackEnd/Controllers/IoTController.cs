@@ -19,6 +19,8 @@ namespace BackEnd.Controllers
 
         private void CheckUserAgent(HttpRequestMessage request)
         {
+            return;
+
             if (!Request.Properties.ContainsKey("MS_HttpContext"))
                 throw new ForbiddenException("controller");
 

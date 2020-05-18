@@ -28,7 +28,7 @@ namespace Models
         {
             foreach (InvariantPartStorePosition position in positions)
             {
-                InvariantPartStorePosition localPosition = positions.FirstOrDefault(pos => pos.Part.Id == position.Part.Id);
+                InvariantPartStorePosition localPosition = Positions.FirstOrDefault(pos => pos.Part.Id == position.Part.Id);
 
                 if (localPosition == null || localPosition.Amount < position.Amount)
                     return false;

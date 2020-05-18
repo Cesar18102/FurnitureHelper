@@ -13,8 +13,6 @@ namespace DataAccess.Entities
         public int account_id { get; set; }
         public int concrete_part_id { get; set; }
         public virtual AccountEntity accounts { get; set; }
-        public virtual ConcretePartEntity concrete_parts { get; set; }
-
-        
+        public virtual ConcretePartEntity concrete_parts { get; set; }   
     }
 }

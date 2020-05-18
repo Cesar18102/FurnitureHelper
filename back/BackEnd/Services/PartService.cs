@@ -8,6 +8,7 @@ using Models;
 using DataAccessHolder;
 using DataAccessContract;
 
+using Services.Pin;
 using ServicesContract;
 using ServicesContract.Dto;
 using ServicesContract.Exceptions;
@@ -21,6 +22,18 @@ namespace Services
 
         private static readonly SessionService SessionService = ServiceDependencyHolder.ServicesDependencies.Resolve<SessionService>();
         private static readonly AdminService AdminService = ServiceDependencyHolder.ServicesDependencies.Resolve<AdminService>();
+        private static readonly PinService PinService = ServiceDependencyHolder.ServicesDependencies.Resolve<PinService>();
+
+        private static ITradeService tradeService = null;
+        private ITradeService TradeService
+        {
+            get
+            {
+                if (tradeService == null)
+                    tradeService = ServiceDependencyHolder.ServicesDependencies.Resolve<ITradeService>();
+                return tradeService;
+            }
+        } 
 
         public PartStore GetOwned(SessionDto ownerSession)
         {
@@ -51,7 +64,11 @@ namespace Services
 
         public PartStore GetStore()
         {
-            return new PartStore(PartRepo.GetAll(), ConcretePartRepo.GetStored());
+            List<ConcretePartModel> stored = ConcretePartRepo.GetStored().ToList();
+            List<ConcretePartModel> pending = TradeService.GetPendingPartsList().ToList();
+            IEnumerable<ConcretePartModel> store = stored.Where(part => pending.FirstOrDefault(p => p.Id == part.Id) == null).ToList();
+
+            return new PartStore(PartRepo.GetAll(), store);
         }
 
         public ConcretePartModel RegisterConcretePart(AddConcretePartDto dto)
@@ -126,10 +143,12 @@ namespace Services
             if (part.ConnectionHelpers == null)
                 return;
 
-            //pin service
             List<int> usedPins = part.ConnectionHelpers.Aggregate(new List<int>(), (acc, helper) => 
                 acc.Append(helper.IndicatorPinNumber).Append(helper.ReaderPinNumber).Append(helper.ReaderPinNumberOther).ToList()
             );
+
+            if (!usedPins.TrueForAll(PinService.IsValidConnectionHelperPin))
+                throw new ArgumentException("pin number is invalid");
 
             if (usedPins.Distinct().Count() != usedPins.Count())
                 throw new ConflictException("pin");

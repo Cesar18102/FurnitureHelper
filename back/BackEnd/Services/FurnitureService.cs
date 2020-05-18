@@ -101,7 +101,7 @@ namespace Services
 
                 InvariantPartStore userPartStore = PartService.GetOwnedInvariant(sessionDto);
                 return partStores.Where(store => userPartStore.Contains(store.Value))
-                                 .Select(store => store.Key);
+                                 .Select(store => store.Key).ToList();
 
             }, session);
         }

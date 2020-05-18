@@ -72,6 +72,14 @@ namespace Services
             });
         }
 
+        public IEnumerable<ConcretePartModel> GetPendingPartsList()
+        {
+            return PendingOrders.Values.Aggregate(
+                new List<ConcretePartModel>(),
+                (acc, order) => acc.Concat(order.SellModel.SellPositions.Select(pos => pos.ConcretePart)).ToList()
+            );
+        }
+
         public PaymentInfo CreateManufacturerTradePromise(AddManufacturerSellDto manufacturerSellDto, string callbackEndpoint)
         {
             if (manufacturerSellDto.NewAccountExtension == null && manufacturerSellDto.ExisitingAccountExtensionId == null)

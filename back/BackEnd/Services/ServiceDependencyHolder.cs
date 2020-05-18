@@ -8,6 +8,8 @@ using AutoMapper;
 
 using Models;
 using Models.Trade;
+
+using Services.Pin;
 using Services.Payment;
 using ServicesContract;
 using ServicesContract.Dto;
@@ -52,6 +54,8 @@ namespace Services
             builder.RegisterType<PartService>().As<IPartService>().SingleInstance();
             builder.RegisterType<FurnitureService>().As<IFurnitureService>().SingleInstance();
             builder.RegisterType<TradeService>().As<ITradeService>().SingleInstance();
+            builder.RegisterType<BuildService>().As<IBuildService>().SingleInstance();
+            builder.RegisterType<ESP8266PinService>().As<PinService>().SingleInstance();
 
             MapperConfiguration config = new MapperConfiguration(cnf =>
             {

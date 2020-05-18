@@ -19,25 +19,44 @@ namespace Services
     {
         private static readonly SessionService SessionService = ServiceDependencyHolder.ServicesDependencies.Resolve<SessionService>();
         private static readonly HashingService HashingService = ServiceDependencyHolder.ServicesDependencies.Resolve<HashingService>();
+        private static readonly IFurnitureService FurnitureService = ServiceDependencyHolder.ServicesDependencies.Resolve<IFurnitureService>();
 
+        private static readonly IAccountRepo AccountRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IAccountRepo>();
         private static readonly IFurnitureRepo FurnitureRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IFurnitureRepo>();
-        private static readonly IFurnitureService FurnitureService = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IFurnitureService>();
         private static readonly IConcretePartRepo ConcretePartRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IConcretePartRepo>();
 
-        private static readonly IDictionary<string, BuildSessionInfo> BuildSessions = new Dictionary<string, BuildSessionInfo>();
-        private static readonly IDictionary<string, string> ContollersBuildTokens = new Dictionary<string, string>();
+        private static readonly IDictionary<string, BuildSessionManager> BuildSessions = new Dictionary<string, BuildSessionManager>();
+        private static readonly IDictionary<int, string> UserBuildTokens = new Dictionary<int, string>();
+        private static readonly IDictionary<string, string> MacToBuildTokenCache = new Dictionary<string, string>();
 
         private void CheckBuildSession(BuildSessionDto buildSession)
         {
             SessionService.CheckSession(buildSession.Session);
 
-            if(!BuildSessions.ContainsKey(buildSession.BuildSessionToken))
+            if (!BuildSessions.ContainsKey(buildSession.BuildSessionToken))
                 throw new NotFoundException("build session");
 
-            BuildSessionInfo sessionInfo = BuildSessions[buildSession.BuildSessionToken];
+            BuildSessionManager sessionInfo = BuildSessions[buildSession.BuildSessionToken];
 
             if (buildSession.Session.UserId.Value != sessionInfo.UserId)
                 throw new NotFoundException("build session");
+        }
+
+        private BuildSessionManager GetBuildSessionByMac(string mac)
+        {
+            string MAC = mac.ToUpper();
+
+            if (MacToBuildTokenCache.ContainsKey(mac))
+                return BuildSessions[MacToBuildTokenCache[mac]];
+
+            AccountModel owner = AccountRepo.GetByOwnedPartMac(mac);
+
+            if (owner == null || !UserBuildTokens.ContainsKey(owner.Id))
+                return null;
+
+            string token = UserBuildTokens[owner.Id];
+            MacToBuildTokenCache.Add(mac, token);
+            return BuildSessions[token];
         }
 
         public BuildSessionModel InitBuildSession(StartBuildDto startBuildDto)
@@ -51,18 +70,23 @@ namespace Services
             if (!FurnitureService.CanBuild(startBuildDto.Session, startBuildDto.FurnitureId.Value))
                 throw new NotFoundException("all owned parts");
 
+            int userId = startBuildDto.Session.UserId.Value;
+
+            if (UserBuildTokens.ContainsKey(userId))
+                throw new ConflictException("build sessions");
+
             string token = HashingService.GetHash(Guid.NewGuid().ToString());
 
-            int userId = startBuildDto.Session.UserId.Value;
             IEnumerable<ConcretePartModel> possiblePartsToUse = ConcretePartRepo
                 .GetOwnedByUser(userId)
                 .Where(part => !part.IsForSell && !part.IsInUse)
                 .ToList();
 
-            BuildSessionInfo buildSessionInfo = new BuildSessionInfo(
+            BuildSessionManager buildSessionInfo = new BuildSessionManager(
                 userId, possiblePartsToUse, furniture, new BuildSessionModel(token)
             );
 
+            UserBuildTokens.Add(userId, token);
             BuildSessions.Add(token, buildSessionInfo);
             return buildSessionInfo.BuildSession;
         }
@@ -70,10 +94,10 @@ namespace Services
         public IEnumerable<StepProbeResultModel> PopStepProbeResults(BuildSessionDto buildSession)
         {
             CheckBuildSession(buildSession);
-            BuildSessionInfo sessionInfo = BuildSessions[buildSession.BuildSessionToken];
+            BuildSessionManager sessionInfo = BuildSessions[buildSession.BuildSessionToken];
 
-            IEnumerable<StepProbeResultModel> stepProbes =  sessionInfo.StepProbes.ToList();
-            sessionInfo.StepProbes.Clear();
+            IEnumerable<StepProbeResultModel> stepProbes =  sessionInfo.StepProbesResults.ToList();
+            sessionInfo.StepProbesResults.Clear();
             return stepProbes;
         }
 
@@ -85,33 +109,25 @@ namespace Services
 
         public IndicatorMapModel HandlePing(ControllerPingDto pingDto)
         {
-            pingDto.Mac = pingDto.Mac.ToUpper();
-            if (ContollersBuildTokens.ContainsKey(pingDto.Mac))
-            {
-                string token = ContollersBuildTokens[pingDto.Mac];
-                BuildSessionInfo buildSession = BuildSessions[token];
+            BuildSessionManager buildSession = GetBuildSessionByMac(pingDto.Mac);
 
-                if (!buildSession.IndicatorMaps.ContainsKey(pingDto.Mac))
-                    throw new NotFoundException("indicator map");
+            if (buildSession == null)
+                throw new NotFoundException("build session");
 
-                return buildSession.IndicatorMaps[pingDto.Mac];
-            }
+            if (!buildSession.IndicatorMaps.ContainsKey(pingDto.Mac))
+                throw new NotFoundException("indicator map");
 
-            return new IndicatorMapModel();
+            return buildSession.IndicatorMaps[pingDto.Mac];
         }
 
         public StepProbeResultModel HandleStepProbe(StepProbeDto buildActionDto)
         {
-            buildActionDto.Mac = buildActionDto.Mac.ToUpper();
-            if (ContollersBuildTokens.ContainsKey(buildActionDto.Mac))
-            {
-                string token = ContollersBuildTokens[buildActionDto.Mac];
-                BuildSessionInfo buildSession = BuildSessions[token];
-                IEnumerable<int> wrongPins = buildSession.CheckConnection(buildActionDto.Mac, buildActionDto.ActiveReaders);
-                return new StepProbeResultModel(wrongPins);
-            }
+            BuildSessionManager buildSession = GetBuildSessionByMac(buildActionDto.Mac);
 
-            throw new NotFoundException("part in build");
+            if (buildSession == null)
+                throw new NotFoundException("build session");
+
+            return buildSession.HandleConnectionProbe(buildActionDto);
         }
     }
 }

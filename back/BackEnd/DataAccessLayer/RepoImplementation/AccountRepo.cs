@@ -36,42 +36,10 @@ namespace DataAccess.RepoImplementation
             return accountEntity == null ? null : Mapper.Map<AccountEntity, AccountModel>(accountEntity);
         }
 
-        /*public AccountExtensionModel GetExtensionById(int id)
+        public AccountModel GetByOwnedPartMac(string mac)
         {
-            AccountExtensionEntity accountExtensionEntity = Context.accounts_extensions.FirstOrDefault(extension => extension.id == id);
-            return accountExtensionEntity == null ? null : Mapper.Map<AccountExtensionEntity, AccountExtensionModel>(accountExtensionEntity);
+            OwningEntity owning = Context.ownings.FirstOrDefault(own => own.concrete_parts.controller_mac == mac);
+            return owning == null ? null : Mapper.Map<AccountEntity, AccountModel>(owning.accounts);
         }
-
-        public AccountModel AddAccountExtension(AccountExtensionModel accountExtension)
-        {
-            AccountEntity account = Context.accounts.FirstOrDefault(acc => acc.id == accountExtension.AccountId);
-
-            if (account == null)
-                throw new EntityNotFoundException("account");
-
-            return ProtectedExecute(acc =>
-            {
-                AccountExtensionEntity extension = Mapper.Map<AccountExtensionModel, AccountExtensionEntity>(accountExtension);
-                account.accounts_extensions.Add(extension);
-
-                Context.SaveChanges();
-                return Mapper.Map<AccountEntity, AccountModel>(account);
-            }, account);
-        }
-
-        public AccountModel UpdateAccountExtensionLastUsedDate(int accountExtensionId, DateTime lastUsedDate)
-        {
-            AccountExtensionEntity accountExtension = Context.accounts_extensions.FirstOrDefault(ex => ex.id == accountExtensionId);
-
-            if (accountExtension == null)
-                throw new EntityNotFoundException("account extension");
-
-            return ProtectedExecute(acc =>
-            {
-                accountExtension.last_used = lastUsedDate;
-                Context.SaveChanges();
-                return Mapper.Map<AccountEntity, AccountModel>(acc);
-            }, accountExtension.accounts);
-        }*/
     }
 }

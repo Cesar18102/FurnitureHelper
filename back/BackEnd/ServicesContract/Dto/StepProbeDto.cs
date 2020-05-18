@@ -1,10 +1,25 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 using Newtonsoft.Json;
 
 namespace ServicesContract.Dto
 {
+    public enum StateChange
+    {
+        DETACHED = -1,
+        UNCHANGED = 0,
+        ATTACHED = 1
+    };
+
+    public class PinStateChange
+    {
+        [JsonProperty("pin")]
+        public int PinNumber { get; private set; }
+
+        [JsonProperty("change")]
+        public StateChange Change { get; private set; }
+    }
+
     public class StepProbeDto : IDto
     {
         [Required(ErrorMessage = "mac is required")]
@@ -12,7 +27,7 @@ namespace ServicesContract.Dto
         [JsonProperty("mac")]
         public string Mac { get; set; }
 
-        [JsonProperty("active_readers")]
-        public IEnumerable<int> ActiveReaders { get; set; } //change to two readers or remove at all
+        [JsonProperty("pin_state_changes")]
+        public PinStateChange[] PinStateChanges { get; set; } 
     }
 }

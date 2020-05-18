@@ -62,7 +62,9 @@
 				
 				for(let id in groups) {
 					let part = getPart(furniture, part => part.id == id);
-					groups[id].name = part.name;
+					if(part != null) {
+						groups[id].name = part.name;
+					}
 				}
 				
 				return groups;
