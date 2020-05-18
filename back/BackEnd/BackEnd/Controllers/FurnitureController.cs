@@ -15,7 +15,6 @@ namespace BackEnd.Controllers
     public class FurnitureController : ApiController
     {
         private static readonly IFurnitureService FurnitureService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<IFurnitureService>();
-        private static readonly IPartService PartService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<IPartService>();
 
         [HttpPost]
         public HttpResponseMessage Add([FromBody] AddFurnitureDto furnitureDto)
@@ -63,6 +62,12 @@ namespace BackEnd.Controllers
         public HttpResponseMessage GetPartStoreForFurniture(int furnitureItemId)
         {
             return Request.ExecuteProtectedAndWrapResult<InvariantPartStore>(() => FurnitureService.GetPartStore(furnitureItemId));
+        }
+
+        [HttpPost]
+        public HttpRequestMessage StartBuildingFurniture(StartBuildDto startBuildDto)
+        {
+            throw new System.Exception();
         }
     }
 }

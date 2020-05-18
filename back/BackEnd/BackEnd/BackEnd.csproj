@@ -161,9 +161,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BuildController.cs" />
     <Compile Include="Controllers\ColorsController.cs" />
     <Compile Include="Controllers\ControllerExtensions.cs" />
     <Compile Include="Controllers\FurnitureController.cs" />
+    <Compile Include="Controllers\IoTController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\PartController.cs" />
     <Compile Include="Controllers\TradeController.cs" />

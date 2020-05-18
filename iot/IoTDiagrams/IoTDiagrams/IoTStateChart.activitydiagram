@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="c4802a83-a2da-4542-a37c-6a399e422ec2" name="IoTStateChart" linkedPackageId="fdd4a3c5-c726-4d5a-94be-e3fd5d0bdb6a" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+  <packagedElements>
+    <activityRootModelHasActivity>
+      <activity Id="092c7a62-b7a3-484c-86dd-8ee1cab63598" name="IoTStateChart" isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
+        <elementDefinition Id="7b30d31b-6659-497b-8a53-ef3be9b59272" />
+        <nodes>
+          <initialNode Id="2b0ae73c-42f1-4797-9954-f9c162d7855d" name="Initial1" isLeaf="false">
+            <elementDefinition Id="ed08b669-a264-4046-bbaa-3488a1aba4d0" />
+            <flowNodeTargets>
+              <controlFlow Id="fb95294d-8f42-475e-8d0e-d56de65c54f8" isLeaf="false">
+                <forkNodeMoniker Id="f4b0fafb-fe38-4e3e-b576-22b7d72e3084" LastKnownName="Fork1" />
+                <elementDefinition Id="627d1b84-4a93-4cb5-a159-6aecd91e87ab" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <opaqueAction Id="e9ec5b9c-5126-4b7f-8df2-e7e252d2833c" name="User initiates furniture item building at web/mobile" isLeaf="false">
+            <elementDefinition Id="12c30126-a140-4ac1-9a65-2ea311080cd1" />
+            <flowNodeTargets>
+              <controlFlow Id="2cb5e7ea-7229-44e6-9c95-5716cca4799f" isLeaf="false">
+                <opaqueActionMoniker Id="34e97377-bc2b-4c1b-b248-4b49d33f318c" LastKnownName="Server gets a request and user's ip with it" />
+                <elementDefinition Id="a7bb11fc-ab9e-4e58-a7ec-740c1a21e311" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="34e97377-bc2b-4c1b-b248-4b49d33f318c" name="Server gets a request and user's ip with it" isLeaf="false">
+            <elementDefinition Id="8f99e075-a103-431f-bf27-dfe193254242" />
+            <flowNodeTargets>
+              <controlFlow Id="b2a97400-f057-4a62-8fe4-f49fc391706e" isLeaf="false">
+                <opaqueActionMoniker Id="aeb973b5-66e9-44f0-b47f-fae90cf976bb" LastKnownName="Server creates a UDP broadcast to user's ip" />
+                <elementDefinition Id="abefd39c-7237-4d7d-b0a1-9d3db0c43ca6" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="aeb973b5-66e9-44f0-b47f-fae90cf976bb" name="Server creates a UDP broadcast to user's ip" isLeaf="false">
+            <elementDefinition Id="9ee69a7b-a6ff-4e65-9877-eecf0aced528" />
+          </opaqueAction>
+          <opaqueAction Id="620ccd1f-d6b4-4cc1-ab00-ef4fff7aa32a" name="User buys parts" isLeaf="false">
+            <elementDefinition Id="439710a1-3a6b-4e16-a3c6-3257015a5faf" />
+            <flowNodeTargets>
+              <controlFlow Id="a06257ea-76da-4a73-ac9b-f6906bd81ab8" isLeaf="false">
+                <joinNodeMoniker Id="9fc778d0-2b0d-44b9-b6e0-7b00a9ed7836" LastKnownName="Join1" />
+                <elementDefinition Id="1f9e98c6-d07d-4646-a436-320b282296d4" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="46de6ba8-194e-4ced-9e3c-7bbf548b3630" name="User resets parts' controllers by pressing the reset button" isLeaf="false">
+            <elementDefinition Id="8387c9ab-2a03-4196-85f9-679a48b25d36" />
+            <flowNodeTargets>
+              <controlFlow Id="ef58979b-0ec4-453f-b7cb-51149bfdd6fa" isLeaf="false">
+                <opaqueActionMoniker Id="7ccf094e-5df8-4931-8076-dbe9e687d33c" LastKnownName="User presses the WPS button on his wifi-router" />
+                <elementDefinition Id="8e067dc7-c3a9-41b1-81fa-ee96081cba87" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="e57acaf7-cfd1-4f5a-8b5d-a8e3c80e2dd2" name="User replaces parts to another LAN" isLeaf="false">
+            <elementDefinition Id="44a9b00b-b42b-4037-8142-5e60f8031c99" />
+            <flowNodeTargets>
+              <controlFlow Id="4fa07126-5f9f-4a12-b490-ef94695dee62" isLeaf="false">
+                <joinNodeMoniker Id="9fc778d0-2b0d-44b9-b6e0-7b00a9ed7836" LastKnownName="Join1" />
+                <elementDefinition Id="5ad09ef9-cd83-4905-b4a5-ecf86579c706" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="7ccf094e-5df8-4931-8076-dbe9e687d33c" name="User presses the WPS button on his wifi-router" isLeaf="false">
+            <elementDefinition Id="bcb0fd98-1a4f-4619-a061-a8e4450d0972" />
+            <flowNodeTargets>
+              <controlFlow Id="674c5964-bef9-4c45-a78c-9b092e3698f4" isLeaf="false">
+                <opaqueActionMoniker Id="e9ec5b9c-5126-4b7f-8df2-e7e252d2833c" LastKnownName="User initiates furniture item building at web/mobile" />
+                <elementDefinition Id="9aef9972-c11d-40c4-a658-574f3f91366f" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="e17ebd2c-3956-40e3-9dca-f631c464fd70" name="User refabrishes previously constructed furniture" isLeaf="false">
+            <elementDefinition Id="de50907b-0ff1-4f9b-8cc7-5b7da7445160" />
+            <flowNodeTargets>
+              <controlFlow Id="3e910e67-3be2-4e5a-95d8-22c80722b828" isLeaf="false">
+                <joinNodeMoniker Id="9fc778d0-2b0d-44b9-b6e0-7b00a9ed7836" LastKnownName="Join1" />
+                <elementDefinition Id="495262c2-f81a-433a-9d1e-544a73526ebc" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <forkNode Id="f4b0fafb-fe38-4e3e-b576-22b7d72e3084" name="Fork1" isLeaf="false">
+            <elementDefinition Id="77eec995-18fc-4088-a88f-bfdf7d39cce3" />
+            <flowNodeTargets>
+              <controlFlow Id="b103fa9e-4b10-4c42-abed-3694395545e6" isLeaf="false">
+                <opaqueActionMoniker Id="620ccd1f-d6b4-4cc1-ab00-ef4fff7aa32a" LastKnownName="User buys parts" />
+                <elementDefinition Id="1fbc8e4f-5e6d-427d-8dfd-b169c8d9d273" />
+              </controlFlow>
+              <controlFlow Id="882c26e0-cd0b-4e4f-bdc0-5de1ccc603e6" isLeaf="false">
+                <opaqueActionMoniker Id="e57acaf7-cfd1-4f5a-8b5d-a8e3c80e2dd2" LastKnownName="User replaces parts to another LAN" />
+                <elementDefinition Id="3966e819-1d50-48bc-9e63-d3687115dbb1" />
+              </controlFlow>
+              <controlFlow Id="b3530c6f-2a10-48da-b732-84fdbb3be93d" isLeaf="false">
+                <opaqueActionMoniker Id="e17ebd2c-3956-40e3-9dca-f631c464fd70" LastKnownName="User refabrishes previously constructed furniture" />
+                <elementDefinition Id="0a438c6a-2e03-4093-8b3f-26c242a00559" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <joinNode Id="9fc778d0-2b0d-44b9-b6e0-7b00a9ed7836" name="Join1" isLeaf="false">
+            <elementDefinition Id="7cbf68cc-d8ca-4c20-94b2-915d8e484014" />
+            <flowNodeTargets>
+              <controlFlow Id="7f61a2ed-c3b2-4897-b879-f5df1ca07216" isLeaf="false">
+                <opaqueActionMoniker Id="46de6ba8-194e-4ced-9e3c-7bbf548b3630" LastKnownName="User resets parts' controllers by pressing the reset button" />
+                <elementDefinition Id="565a478b-38c0-49bc-96a4-fac32850fe45" />
+              </controlFlow>
+            </flowNodeTargets>
+          </joinNode>
+        </nodes>
+      </activity>
+    </activityRootModelHasActivity>
+  </packagedElements>
+  <package Id="fdd4a3c5-c726-4d5a-94be-e3fd5d0bdb6a" name="IoTDiagrams">
+    <elementDefinition Id="275b9cf8-aeef-48ab-a8f8-617e985c60e3" />
+    <profileInstances>
+      <packageHasProfileInstances Id="a0f7ed11-5b46-4e4c-ba04-d1bea4c491fb">
+        <profileInstance Id="d52d2833-616d-47cb-8c63-641e23ab59e3" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="9999aee6-ac85-4139-b213-4ec1b5daebf0">
+        <profileInstance Id="23681729-929e-4ebd-97f1-b028b283769e" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</activityRootModel>

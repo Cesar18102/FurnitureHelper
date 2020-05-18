@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
@@ -25,6 +26,13 @@ namespace Models
         public ICollection<UsedPartModel> UsedParts { get; private set; }
 
         [JsonProperty("global_connections")]
-        public IEnumerable<GlobalPartsConnectionModel> GlobalConnections { get; private set; }   
+        public ICollection<GlobalPartsConnectionModel> GlobalConnections { get; private set; }   
+
+        public void SortConnections()
+        {
+            GlobalConnections = GlobalConnections.OrderBy(connection => connection.OrderNumber).ToList();
+            foreach (GlobalPartsConnectionModel connection in GlobalConnections)
+                connection.SortConnections();
+        }
     }
 }

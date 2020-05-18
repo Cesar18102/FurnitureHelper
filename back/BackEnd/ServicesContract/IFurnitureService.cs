@@ -13,6 +13,7 @@ namespace ServicesContract
 
         IEnumerable<FurnitureItemModel> GetAll();
         IEnumerable<FurnitureItemModel> GetBuildList(SessionDto session);
+        bool CanBuild(SessionDto session, int furnitureItemId);
 
         InvariantPartStore GetPartStore(int furnitureItemId);
     }

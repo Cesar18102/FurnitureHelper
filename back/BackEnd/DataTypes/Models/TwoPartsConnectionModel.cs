@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
@@ -37,6 +38,6 @@ namespace Models
 
 
         [JsonProperty("connection_glues")]
-        public IEnumerable<ConnectionGlueModel> ConnectionGlues { get; private set; }   
+        public IEnumerable<ConnectionGlueModel> ConnectionGlues { get; private set; }
     }
 }
