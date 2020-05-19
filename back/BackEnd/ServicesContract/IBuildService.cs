@@ -10,7 +10,7 @@ namespace ServicesContract
         BuildSessionModel InitBuildSession(StartBuildDto startBuildDto);
 
         TwoPartsConnectionModel GetCurrentStep(BuildSessionDto buildSession);
-        IEnumerable<StepProbeResultModel> PopStepProbeResults(BuildSessionDto buildSession);
+        IEnumerable<StepProbeResultModel> GetStepProbeResults(BuildSessionDto buildSession);
 
         IndicatorMapModel HandlePing(ControllerPingDto pingDto);
         StepProbeResultModel HandleStepProbe(StepProbeDto buildActionDto);

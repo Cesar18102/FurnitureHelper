@@ -182,20 +182,19 @@ namespace Models
 
         public StepProbeResultModel HandleConnectionProbe(StepProbeDto stepProbe)
         {
-            string mac = stepProbe.Mac.ToUpper();
             foreach (PinStateChange pinState in stepProbe.PinStateChanges)
             {
                 if (IsCurrentStepReaderPin(pinState.PinNumber))
                 {
                     if (pinState.Change == StateChange.ATTACHED)
                     {
-                        try { AttachPin(mac, pinState.PinNumber); }
+                        try { AttachPin(stepProbe.Mac, pinState.PinNumber); }
                         catch (MisAttachException ex) { return new StepProbeResultModel(ProbeStatus.ERROR); }
                         catch (AlreadyAttachedException ex) { return new StepProbeResultModel(ProbeStatus.ERROR); }
                     }
                     else if (pinState.Change == StateChange.DETACHED)
                     {
-                        try { DetachPin(mac, pinState.PinNumber); }
+                        try { DetachPin(stepProbe.Mac, pinState.PinNumber); }
                         catch(NotAttachedException ex) { return new StepProbeResultModel(ProbeStatus.ERROR); }
                     }
                 }

@@ -14,6 +14,7 @@ namespace ServicesContract
 
         PartStore GetStore();
         PartModel Get(int partId);
+        ControllerConfigModel GetControllerConfig(ControllerPingDto pingDto);
 
         PartStore GetUserBids();
         PartStore GetOwned(SessionDto ownerSession);

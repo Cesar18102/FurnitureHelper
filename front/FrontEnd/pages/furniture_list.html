@@ -16,6 +16,7 @@
 		<script src="../scripts/libs/jquery.js"></script>
 		
 		<script src="../scripts/popup.js"></script>
+		<script src="../scripts/session.js"></script>
 		<script src="../scripts/connector.js"></script>
 		<script src="../scripts/continious_handler.js"></script>
 		<script src="../scripts/response_handler.js"></script>
@@ -51,6 +52,8 @@
 		<script>
 		
 			Vue.filter("rendererId", furniture => "furniture-renderer-wrapper-" + furniture.id);
+			Vue.filter("buildItem", furniture => "buildItem(" + furniture.id + ")");
+			
 			Vue.filter("ingredients", furniture => {
 				let groups = {};
 				for(let used of furniture.used_parts) {
@@ -131,6 +134,10 @@
 					}*/
 					
 				}
+			}
+			
+			function buildItem(id) {
+			
 			}
 			
 			init();

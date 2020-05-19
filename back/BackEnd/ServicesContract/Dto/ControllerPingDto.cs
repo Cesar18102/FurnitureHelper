@@ -6,7 +6,7 @@ namespace ServicesContract.Dto
 {
     public class ControllerPingDto : IDto
     {
-        [RegularExpression("^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$", ErrorMessage = "mac is invalid")]
+        [RegularExpression("^([0-9A-F]{2}:){5}[0-9A-F]{2}$", ErrorMessage = "mac is invalid")]
         [Required(ErrorMessage = "mac is required")]
         [JsonProperty("mac")]
         public string Mac { get; set; }

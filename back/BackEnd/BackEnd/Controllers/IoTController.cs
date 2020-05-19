@@ -15,6 +15,7 @@ namespace BackEnd.Controllers
 {
     public class IoTController : ApiController
     {
+        private static readonly IPartService PartService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<IPartService>();
         private static readonly IBuildService BuildService = ServiceDependencyHolderWrapper.ServicesDependencies.Resolve<IBuildService>();
 
         private void CheckUserAgent(HttpRequestMessage request)
@@ -45,6 +46,15 @@ namespace BackEnd.Controllers
                 dto => { CheckUserAgent(Request); return BuildService.HandleStepProbe(dto); },
                 ModelState, probeDto
             );
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GetConfig([FromBody] ControllerPingDto pingDto)
+        {
+            return Request.ExecuteProtectedAndWrapResult<ControllerPingDto, ControllerConfigModel>(
+               dto => { CheckUserAgent(Request); return PartService.GetControllerConfig(dto); },
+               ModelState, pingDto
+           );
         }
     }
 }

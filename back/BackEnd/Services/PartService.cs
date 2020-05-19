@@ -158,5 +158,21 @@ namespace Services
         {
             return PartRepo.Get(partId);
         }
+
+        public ControllerConfigModel GetControllerConfig(ControllerPingDto pingDto)
+        {
+            ConcretePartModel part = ConcretePartRepo.GetPartByMac(pingDto.Mac);
+
+            if (part == null)
+                throw new NotFoundException("concrete part with specified mac");
+
+            List<int> indicators = part.Part.ConnectionHelpers.Select(helper => helper.IndicatorPinNumber).ToList();
+            List<int> readers = part.Part.ConnectionHelpers.Aggregate(
+                new List<int>(), 
+                (acc, helper) => acc.Append(helper.ReaderPinNumber).Append(helper.ReaderPinNumberOther).ToList()
+            ).ToList();
+
+            return new ControllerConfigModel(indicators, readers);
+        }
     }
 }

@@ -37,7 +37,7 @@ namespace BackEnd.Controllers
         public HttpResponseMessage PopStepProbes([FromBody] BuildSessionDto buildSession)
         {
             return Request.ExecuteProtectedAndWrapResult<BuildSessionDto, StepProbeResultModel>(
-                dto => BuildService.PopStepProbeResults(dto),
+                dto => BuildService.GetStepProbeResults(dto),
                 ModelState, buildSession
             );
         }

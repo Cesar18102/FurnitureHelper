@@ -302,7 +302,7 @@ namespace DataAccess
             config.CreateMap<ConcretePartModel, ConcretePartEntity>()
                   .ForMember(entity => entity.id, cnf => cnf.Ignore())
                   .ForMember(entity => entity.part_id, cnf => cnf.MapFrom(model => model.Part.Id))
-                  .ForMember(entity => entity.controller_mac, cnf => cnf.MapFrom(model => model.ControllerMac.ToUpper()))
+                  .ForMember(entity => entity.controller_mac, cnf => cnf.MapFrom(model => model.ControllerMac))
                   .ForMember(entity => entity.material_id, cnf => cnf.MapFrom(model => model.SelectedMaterial.Id))
                   .ForMember(entity => entity.color_id, cnf => cnf.MapFrom(model => model.SelectedColor.Id))
                   .ForMember(entity => entity.create_date, cnf => cnf.MapFrom(model => model.CreateDate))
@@ -311,7 +311,7 @@ namespace DataAccess
 
             config.CreateMap<ConcretePartEntity, ConcretePartModel>()
                   .ForMember(model => model.Part, cnf => cnf.MapFrom(entity => entity.parts))
-                  .ForMember(model => model.ControllerMac, cnf => cnf.MapFrom(entity => entity.controller_mac.ToUpper()))
+                  .ForMember(model => model.ControllerMac, cnf => cnf.MapFrom(entity => entity.controller_mac))
                   .ForMember(model => model.SelectedMaterial, cnf => cnf.MapFrom(entity => entity.materials))
                   .ForMember(model => model.SelectedColor, cnf => cnf.MapFrom(entity => entity.colors))
                   .ForMember(model => model.CreateDate, cnf => cnf.MapFrom(entity => entity.create_date))

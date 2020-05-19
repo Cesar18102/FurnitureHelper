@@ -44,8 +44,6 @@ namespace Services
 
         private BuildSessionManager GetBuildSessionByMac(string mac)
         {
-            string MAC = mac.ToUpper();
-
             if (MacToBuildTokenCache.ContainsKey(mac))
                 return BuildSessions[MacToBuildTokenCache[mac]];
 
@@ -56,6 +54,7 @@ namespace Services
 
             string token = UserBuildTokens[owner.Id];
             MacToBuildTokenCache.Add(mac, token);
+
             return BuildSessions[token];
         }
 
@@ -91,14 +90,11 @@ namespace Services
             return buildSessionInfo.BuildSession;
         }
 
-        public IEnumerable<StepProbeResultModel> PopStepProbeResults(BuildSessionDto buildSession)
+        public IEnumerable<StepProbeResultModel> GetStepProbeResults(BuildSessionDto buildSession)
         {
             CheckBuildSession(buildSession);
             BuildSessionManager sessionInfo = BuildSessions[buildSession.BuildSessionToken];
-
-            IEnumerable<StepProbeResultModel> stepProbes =  sessionInfo.StepProbesResults.ToList();
-            sessionInfo.StepProbesResults.Clear();
-            return stepProbes;
+            return sessionInfo.StepProbesResults.ToList();
         }
 
         public TwoPartsConnectionModel GetCurrentStep(BuildSessionDto buildSession)

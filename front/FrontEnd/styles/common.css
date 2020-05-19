@@ -34,3 +34,35 @@ html, body {
 	border-radius : 0.2em;
 	border : 0.05em solid rgb(53, 54, 58);
 }
+
+.common-button {
+	width : 5em;
+	height : 1em;
+	
+	margin-left : 2em;
+	
+	padding : 0.5em;
+	cursor : pointer;
+	text-align : center;
+	color : rgb(53, 54, 58);
+	display : inline-block;
+	
+	border-radius : 0.2em;
+	border : 0.1em solid rgb(53, 54, 58);
+}
+
+.common-button:hover {
+	color : white;
+	background-color : rgb(53, 54, 58);
+	transition : color 0.5s, background-color 0.5s;	
+}
+
+.common-button[disabled], .common-button[disabled]:hover {
+	background-color : rgb(200, 200, 200);
+	border : 0.1em solid rgb(150, 150, 150);
+	color : rgb(150, 150, 150);
+}
+
+.common-button[hidden], .common-button[hidden]:hover {
+	display : none;
+}

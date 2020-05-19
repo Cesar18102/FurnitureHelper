@@ -159,7 +159,7 @@ namespace Services
                   .ForPath(model => model.SelectedMaterial.Id, cnf => cnf.MapFrom(dto => dto.MaterialId))
                   .ForPath(model => model.SelectedColor.Id, cnf => cnf.MapFrom(dto => dto.ColorId))
                   .ForPath(model => model.Part.Id, cnf => cnf.MapFrom(dto => dto.PartId))
-                  .ForMember(model => model.ControllerMac, cnf => cnf.MapFrom(dto => dto.ControllerMac.ToUpper()));
+                  .ForMember(model => model.ControllerMac, cnf => cnf.MapFrom(dto => dto.ControllerMac));
 
             /*****************/
 

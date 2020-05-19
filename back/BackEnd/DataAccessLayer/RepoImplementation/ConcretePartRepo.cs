@@ -36,7 +36,7 @@ namespace DataAccess.RepoImplementation
 
         public ConcretePartModel GetPartByMac(string mac)
         {
-            ConcretePartEntity part = Context.concrete_parts.FirstOrDefault(ctrl => ctrl.controller_mac.ToUpper() == mac.ToUpper());
+            ConcretePartEntity part = Context.concrete_parts.FirstOrDefault(ctrl => ctrl.controller_mac == mac);
             return part == null ? null : Mapper.Map<ConcretePartEntity, ConcretePartModel>(part);
         }
 
