@@ -17,6 +17,9 @@ namespace DataAccess.RepoImplementation
 
         protected override void SingleInclude(FurnitureItemEntity entity)
         {
+            if (entity == null)
+                return;
+
             Context.Entry<FurnitureItemEntity>(entity).Collection(furniture => furniture.furniture_item_parts_connections).Load();
             Context.Entry<FurnitureItemEntity>(entity).Collection(furniture => furniture.used_parts).Load();
 
@@ -26,7 +29,10 @@ namespace DataAccess.RepoImplementation
                 Context.Entry<FurnitureItemPartsConnectionEntity>(globalConnection).Collection(connection => connection.two_parts_connection).Load();
 
                 foreach (PartsConnectionGlueEntity globalGlue in globalConnection.parts_connection_glues)
+                {
                     Context.Entry<PartsConnectionGlueEntity>(globalGlue).Reference(glue => glue.parts).Load();
+                    PartRepo.SingleIncludeCommon(Context, globalGlue.parts);
+                }
 
                 foreach (TwoPartsConnectionEntity twoPartConnection in globalConnection.two_parts_connection)
                 {
@@ -34,10 +40,20 @@ namespace DataAccess.RepoImplementation
 
                     twoPartsConnectionEntry.Reference(connection => connection.part_controllers_embed_relative_positions).Load();
                     twoPartsConnectionEntry.Reference(connection => connection.part_controllers_embed_relative_positions1).Load();
+
+                    Context.Entry<PartControllerEmbedRelativePositionEntity>(twoPartConnection.part_controllers_embed_relative_positions).Reference(helper => helper.parts).Load();
+                    Context.Entry<PartControllerEmbedRelativePositionEntity>(twoPartConnection.part_controllers_embed_relative_positions1).Reference(helper => helper.parts).Load();
+
+                    PartRepo.SingleIncludeCommon(Context, twoPartConnection.part_controllers_embed_relative_positions.parts);
+                    PartRepo.SingleIncludeCommon(Context, twoPartConnection.part_controllers_embed_relative_positions1.parts);
+
                     twoPartsConnectionEntry.Collection(connection => connection.two_parts_connection_glues).Load();
 
                     foreach (TwoPartsConnectionGlueEntity twoPartsGlue in twoPartConnection.two_parts_connection_glues)
+                    {
                         Context.Entry<TwoPartsConnectionGlueEntity>(twoPartsGlue).Reference(glue => glue.parts).Load();
+                        PartRepo.SingleIncludeCommon(Context, twoPartsGlue.parts);
+                    }
                 }
             }
         }
@@ -63,11 +79,15 @@ namespace DataAccess.RepoImplementation
             Context.furniture_item_parts_connections.Include(connection => connection.parts_connection_glues)
                                                     .Include(connection => connection.two_parts_connection)
                                                     .Load();
-            Context.parts_connection_glues.Include(glue => glue.parts).Load();
             Context.two_parts_connection.Include(connection => connection.part_controllers_embed_relative_positions)
                                         .Include(connection => connection.part_controllers_embed_relative_positions1)
                                         .Include(connection => connection.two_parts_connection_glues).Load();
+
+            Context.parts_connection_glues.Include(glue => glue.parts).Load();
             Context.two_parts_connection_glues.Include(glue => glue.parts).Load();
+            Context.part_controllers_embed_relative_positions.Include(helper => helper.parts).Load();
+
+            PartRepo.WholeIncludeCommon(Context);
         }
 
         public override FurnitureItemModel Create(FurnitureItemModel model)

@@ -14,6 +14,7 @@ namespace DataAccessContract
         IEnumerable<ConcretePartModel> GetStored(int partId, int materialId);
         IEnumerable<ConcretePartModel> GetStored(int partId, int materialId, int colorId);
 
+        void MarkInUse(IEnumerable<int> partIds);
         IEnumerable<ConcretePartModel> GetForSellParts();
 
         IEnumerable<ConcretePartModel> MarkPartsForSell(IEnumerable<ConcretePartModel> parts);

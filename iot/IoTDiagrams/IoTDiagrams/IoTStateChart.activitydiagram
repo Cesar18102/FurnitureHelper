@@ -8,101 +8,242 @@
           <initialNode Id="2b0ae73c-42f1-4797-9954-f9c162d7855d" name="Initial1" isLeaf="false">
             <elementDefinition Id="ed08b669-a264-4046-bbaa-3488a1aba4d0" />
             <flowNodeTargets>
-              <controlFlow Id="fb95294d-8f42-475e-8d0e-d56de65c54f8" isLeaf="false">
-                <forkNodeMoniker Id="f4b0fafb-fe38-4e3e-b576-22b7d72e3084" LastKnownName="Fork1" />
-                <elementDefinition Id="627d1b84-4a93-4cb5-a159-6aecd91e87ab" />
+              <controlFlow Id="9eec5994-cdee-4598-b903-b8bd5a9afaf2" isLeaf="false">
+                <joinNodeMoniker Id="f9d2b648-69f4-4e6d-80d2-ba381fed7350" LastKnownName="Join1" />
+                <elementDefinition Id="37e807e6-91ff-4da2-baf8-e085bee7fb5f" />
               </controlFlow>
             </flowNodeTargets>
           </initialNode>
-          <opaqueAction Id="e9ec5b9c-5126-4b7f-8df2-e7e252d2833c" name="User initiates furniture item building at web/mobile" isLeaf="false">
-            <elementDefinition Id="12c30126-a140-4ac1-9a65-2ea311080cd1" />
-            <flowNodeTargets>
-              <controlFlow Id="2cb5e7ea-7229-44e6-9c95-5716cca4799f" isLeaf="false">
-                <opaqueActionMoniker Id="34e97377-bc2b-4c1b-b248-4b49d33f318c" LastKnownName="Server gets a request and user's ip with it" />
-                <elementDefinition Id="a7bb11fc-ab9e-4e58-a7ec-740c1a21e311" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction Id="34e97377-bc2b-4c1b-b248-4b49d33f318c" name="Server gets a request and user's ip with it" isLeaf="false">
-            <elementDefinition Id="8f99e075-a103-431f-bf27-dfe193254242" />
-            <flowNodeTargets>
-              <controlFlow Id="b2a97400-f057-4a62-8fe4-f49fc391706e" isLeaf="false">
-                <opaqueActionMoniker Id="aeb973b5-66e9-44f0-b47f-fae90cf976bb" LastKnownName="Server creates a UDP broadcast to user's ip" />
-                <elementDefinition Id="abefd39c-7237-4d7d-b0a1-9d3db0c43ca6" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction Id="aeb973b5-66e9-44f0-b47f-fae90cf976bb" name="Server creates a UDP broadcast to user's ip" isLeaf="false">
-            <elementDefinition Id="9ee69a7b-a6ff-4e65-9877-eecf0aced528" />
-          </opaqueAction>
-          <opaqueAction Id="620ccd1f-d6b4-4cc1-ab00-ef4fff7aa32a" name="User buys parts" isLeaf="false">
-            <elementDefinition Id="439710a1-3a6b-4e16-a3c6-3257015a5faf" />
-            <flowNodeTargets>
-              <controlFlow Id="a06257ea-76da-4a73-ac9b-f6906bd81ab8" isLeaf="false">
-                <joinNodeMoniker Id="9fc778d0-2b0d-44b9-b6e0-7b00a9ed7836" LastKnownName="Join1" />
-                <elementDefinition Id="1f9e98c6-d07d-4646-a436-320b282296d4" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction Id="46de6ba8-194e-4ced-9e3c-7bbf548b3630" name="User resets parts' controllers by pressing the reset button" isLeaf="false">
-            <elementDefinition Id="8387c9ab-2a03-4196-85f9-679a48b25d36" />
-            <flowNodeTargets>
-              <controlFlow Id="ef58979b-0ec4-453f-b7cb-51149bfdd6fa" isLeaf="false">
-                <opaqueActionMoniker Id="7ccf094e-5df8-4931-8076-dbe9e687d33c" LastKnownName="User presses the WPS button on his wifi-router" />
-                <elementDefinition Id="8e067dc7-c3a9-41b1-81fa-ee96081cba87" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction Id="e57acaf7-cfd1-4f5a-8b5d-a8e3c80e2dd2" name="User replaces parts to another LAN" isLeaf="false">
-            <elementDefinition Id="44a9b00b-b42b-4037-8142-5e60f8031c99" />
-            <flowNodeTargets>
-              <controlFlow Id="4fa07126-5f9f-4a12-b490-ef94695dee62" isLeaf="false">
-                <joinNodeMoniker Id="9fc778d0-2b0d-44b9-b6e0-7b00a9ed7836" LastKnownName="Join1" />
-                <elementDefinition Id="5ad09ef9-cd83-4905-b4a5-ecf86579c706" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction Id="7ccf094e-5df8-4931-8076-dbe9e687d33c" name="User presses the WPS button on his wifi-router" isLeaf="false">
+          <opaqueAction Id="7ccf094e-5df8-4931-8076-dbe9e687d33c" name="Connecting to wifi via WPS" isLeaf="false">
             <elementDefinition Id="bcb0fd98-1a4f-4619-a061-a8e4450d0972" />
             <flowNodeTargets>
-              <controlFlow Id="674c5964-bef9-4c45-a78c-9b092e3698f4" isLeaf="false">
-                <opaqueActionMoniker Id="e9ec5b9c-5126-4b7f-8df2-e7e252d2833c" LastKnownName="User initiates furniture item building at web/mobile" />
-                <elementDefinition Id="9aef9972-c11d-40c4-a658-574f3f91366f" />
+              <controlFlow Id="aca24c37-71ae-482f-b22a-119062bf316e" guard="Connection failed" isLeaf="false">
+                <joinNodeMoniker Id="f9d2b648-69f4-4e6d-80d2-ba381fed7350" LastKnownName="Join1" />
+                <elementDefinition Id="89f38a6e-bcdb-4247-a808-284a5e72b547" />
+              </controlFlow>
+              <controlFlow Id="a2076a0f-f75d-4640-812b-6646100faa8d" guard="Connected" isLeaf="false">
+                <opaqueActionMoniker Id="be96b367-a92e-449b-83fb-2c8f5a47570b" LastKnownName="Retrieving controller config from the server (indicators and readers pin numbers)" />
+                <elementDefinition Id="f8031263-09ab-4cd2-b74b-231d7bd5ac30" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <opaqueAction Id="e17ebd2c-3956-40e3-9dca-f631c464fd70" name="User refabrishes previously constructed furniture" isLeaf="false">
-            <elementDefinition Id="de50907b-0ff1-4f9b-8cc7-5b7da7445160" />
+          <joinNode Id="f9d2b648-69f4-4e6d-80d2-ba381fed7350" name="Join1" isLeaf="false">
+            <elementDefinition Id="8b9bb11d-6891-4385-9805-ab5a40999128" />
             <flowNodeTargets>
-              <controlFlow Id="3e910e67-3be2-4e5a-95d8-22c80722b828" isLeaf="false">
-                <joinNodeMoniker Id="9fc778d0-2b0d-44b9-b6e0-7b00a9ed7836" LastKnownName="Join1" />
-                <elementDefinition Id="495262c2-f81a-433a-9d1e-544a73526ebc" />
+              <controlFlow Id="e43d9cae-54ae-44c5-847d-9d456f9b1a15" isLeaf="false">
+                <opaqueActionMoniker Id="7ccf094e-5df8-4931-8076-dbe9e687d33c" LastKnownName="Connecting to wifi via WPS" />
+                <elementDefinition Id="0468bb9b-9f89-45a3-b88b-eacc76a84b23" />
+              </controlFlow>
+            </flowNodeTargets>
+          </joinNode>
+          <opaqueAction Id="be96b367-a92e-449b-83fb-2c8f5a47570b" name="Retrieving controller config from the server (indicators and readers pin numbers)" isLeaf="false">
+            <elementDefinition Id="51db4ca2-f4fe-42dc-a9fe-000e10689e72" />
+            <flowNodeTargets>
+              <controlFlow Id="8322b8e0-8b9b-462f-a1d3-887065c613ea" guard="Retrieve failed" isLeaf="false">
+                <opaqueActionMoniker Id="0ac67a91-5582-423d-a5f2-901d759a4692" LastKnownName="Wait for a specified request period" />
+                <elementDefinition Id="fe3bc532-ad74-478a-a029-15b30118ddf4" />
+              </controlFlow>
+              <controlFlow Id="bf10f93f-1559-4a08-bdf0-53ddf315b59f" guard="Retrieve success" isLeaf="false">
+                <forkNodeMoniker Id="8454ac22-7ddd-4003-9b68-fa6ab7b26131" LastKnownName="Fork1" />
+                <elementDefinition Id="952d1b9a-6698-47c2-a8af-7a72a1ac6f16" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <forkNode Id="f4b0fafb-fe38-4e3e-b576-22b7d72e3084" name="Fork1" isLeaf="false">
-            <elementDefinition Id="77eec995-18fc-4088-a88f-bfdf7d39cce3" />
+          <opaqueAction Id="b7c9e7d5-0cce-4679-9bfa-4fd21f15f9d4" name="Ping server to retrieve indicators' states" isLeaf="false">
+            <elementDefinition Id="021196dc-f325-4806-8bd6-2e4230d7968d" />
             <flowNodeTargets>
-              <controlFlow Id="b103fa9e-4b10-4c42-abed-3694395545e6" isLeaf="false">
-                <opaqueActionMoniker Id="620ccd1f-d6b4-4cc1-ab00-ef4fff7aa32a" LastKnownName="User buys parts" />
-                <elementDefinition Id="1fbc8e4f-5e6d-427d-8dfd-b169c8d9d273" />
+              <controlFlow Id="b34226c0-fe95-412a-a40d-04a0b5894ca0" guard="Ping success" isLeaf="false">
+                <opaqueActionMoniker Id="00ef3d8e-e35b-476d-92e9-46787d773719" LastKnownName="Reset all indicators" />
+                <elementDefinition Id="6e5768bc-d06b-43a1-b2e0-92f20deffa3c" />
               </controlFlow>
-              <controlFlow Id="882c26e0-cd0b-4e4f-bdc0-5de1ccc603e6" isLeaf="false">
-                <opaqueActionMoniker Id="e57acaf7-cfd1-4f5a-8b5d-a8e3c80e2dd2" LastKnownName="User replaces parts to another LAN" />
-                <elementDefinition Id="3966e819-1d50-48bc-9e63-d3687115dbb1" />
+              <controlFlow Id="2ab0bb3f-84e5-425e-9777-f2786d939e09" guard="Ping failed" isLeaf="false">
+                <opaqueActionMoniker Id="ae5e3942-1267-419a-a2b8-6c9158cfc15e" LastKnownName="Wait for a specified ping interval" />
+                <elementDefinition Id="32c1dfb4-6078-4f19-9170-7221e0e7ffc9" />
               </controlFlow>
-              <controlFlow Id="b3530c6f-2a10-48da-b732-84fdbb3be93d" isLeaf="false">
-                <opaqueActionMoniker Id="e17ebd2c-3956-40e3-9dca-f631c464fd70" LastKnownName="User refabrishes previously constructed furniture" />
-                <elementDefinition Id="0a438c6a-2e03-4093-8b3f-26c242a00559" />
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="0ae98c44-4515-47a2-862f-0d4603f1c4df" name="Read readers pins' states" isLeaf="false">
+            <elementDefinition Id="cc7b125a-e838-4252-b5a3-7db4dac071e4" />
+            <flowNodeTargets>
+              <controlFlow Id="5ed75c8b-0c98-4afa-a3cf-54a1169f718c" isLeaf="false">
+                <opaqueActionMoniker Id="f261813e-09cc-4537-a254-019d32704ac2" LastKnownName="Detect readers pins' state changes" />
+                <elementDefinition Id="b23bb372-595a-46e5-bfd3-9ec53b0436d9" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="00ef3d8e-e35b-476d-92e9-46787d773719" name="Reset all indicators" isLeaf="false">
+            <elementDefinition Id="19339de6-539a-4c51-a511-c095114da453" />
+            <flowNodeTargets>
+              <controlFlow Id="1d7049ce-76b6-4ad6-b75b-f98f3b1d0047" isLeaf="false">
+                <opaqueActionMoniker Id="d9998d47-8c92-43c4-b6a2-d1966ad91c96" LastKnownName="Set indicators' states according to retrieved info" />
+                <elementDefinition Id="3b86ad5a-2199-480c-9c4f-3333130235fe" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="d9998d47-8c92-43c4-b6a2-d1966ad91c96" name="Set indicators' states according to retrieved info" isLeaf="false">
+            <elementDefinition Id="e9f42dde-4530-4c13-bc4c-24939a39091a" />
+            <flowNodeTargets>
+              <controlFlow Id="af158d4e-f319-4b54-a75f-bb100755e6a9" isLeaf="false">
+                <opaqueActionMoniker Id="ae5e3942-1267-419a-a2b8-6c9158cfc15e" LastKnownName="Wait for a specified ping interval" />
+                <elementDefinition Id="8ba2f55a-cb63-4fdc-88cd-5eb9828d88d4" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="ae5e3942-1267-419a-a2b8-6c9158cfc15e" name="Wait for a specified ping interval" isLeaf="false">
+            <elementDefinition Id="2e2978fb-fea4-4734-891d-79c2b1f5c6dc" />
+            <flowNodeTargets>
+              <controlFlow Id="a79c8930-75a7-462a-8fae-9f1e142a2a44" isLeaf="false">
+                <opaqueActionMoniker Id="b7c9e7d5-0cce-4679-9bfa-4fd21f15f9d4" LastKnownName="Ping server to retrieve indicators' states" />
+                <elementDefinition Id="2d0357cc-9d96-4c0d-9fe9-6dfc68e7bd59" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="f261813e-09cc-4537-a254-019d32704ac2" name="Detect readers pins' state changes" isLeaf="false">
+            <elementDefinition Id="ce4c371f-c8e2-4fd3-800b-b39c4aee7b09" />
+            <flowNodeTargets>
+              <controlFlow Id="afc38eba-973a-43e6-b5b4-c4f1909b7a03" isLeaf="false">
+                <opaqueActionMoniker Id="ef58a90f-04b6-4bbf-893c-4c41ae7e4b0d" LastKnownName="Send changes info to the server" />
+                <elementDefinition Id="3a9172b5-19a2-4eb4-ac7c-bb29b73ff4c7" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="ef58a90f-04b6-4bbf-893c-4c41ae7e4b0d" name="Send changes info to the server" isLeaf="false">
+            <elementDefinition Id="540f6672-7d87-4010-b1f1-7bbf5e2406c4" />
+            <flowNodeTargets>
+              <controlFlow Id="0de6b934-f7ed-4e5e-b8ed-a0527ba7c078" guard="Send failed" isLeaf="false">
+                <opaqueActionMoniker Id="664c8637-8fa1-4cc7-90ad-f541d71e520e" LastKnownName="Wait for a specified read interval" />
+                <elementDefinition Id="8d93b930-8b1e-4761-a79c-d6d16a19f088" />
+              </controlFlow>
+              <controlFlow Id="d9d56363-4030-4656-a504-d794b1740710" isLeaf="false">
+                <forkNodeMoniker Id="a95d70d5-c4d6-491f-81ef-b23f756e9b27" LastKnownName="Fork2" />
+                <elementDefinition Id="8fab5af1-d029-4bdf-be2f-860d76c40cfd" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="0ac67a91-5582-423d-a5f2-901d759a4692" name="Wait for a specified request period" isLeaf="false">
+            <elementDefinition Id="fd75c8d7-2f60-4ac7-bc36-07d00e89a98d" />
+            <flowNodeTargets>
+              <controlFlow Id="4b41debf-80ad-449d-b39f-03ca5e236bca" isLeaf="false">
+                <opaqueActionMoniker Id="be96b367-a92e-449b-83fb-2c8f5a47570b" LastKnownName="Retrieving controller config from the server (indicators and readers pin numbers)" />
+                <elementDefinition Id="c62d35bc-5e08-4ab2-8aaf-3118948ace1a" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <forkNode Id="8454ac22-7ddd-4003-9b68-fa6ab7b26131" name="Fork1" isLeaf="false">
+            <elementDefinition Id="dd67f2bb-7599-46c4-a8e6-3d2764817331" />
+            <flowNodeTargets>
+              <controlFlow Id="87676c62-5430-4eaa-a581-682dc042bdab" isLeaf="false">
+                <opaqueActionMoniker Id="b7c9e7d5-0cce-4679-9bfa-4fd21f15f9d4" LastKnownName="Ping server to retrieve indicators' states" />
+                <elementDefinition Id="bc8d89d3-1d74-45fb-bf27-996b97d8935d" />
+              </controlFlow>
+              <controlFlow Id="540463c4-5355-4e29-ae2f-1ec90b3e338b" isLeaf="false">
+                <opaqueActionMoniker Id="0ae98c44-4515-47a2-862f-0d4603f1c4df" LastKnownName="Read readers pins' states" />
+                <elementDefinition Id="aa5ebbd7-7597-4fa0-bd25-2bb6d3ee3979" />
               </controlFlow>
             </flowNodeTargets>
           </forkNode>
-          <joinNode Id="9fc778d0-2b0d-44b9-b6e0-7b00a9ed7836" name="Join1" isLeaf="false">
-            <elementDefinition Id="7cbf68cc-d8ca-4c20-94b2-915d8e484014" />
+          <opaqueAction Id="664c8637-8fa1-4cc7-90ad-f541d71e520e" name="Wait for a specified read interval" isLeaf="false">
+            <elementDefinition Id="ab8538ab-8fbd-4e3a-bac9-0c64ff54ac75" />
             <flowNodeTargets>
-              <controlFlow Id="7f61a2ed-c3b2-4897-b879-f5df1ca07216" isLeaf="false">
-                <opaqueActionMoniker Id="46de6ba8-194e-4ced-9e3c-7bbf548b3630" LastKnownName="User resets parts' controllers by pressing the reset button" />
-                <elementDefinition Id="565a478b-38c0-49bc-96a4-fac32850fe45" />
+              <controlFlow Id="077464cc-4a71-4120-ae46-9052bb3a41f2" isLeaf="false">
+                <opaqueActionMoniker Id="0ae98c44-4515-47a2-862f-0d4603f1c4df" LastKnownName="Read readers pins' states" />
+                <elementDefinition Id="8cd56f02-d662-455d-a3e4-e4040348e659" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <forkNode Id="a95d70d5-c4d6-491f-81ef-b23f756e9b27" name="Fork2" isLeaf="false">
+            <elementDefinition Id="1141d9cb-1b4c-425a-a0ca-e1d65c07e1bc" />
+            <flowNodeTargets>
+              <controlFlow Id="b0c7ffd3-a948-4ff3-b223-fe9bb59815cf" isLeaf="false">
+                <opaqueActionMoniker Id="1cb87477-ef9a-4b66-a053-aa5e8c256532" LastKnownName="DONE status recieved" />
+                <elementDefinition Id="b3cc10f6-1d56-4019-8cc0-d1ddab94f7ea" />
+              </controlFlow>
+              <controlFlow Id="c0ff3ea3-58d4-4096-87d0-c724d444039d" isLeaf="false">
+                <opaqueActionMoniker Id="a287ddad-392a-40a5-90c1-53cd2c8e7c0d" LastKnownName="ERROR status recieved" />
+                <elementDefinition Id="b16c29b2-bf6d-4eda-a1d6-c6fb0045b00e" />
+              </controlFlow>
+              <controlFlow Id="33d20850-4096-4759-8bda-5f109576a63a" isLeaf="false">
+                <opaqueActionMoniker Id="5b0034b0-8a03-4682-bb9d-4b026a62cb6e" LastKnownName="PENDING status recieved" />
+                <elementDefinition Id="77641c3e-a511-4d70-a61f-69a02c53b935" />
+              </controlFlow>
+              <controlFlow Id="aafa17ef-fb7f-4db5-8b2f-7346cccc9eb1" isLeaf="false">
+                <opaqueActionMoniker Id="0a1faa78-825e-4308-97b1-8199014e1ebf" LastKnownName="FINISHED status recieved" />
+                <elementDefinition Id="bbc59ba7-a3b0-4e66-9c08-a93929c71de3" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <opaqueAction Id="1cb87477-ef9a-4b66-a053-aa5e8c256532" name="DONE status recieved" isLeaf="false">
+            <elementDefinition Id="f6eb83c7-641d-4c64-9dba-1b49e8920e7f" />
+            <flowNodeTargets>
+              <controlFlow Id="4fdbd0c6-8cfd-4c08-ae1d-5e195d1fe77a" isLeaf="false">
+                <opaqueActionMoniker Id="8efadbf4-ff22-4d9a-b2e0-5d383fdb6831" LastKnownName="Create rollback point" />
+                <elementDefinition Id="138f975b-e13c-435b-9882-5db27ee9427a" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="a287ddad-392a-40a5-90c1-53cd2c8e7c0d" name="ERROR status recieved" isLeaf="false">
+            <elementDefinition Id="8f818f04-5ca3-4590-996c-b9e0d5672eab" />
+            <flowNodeTargets>
+              <controlFlow Id="a053c118-edf7-4086-ab9e-237cd878da57" isLeaf="false">
+                <opaqueActionMoniker Id="c15ce609-1f26-43ed-9c59-e92d99e2d484" LastKnownName="Rollback stored readers' states" />
+                <elementDefinition Id="875ab7ff-38a3-46df-8d09-139363ef2324" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="5b0034b0-8a03-4682-bb9d-4b026a62cb6e" name="PENDING status recieved" isLeaf="false">
+            <elementDefinition Id="f79420b2-d096-4c3f-badb-3a94005290ad" />
+            <flowNodeTargets>
+              <controlFlow Id="ae373dc0-20e6-4605-b633-e17aa3865b45" isLeaf="false">
+                <opaqueActionMoniker Id="8efadbf4-ff22-4d9a-b2e0-5d383fdb6831" LastKnownName="Create rollback point" />
+                <elementDefinition Id="2f1d5f1c-9c56-4ff3-aad4-e15542498e08" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="0a1faa78-825e-4308-97b1-8199014e1ebf" name="FINISHED status recieved" isLeaf="false">
+            <elementDefinition Id="07538f9d-a9a7-4e18-a54d-27269ece2b71" />
+            <flowNodeTargets>
+              <controlFlow Id="44a630af-b10e-40cc-a6d4-8589aba34a7c" isLeaf="false">
+                <opaqueActionMoniker Id="685befd6-ac8c-4aba-97f6-b9838765551f" LastKnownName="Go into forever deepsleep mode" />
+                <elementDefinition Id="55b379f6-7aed-460b-bb53-622254e546c0" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="685befd6-ac8c-4aba-97f6-b9838765551f" name="Go into forever deepsleep mode" isLeaf="false">
+            <elementDefinition Id="2423f8c7-4822-49db-9189-2569b585753c" />
+            <flowNodeTargets>
+              <controlFlow Id="7d95d21c-5ef3-4805-8338-171fe4deb666" isLeaf="false">
+                <activityFinalNodeMoniker Id="fae8730a-ae5e-4560-af4d-2b7df34d4c1a" LastKnownName="ActivityFinal1" />
+                <elementDefinition Id="406d8739-3bdb-4b7d-b741-6a64f272b966" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <activityFinalNode Id="fae8730a-ae5e-4560-af4d-2b7df34d4c1a" name="ActivityFinal1" isLeaf="false">
+            <elementDefinition Id="f4bb1972-b850-49e2-b832-71d288abc87f" />
+          </activityFinalNode>
+          <opaqueAction Id="c15ce609-1f26-43ed-9c59-e92d99e2d484" name="Rollback stored readers' states" isLeaf="false">
+            <elementDefinition Id="80733430-e94d-4f9c-bad0-34ea333dc9ce" />
+            <flowNodeTargets>
+              <controlFlow Id="e6697e5b-16bb-4715-a85e-b7e627d7e960" isLeaf="false">
+                <joinNodeMoniker Id="94ec2efa-2201-4d96-9837-32d7958123cd" LastKnownName="Join2" />
+                <elementDefinition Id="a08004f2-8bb5-4462-ba76-fe85a07f7918" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="8efadbf4-ff22-4d9a-b2e0-5d383fdb6831" name="Create rollback point" isLeaf="false">
+            <elementDefinition Id="e21c847d-8d86-4c5d-9ed4-ec9b68926f7f" />
+            <flowNodeTargets>
+              <controlFlow Id="cb076485-fee0-4c84-a878-b9483977753d" isLeaf="false">
+                <joinNodeMoniker Id="94ec2efa-2201-4d96-9837-32d7958123cd" LastKnownName="Join2" />
+                <elementDefinition Id="ee7a4404-a2bb-4929-b071-362e16ae3600" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <joinNode Id="94ec2efa-2201-4d96-9837-32d7958123cd" name="Join2" isLeaf="false">
+            <elementDefinition Id="e024fdfe-2baa-4c08-9c1d-fcdb6d25c49b" />
+            <flowNodeTargets>
+              <controlFlow Id="269aa5ba-3f76-4ee9-baa7-8ad97de8810e" isLeaf="false">
+                <opaqueActionMoniker Id="664c8637-8fa1-4cc7-90ad-f541d71e520e" LastKnownName="Wait for a specified read interval" />
+                <elementDefinition Id="b3a7b9a8-2a08-42cf-ac19-3d51c574c369" />
               </controlFlow>
             </flowNodeTargets>
           </joinNode>

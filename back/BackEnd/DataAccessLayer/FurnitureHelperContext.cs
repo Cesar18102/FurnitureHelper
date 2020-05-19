@@ -70,6 +70,8 @@ namespace DataAccess
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            this.Configuration.LazyLoadingEnabled = false;
+
             modelBuilder.Entity<AccountEntity>()
                 .ToTable("accounts");
 

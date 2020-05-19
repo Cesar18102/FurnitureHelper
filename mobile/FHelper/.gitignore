@@ -1,0 +1,14 @@
+/.vs
+/packages
+
+/FHelper/FHelper/bin
+/FHelper/FHelper/obj
+
+/FHelper/FHelper.Android/bin
+/FHelper/FHelper.Android/obj
+
+/Models/bin
+/Models/obj
+
+/ServerAccess/bin
+/ServerAccess/obj

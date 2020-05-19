@@ -6,7 +6,7 @@ namespace Services.Pin
     {
         public override bool IsValidConnectionHelperPin(int number)
         {
-            return number >= 1 && number <= 12;
+            return number >= 1 && number <= 12 && number != 3;
         }
     }
 }

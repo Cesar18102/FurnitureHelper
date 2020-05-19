@@ -26,7 +26,9 @@ namespace Models
         private int SubOrderNumber = -1;
         private int GlobalOrderNumber = 0;
         private bool Finished = false;
+        private object Mutex = new object();
 
+        public IEnumerable<int> UsedPartIds => UsedParts.Values.Select(part => part.Id);
         private IDictionary<int, ConcretePartModel> UsedParts = new Dictionary<int, ConcretePartModel>();
 
         private IDictionary<string, ConcretePartModel> CurrentStepUsedParts = new Dictionary<string, ConcretePartModel>();
@@ -37,23 +39,23 @@ namespace Models
 
         public void NextStep()
         {
-            if (Finished)
-                throw new InvalidOperationException();
-
-            int count = Furniture.GlobalConnections.ElementAt(GlobalOrderNumber).SubConnections.Count;
-
-            ++SubOrderNumber;
-            GlobalOrderNumber += SubOrderNumber / count;
-            SubOrderNumber %= count;
-
-            if (GlobalOrderNumber >= Furniture.GlobalConnections.Count)
+            if (!Finished)
             {
-                Finished = true;
-                return;
-            }
+                int count = Furniture.GlobalConnections.ElementAt(GlobalOrderNumber).SubConnections.Count;
 
-            UpdateStepParts();
-            UpdateIndicators();
+                ++SubOrderNumber;
+                GlobalOrderNumber += SubOrderNumber / count;
+                SubOrderNumber %= count;
+
+                if (GlobalOrderNumber >= Furniture.GlobalConnections.Count)
+                {
+                    Finished = true;
+                    return;
+                }
+
+                UpdateStepParts();
+                UpdateIndicators();
+            }
         }
 
         private void UpdateStepParts()
@@ -130,7 +132,7 @@ namespace Models
             {
                 if (CurrentStepPinsOtherConnected.mac == mac)
                 {
-                    if (CurrentStepPinsConnected.pins.Contains(pin))
+                    if (CurrentStepPinsOtherConnected.pins.Contains(pin))
                         throw new AlreadyAttachedException();
 
                     CurrentStepPinsOtherConnected.pins.Add(pin);
@@ -188,13 +190,13 @@ namespace Models
                 {
                     if (pinState.Change == StateChange.ATTACHED)
                     {
-                        try { AttachPin(stepProbe.Mac, pinState.PinNumber); }
+                        try { lock (Mutex) { AttachPin(stepProbe.Mac, pinState.PinNumber); } }
                         catch (MisAttachException ex) { return new StepProbeResultModel(ProbeStatus.ERROR); }
                         catch (AlreadyAttachedException ex) { return new StepProbeResultModel(ProbeStatus.ERROR); }
                     }
                     else if (pinState.Change == StateChange.DETACHED)
                     {
-                        try { DetachPin(stepProbe.Mac, pinState.PinNumber); }
+                        try { lock (Mutex) { DetachPin(stepProbe.Mac, pinState.PinNumber); } }
                         catch(NotAttachedException ex) { return new StepProbeResultModel(ProbeStatus.ERROR); }
                     }
                 }
@@ -202,9 +204,9 @@ namespace Models
                     return new StepProbeResultModel(ProbeStatus.ERROR);
             }
 
-            if(IsStepDone())
+            if (IsStepDone())
             {
-                NextStep();
+                lock (Mutex) { NextStep(); }
                 return new StepProbeResultModel(Finished ? ProbeStatus.FINISHED : ProbeStatus.DONE);
             }
             else

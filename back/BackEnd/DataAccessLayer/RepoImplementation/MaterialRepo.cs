@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Models;
 using DataAccessContract;
 using DataAccess.Entities;
-using DataAccessContract.Exceptions;
 
 namespace DataAccess.RepoImplementation
 {
@@ -13,15 +12,25 @@ namespace DataAccess.RepoImplementation
     {
         public MaterialRepo(FurnitureHelperContext context) : base(context) { }
 
-        protected override void SingleInclude(MaterialEntity entity)
+        public static void ForEachIncludeCommon(FurnitureHelperContext context, IEnumerable<MaterialEntity> entities)
         {
-            Context.Entry<MaterialEntity>(entity).Collection(material => material.colors).Load();
+            foreach (MaterialEntity entity in entities)
+                SingleIncludeCommon(context, entity);
         }
 
-        protected override void WholeInclude()
+        public static void SingleIncludeCommon(FurnitureHelperContext context, MaterialEntity entity)
         {
-            Context.materials.Include(material => material.colors).Load();
+            if (entity != null)
+                context.Entry<MaterialEntity>(entity).Collection(material => material.colors).Load();
         }
+
+        public static void WholeIncludeCommon(FurnitureHelperContext context)
+        {
+            context.materials.Include(material => material.colors).Load();
+        }
+
+        protected override void SingleInclude(MaterialEntity entity) => SingleIncludeCommon(Context, entity);
+        protected override void WholeInclude() => WholeIncludeCommon(Context);
 
         public override MaterialModel Create(MaterialModel model)
         {
@@ -57,6 +66,8 @@ namespace DataAccess.RepoImplementation
         public MaterialModel GetByName(string name)
         {
             MaterialEntity found = Context.materials.FirstOrDefault(material => material.name == name);
+            SingleInclude(found);
+
             return found == null ? null : Mapper.Map<MaterialEntity, MaterialModel>(found);
         }
     }

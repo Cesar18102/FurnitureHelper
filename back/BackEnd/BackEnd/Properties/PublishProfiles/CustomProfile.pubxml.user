@@ -28,31 +28,31 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/08/2019 12:42:04</publishTime>
     </File>
     <File Include="bin/BackEnd.dll">
-      <publishTime>05/12/2020 02:07:54</publishTime>
+      <publishTime>05/19/2020 16:07:55</publishTime>
     </File>
     <File Include="bin/BackEnd.pdb">
-      <publishTime>05/12/2020 02:07:54</publishTime>
+      <publishTime>05/19/2020 16:07:55</publishTime>
     </File>
     <File Include="bin/DataAccessContract.dll">
-      <publishTime>05/12/2020 01:35:21</publishTime>
+      <publishTime>05/19/2020 16:07:52</publishTime>
     </File>
     <File Include="bin/DataAccessContract.pdb">
-      <publishTime>05/12/2020 01:35:21</publishTime>
+      <publishTime>05/19/2020 16:07:52</publishTime>
     </File>
     <File Include="bin/DataAccessHolder.dll">
-      <publishTime>05/12/2020 01:35:23</publishTime>
+      <publishTime>05/19/2020 16:07:53</publishTime>
     </File>
     <File Include="bin/DataAccessHolder.pdb">
-      <publishTime>05/12/2020 01:35:23</publishTime>
+      <publishTime>05/19/2020 16:07:53</publishTime>
     </File>
     <File Include="bin/DataAccessLayer.dll">
-      <publishTime>05/12/2020 01:35:22</publishTime>
+      <publishTime>05/19/2020 16:07:52</publishTime>
     </File>
     <File Include="bin/DataAccessLayer.dll.config">
       <publishTime>02/05/2020 03:34:09</publishTime>
     </File>
     <File Include="bin/DataAccessLayer.pdb">
-      <publishTime>05/12/2020 01:35:22</publishTime>
+      <publishTime>05/19/2020 16:07:52</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/09/2013 09:10:04</publishTime>
@@ -70,10 +70,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/25/2012 12:48:56</publishTime>
     </File>
     <File Include="bin/Models.dll">
-      <publishTime>05/12/2020 01:35:20</publishTime>
+      <publishTime>05/19/2020 16:07:51</publishTime>
     </File>
     <File Include="bin/Models.pdb">
-      <publishTime>05/12/2020 01:35:20</publishTime>
+      <publishTime>05/19/2020 16:07:51</publishTime>
     </File>
     <File Include="bin/MySql.Data.dll">
       <publishTime>06/17/2016 18:29:10</publishTime>
@@ -232,22 +232,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/08/2018 13:18:16</publishTime>
     </File>
     <File Include="bin/ServiceHolder.dll">
-      <publishTime>05/12/2020 01:35:24</publishTime>
+      <publishTime>05/19/2020 16:07:54</publishTime>
     </File>
     <File Include="bin/ServiceHolder.pdb">
-      <publishTime>05/12/2020 01:35:24</publishTime>
+      <publishTime>05/19/2020 16:07:54</publishTime>
     </File>
     <File Include="bin/Services.dll">
-      <publishTime>05/12/2020 01:35:23</publishTime>
+      <publishTime>05/19/2020 16:07:53</publishTime>
     </File>
     <File Include="bin/Services.pdb">
-      <publishTime>05/12/2020 01:35:23</publishTime>
+      <publishTime>05/19/2020 16:07:53</publishTime>
     </File>
     <File Include="bin/ServicesContract.dll">
-      <publishTime>05/12/2020 01:35:21</publishTime>
+      <publishTime>05/19/2020 16:07:52</publishTime>
     </File>
     <File Include="bin/ServicesContract.pdb">
-      <publishTime>05/12/2020 01:35:21</publishTime>
+      <publishTime>05/19/2020 16:07:52</publishTime>
     </File>
     <File Include="bin/System.ComponentModel.Annotations.dll">
       <publishTime>05/15/2018 13:29:36</publishTime>
@@ -304,7 +304,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/29/2020 16:33:10</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/12/2020 01:44:10</publishTime>
+      <publishTime>05/19/2020 16:08:06</publishTime>
     </File>
   </ItemGroup>
 </Project>

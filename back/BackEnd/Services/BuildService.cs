@@ -72,7 +72,8 @@ namespace Services
             int userId = startBuildDto.Session.UserId.Value;
 
             if (UserBuildTokens.ContainsKey(userId))
-                throw new ConflictException("build sessions");
+                UserBuildTokens.Remove(userId);
+                //throw new ConflictException("build sessions");
 
             string token = HashingService.GetHash(Guid.NewGuid().ToString());
 
@@ -123,7 +124,29 @@ namespace Services
             if (buildSession == null)
                 throw new NotFoundException("build session");
 
-            return buildSession.HandleConnectionProbe(buildActionDto);
+            StepProbeResultModel result = buildSession.HandleConnectionProbe(buildActionDto);
+
+            if (result.Status == ProbeStatus.FINISHED)
+            {
+                lock (buildSession)
+                {
+                    if (BuildSessions.ContainsKey(buildSession.BuildSession.BuildSessionToken))
+                    {
+                        UserBuildTokens.Remove(buildSession.UserId);
+                        BuildSessions.Remove(buildSession.BuildSession.BuildSessionToken);
+
+                        IEnumerable<string> usedMac = MacToBuildTokenCache.Where(cache => cache.Value == buildSession.BuildSession.BuildSessionToken)
+                                                                          .Select(cache => cache.Key)
+                                                                          .ToList();
+                        foreach (string mac in usedMac)
+                            MacToBuildTokenCache.Remove(mac);
+
+                        ConcretePartRepo.MarkInUse(buildSession.UsedPartIds);
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

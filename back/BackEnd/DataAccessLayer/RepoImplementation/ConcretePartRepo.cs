@@ -15,8 +15,15 @@ namespace DataAccess.RepoImplementation
 
         protected override void SingleInclude(ConcretePartEntity entity)
         {
+            if (entity == null)
+                return;
+
             Context.Entry<ConcretePartEntity>(entity).Reference(cpart => cpart.parts).Load();
+            PartRepo.SingleIncludeCommon(Context, entity.parts);
+
             Context.Entry<ConcretePartEntity>(entity).Reference(cpart => cpart.materials).Load();
+            MaterialRepo.SingleIncludeCommon(Context, entity.materials);
+
             Context.Entry<ConcretePartEntity>(entity).Reference(cpart => cpart.colors).Load();
         }
 
@@ -26,6 +33,9 @@ namespace DataAccess.RepoImplementation
                                   .Include(cpart => cpart.materials)
                                   .Include(cpart => cpart.colors)
                                   .Load();
+
+            PartRepo.WholeIncludeCommon(Context);
+            MaterialRepo.WholeIncludeCommon(Context);
         }
 
         private void IncludeForEach(IEnumerable<ConcretePartEntity> concreteParts)
@@ -37,6 +47,8 @@ namespace DataAccess.RepoImplementation
         public ConcretePartModel GetPartByMac(string mac)
         {
             ConcretePartEntity part = Context.concrete_parts.FirstOrDefault(ctrl => ctrl.controller_mac == mac);
+            SingleInclude(part);
+
             return part == null ? null : Mapper.Map<ConcretePartEntity, ConcretePartModel>(part);
         }
 
@@ -47,7 +59,13 @@ namespace DataAccess.RepoImplementation
             if (user == null)
                 throw new EntityNotFoundException("user");
 
-            return Mapper.Map<IEnumerable<ConcretePartEntity>, IEnumerable<ConcretePartModel>>( user.ownings.Select(owning => owning.concrete_parts).ToList());
+            Context.Entry<AccountEntity>(user).Collection(usr => usr.ownings).Load();
+            OwnershipRepo.ForEachIncludeCommon(Context, user.ownings);
+
+            IEnumerable<ConcretePartEntity> parts = user.ownings.Select(owning => owning.concrete_parts).ToList();
+            IncludeForEach(parts);
+
+            return Mapper.Map<IEnumerable<ConcretePartEntity>, IEnumerable<ConcretePartModel>>(parts);
         }
 
         public IEnumerable<ConcretePartModel> GetStored()
@@ -122,6 +140,16 @@ namespace DataAccess.RepoImplementation
         public IEnumerable<ConcretePartModel> UnmarkPartsForSell(IEnumerable<ConcretePartModel> parts)
         {
             return ChangeForSellStatus(parts, false);
+        }
+
+        public void MarkInUse(IEnumerable<int> partIds)
+        {
+            IEnumerable<ConcretePartEntity> parts = Context.concrete_parts.Where(part => partIds.Contains(part.id));
+
+            foreach (ConcretePartEntity part in parts)
+                part.in_use = true;
+
+            Context.SaveChanges();
         }
     }
 }

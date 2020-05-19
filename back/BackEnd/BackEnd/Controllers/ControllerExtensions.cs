@@ -133,6 +133,7 @@ namespace BackEnd.Controllers
             catch(NotFoundException ex) { return request.CreateResponse(HttpStatusCode.NotFound, new ResultWrapper<TResult>(ex)); }
             catch(ValidationException ex) { return request.CreateResponse(HttpStatusCode.BadRequest, new ResultWrapper<TResult>(ex)); }
             catch(ArgumentException ex) { return request.CreateResponse(HttpStatusCode.BadRequest, new ResultWrapper<TResult>(ex)); }
+            catch (Exception ex) { return request.CreateResponse(HttpStatusCode.BadRequest, new ResultWrapper<TResult>(ex)); }
         }
 
         private static HttpResponseMessage ExecuteProtectedAndWrapResultWithArgument<TSource, TResult>

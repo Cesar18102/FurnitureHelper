@@ -14,6 +14,34 @@ namespace DataAccess.RepoImplementation
     {
         public PartRepo(FurnitureHelperContext context) : base(context) { }
 
+        public static void SingleIncludeCommon(FurnitureHelperContext context, PartEntity entity)
+        {
+            if (entity == null)
+                return;
+
+            context.Entry<PartEntity>(entity).Collection(part => part.materials).Load();
+            MaterialRepo.ForEachIncludeCommon(context, entity.materials);
+            context.Entry<PartEntity>(entity).Collection(part => part.part_controllers_embed_relative_positions).Load();
+        }
+
+        public static void WholeIncludeCommon(FurnitureHelperContext context)
+        {
+            context.parts.Include(part => part.materials)
+                         .Include(part => part.part_controllers_embed_relative_positions)
+                         .Load();
+
+            MaterialRepo.WholeIncludeCommon(context);
+        }
+
+        public static void ForEachIncludeCommon(FurnitureHelperContext context, IEnumerable<PartEntity> entities)
+        {
+            foreach (PartEntity entity in entities)
+                SingleIncludeCommon(context, entity);
+        }
+
+        protected override void SingleInclude(PartEntity entity) => SingleIncludeCommon(Context, entity);
+        protected override void WholeInclude() => WholeIncludeCommon(Context);
+
         public override PartModel Create(PartModel model)
         {
             PartModel part = base.Create(model);
@@ -43,19 +71,6 @@ namespace DataAccess.RepoImplementation
             }
 
             return UpdateAttachedMaterials(id, materials);
-        }
-
-        protected override void SingleInclude(PartEntity entity)
-        {
-            Context.Entry<PartEntity>(entity).Collection(part => part.materials).Load();
-            Context.Entry<PartEntity>(entity).Collection(part => part.part_controllers_embed_relative_positions).Load();
-        }
-
-        protected override void WholeInclude()
-        {
-            Context.parts.Include(part => part.materials)
-                         .Include(part => part.part_controllers_embed_relative_positions)
-                         .Load();
         }
 
         public PartModel UpdateAttachedMaterials(int partId, IEnumerable<MaterialModel> materials)

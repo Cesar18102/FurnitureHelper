@@ -16,7 +16,8 @@ namespace DataAccess.RepoImplementation
 
         protected override void SingleInclude(AdminEntity entity)
         {
-            Context.Entry<AdminEntity>(entity).Reference(admin => admin.accounts).Load();
+            if (entity != null)
+                Context.Entry<AdminEntity>(entity).Reference(admin => admin.accounts).Load();
         }
 
         protected override void WholeInclude()
@@ -32,6 +33,8 @@ namespace DataAccess.RepoImplementation
         public AdminModel GetByAccountId(int accountId)
         {
             AdminEntity entity = Context.admins.FirstOrDefault(admin => admin.account_id == accountId);
+            SingleInclude(entity);
+
             return entity == null ? null : Mapper.Map<AdminEntity, AdminModel>(entity);
         }
     }

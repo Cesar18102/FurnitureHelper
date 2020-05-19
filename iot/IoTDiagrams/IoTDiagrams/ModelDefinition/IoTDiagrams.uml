@@ -35,166 +35,416 @@
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="627d1b84-4a93-4cb5-a159-6aecd91e87ab"
+                Id="37e807e6-91ff-4da2-baf8-e085bee7fb5f"
                 isLeaf="false">
-                <forkNodeMoniker
-                  Id="77eec995-18fc-4088-a88f-bfdf7d39cce3"
-                  LastKnownName="Fork1"
+                <joinNodeMoniker
+                  Id="8b9bb11d-6891-4385-9805-ab5a40999128"
+                  LastKnownName="Join1"
                   LastKnownLocation="IoTDiagrams.uml" />
               </controlFlow>
             </flowNodeTargets>
           </initialNode>
           <opaqueAction
-            Id="12c30126-a140-4ac1-9a65-2ea311080cd1"
-            name="User initiates furniture item building at web/mobile"
+            Id="bcb0fd98-1a4f-4619-a061-a8e4450d0972"
+            name="Connecting to wifi via WPS"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="a7bb11fc-ab9e-4e58-a7ec-740c1a21e311"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="8f99e075-a103-431f-bf27-dfe193254242"
-                  LastKnownName="Server gets a request and user's ip with it"
-                  LastKnownLocation="IoTDiagrams.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction
-            Id="8f99e075-a103-431f-bf27-dfe193254242"
-            name="Server gets a request and user's ip with it"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="abefd39c-7237-4d7d-b0a1-9d3db0c43ca6"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="9ee69a7b-a6ff-4e65-9877-eecf0aced528"
-                  LastKnownName="Server creates a UDP broadcast to user's ip"
-                  LastKnownLocation="IoTDiagrams.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction
-            Id="9ee69a7b-a6ff-4e65-9877-eecf0aced528"
-            name="Server creates a UDP broadcast to user's ip"
-            isLeaf="false" />
-          <opaqueAction
-            Id="439710a1-3a6b-4e16-a3c6-3257015a5faf"
-            name="User buys parts"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="1f9e98c6-d07d-4646-a436-320b282296d4"
+                Id="89f38a6e-bcdb-4247-a808-284a5e72b547"
+                guard="Connection failed"
                 isLeaf="false">
                 <joinNodeMoniker
-                  Id="7cbf68cc-d8ca-4c20-94b2-915d8e484014"
+                  Id="8b9bb11d-6891-4385-9805-ab5a40999128"
                   LastKnownName="Join1"
                   LastKnownLocation="IoTDiagrams.uml" />
               </controlFlow>
+              <controlFlow
+                Id="f8031263-09ab-4cd2-b74b-231d7bd5ac30"
+                guard="Connected"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="51db4ca2-f4fe-42dc-a9fe-000e10689e72"
+                  LastKnownName="Retrieving controller config from the server (indicators and readers pin numbers)"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <opaqueAction
-            Id="8387c9ab-2a03-4196-85f9-679a48b25d36"
-            name="User resets parts' controllers by pressing the reset button"
+          <joinNode
+            Id="8b9bb11d-6891-4385-9805-ab5a40999128"
+            name="Join1"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="8e067dc7-c3a9-41b1-81fa-ee96081cba87"
+                Id="0468bb9b-9f89-45a3-b88b-eacc76a84b23"
                 isLeaf="false">
                 <opaqueActionMoniker
                   Id="bcb0fd98-1a4f-4619-a061-a8e4450d0972"
-                  LastKnownName="User presses the WPS button on his wifi-router"
+                  LastKnownName="Connecting to wifi via WPS"
                   LastKnownLocation="IoTDiagrams.uml" />
               </controlFlow>
             </flowNodeTargets>
-          </opaqueAction>
+          </joinNode>
           <opaqueAction
-            Id="44a9b00b-b42b-4037-8142-5e60f8031c99"
-            name="User replaces parts to another LAN"
+            Id="51db4ca2-f4fe-42dc-a9fe-000e10689e72"
+            name="Retrieving controller config from the server (indicators and readers pin numbers)"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="5ad09ef9-cd83-4905-b4a5-ecf86579c706"
-                isLeaf="false">
-                <joinNodeMoniker
-                  Id="7cbf68cc-d8ca-4c20-94b2-915d8e484014"
-                  LastKnownName="Join1"
-                  LastKnownLocation="IoTDiagrams.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction
-            Id="bcb0fd98-1a4f-4619-a061-a8e4450d0972"
-            name="User presses the WPS button on his wifi-router"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="9aef9972-c11d-40c4-a658-574f3f91366f"
+                Id="fe3bc532-ad74-478a-a029-15b30118ddf4"
+                guard="Retrieve failed"
                 isLeaf="false">
                 <opaqueActionMoniker
-                  Id="12c30126-a140-4ac1-9a65-2ea311080cd1"
-                  LastKnownName="User initiates furniture item building at web/mobile"
+                  Id="fd75c8d7-2f60-4ac7-bc36-07d00e89a98d"
+                  LastKnownName="Wait for a specified request period"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="952d1b9a-6698-47c2-a8af-7a72a1ac6f16"
+                guard="Retrieve success"
+                isLeaf="false">
+                <forkNodeMoniker
+                  Id="dd67f2bb-7599-46c4-a8e6-3d2764817331"
+                  LastKnownName="Fork1"
                   LastKnownLocation="IoTDiagrams.uml" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
           <opaqueAction
-            Id="de50907b-0ff1-4f9b-8cc7-5b7da7445160"
-            name="User refabrishes previously constructed furniture"
+            Id="021196dc-f325-4806-8bd6-2e4230d7968d"
+            name="Ping server to retrieve indicators' states"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="495262c2-f81a-433a-9d1e-544a73526ebc"
+                Id="6e5768bc-d06b-43a1-b2e0-92f20deffa3c"
+                guard="Ping success"
                 isLeaf="false">
-                <joinNodeMoniker
-                  Id="7cbf68cc-d8ca-4c20-94b2-915d8e484014"
-                  LastKnownName="Join1"
+                <opaqueActionMoniker
+                  Id="19339de6-539a-4c51-a511-c095114da453"
+                  LastKnownName="Reset all indicators"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="32c1dfb4-6078-4f19-9170-7221e0e7ffc9"
+                guard="Ping failed"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="2e2978fb-fea4-4734-891d-79c2b1f5c6dc"
+                  LastKnownName="Wait for a specified ping interval"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="cc7b125a-e838-4252-b5a3-7db4dac071e4"
+            name="Read readers pins' states"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="b23bb372-595a-46e5-bfd3-9ec53b0436d9"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="ce4c371f-c8e2-4fd3-800b-b39c4aee7b09"
+                  LastKnownName="Detect readers pins' state changes"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="19339de6-539a-4c51-a511-c095114da453"
+            name="Reset all indicators"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="3b86ad5a-2199-480c-9c4f-3333130235fe"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="e9f42dde-4530-4c13-bc4c-24939a39091a"
+                  LastKnownName="Set indicators' states according to retrieved info"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="e9f42dde-4530-4c13-bc4c-24939a39091a"
+            name="Set indicators' states according to retrieved info"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="8ba2f55a-cb63-4fdc-88cd-5eb9828d88d4"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="2e2978fb-fea4-4734-891d-79c2b1f5c6dc"
+                  LastKnownName="Wait for a specified ping interval"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="2e2978fb-fea4-4734-891d-79c2b1f5c6dc"
+            name="Wait for a specified ping interval"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="2d0357cc-9d96-4c0d-9fe9-6dfc68e7bd59"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="021196dc-f325-4806-8bd6-2e4230d7968d"
+                  LastKnownName="Ping server to retrieve indicators' states"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="ce4c371f-c8e2-4fd3-800b-b39c4aee7b09"
+            name="Detect readers pins' state changes"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="3a9172b5-19a2-4eb4-ac7c-bb29b73ff4c7"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="540f6672-7d87-4010-b1f1-7bbf5e2406c4"
+                  LastKnownName="Send changes info to the server"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="540f6672-7d87-4010-b1f1-7bbf5e2406c4"
+            name="Send changes info to the server"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="8d93b930-8b1e-4761-a79c-d6d16a19f088"
+                guard="Send failed"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="ab8538ab-8fbd-4e3a-bac9-0c64ff54ac75"
+                  LastKnownName="Wait for a specified read interval"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="8fab5af1-d029-4bdf-be2f-860d76c40cfd"
+                isLeaf="false">
+                <forkNodeMoniker
+                  Id="1141d9cb-1b4c-425a-a0ca-e1d65c07e1bc"
+                  LastKnownName="Fork2"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="fd75c8d7-2f60-4ac7-bc36-07d00e89a98d"
+            name="Wait for a specified request period"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="c62d35bc-5e08-4ab2-8aaf-3118948ace1a"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="51db4ca2-f4fe-42dc-a9fe-000e10689e72"
+                  LastKnownName="Retrieving controller config from the server (indicators and readers pin numbers)"
                   LastKnownLocation="IoTDiagrams.uml" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
           <forkNode
-            Id="77eec995-18fc-4088-a88f-bfdf7d39cce3"
+            Id="dd67f2bb-7599-46c4-a8e6-3d2764817331"
             name="Fork1"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="1fbc8e4f-5e6d-427d-8dfd-b169c8d9d273"
+                Id="bc8d89d3-1d74-45fb-bf27-996b97d8935d"
                 isLeaf="false">
                 <opaqueActionMoniker
-                  Id="439710a1-3a6b-4e16-a3c6-3257015a5faf"
-                  LastKnownName="User buys parts"
+                  Id="021196dc-f325-4806-8bd6-2e4230d7968d"
+                  LastKnownName="Ping server to retrieve indicators' states"
                   LastKnownLocation="IoTDiagrams.uml" />
               </controlFlow>
               <controlFlow
-                Id="3966e819-1d50-48bc-9e63-d3687115dbb1"
+                Id="aa5ebbd7-7597-4fa0-bd25-2bb6d3ee3979"
                 isLeaf="false">
                 <opaqueActionMoniker
-                  Id="44a9b00b-b42b-4037-8142-5e60f8031c99"
-                  LastKnownName="User replaces parts to another LAN"
-                  LastKnownLocation="IoTDiagrams.uml" />
-              </controlFlow>
-              <controlFlow
-                Id="0a438c6a-2e03-4093-8b3f-26c242a00559"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="de50907b-0ff1-4f9b-8cc7-5b7da7445160"
-                  LastKnownName="User refabrishes previously constructed furniture"
+                  Id="cc7b125a-e838-4252-b5a3-7db4dac071e4"
+                  LastKnownName="Read readers pins' states"
                   LastKnownLocation="IoTDiagrams.uml" />
               </controlFlow>
             </flowNodeTargets>
           </forkNode>
-          <joinNode
-            Id="7cbf68cc-d8ca-4c20-94b2-915d8e484014"
-            name="Join1"
+          <opaqueAction
+            Id="ab8538ab-8fbd-4e3a-bac9-0c64ff54ac75"
+            name="Wait for a specified read interval"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="565a478b-38c0-49bc-96a4-fac32850fe45"
+                Id="8cd56f02-d662-455d-a3e4-e4040348e659"
                 isLeaf="false">
                 <opaqueActionMoniker
-                  Id="8387c9ab-2a03-4196-85f9-679a48b25d36"
-                  LastKnownName="User resets parts' controllers by pressing the reset button"
+                  Id="cc7b125a-e838-4252-b5a3-7db4dac071e4"
+                  LastKnownName="Read readers pins' states"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <forkNode
+            Id="1141d9cb-1b4c-425a-a0ca-e1d65c07e1bc"
+            name="Fork2"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="b3cc10f6-1d56-4019-8cc0-d1ddab94f7ea"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="f6eb83c7-641d-4c64-9dba-1b49e8920e7f"
+                  LastKnownName="DONE status recieved"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="b16c29b2-bf6d-4eda-a1d6-c6fb0045b00e"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="8f818f04-5ca3-4590-996c-b9e0d5672eab"
+                  LastKnownName="ERROR status recieved"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="77641c3e-a511-4d70-a61f-69a02c53b935"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="f79420b2-d096-4c3f-badb-3a94005290ad"
+                  LastKnownName="PENDING status recieved"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="bbc59ba7-a3b0-4e66-9c08-a93929c71de3"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="07538f9d-a9a7-4e18-a54d-27269ece2b71"
+                  LastKnownName="FINISHED status recieved"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <opaqueAction
+            Id="f6eb83c7-641d-4c64-9dba-1b49e8920e7f"
+            name="DONE status recieved"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="138f975b-e13c-435b-9882-5db27ee9427a"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="e21c847d-8d86-4c5d-9ed4-ec9b68926f7f"
+                  LastKnownName="Create rollback point"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="8f818f04-5ca3-4590-996c-b9e0d5672eab"
+            name="ERROR status recieved"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="875ab7ff-38a3-46df-8d09-139363ef2324"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="80733430-e94d-4f9c-bad0-34ea333dc9ce"
+                  LastKnownName="Rollback stored readers' states"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="f79420b2-d096-4c3f-badb-3a94005290ad"
+            name="PENDING status recieved"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="2f1d5f1c-9c56-4ff3-aad4-e15542498e08"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="e21c847d-8d86-4c5d-9ed4-ec9b68926f7f"
+                  LastKnownName="Create rollback point"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="07538f9d-a9a7-4e18-a54d-27269ece2b71"
+            name="FINISHED status recieved"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="55b379f6-7aed-460b-bb53-622254e546c0"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="2423f8c7-4822-49db-9189-2569b585753c"
+                  LastKnownName="Go into forever deepsleep mode"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="2423f8c7-4822-49db-9189-2569b585753c"
+            name="Go into forever deepsleep mode"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="406d8739-3bdb-4b7d-b741-6a64f272b966"
+                isLeaf="false">
+                <activityFinalNodeMoniker
+                  Id="f4bb1972-b850-49e2-b832-71d288abc87f"
+                  LastKnownName="ActivityFinal1"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <activityFinalNode
+            Id="f4bb1972-b850-49e2-b832-71d288abc87f"
+            name="ActivityFinal1"
+            isLeaf="false" />
+          <opaqueAction
+            Id="80733430-e94d-4f9c-bad0-34ea333dc9ce"
+            name="Rollback stored readers' states"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="a08004f2-8bb5-4462-ba76-fe85a07f7918"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="e024fdfe-2baa-4c08-9c1d-fcdb6d25c49b"
+                  LastKnownName="Join2"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="e21c847d-8d86-4c5d-9ed4-ec9b68926f7f"
+            name="Create rollback point"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="ee7a4404-a2bb-4929-b071-362e16ae3600"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="e024fdfe-2baa-4c08-9c1d-fcdb6d25c49b"
+                  LastKnownName="Join2"
+                  LastKnownLocation="IoTDiagrams.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <joinNode
+            Id="e024fdfe-2baa-4c08-9c1d-fcdb6d25c49b"
+            name="Join2"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="b3a7b9a8-2a08-42cf-ac19-3d51c574c369"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="ab8538ab-8fbd-4e3a-bac9-0c64ff54ac75"
+                  LastKnownName="Wait for a specified read interval"
                   LastKnownLocation="IoTDiagrams.uml" />
               </controlFlow>
             </flowNodeTargets>
