@@ -7,8 +7,11 @@
 /FHelper/FHelper.Android/bin
 /FHelper/FHelper.Android/obj
 
-/Models/bin
-/Models/obj
+/FHelper/Models/bin
+/FHelper/Models/obj
 
-/ServerAccess/bin
-/ServerAccess/obj
+/FHelper/Services/bin
+/FHelper/Services/obj
+
+/FHelper/ServerAccess/bin
+/FHelper/ServerAccess/obj

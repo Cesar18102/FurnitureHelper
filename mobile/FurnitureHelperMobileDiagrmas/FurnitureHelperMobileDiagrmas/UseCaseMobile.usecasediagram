@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="c45907d7-a504-48ef-98b0-28a3e48c616c" name="UseCaseMobile" linkedPackageId="fc46e739-32a3-4f4e-a45e-c94bc9f3ffd9" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="e080faaa-1d01-4680-aa34-e7f2c6dade00">
+      <profileInstance Id="6c1d9393-2e07-4c8f-bfb8-ce3084189c02" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="c2a1f035-c92e-4622-8deb-02e97dc58c46">
+      <profileInstance Id="8660cdcd-eb50-45f6-8c60-579f7fe9652c" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <actor Id="b5d5f5ad-cd92-43b5-bae9-fc3536687e92" name="Authorizeded User" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c20c75ee-1408-4550-ad1b-ca75a8fb484d" />
+        <targetEnds>
+          <association Id="6cde66db-6a87-4fdd-84a4-425205b64b2f" isDerived="false" sourceEndRoleName="Registered User" targetEndRoleName="Checkout furniture parts from the manufacturer" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="4f2e59b6-5bb7-4623-9c83-58b814e9e99d" LastKnownName="Checkout furniture parts from the manufacturer" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="612f9a10-ff06-4713-91b2-33999c440617" name="Registered User" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="b1155ec6-2dce-469b-85e4-04eaa961222a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="777bda63-0d5e-4f45-a1ec-d00f5dcf0f7f" name="Checkout furniture parts from the manufacturer" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="db5fab02-b595-445b-85e2-fdd93dc5d71a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="c73eef4e-7dad-4e0e-accd-455acd4896b0" />
+          </association>
+          <association Id="59a4feae-4353-46c3-b0d8-99c93a5c3096" isDerived="false" sourceEndRoleName="Registered User" targetEndRoleName="Buy furniture parts from  another user" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="8a66478e-2e7c-4b29-82c9-9b590f64f648" LastKnownName="Buy furniture parts from  another user" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="860a9aa3-88b7-4674-b9eb-f467c22a3ec7" name="Registered User" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="c2bd1ea0-07ef-4504-9d4c-abcfb673065a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6f77d700-b16f-4f85-8ff3-013290a44871" name="Buy furniture parts from  another user" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="d0b88a38-e22b-49bd-8bf7-15b89a52e56a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="7badb5b8-f3a8-48e9-9f57-38bf111d4e01" />
+          </association>
+          <association Id="a715bc1f-9064-410a-993d-e9b6c2c673b0" isDerived="false" sourceEndRoleName="Registered User" targetEndRoleName="Sell furniture parts to another user" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="cacba25d-382c-4fbf-9b5e-a1d26c6e35af" LastKnownName="Sell furniture parts to another user" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="002f0238-39d5-4c1c-9a4e-58b25a4d1206" name="Registered User" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="d14012cd-4d38-46dd-8e04-e06ed83f8231" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="85a504de-57a0-45e8-92aa-04d634d3d64d" name="Sell furniture parts to another user" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="364f2955-0c56-41dc-97ae-ebfc71f62d8b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="b49776ee-3ed7-4883-b613-424f4bbf8a0b" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="83c8be8e-9edf-4dab-83ce-c1c4b9a02f8a" name="User with binded chips" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="abb7fb62-c09f-41a6-b38b-84eaf736d24d" />
+        <generalsInternal>
+          <generalization Id="fd584399-2b43-4df7-834a-a091afb46525" isSubstitutable="false">
+            <actorMoniker Id="b5d5f5ad-cd92-43b5-bae9-fc3536687e92" LastKnownName="Authorizeded User" />
+            <elementDefinition Id="a8ff5a5d-cef6-44f4-b3d4-7994f7468cca" />
+          </generalization>
+        </generalsInternal>
+        <targetEnds>
+          <association Id="6e3d8b61-ad26-4968-bea4-23af245c45c8" isDerived="false" sourceEndRoleName="User with binded chips" targetEndRoleName="Construct furniture item" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="3521037f-280c-4c77-b0de-ef14064919ff" LastKnownName="Construct furniture item" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="2baa28a5-3bc3-4b99-95a0-824783444beb" name="User with binded chips" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="3fc06236-de9e-4d49-b63b-ab01a6dc9600" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="c492ea34-b047-417d-adcc-a86d71e8a6cc" name="Construct furniture item" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="1da8c7d2-c8d8-48c7-9820-fd96a97b2731" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="c95fff7a-ec46-4883-87d4-d66f2ffb4ab4" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <subsystem Id="dc60432e-5a17-4201-9e9b-383237124dd8" name="Subsystem1" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="4d6ad98a-e093-41a4-a9d4-727e660f881c" />
+      </subsystem>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="2c68f90f-b453-4da9-a67b-213d6444491f" name="Get furniture items list" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="6484a45a-f670-4098-9194-798f2a3999ac" />
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="7f389c56-789d-422d-9c4b-f401d124a1ee" name="Get list of furniture items which may be built of owned parts" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="7014a27a-b9a4-4b4e-ab89-e1a14ec67532" />
+        <generalsInternal>
+          <generalization Id="251c323c-96c4-4517-be01-e35ccb9f7fe5" isSubstitutable="false">
+            <useCaseMoniker Id="2c68f90f-b453-4da9-a67b-213d6444491f" LastKnownName="Get furniture items list" />
+            <elementDefinition Id="c78be8be-d884-465d-a508-11aaef14ee11" />
+          </generalization>
+        </generalsInternal>
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="4a450552-e12d-4b62-a213-a313baf69d06" name="Select a furniture item from the list" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="74660206-5ca7-4600-b86e-45c9ebf8ef3f" />
+        <additions>
+          <include Id="448ba6fb-fbd0-4fd8-8678-f572e74ff46e">
+            <useCaseMoniker Id="7f389c56-789d-422d-9c4b-f401d124a1ee" LastKnownName="Get list of furniture items which may be built of owned parts" />
+            <elementDefinition Id="0595f8da-c92f-4d0a-8ff5-5ef633565a20" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="9474b38b-7e9c-4cc2-b282-768ca76e8ca6" name="Get an instruction to construct a furniture item " isAbstract="false" isLeaf="false">
+        <elementDefinition Id="2db2bfe3-f5af-4544-92d9-a4be53f55db6" />
+        <additions>
+          <include Id="68776316-b0fd-47fc-8765-5256b9fece8f">
+            <useCaseMoniker Id="4a450552-e12d-4b62-a213-a313baf69d06" LastKnownName="Select a furniture item from the list" />
+            <elementDefinition Id="0013fc9b-23af-4fde-8dc6-84be90418da1" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="3521037f-280c-4c77-b0de-ef14064919ff" name="Construct furniture item" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="a1e14d47-c36d-49b3-a3a1-3dc0d4cb313d" />
+        <additions>
+          <include Id="07c4db48-4054-4437-a6a7-7d2c8660d944">
+            <useCaseMoniker Id="9474b38b-7e9c-4cc2-b282-768ca76e8ca6" LastKnownName="Get an instruction to construct a furniture item " />
+            <elementDefinition Id="e993d1c2-e0bf-450c-96df-a34c58cddd26" />
+          </include>
+          <include Id="52c24be2-08e7-4911-af8b-56f8edfb2556">
+            <useCaseMoniker Id="5faa00a2-e498-4034-bca6-55b4fa9f2b1c" LastKnownName="Perform constructing step" />
+            <elementDefinition Id="30685651-0669-4c58-bde4-877e8725a970" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="564b9d18-4b1a-47fc-b54d-240a0af8a267" name="Get furniture parts list" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="eeea9dbe-b0fc-4f70-90fc-c8d456fe5b18" />
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="8a66478e-2e7c-4b29-82c9-9b590f64f648" name="Buy furniture parts from  another user" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9b300161-8774-4692-b373-176c7695166c" />
+        <additions>
+          <include Id="d7b1c084-5eff-42ce-82a9-1b295f2674e2">
+            <useCaseMoniker Id="a34330e7-e47e-4530-8e7c-de50e5cd6766" LastKnownName="Select wanted parts from &quot;for sell&quot; list" />
+            <elementDefinition Id="90cc61b4-f7c4-4481-8308-ea9fa248e86e" />
+          </include>
+          <include Id="d9519f07-4123-4576-9f35-0dfc6524871f">
+            <useCaseMoniker Id="5deb63f8-7c77-4009-b62d-f3a78b39d72f" LastKnownName="Pay" />
+            <elementDefinition Id="29003851-c957-4a7a-b10c-f5e8649ae6b4" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="cacba25d-382c-4fbf-9b5e-a1d26c6e35af" name="Sell furniture parts to another user" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="deb66830-464c-4efb-9f9f-003f5ccfdf5c" />
+        <additions>
+          <include Id="d8150b1f-ea50-4b0c-afa7-3a7d0e00cd4b">
+            <useCaseMoniker Id="9f19159d-9983-4f82-a04b-696acf8c9a4d" LastKnownName="Mark parts &quot;for sell&quot;" />
+            <elementDefinition Id="0b888567-7a64-4e70-a72a-5ec0012af50c" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="4f2e59b6-5bb7-4623-9c83-58b814e9e99d" name="Checkout furniture parts from the manufacturer" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="cfd6606e-6ddf-44e3-9228-559849b6dfac" />
+        <additions>
+          <include Id="b0f8aa05-1ca1-4480-91c1-9d8606f4c6a3">
+            <useCaseMoniker Id="5deb63f8-7c77-4009-b62d-f3a78b39d72f" LastKnownName="Pay" />
+            <elementDefinition Id="6e55cf85-ae75-4cf6-8a41-5c557cc04e0b" />
+          </include>
+          <include Id="a6576806-3aab-4d97-9169-4c2c792b1c6d">
+            <useCaseMoniker Id="e1aa00b2-f407-4c69-a7ca-4411d8e8aeee" LastKnownName="Fill cart" />
+            <elementDefinition Id="dcc9178b-c57f-4313-a5e2-e95528013877" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="e1aa00b2-f407-4c69-a7ca-4411d8e8aeee" name="Fill cart" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="8fccf7c9-5696-4888-ba8e-6d604ccec4e0" />
+        <additions>
+          <include Id="cc5eddf0-136b-4ff0-8168-160684e28993">
+            <useCaseMoniker Id="564b9d18-4b1a-47fc-b54d-240a0af8a267" LastKnownName="Get furniture parts list" />
+            <elementDefinition Id="b9328ce4-ecde-4603-a4a4-0dec14a001d7" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="5deb63f8-7c77-4009-b62d-f3a78b39d72f" name="Pay" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="62fc0fb7-9929-4155-8448-ce0137d6d07f" />
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="9f19159d-9983-4f82-a04b-696acf8c9a4d" name="Mark parts &quot;for sell&quot;" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="5b72a00c-9134-48d2-89a5-415a0c249f2e" />
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="a34330e7-e47e-4530-8e7c-de50e5cd6766" name="Select wanted parts from &quot;for sell&quot; list" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="5988012d-2402-4cd3-b48a-88a461b6cfc1" />
+        <additions>
+          <include Id="4142a407-d583-4106-a50b-8b5fe4f116db">
+            <useCaseMoniker Id="10762c06-16a8-4588-90c7-0012d9b5ac4f" LastKnownName="Get &quot;for sell&quot; list" />
+            <elementDefinition Id="d8015937-8da5-4982-a6e8-f1df26a0f801" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="10762c06-16a8-4588-90c7-0012d9b5ac4f" name="Get &quot;for sell&quot; list" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="828c4dd2-045d-47b8-90b8-5c839b9eeec9" />
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="5faa00a2-e498-4034-bca6-55b4fa9f2b1c" name="Perform constructing step" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="a9f1366b-c529-4374-b8c8-1732d299ac78" />
+        <additions>
+          <include Id="556e04ac-2a62-4c34-88e5-8ad61c4b188e">
+            <useCaseMoniker Id="c09ad02d-1648-4108-b333-6804883628ea" LastKnownName="Get connection indicator signals" />
+            <elementDefinition Id="411a474e-8bc0-48de-9f6e-cf230eaf3b38" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="c09ad02d-1648-4108-b333-6804883628ea" name="Get connection indicator signals" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c4ff832e-1717-43a2-b369-c17c61da7940" />
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="05fbe9f9-f7c5-4f5d-9507-1c793fe878b5" name="Connect parts correctly" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="11cf3c56-d352-4c6b-939c-031189a0cff8" />
+        <extendedCases>
+          <extend Id="72a5f76b-8b1a-4186-a99a-07fc89481b48">
+            <useCaseMoniker Id="5faa00a2-e498-4034-bca6-55b4fa9f2b1c" LastKnownName="Perform constructing step" />
+            <elementDefinition Id="0dbdb940-03a0-4ba1-9e54-a3c8cfacd5d3" />
+          </extend>
+        </extendedCases>
+        <additions>
+          <include Id="ac3959d6-5fde-4894-b875-9088716addc4">
+            <useCaseMoniker Id="3c82907c-f830-42e7-b5f3-b9da5f55898a" LastKnownName="Get OK sound signal" />
+            <elementDefinition Id="37acc621-2db6-48be-afe8-a5e9727db96a" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="b8a7c6ab-d173-4ffe-8814-b234773271b6" name="Connect parts incorrectly" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="bf26fbda-085a-46b6-87c8-c71f20035708" />
+        <extendedCases>
+          <extend Id="16688aad-37e2-4768-b44b-4dc0ca6598b1">
+            <useCaseMoniker Id="5faa00a2-e498-4034-bca6-55b4fa9f2b1c" LastKnownName="Perform constructing step" />
+            <elementDefinition Id="1460ae04-bbaa-41e3-bc13-b7817900b7d5" />
+          </extend>
+        </extendedCases>
+        <additions>
+          <include Id="dbf28a99-c245-4dc1-83e3-61650999aa0a">
+            <useCaseMoniker Id="7ee3e7a9-c885-4e8c-bdbc-c74450bb3b6c" LastKnownName="Get ERROR sound signal" />
+            <elementDefinition Id="cc4eee93-f5f8-4242-b25c-77d29e07ba89" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="3c82907c-f830-42e7-b5f3-b9da5f55898a" name="Get OK sound signal" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="173e1558-4cac-40be-832e-b86ce8b4b98e" />
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="7ee3e7a9-c885-4e8c-bdbc-c74450bb3b6c" name="Get ERROR sound signal" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="6b852f23-b390-4412-89ee-6a3aa75d7d89" />
+        <subjects>
+          <subsystemMoniker Id="dc60432e-5a17-4201-9e9b-383237124dd8" LastKnownName="Subsystem1" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+  </packagedElements>
+  <package Id="fc46e739-32a3-4f4e-a45e-c94bc9f3ffd9" name="FurnitureHelperMobileDiagrmas">
+    <elementDefinition Id="56a7638f-6724-4430-87a7-ac6d54683bb1" />
+  </package>
+</useCaseModelRoot>

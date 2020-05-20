@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Name="PartsPage"
+             x:Class="FHelper.Pages.PartListPage">
+    <ContentPage.Content>
+        <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+
+            <StackLayout Style="{StaticResource PopupPageContent}">
+                <ScrollView>
+                    <StackLayout x:Name="PartListScroll" Padding="10,0,10,0">
+
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+
+            <Frame Style="{StaticResource PopupWrapper}" IsVisible="{Binding Source={Reference PartsPage}, Path=IsBusy}">
+                <ActivityIndicator Style="{StaticResource CommonActivityIndicator}" IsRunning="True"/>
+            </Frame>
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

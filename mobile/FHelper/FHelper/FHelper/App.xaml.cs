@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Xamarin.Forms;
 
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-using ServerAccess;
+using FHelper.Pages;
 
 namespace FHelper
 {
@@ -12,9 +9,7 @@ namespace FHelper
         public App()
         {
             InitializeComponent();
-
-            IServer server = DependencyService.Get<IServer>();
-            MainPage = new MainPage();
+            MainPage = new AuthorizePage();
         }
 
         protected override void OnStart()

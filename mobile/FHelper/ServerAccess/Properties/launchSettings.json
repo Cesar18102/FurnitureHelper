@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ServerAccess": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/UseCaseModel"
   dslVersion="1.0.0.0"
   Id="275b9cf8-aeef-48ab-a8f8-617e985c60e3"
   name="IoTDiagrams" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -451,6 +451,568 @@
           </joinNode>
         </nodes>
       </activity>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <subsystem
+        Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+        name="FurnitureHelper"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="d3cd8c52-e39a-41ba-abc0-f24783a00fd1"
+        name="Controller"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="8b291abc-fa99-4960-bf56-4097e6971792"
+            isDerived="false"
+            sourceEndRoleName="Controller"
+            targetEndRoleName="Collect build data"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="a21cbfb4-be27-4fb8-8351-aa9a1d504110"
+              LastKnownName="Collect build data"
+              LastKnownLocation="IoTDiagrams.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e7d59f60-0f70-4217-9268-309c631bbe28"
+                  name="Controller"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="3f7b846d-e52e-42b6-af8d-0ba84eba78c3"
+                  name="Collect build data"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="eb473cc4-d919-41a4-92c9-309b39647a83"
+        name="User-Builder"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="a0fbc12b-3d29-4a86-88a3-b2cbbd51d319"
+            isDerived="false"
+            sourceEndRoleName="User-Builder"
+            targetEndRoleName="UseCase1"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="0ec8bdc4-31db-4d8a-91b3-909813a0133e"
+              LastKnownName="Reset controller"
+              LastKnownLocation="IoTDiagrams.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="05ed09f6-9f6b-4e85-9c5b-851e0f27c53f"
+                  name="User-Builder"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="da4673cc-37f0-4d69-9a16-829cba5c2b16"
+                  name="UseCase1"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="dc7ac6eb-0dcd-464c-9fe1-08c7970620cf"
+            isDerived="false"
+            sourceEndRoleName="User-Builder"
+            targetEndRoleName="Build furniture"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="975c5f88-013c-4c67-a298-05e9fdcbd596"
+              LastKnownName="Build furniture"
+              LastKnownLocation="IoTDiagrams.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="81af7e91-36c5-4509-84f2-5daf6c4981f5"
+                  name="User-Builder"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="63b82cc6-07d4-42a9-874c-50f50cd5889d"
+                  name="Build furniture"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="5a6842f0-ffa4-466e-9bde-80608a40305b"
+        name="Server"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="cc0e25c2-6d0d-499e-8036-39f84165a01c"
+            isDerived="false"
+            sourceEndRoleName="Server"
+            targetEndRoleName="Manage build process"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="59c5bc93-aaaf-4930-a1d7-42e7cb76cd42"
+              LastKnownName="Manage build process"
+              LastKnownLocation="IoTDiagrams.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="efde34c1-928b-432e-a28d-9750b39249fd"
+                  name="Server"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1152201d-94ba-4c1a-8116-d964bb5b8c3f"
+                  name="Manage build process"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="0ec8bdc4-31db-4d8a-91b3-909813a0133e"
+        name="Reset controller"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="975c5f88-013c-4c67-a298-05e9fdcbd596"
+        name="Build furniture"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="643ab0ad-d704-4b14-a229-80b19fefebf7">
+            <useCaseMoniker
+              Id="9564adb5-d5fd-4262-b5c9-a323b6dbfbc0"
+              LastKnownName="Prepare"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+          <include
+            Id="ae5549e1-0155-4d16-9779-99418526bad9">
+            <useCaseMoniker
+              Id="917e1266-9169-4799-acba-3abee041d6dd"
+              LastKnownName="Connect parts"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="321248ae-aca1-4e4f-8186-66847ad3ee86"
+        name="Handle controllers' readers data"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="59c5bc93-aaaf-4930-a1d7-42e7cb76cd42"
+        name="Manage build process"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="1a6553b1-1374-49aa-8c14-65bddb82a42d">
+            <useCaseMoniker
+              Id="321248ae-aca1-4e4f-8186-66847ad3ee86"
+              LastKnownName="Handle controllers' readers data"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+          <include
+            Id="67c3b4d7-377b-4459-b263-0368973aff83">
+            <useCaseMoniker
+              Id="c12eb866-9ac9-4624-aadd-2e33a5b5fb38"
+              LastKnownName="Provide actual instruction data"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="c12eb866-9ac9-4624-aadd-2e33a5b5fb38"
+        name="Provide actual instruction data"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="fcfbc90d-926b-4363-901d-6954cb55687d"
+        name="Initialize build session at client"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="df2d5ae0-f4cc-456d-bcec-2790332be496"
+        name="UseCase1"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="9564adb5-d5fd-4262-b5c9-a323b6dbfbc0"
+        name="Prepare"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="e0683858-4611-496a-9d99-fe18dd1285db">
+            <useCaseMoniker
+              Id="fcfbc90d-926b-4363-901d-6954cb55687d"
+              LastKnownName="Initialize build session at client"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+          <include
+            Id="0641a7c9-39a0-457a-a3a1-d26d5fff21e9">
+            <useCaseMoniker
+              Id="33dfe1c3-9e69-428f-ae08-aeab201b1254"
+              LastKnownName="Reset controllers"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+          <include
+            Id="4011880a-d646-489e-ae1c-b3baa84ab7dc">
+            <useCaseMoniker
+              Id="012ccf27-07f3-4fc5-9ee8-8e843f9b9c3b"
+              LastKnownName="Press WPS"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="33dfe1c3-9e69-428f-ae08-aeab201b1254"
+        name="Reset controllers"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="012ccf27-07f3-4fc5-9ee8-8e843f9b9c3b"
+        name="Press WPS"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="59df0b55-1399-46e7-80e6-1b3990a36b6e"
+        name="UseCase2"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="a21cbfb4-be27-4fb8-8351-aa9a1d504110"
+        name="Collect build data"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="9dc0d874-2dea-4b6a-83f2-abc0995f1314">
+            <useCaseMoniker
+              Id="4eb0242a-a222-464a-9f4b-3ee2abc656c7"
+              LastKnownName="Prepare"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+          <include
+            Id="b3986f60-4762-42a8-ab4f-b3459ae29ad7">
+            <useCaseMoniker
+              Id="89511c2b-74b7-469f-9cdf-6077c5192e6b"
+              LastKnownName="Handle connection"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+          <include
+            Id="22097f53-e948-439b-b474-ce341b8939e9">
+            <useCaseMoniker
+              Id="29ce32e4-c7c3-48e0-9578-7c4de7fee7de"
+              LastKnownName="Ping server to retrieve actual instruction data"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="4eb0242a-a222-464a-9f4b-3ee2abc656c7"
+        name="Prepare"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="6e4b2f7d-ed1a-44ef-9957-817a88edc585">
+            <useCaseMoniker
+              Id="9e237e52-2131-40ef-bf80-8d6dff77b4d9"
+              LastKnownName="Reboot"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+          <include
+            Id="c5aed3f3-c4d5-4330-b018-a6395b785948">
+            <useCaseMoniker
+              Id="e2987087-9606-4663-abaf-0095a12a41fd"
+              LastKnownName="Connect to network"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="9e237e52-2131-40ef-bf80-8d6dff77b4d9"
+        name="Reboot"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="ec93b426-93a3-46d1-9e6f-0fa1035593c3">
+            <useCaseMoniker
+              Id="33dfe1c3-9e69-428f-ae08-aeab201b1254"
+              LastKnownName="Reset controllers"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="e2987087-9606-4663-abaf-0095a12a41fd"
+        name="Connect to network"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="5cb75a16-1692-42e3-91e8-2a6a52da8d8a">
+            <useCaseMoniker
+              Id="012ccf27-07f3-4fc5-9ee8-8e843f9b9c3b"
+              LastKnownName="Press WPS"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="917e1266-9169-4799-acba-3abee041d6dd"
+        name="Connect parts"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="89511c2b-74b7-469f-9cdf-6077c5192e6b"
+        name="Handle connection"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="ed8371a3-442b-494f-8951-1133f7a82e2c">
+            <useCaseMoniker
+              Id="917e1266-9169-4799-acba-3abee041d6dd"
+              LastKnownName="Connect parts"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+          <include
+            Id="3d7601f4-48d1-4816-b55a-9eb768714353">
+            <useCaseMoniker
+              Id="321248ae-aca1-4e4f-8186-66847ad3ee86"
+              LastKnownName="Handle controllers' readers data"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="29ce32e4-c7c3-48e0-9578-7c4de7fee7de"
+        name="Ping server to retrieve actual instruction data"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="394c2103-1a59-4e6c-a3a7-d96664b5f2a8">
+            <useCaseMoniker
+              Id="c12eb866-9ac9-4624-aadd-2e33a5b5fb38"
+              LastKnownName="Provide actual instruction data"
+              LastKnownLocation="IoTDiagrams.uml" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker
+            Id="07fd4cbd-2600-499b-bfae-44d99b2e453e"
+            LastKnownName="FurnitureHelper"
+            LastKnownLocation="IoTDiagrams.uml" />
+        </subjects>
+      </useCase>
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" dslVersion="1.0.0.0" Id="fe1e633f-2d20-478a-947c-264b24cb82db" name="UseCaseFrontEnd" linkedPackageId="9f168a60-bda4-4a51-8ce6-b7095856eb02" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <subsystem Id="2c7b6359-0324-4acc-b537-6443d97b8eab" name="FurnitureHelper" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="07fd4cbd-2600-499b-bfae-44d99b2e453e" />
+      </subsystem>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="dfe8a881-3219-43ff-b700-a5b2e2e846e6" name="Controller" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="d3cd8c52-e39a-41ba-abc0-f24783a00fd1" />
+        <targetEnds>
+          <association Id="c89fea6c-e4a6-435d-b4cd-466fdf525ef0" isDerived="false" sourceEndRoleName="Controller" targetEndRoleName="Collect build data" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="174bf204-b61a-4856-8ec8-482fd26b35d4" LastKnownName="Collect build data" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="2b5ec5f5-c693-4102-a535-56da11f3f7df" name="Controller" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="e7d59f60-0f70-4217-9268-309c631bbe28" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f9574f06-f5a7-4cb1-86c9-eb3e1f202154" name="Collect build data" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="3f7b846d-e52e-42b6-af8d-0ba84eba78c3" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="8b291abc-fa99-4960-bf56-4097e6971792" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="b03fe4a0-3a0d-4622-846a-a32c72128504" name="User-Builder" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="eb473cc4-d919-41a4-92c9-309b39647a83" />
+        <targetEnds>
+          <association Id="a0ed577f-1592-474a-94e3-f5b5f54669ed" isDerived="false" sourceEndRoleName="User-Builder" targetEndRoleName="Build furniture" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="0f82604e-7bc1-4312-9cb1-e162b2704c86" LastKnownName="Build furniture" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6973985b-64b0-4f3f-af99-c4ac499a43f9" name="User-Builder" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="81af7e91-36c5-4509-84f2-5daf6c4981f5" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="baad1e1a-a45b-4ae0-ae4b-9ea23658305f" name="Build furniture" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="63b82cc6-07d4-42a9-874c-50f50cd5889d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="dc7ac6eb-0dcd-464c-9fe1-08c7970620cf" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="f3300453-b564-4972-a435-fa14786f0d15" name="Server" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="5a6842f0-ffa4-466e-9bde-80608a40305b" />
+        <targetEnds>
+          <association Id="80287be7-e7e0-4137-b725-ec855b67fabe" isDerived="false" sourceEndRoleName="Server" targetEndRoleName="Manage build process" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="0c9928b9-adfb-4269-9490-bea8f793d409" LastKnownName="Manage build process" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="270d5cf6-d936-46c5-99a8-3ef28b16dd25" name="Server" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="efde34c1-928b-432e-a28d-9750b39249fd" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f95b440c-23ef-47aa-a30a-2de762194e98" name="Manage build process" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="1152201d-94ba-4c1a-8116-d964bb5b8c3f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="cc0e25c2-6d0d-499e-8036-39f84165a01c" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="0f82604e-7bc1-4312-9cb1-e162b2704c86" name="Build furniture" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="975c5f88-013c-4c67-a298-05e9fdcbd596" />
+        <additions>
+          <include Id="c8992a0a-9d48-4170-b62d-5c6dd5a0c919">
+            <useCaseMoniker Id="b662b780-faee-430d-8012-16437cbfb967" LastKnownName="Prepare" />
+            <elementDefinition Id="643ab0ad-d704-4b14-a229-80b19fefebf7" />
+          </include>
+          <include Id="f6890e8d-495d-4c8e-9076-f0342ebbc667">
+            <useCaseMoniker Id="a049d5fa-86b3-40a8-b070-5627f7a7ce9b" LastKnownName="Connect parts" />
+            <elementDefinition Id="ae5549e1-0155-4d16-9779-99418526bad9" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="e40962a4-7d1d-4834-b9ec-44d914142de4" name="Handle controllers' readers data" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="321248ae-aca1-4e4f-8186-66847ad3ee86" />
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="0c9928b9-adfb-4269-9490-bea8f793d409" name="Manage build process" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="59c5bc93-aaaf-4930-a1d7-42e7cb76cd42" />
+        <additions>
+          <include Id="2cb9d151-4475-40eb-84c2-b51f9ac8022e">
+            <useCaseMoniker Id="e40962a4-7d1d-4834-b9ec-44d914142de4" LastKnownName="Handle controllers' readers data" />
+            <elementDefinition Id="1a6553b1-1374-49aa-8c14-65bddb82a42d" />
+          </include>
+          <include Id="bc3d0369-1026-4f84-9328-d23dfc25a6bb">
+            <useCaseMoniker Id="4161fbda-e7bf-4f65-af37-c892d0eba245" LastKnownName="Provide actual instruction data" />
+            <elementDefinition Id="67c3b4d7-377b-4459-b263-0368973aff83" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="4161fbda-e7bf-4f65-af37-c892d0eba245" name="Provide actual instruction data" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c12eb866-9ac9-4624-aadd-2e33a5b5fb38" />
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="06470e54-f366-46af-b397-bd5748baaa6e" name="Initialize build session at client" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="fcfbc90d-926b-4363-901d-6954cb55687d" />
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="b662b780-faee-430d-8012-16437cbfb967" name="Prepare" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9564adb5-d5fd-4262-b5c9-a323b6dbfbc0" />
+        <additions>
+          <include Id="29141855-771f-4de1-b7de-61fc2bd85473">
+            <useCaseMoniker Id="06470e54-f366-46af-b397-bd5748baaa6e" LastKnownName="Initialize build session at client" />
+            <elementDefinition Id="e0683858-4611-496a-9d99-fe18dd1285db" />
+          </include>
+          <include Id="b5231a8d-b7fa-4797-be3b-14c7b80dd285">
+            <useCaseMoniker Id="9ddcb4a5-f622-4948-bcd0-5698aafa01b0" LastKnownName="Reset controllers" />
+            <elementDefinition Id="0641a7c9-39a0-457a-a3a1-d26d5fff21e9" />
+          </include>
+          <include Id="451e86f0-510c-42a1-8ecd-28599b2281cc">
+            <useCaseMoniker Id="36e58ff9-4bfd-4f93-8f8b-837342efcfe3" LastKnownName="Press WPS" />
+            <elementDefinition Id="4011880a-d646-489e-ae1c-b3baa84ab7dc" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="9ddcb4a5-f622-4948-bcd0-5698aafa01b0" name="Reset controllers" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="33dfe1c3-9e69-428f-ae08-aeab201b1254" />
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="36e58ff9-4bfd-4f93-8f8b-837342efcfe3" name="Press WPS" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="012ccf27-07f3-4fc5-9ee8-8e843f9b9c3b" />
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="174bf204-b61a-4856-8ec8-482fd26b35d4" name="Collect build data" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="a21cbfb4-be27-4fb8-8351-aa9a1d504110" />
+        <additions>
+          <include Id="3a64a294-9138-4ea4-85f0-a7275f9137c7">
+            <useCaseMoniker Id="03fd4573-73ee-4a09-922b-9c07972e2875" LastKnownName="Prepare" />
+            <elementDefinition Id="9dc0d874-2dea-4b6a-83f2-abc0995f1314" />
+          </include>
+          <include Id="4da647b6-a371-442f-bcd2-753d48e3bfd5">
+            <useCaseMoniker Id="fef292a3-6e29-4b2d-a5aa-3e35986be9ae" LastKnownName="Handle connection" />
+            <elementDefinition Id="b3986f60-4762-42a8-ab4f-b3459ae29ad7" />
+          </include>
+          <include Id="c25a53aa-482d-491b-9438-a08caef9c038">
+            <useCaseMoniker Id="07aa0f89-b408-4f8c-bce6-7f9f45459b96" LastKnownName="Ping server to retrieve actual instruction data" />
+            <elementDefinition Id="22097f53-e948-439b-b474-ce341b8939e9" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="03fd4573-73ee-4a09-922b-9c07972e2875" name="Prepare" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="4eb0242a-a222-464a-9f4b-3ee2abc656c7" />
+        <additions>
+          <include Id="f8a1683f-4a91-4398-a893-c8215328cb31">
+            <useCaseMoniker Id="6314d31f-0198-41d5-98ad-59c043115c00" LastKnownName="Reboot" />
+            <elementDefinition Id="6e4b2f7d-ed1a-44ef-9957-817a88edc585" />
+          </include>
+          <include Id="e7d739a1-55a2-428e-bbea-030db1b9ca3d">
+            <useCaseMoniker Id="6dee901d-3835-4bae-98aa-885427b67556" LastKnownName="Connect to network" />
+            <elementDefinition Id="c5aed3f3-c4d5-4330-b018-a6395b785948" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="6314d31f-0198-41d5-98ad-59c043115c00" name="Reboot" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9e237e52-2131-40ef-bf80-8d6dff77b4d9" />
+        <additions>
+          <include Id="0d7e5853-5a4a-4572-8629-d1204f83306e">
+            <useCaseMoniker Id="9ddcb4a5-f622-4948-bcd0-5698aafa01b0" LastKnownName="Reset controllers" />
+            <elementDefinition Id="ec93b426-93a3-46d1-9e6f-0fa1035593c3" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="6dee901d-3835-4bae-98aa-885427b67556" name="Connect to network" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="e2987087-9606-4663-abaf-0095a12a41fd" />
+        <additions>
+          <include Id="33cfc28f-54cc-4c9b-b30c-ce81210fa477">
+            <useCaseMoniker Id="36e58ff9-4bfd-4f93-8f8b-837342efcfe3" LastKnownName="Press WPS" />
+            <elementDefinition Id="5cb75a16-1692-42e3-91e8-2a6a52da8d8a" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="a049d5fa-86b3-40a8-b070-5627f7a7ce9b" name="Connect parts" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="917e1266-9169-4799-acba-3abee041d6dd" />
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="fef292a3-6e29-4b2d-a5aa-3e35986be9ae" name="Handle connection" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="89511c2b-74b7-469f-9cdf-6077c5192e6b" />
+        <additions>
+          <include Id="c2625314-857f-448d-97f1-effc64a39ead">
+            <useCaseMoniker Id="a049d5fa-86b3-40a8-b070-5627f7a7ce9b" LastKnownName="Connect parts" />
+            <elementDefinition Id="ed8371a3-442b-494f-8951-1133f7a82e2c" />
+          </include>
+          <include Id="b7b2e99f-e4c2-4809-b57f-f31e895df057">
+            <useCaseMoniker Id="e40962a4-7d1d-4834-b9ec-44d914142de4" LastKnownName="Handle controllers' readers data" />
+            <elementDefinition Id="3d7601f4-48d1-4816-b55a-9eb768714353" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="07aa0f89-b408-4f8c-bce6-7f9f45459b96" name="Ping server to retrieve actual instruction data" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="29ce32e4-c7c3-48e0-9578-7c4de7fee7de" />
+        <additions>
+          <include Id="e9e60e01-97a5-4ade-8845-0d0cd786a340">
+            <useCaseMoniker Id="4161fbda-e7bf-4f65-af37-c892d0eba245" LastKnownName="Provide actual instruction data" />
+            <elementDefinition Id="394c2103-1a59-4e6c-a3a7-d96664b5f2a8" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="2c7b6359-0324-4acc-b537-6443d97b8eab" LastKnownName="FurnitureHelper" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="9f168a60-bda4-4a51-8ce6-b7095856eb02" name="IoTDiagrams">
+    <elementDefinition Id="275b9cf8-aeef-48ab-a8f8-617e985c60e3" />
+    <profileInstances>
+      <packageHasProfileInstances Id="5e5bef0c-f348-40ad-a80e-c7e63a771c2c">
+        <profileInstance Id="dd929603-5a5a-4a20-96eb-cdb2e9152670" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="c0aee01b-9c02-4e6b-a10e-c23bf2c93686">
+        <profileInstance Id="1f25996c-7f35-4d0d-b8f1-97e1f7e8a20c" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</useCaseModelRoot>

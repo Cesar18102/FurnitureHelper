@@ -1,0 +1,13 @@
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Services\obj\Debug\netstandard2.0\Services.AssemblyInfoInputs.cache
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Services\obj\Debug\netstandard2.0\Services.AssemblyInfo.cs
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Services\bin\Debug\netstandard2.0\Services.deps.json
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Services\bin\Debug\netstandard2.0\Services.dll
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Services\bin\Debug\netstandard2.0\Services.pdb
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Services\bin\Debug\netstandard2.0\Models.dll
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Services\bin\Debug\netstandard2.0\ServerAccess.dll
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Services\bin\Debug\netstandard2.0\Models.pdb
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Services\bin\Debug\netstandard2.0\ServerAccess.pdb
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Services\obj\Debug\netstandard2.0\Services.csprojAssemblyReference.cache
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Services\obj\Debug\netstandard2.0\Services.csproj.CopyComplete
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Services\obj\Debug\netstandard2.0\Services.dll
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Services\obj\Debug\netstandard2.0\Services.pdb

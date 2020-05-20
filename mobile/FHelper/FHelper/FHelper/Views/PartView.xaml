@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:res="clr-namespace:FHelper.Resources"
+             x:Name="CurrentPartView"
+             x:Class="FHelper.Views.PartView">
+    <ContentView.Content>
+        <StackLayout BindingContext="{Reference CurrentPartView}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <Label Text="{x:Static res:Signs.PartNameSign}" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="{Binding Part.Part.Name}"  Grid.Row="0" Grid.Column="1"/>
+
+                <Label Text="{x:Static res:Signs.MaterialNameSign}" Grid.Row="1" Grid.Column="0"/>
+                <Label Text="{Binding Material.Material.Name}"  Grid.Row="1" Grid.Column="1"/>
+
+                <Label Text="{x:Static res:Signs.ColorNameSign}" Grid.Row="2" Grid.Column="0"/>
+                <Label Text="{Binding Color.Color.Name}"  Grid.Row="2" Grid.Column="1"/>
+
+                <Label Text="{x:Static res:Signs.StoredAmountSign}" Grid.Row="3" Grid.Column="0"/>
+                <Label Text="{Binding Color.Amount}"  Grid.Row="3" Grid.Column="1"/>
+
+                <WebView x:Name="WV" HeightRequest="200" Grid.Row="4" Grid.ColumnSpan="2">
+                    
+                </WebView>
+            </Grid>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

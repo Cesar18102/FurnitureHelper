@@ -1,0 +1,8 @@
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Models\bin\Debug\netstandard2.0\Models.deps.json
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Models\bin\Debug\netstandard2.0\Models.dll
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Models\bin\Debug\netstandard2.0\Models.pdb
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Models\obj\Debug\netstandard2.0\Models.AssemblyInfoInputs.cache
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Models\obj\Debug\netstandard2.0\Models.AssemblyInfo.cs
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Models\obj\Debug\netstandard2.0\Models.dll
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Models\obj\Debug\netstandard2.0\Models.pdb
+D:\!!!OLEG\!!!WORK\GitHub\FurnitureHelper\mobile\FHelper\Models\obj\Debug\netstandard2.0\Models.csprojAssemblyReference.cache

@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Furniture Helper</title>
+		<link rel="stylesheet" href="part_view.css"/>
+		<script src="../scripts/libs/three.js"></script>
+		<script src="../scripts/libs/OBJLoader.js"></script>
+	</head>
+	<body>
+		<div id="wrapper"></div>
+		<script>
+			
+			let PART_RENDER = undefined;
+			let PART_RENDER_PROMISE = import("../draw/part_render.js").then(module => PART_RENDER = module);
+			
+			let SCENE_RENDER = undefined;
+			let SCENE_RENDER_PROMISE = import("../draw/scene_render.js").then(module => SCENE_RENDER = module);
+			
+			function initRender() {
+				initPartRenderers();
+			}
+			
+			async function initPartRenderers() {
+				if(PART_RENDER == undefined) {
+					await PART_RENDER_PROMISE;
+				}
+				
+				if(SCENE_RENDER == undefined) {
+					await SCENE_RENDER_PROMISE;
+				}
+				
+				let wrapper = document.getElementById("wrapper");
+				let renderInfo = SCENE_RENDER.renderScene(wrapper, "part-renderer");
+				let partRenderInfo = {
+					model_url : partRendererWrapper.getAttribute("model"),
+					texture_url : partRendererWrapper.getAttribute("texture"),
+					color : partRendererWrapper.getAttribute("color")
+				};
+				let scale = parseFloat(partRendererWrapper.getAttribute("part-scale"));
+				PART_RENDER.renderPart(
+					partRenderInfo, 
+					renderInfo, 
+					part => {
+						part.geometry.scale(scale, scale, scale);
+					}, 
+					part => {
+						//part.rotateX(-0.02);
+						//part.rotateY(0.01);
+						//part.rotateZ(0.01);
+					}
+				);
+			}
+			
+			initRender();
+		</script>
+	</body>
+</html>

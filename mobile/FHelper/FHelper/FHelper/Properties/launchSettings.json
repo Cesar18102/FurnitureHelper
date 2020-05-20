@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FHelper": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
