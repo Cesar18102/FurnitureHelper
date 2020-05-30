@@ -46,6 +46,9 @@ namespace DataAccess.RepoImplementation
 
         public MaterialModel UpdateAttachedColors(MaterialModel model, IEnumerable<PartColorModel> colors)
         {
+            if (colors == null)
+                return model;
+
             MaterialEntity entity = Context.materials.FirstOrDefault(material => material.id == model.Id);
             entity.colors.Clear();
 

@@ -3,6 +3,9 @@ let OBJLoader = new THREE.OBJLoader();
 let SCENE_RENDER = undefined;
 let SCENE_RENDER_PROMISE = import("./scene_render.js").then(module => SCENE_RENDER = module);
 
+let SHADERS = undefined;
+let SHADERS_PROMISE = import("./shaders.js").then(module => SHADERS = module);
+
 async function renderFurniture(furnitureInfo, domWrapper, style, prepare, motion) {			
 	if(SCENE_RENDER == undefined) {
 		await SCENE_RENDER_PROMISE;
@@ -18,7 +21,12 @@ async function renderFurniture(furnitureInfo, domWrapper, style, prepare, motion
 	return new Promise((resolve, reject) => {
 		OBJLoader.load(furnitureInfo.model_url, model => {
 			for(let used of furnitureInfo.used_parts) {
-				let partObject = model.getObjectByName(used.id.toString());
+				let partObject = model.getObjectByName(used.id.toString() + "U");
+				
+				if(partObject == null || partObject == undefined) { //useless due to the cycle throw used_parts
+					partObject = model.getObjectByName(used.part_id.toString() + "M");
+				}
+				
 				let partInfo = getPart(furnitureInfo, part => part.id == used.part_id);
 				
 				let texture = new THREE.TextureLoader().load(partInfo.possible_materials[0].texture_url);
@@ -27,7 +35,27 @@ async function renderFurniture(furnitureInfo, domWrapper, style, prepare, motion
 					flatShading : true
 				});
 				
+				material.userData = {
+					outline : { value : false },
+					outlineColor : { value : new THREE.Color(0) }
+				}
+				
+				material.onBeforeCompile = shader => {
+					shader.uniforms.outline = material.userData.outline;
+					shader.uniforms.outlineColor = material.userData.outlineColor;
+					
+					shader.uniforms.sampler = { value : texture };
+					shader.uniforms.lightPos = { value : sceneInfo.light.position };
+					
+					shader.vertexShader = SHADERS.defaultVertex();
+					shader.fragmentShader = SHADERS.defaultFragment();
+				};
+				
 				let mesh = new THREE.Mesh(partObject.geometry, material);
+				
+				mesh.info = partInfo;
+				mesh.hasOutline = false;
+				mesh.toggleOutline = togglePartOutline.bind(mesh);
 				
 				sceneInfo.scene.add(mesh);
 				partMeshes[used.id] = mesh;
@@ -37,9 +65,11 @@ async function renderFurniture(furnitureInfo, domWrapper, style, prepare, motion
 				}
 				
 				render(sceneInfo.renderer, sceneInfo.scene, sceneInfo.camera, motion == undefined ? undefined : () => motion(mesh));
+				let interaction = new THREE.Interaction(sceneInfo.renderer, sceneInfo.scene, sceneInfo.camera);
 				
 				resolve({
 					sceneInfo : sceneInfo,
+					interaction : interaction,
 					partMeshesInfo : partMeshes
 				});
 			}
@@ -48,6 +78,19 @@ async function renderFurniture(furnitureInfo, domWrapper, style, prepare, motion
 			reject(error);
 		})
 	});
+}
+
+async function togglePartOutline(color) {
+	if(SHADERS == undefined) {
+		await SHADERS_PROMISE;
+	}
+	
+	this.hasOutline = !this.hasOutline;
+	this.material.userData.outline.value = this.hasOutline;
+	
+	if(color != undefined && color != null) {
+		this.material.userData.outlineColor.value = color;
+	}
 }
 
 function render(renderer, scene, camera, motion) {

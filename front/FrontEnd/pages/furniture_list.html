@@ -12,6 +12,7 @@
 		
 		<script src="../scripts/libs/vue.js"></script>
 		<script src="../scripts/libs/three.js"></script>
+		<script src="../scripts/libs/three.interaction.js"></script>
 		<script src="../scripts/libs/OBJLoader.js"></script>
 		<script src="../scripts/libs/jquery.js"></script>
 		
@@ -37,10 +38,14 @@
 					<div>Ingredients:</div>
 					<br/>
 					<div v-for="(partID, partInfo) in furniture | ingredients">
-						#{{ partID }}, "{{ partInfo.name }}" — {{ partInfo.count }}
+						<span v-bind:class="{ 'pointed-ingredient' : furniture.pointed == partID }">
+							#{{ partID }}, "{{ partInfo.name }}" — {{ partInfo.count }}
+						</span>
 					</div>
-					<div v-bind:id="furniture | rendererId" class="furniture-sampler">
-					</div>
+					<center>
+						<div v-bind:id="furniture | rendererId" class="furniture-sampler"></div>
+						<div v-if="furniture.canBuild" style="margin: 1em;" class="common-button">Build</div>
+					</center>
 				</div>
 			</div>
 		</div>
@@ -87,8 +92,22 @@
 			
 			async function init() {
 				let loader = document.getElementById("loader");
-				furnitureListHandler(await handleContinious(getFurnitureList, loader));
-		
+				
+				handleResponse(
+					await handleContinious(getFurnitureList, loader),
+					err => {
+						error.message = err.error_message;
+						errorPopup.show();
+					},
+					data => renderFurnitureList(data)
+				);
+				
+				handleResponse(
+					await handleContinious(getBuildList, loader),
+					err => { },
+					data => renderBuildList(data)
+				);
+				
 				$(function(){ $("#header-wrapper").load("header.html"); });
 			}
 			
@@ -96,48 +115,65 @@
 				return await SendGetAsync("furniture/get");
 			}
 			
-			function furnitureListHandler(result) {
-				handleResponse(
-					result,
-					err => {
-						error.message = err.error_message;
-						errorPopup.show();
-					},
-					data => buildFurnitureList(data)
+			async function getBuildList() {
+				let session = await getSessionDto();
+				return await SendPostAsync(
+					"furniture/getbuildlist", 
+					JSON.stringify(session)
 				);
 			}
 			
-			async function buildFurnitureList(list) {
-				let vm = new Vue({
-					el : "#furniture-list-wrapper",
-					data : { furnitures : list },
+			let furnitureItems = [];
+			async function renderBuildList(list) {
+				for(let build of list) {
+					let listed = furnitureItems.find(item => build.id == item.id);
+					listed.canBuild = true;
+				}
+			}
+			
+			async function renderFurnitureList(list) {
+				furnitureItems = list;
+				furnitureItems.forEach(item => {
+					item.canBuild = false;
+					item.pointed = -1;
 				});
 				
-				for(let furniture of list) {
+				let vm = new Vue({
+					el : "#furniture-list-wrapper",
+					data : { furnitures : furnitureItems },
+				});
+				
+				for(let furniture of furnitureItems) {
 					let wrapper = document.getElementById("furniture-renderer-wrapper-" + furniture.id);
 					let furnitureRenderInfo = await renderFurniture(
 						furniture, wrapper, "furniture-renderer",
 						part => {
 							part.geometry.scale(furniture.scale, furniture.scale, furniture.scale);
+							part.cursor = 'pointer';
+							part.on(
+								'mouseover', 
+								function(e) { 
+									e.currentTarget.toggleOutline(new THREE.Color("rgb(120, 10, 10)")); 
+									furniture.pointed = e.currentTarget.info.id;
+								}
+							);
+							part.on(
+								'mouseout', 
+								function(e) { 
+									e.currentTarget.toggleOutline(); 
+									if(furniture.pointed == e.currentTarget.info.id) {
+										furniture.pointed = -1;
+									}
+								}
+							);
 						},
 						part => {
 							/*part.rotateX(0.01);
 							part.rotateY(0.01);
 							part.rotateZ(0.01);*/
 						}
-					);
-					
-					/*if(furnitureRenderInfo.partMeshesInfo["58"] != undefined) {
-						furnitureRenderInfo.partMeshesInfo["58"].geometry.computeBoundingBox();
-						let frame = new THREE.Box3Helper(furnitureRenderInfo.partMeshesInfo["58"].geometry.boundingBox, 256);
-						furnitureRenderInfo.sceneInfo.scene.add(frame);
-					}*/
-					
+					);			
 				}
-			}
-			
-			function buildItem(id) {
-			
 			}
 			
 			init();

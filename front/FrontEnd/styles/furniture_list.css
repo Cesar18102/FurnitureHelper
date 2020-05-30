@@ -1,12 +1,17 @@
 .furniture-sampler {
-	width : 30em;
+	width : 70%;
 	height : 30em;
-	cursor : pointer;
 }
 
 .furniture-renderer {
-	width : 30em;
+	width : 70%;
 	height : 30em;
-	cursor : pointer;
 	border-radius : 0.3em;
+}
+
+.pointed-ingredient {
+	font-weight : bold;
+}
+
+.ingredient {
 }

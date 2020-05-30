@@ -212,7 +212,7 @@
 						color : partRendererWrapper.getAttribute("color")
 					};
 					let scale = parseFloat(partRendererWrapper.getAttribute("part-scale"));
-					PART_RENDER.renderPart(
+					await PART_RENDER.renderPart(
 						partRenderInfo, 
 						renderInfo, 
 						part => {
