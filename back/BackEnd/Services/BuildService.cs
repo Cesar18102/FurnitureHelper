@@ -72,7 +72,7 @@ namespace Services
             int userId = startBuildDto.Session.UserId.Value;
 
             if (UserBuildTokens.ContainsKey(userId))
-                UserBuildTokens.Remove(userId);
+                RemoveSessionByUserId(userId);
                 //throw new ConflictException("build sessions");
 
             string token = HashingService.GetHash(Guid.NewGuid().ToString());
@@ -83,12 +83,24 @@ namespace Services
                 .ToList();
 
             BuildSessionManager buildSessionInfo = new BuildSessionManager(
-                userId, possiblePartsToUse, furniture, new BuildSessionModel(token)
+                userId, possiblePartsToUse, furniture, 
+                new BuildSessionModel(token, furniture.Id)
             );
 
             UserBuildTokens.Add(userId, token);
             BuildSessions.Add(token, buildSessionInfo);
             return buildSessionInfo.BuildSession;
+        }
+
+        public BuildSessionModel GetBuildSession(SessionDto session)
+        {
+            SessionService.CheckSession(session);
+
+            if (!UserBuildTokens.ContainsKey(session.UserId.Value))
+                throw new NotFoundException("build session");
+
+            string token = UserBuildTokens[session.UserId.Value];
+            return BuildSessions[token].BuildSession;
         }
 
         public IEnumerable<StepProbeResultModel> GetStepProbeResults(BuildSessionDto buildSession)
@@ -104,6 +116,12 @@ namespace Services
             return BuildSessions[buildSession.BuildSessionToken].CurrentStep;
         }
 
+        public GlobalPartsConnectionModel GetCurrentGlobalStep(BuildSessionDto buildSession)
+        {
+            CheckBuildSession(buildSession);
+            return BuildSessions[buildSession.BuildSessionToken].CurrentGlobalStep;
+        }
+
         public IndicatorMapModel HandlePing(ControllerPingDto pingDto)
         {
             BuildSessionManager buildSession = GetBuildSessionByMac(pingDto.Mac);
@@ -115,6 +133,23 @@ namespace Services
                 throw new NotFoundException("indicator map");
 
             return buildSession.IndicatorMaps[pingDto.Mac];
+        }
+
+        private void RemoveSessionByUserId(int userId)
+        {
+            if (!UserBuildTokens.ContainsKey(userId))
+                return;
+
+            string token = UserBuildTokens[userId];
+
+            IEnumerable<string> usedMac = MacToBuildTokenCache.Where(cache => cache.Value == token)
+                                                              .Select(cache => cache.Key)
+                                                              .ToList();
+            foreach (string mac in usedMac)
+                MacToBuildTokenCache.Remove(mac);
+
+            BuildSessions.Remove(token);
+            UserBuildTokens.Remove(userId);
         }
 
         public StepProbeResultModel HandleStepProbe(StepProbeDto buildActionDto)
@@ -132,15 +167,7 @@ namespace Services
                 {
                     if (BuildSessions.ContainsKey(buildSession.BuildSession.BuildSessionToken))
                     {
-                        UserBuildTokens.Remove(buildSession.UserId);
-                        BuildSessions.Remove(buildSession.BuildSession.BuildSessionToken);
-
-                        IEnumerable<string> usedMac = MacToBuildTokenCache.Where(cache => cache.Value == buildSession.BuildSession.BuildSessionToken)
-                                                                          .Select(cache => cache.Key)
-                                                                          .ToList();
-                        foreach (string mac in usedMac)
-                            MacToBuildTokenCache.Remove(mac);
-
+                        RemoveSessionByUserId(buildSession.UserId);
                         ConcretePartRepo.MarkInUse(buildSession.UsedPartIds);
                     }
                 }

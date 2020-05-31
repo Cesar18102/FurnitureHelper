@@ -37,7 +37,7 @@ namespace Services
         public void CheckSession(SessionDto sessionDto)
         {
             if (sessionDto == null || !Sessions.ContainsKey(sessionDto.UserId.GetValueOrDefault()))
-                throw new NotFoundException("Session");
+                throw new UnauthorizedException("Session not found");
 
             string originalTokenSalted = Hasher.GetHash(Sessions[sessionDto.UserId.GetValueOrDefault()].Token + sessionDto.Salt);
             if (originalTokenSalted.ToUpper() != sessionDto.SessionTokenSalted.ToUpper())

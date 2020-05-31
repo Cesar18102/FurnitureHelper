@@ -19,6 +19,8 @@ namespace Models
         public TwoPartsConnectionModel CurrentStep => Furniture.GlobalConnections.ElementAt(GlobalOrderNumber)
                                                                .SubConnections.ElementAt(SubOrderNumber);
 
+        public GlobalPartsConnectionModel CurrentGlobalStep => Furniture.GlobalConnections.ElementAt(GlobalOrderNumber);
+
         private IEnumerable<ConcretePartModel> OwnedParts;
         public ICollection<StepProbeResultModel> StepProbesResults { get; private set; } = new List<StepProbeResultModel>();
         public IDictionary<string, IndicatorMapModel> IndicatorMaps { get; private set; } = new Dictionary<string, IndicatorMapModel>();
@@ -182,8 +184,9 @@ namespace Models
             return pins.Intersect(CurrentStepPinsConnected.pins).Count() == 2 && pinsOther.Intersect(CurrentStepPinsOtherConnected.pins).Count() == 2;
         }
 
-        public StepProbeResultModel HandleConnectionProbe(StepProbeDto stepProbe)
+        private StepProbeResultModel CheckConnectionProbe(StepProbeDto stepProbe)
         {
+            string probeId = Guid.NewGuid().ToString();
             foreach (PinStateChange pinState in stepProbe.PinStateChanges)
             {
                 if (IsCurrentStepReaderPin(pinState.PinNumber))
@@ -191,26 +194,36 @@ namespace Models
                     if (pinState.Change == StateChange.ATTACHED)
                     {
                         try { lock (Mutex) { AttachPin(stepProbe.Mac, pinState.PinNumber); } }
-                        catch (MisAttachException ex) { return new StepProbeResultModel(ProbeStatus.ERROR); }
-                        catch (AlreadyAttachedException ex) { return new StepProbeResultModel(ProbeStatus.ERROR); }
+                        catch (MisAttachException ex) { return new StepProbeResultModel(probeId, ProbeStatus.ERROR); }
+                        catch (AlreadyAttachedException ex) { return new StepProbeResultModel(probeId, ProbeStatus.ERROR); }
                     }
                     else if (pinState.Change == StateChange.DETACHED)
                     {
                         try { lock (Mutex) { DetachPin(stepProbe.Mac, pinState.PinNumber); } }
-                        catch(NotAttachedException ex) { return new StepProbeResultModel(ProbeStatus.ERROR); }
+                        catch(NotAttachedException ex) { return new StepProbeResultModel(probeId, ProbeStatus.ERROR); }
                     }
                 }
                 else
-                    return new StepProbeResultModel(ProbeStatus.ERROR);
+                    return new StepProbeResultModel(probeId, ProbeStatus.ERROR);
             }
 
             if (IsStepDone())
             {
                 lock (Mutex) { NextStep(); }
-                return new StepProbeResultModel(Finished ? ProbeStatus.FINISHED : ProbeStatus.DONE);
+                return new StepProbeResultModel(probeId, Finished ? ProbeStatus.FINISHED : ProbeStatus.DONE);
             }
             else
-                return new StepProbeResultModel(ProbeStatus.PENDING);
+                return new StepProbeResultModel(probeId, ProbeStatus.PENDING);
+        }
+
+        public StepProbeResultModel HandleConnectionProbe(StepProbeDto stepProbe)
+        {
+            StepProbeResultModel result = CheckConnectionProbe(stepProbe);
+
+            if (result.Status != ProbeStatus.PENDING)
+                StepProbesResults.Add(result);
+
+            return result;
         }
 
         public BuildSessionManager(int userId, IEnumerable<ConcretePartModel> possibleParts, FurnitureItemModel furniture, BuildSessionModel buildSession)

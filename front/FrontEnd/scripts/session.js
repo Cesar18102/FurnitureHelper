@@ -19,11 +19,7 @@ async function getSessionDto() {
 	let token = SESSION.COOKIE.getCookie("SESSION_TOKEN");
 	
 	if(user_id == undefined || token == undefined) {
-		return {
-			user_id : 0,
-			session_token_salted : "",
-			salt : ""
-		};
+		return null;
 	}
 	
 	let salt = Math.round(Math.random() * 100000).toString();

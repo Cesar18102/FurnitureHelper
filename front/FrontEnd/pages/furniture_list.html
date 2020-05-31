@@ -44,7 +44,7 @@
 					</div>
 					<center>
 						<div v-bind:id="furniture | rendererId" class="furniture-sampler"></div>
-						<div v-if="furniture.canBuild" style="margin: 1em;" class="common-button">Build</div>
+						<div v-if="furniture.canBuild" v-bind:fid="furniture.id" onclick="startBuild()" style="margin: 1em;" class="common-button">Build</div>
 					</center>
 				</div>
 			</div>
@@ -55,7 +55,8 @@
 		<div class="footer"></div>
 		
 		<script>
-		
+			$(function(){ $("#header-wrapper").load("header.html"); });
+			
 			Vue.filter("rendererId", furniture => "furniture-renderer-wrapper-" + furniture.id);
 			Vue.filter("buildItem", furniture => "buildItem(" + furniture.id + ")");
 			
@@ -107,8 +108,6 @@
 					err => { },
 					data => renderBuildList(data)
 				);
-				
-				$(function(){ $("#header-wrapper").load("header.html"); });
 			}
 			
 			async function getFurnitureList() {
@@ -140,7 +139,7 @@
 				
 				let vm = new Vue({
 					el : "#furniture-list-wrapper",
-					data : { furnitures : furnitureItems },
+					data : { furnitures : furnitureItems }
 				});
 				
 				for(let furniture of furnitureItems) {
@@ -168,12 +167,19 @@
 							);
 						},
 						part => {
-							/*part.rotateX(0.01);
-							part.rotateY(0.01);
-							part.rotateZ(0.01);*/
+							//part.rotateX(0.01);
+							//part.rotateY(0.01);
+							//part.rotateZ(0.01);
 						}
 					);			
 				}
+			}
+			
+			function startBuild(e) {
+				let furniture = window.event.currentTarget;
+				let fid = furniture.getAttribute("fid");
+				
+				changeContent("pages/build.html?id=" + fid);
 			}
 			
 			init();

@@ -49,6 +49,12 @@ namespace BackEnd.Controllers
             return Request.ExecuteProtectedAndWrapResult<FurnitureItemModel>(FurnitureService.GetAll);
         }
 
+        [HttpGet]
+        public HttpResponseMessage Get(int id)
+        {
+            return Request.ExecuteProtectedAndWrapResult<FurnitureItemModel>(() => FurnitureService.GetById(id));
+        }
+
         [HttpPost]
         public HttpResponseMessage GetBuildList(SessionDto sessionDto)
         {

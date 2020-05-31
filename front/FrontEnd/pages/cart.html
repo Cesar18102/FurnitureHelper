@@ -104,11 +104,17 @@
 			
 			async function buy() {
 				let sessionDto = await getSessionDto();	
+				
+				if(sessionDto == null) {
+					changeContent("pages/log_in.html");
+				}
+				
 				let acc = {
 					account_id : sessionDto.user_id,
 					phone : "+380978017973",
 					address : "Харьков" 
 				}
+				
 				let positions = cart.map(position => { 
 					return { 
 						part_id : position.part.id,

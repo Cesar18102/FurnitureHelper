@@ -25,6 +25,24 @@ namespace BackEnd.Controllers
         }
 
         [HttpPost]
+        public HttpResponseMessage GetBuildSession([FromBody] SessionDto session)
+        {
+            return Request.ExecuteProtectedAndWrapResult<SessionDto, BuildSessionModel>(
+                dto => BuildService.GetBuildSession(dto),
+                ModelState, session
+            );
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GetCurrentGlobalStep([FromBody] BuildSessionDto buildSession)
+        {
+            return Request.ExecuteProtectedAndWrapResult<BuildSessionDto, GlobalPartsConnectionModel>(
+                dto => BuildService.GetCurrentGlobalStep(dto),
+                ModelState, buildSession
+            );
+        }
+
+        [HttpPost]
         public HttpResponseMessage GetCurrentStep([FromBody] BuildSessionDto buildSession)
         {
             return Request.ExecuteProtectedAndWrapResult<BuildSessionDto, TwoPartsConnectionModel>(
@@ -34,7 +52,7 @@ namespace BackEnd.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage PopStepProbes([FromBody] BuildSessionDto buildSession)
+        public HttpResponseMessage GetStepProbes([FromBody] BuildSessionDto buildSession)
         {
             return Request.ExecuteProtectedAndWrapResult<BuildSessionDto, StepProbeResultModel>(
                 dto => BuildService.GetStepProbeResults(dto),

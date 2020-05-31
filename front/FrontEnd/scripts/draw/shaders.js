@@ -5,19 +5,18 @@ export function defaultFragment(colorEffect) {
 				#define CLEARCOAT
 				#define TRANSPARENCY
 			#endif
-			const float offset = 1.0 / 128.0;
+			uniform float time;
+			uniform bool timing;
 			uniform vec3 mycolor;
 			uniform bool outline;
 			uniform vec3 outlineColor;
+			uniform float outlineStrength;
 			uniform sampler2D sampler;
+			uniform vec2 textureSize;
+			
 			varying vec3 lightDir;
 			varying vec2 v_texCoords;
 			varying vec3 normalPass;
-			
-			float PHI = 1.61803398874989484820459;  // Φ = Golden Ratio   
-			float gold_noise(in vec2 xy, in float seed){
-				   return fract(tan(distance(xy*PHI, xy)*seed)*xy.x);
-			}
 			
 			uniform vec3 diffuse;
 			uniform vec3 emissive;
@@ -108,15 +107,32 @@ export function defaultFragment(colorEffect) {
 }
 
 function getFragColor(colorEffect) {
+	let defaultColor = colorEffect ? 
+		'vec4((outgoingLight.x + mycolor.x) / 2.0, (outgoingLight.y + mycolor.y) / 2.0, (outgoingLight.z + mycolor.z) / 2.0, diffuseColor.a)' : 
+		'vec4(outgoingLight.x, outgoingLight.y, outgoingLight.z, diffuseColor.a)';
+	
+	/*return `
+		if(!outline) {
+			gl_FragColor = ` + defaultColor + `;
+		} else {
+			vec2 outlineSize = vec2(outlineStrength / textureSize.x, outlineStrength / textureSize.y);
+			if(v_texCoords.x >= 1.0 - outlineSize.x || v_texCoords.x <= outlineSize.x || v_texCoords.y >= 1.0 - outlineSize.y || v_texCoords.y <= outlineSize.y) {
+				gl_FragColor = vec4(outlineColor, 1.0);
+			} else {
+				gl_FragColor = ` + defaultColor + `;
+			}
+		}
+	`;*/
+	
 	return `
 		if(!outline) {
-			gl_FragColor = ` + (colorEffect ? 
-				'vec4((outgoingLight.x + mycolor.x) / 2.0, (outgoingLight.y + mycolor.y) / 2.0, (outgoingLight.z + mycolor.z) / 2.0, diffuseColor.a);' : 
-				'vec4(outgoingLight.x, outgoingLight.y, outgoingLight.z, diffuseColor.a);') + 
-		`
+			gl_FragColor = ` + defaultColor + `;
 		} else {
-			float intensity = dot(lightDir, normalize(normalPass));
+			float intensity = dot(lightDir, normalize(normalPass));	
 			float factor = atan(intensity);
+			if(timing) {
+				factor *= sin(time * 2.0);
+			}
 			vec4 _color = vec4(outlineColor * factor, 1.0);
 			gl_FragColor = vec4((outgoingLight.x + _color.x) / 2.0, (outgoingLight.y + _color.y) / 2.0, (outgoingLight.z + _color.z) / 2.0, diffuseColor.a);
 		}

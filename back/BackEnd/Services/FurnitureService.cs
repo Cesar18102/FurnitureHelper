@@ -110,5 +110,10 @@ namespace Services
         {
             return FurnitureRepo.GetAll();
         }
+
+        public FurnitureItemModel GetById(int id)
+        {
+            return FurnitureRepo.Get(id);
+        }
     }
 }

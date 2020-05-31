@@ -11,6 +11,7 @@ namespace ServicesContract
         FurnitureItemModel UpdateFurnitureItem(UpdateFurnitureDto dto);
         FurnitureItemModel UpdateConnections(ConnectionsDto dto);
 
+        FurnitureItemModel GetById(int id);
         IEnumerable<FurnitureItemModel> GetAll();
         IEnumerable<FurnitureItemModel> GetBuildList(SessionDto session);
         bool CanBuild(SessionDto session, int furnitureItemId);

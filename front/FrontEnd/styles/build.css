@@ -1,0 +1,22 @@
+.build-sampler {
+	width : 94%;
+	height : 70%;
+	
+	padding-top : 1%;
+	padding-left : 2%;
+}
+
+.build-renderer {
+	width : 94%;
+	height : 80%;
+	border-radius : 0.2em;
+}
+
+#step-info-wrapper {
+	margin-top : 1em;
+	margin-left : 2em;
+}
+
+.current-step {
+	font-weight : bold;
+}

@@ -1,0 +1,288 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Furniture Helper</title>
+		<link rel="stylesheet" href="../styles/common.css"/>
+		<link rel="stylesheet" href="../styles/build.css"/>
+		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
+		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
+		<link rel="stylesheet" href="../styles/loader.css"/>
+		<link rel="stylesheet" href="../styles/popup.css"/>
+		
+		<script src="../scripts/libs/vue.js"></script>
+		<script src="../scripts/libs/three.js"></script>
+		<script src="../scripts/libs/three.interaction.js"></script>
+		<script src="../scripts/libs/OBJLoader.js"></script>
+		<script src="../scripts/libs/jquery.js"></script>
+		
+		<script src="../scripts/popup.js"></script>
+		<script src="../scripts/session.js"></script>
+		<script src="../scripts/connector.js"></script>
+		<script src="../scripts/continious_handler.js"></script>
+		<script src="../scripts/response_handler.js"></script>
+		<script src="../scripts/draw/furniture_render.js"></script>
+	</head>
+	<body>
+		<div id="header-wrapper"></div>
+		
+		<div class="content">
+			<div id="loader" class="centered-loader default-loader"></div>
+			<div id="renderer" class="build-sampler"></div>
+			<div id="step-info-wrapper">
+				<h3>Шаг сборки #{{ globalStep.order_number }}</h3>
+				<span v-if="globalStep.comment"><u>Комментарий</u>: {{ globalStep.comment }}</span>
+				<ol>
+					<li v-for="connection in globalStep.sub_connections" 
+						v-bind:class="{ 'current-step' : connection.id == step.id }"
+						v-bind:value="connection.order_number">
+						<span>
+							Соедините "{{ connection.part.name }}" и "{{ connection.part_other.name }}", 
+						</span>
+						<span v-if="connection.connection_glues && connection.connection_glues.length > 0">
+							закрепив с помощью {{ connection.connection_glues | join_glues }}
+						</span>
+						<span v-if="connection.comment">
+							<u>Комментарий</u>: {{ connection.comment }} 
+						</span>
+					</li>
+				</ol>
+				<span v-if="globalStep.global_connection_glues && globalStep.global_connection_glues.length > 0">
+					Затем скрепите все вместе с помощью {{ globalStep.global_connection_glues | join_glues }}
+				</span>
+			</div>
+		</div>
+		
+		<center id="errorPopupHolder"></center>
+		
+		<div class="footer"></div>
+		
+		<script>		
+			let furnitureItemId = new URLSearchParams(window.location.search).get("id");
+			
+			let currentGlobalStep = {
+				id : undefined,
+                comment : undefined,
+                order_number : undefined,
+                sub_connections : [],
+				global_connections_glues : []
+			};
+			
+			let currentStep = {
+				id : undefined,
+				comment : undefined,
+                order_number : undefined,
+				connection_helper : undefined,
+				part : undefined,
+				used_part_id : undefined,
+				connection_helper_other : undefined,
+				part_other : undefined,
+				used_part_other_id : undefined,
+				connection_glues : []
+			};
+			
+			let stepProbes = [];		
+			let consideredStepProbeIds = [];
+			let buildSessionToken = undefined;
+			
+			let loader = document.getElementById("loader");
+			let error = { message : undefined };
+			let errorPopup = createPopup({
+				holder : "errorPopupHolder", bodyStyle : "popup-body", wrapperStyle : "popup-wrapper",
+				content : "<div id='errorPopup'>{{ message }}</div>",
+				vue : () => {
+					new Vue({
+						el : "#errorPopup",
+						data : error
+					});
+				}
+			});
+			
+			Vue.filter("join_glues", glues => glues.map(glue => '"' + glue.glue_part.name + '"').join(", "));
+			
+			function handleError(err) {
+				if(err.code == 403 || err.code == 401) {
+					changeContent("pages/log_in.html");
+				} else {
+					error.message = err.error_message;
+					errorPopup.show();
+				}
+			}
+			
+			async function init() {
+				await new Promise((resolve, reject) => 
+					$("#header-wrapper").load(
+						"header.html", null, () => resolve()
+					)
+				);
+				
+				new Vue({
+					el : "#step-info-wrapper",
+					data : {
+						step : currentStep,
+						globalStep : currentGlobalStep
+					}
+				})
+				
+				handleResponse(
+					await handleContinious(startBuildSession, loader),
+					err => { 
+						if(err.code == 404) {
+							changeContent("pages/furniture_list.html");
+						}
+						handleError(err);
+					},
+					data => {
+						buildSessionToken = data.build_session_token;
+						furnitureItemId = data.furniture_item_id;
+						window.requestAnimationFrame(updateData);
+					}
+				);
+				
+				handleResponse(
+					await handleContinious(getBuildFurniture, loader),
+					err => handleError(err),
+					data => renderBuildFurniture(data)
+				);
+			}
+			
+			async function updateData() {
+				handleResponse(
+					await handleContinious(getCurrentGlobalStep, loader),
+					err => handleError(err),
+					data => Object.assign(currentGlobalStep, data)
+				);
+			
+				handleResponse(
+					await handleContinious(getCurrentStep, loader),
+					err => handleError(err),
+					data => Object.assign(currentStep, data)
+				);
+				
+				handleResponse(
+					await handleContinious(getStepProbes, loader),
+					err => handleError(err),
+					data => {
+						let news = [];
+						for(let probe of data) {
+							if(consideredStepProbeIds.indexOf(probe.id) != -1) {
+								continue;
+							}
+							
+							news.push(probe);
+							consideredStepProbeIds.push(probe.id);
+						}
+						
+						stepProbes = stepProbes.concat(news);
+						if(news.length != 0) {
+							alert(JSON.stringify(news));
+						}
+					}
+				);
+			
+				window.requestAnimationFrame(updateData);
+			}
+			
+			async function getBuildFurniture() {
+				return await SendGetAsync("furniture/get?id=" + furnitureItemId);
+			}
+			
+			async function startBuildSession() {
+				let session = await getSessionDto();
+				
+				if(session == null) {
+					changeContent("pages/log_in.html");
+				}
+			
+				if(!furnitureItemId) {
+					return await SendPostAsync(
+						"build/getbuildsession",
+						JSON.stringify(session)
+					);
+				}
+			
+				let data = {
+					session : session,
+					furniture_id : furnitureItemId
+				}
+				
+				return await SendPostAsync(
+					"build/initbuildsession",
+					JSON.stringify(data)
+				);
+			}
+			
+			async function getBuildSessionDto() {
+				let session = await getSessionDto();
+				
+				if(session == null) {
+					changeContent("pages/log_in.html");
+				}
+				
+				let dto = {
+					session : session,
+					build_session_token : buildSessionToken
+				};
+				
+				return dto;
+			}
+			
+			async function getCurrentStep() {
+				return await SendPostAsync(
+					"build/getcurrentstep",
+					JSON.stringify(await getBuildSessionDto())
+				);
+			}
+			
+			async function getCurrentGlobalStep() {
+				return await SendPostAsync(
+					"build/getcurrentglobalstep",
+					JSON.stringify(await getBuildSessionDto())
+				);
+			}
+			
+			async function getStepProbes() {
+				return await SendPostAsync(
+					"build/getstepprobes",
+					JSON.stringify(await getBuildSessionDto())
+				);
+			}
+			
+			async function renderBuildFurniture(furniture) {
+				let wrapper = document.getElementById("renderer");
+				let furnitureRenderInfo = await renderFurniture(
+					furniture, wrapper, "build-renderer",
+					part => {
+						part.geometry.scale(furniture.scale, furniture.scale, furniture.scale);
+						
+						part.cursor = 'pointer';
+						part.on('mouseover', function(e) { wrapper.title = "#" + part.used_id + "U " + e.currentTarget.info.name; });
+						part.on('mouseout', function(e) { 
+							if(wrapper.title == e.currentTarget.info.name) {
+								wrapper.title = '';
+							}
+						});
+					},
+					part => {
+						if(part.used_id == currentStep.used_part_id) {
+							if(!part.hasOutline) {
+								part.toggleTiming();
+								part.toggleOutline(new THREE.Color("rgb(250, 10, 10)")); 
+							}
+						} else if (part.used_id == currentStep.used_part_other_id) {
+							if(!part.hasOutline) {
+								part.toggleTiming();
+								part.toggleOutline(new THREE.Color("rgb(10, 250, 10)")); 
+							}
+						} else if(part.hasOutline) {
+							part.toggleTiming();
+							part.toggleOutline(); 
+						}
+					}
+				);			
+			}
+			
+			init();
+			
+		</script>
+	</body>
+</html>
