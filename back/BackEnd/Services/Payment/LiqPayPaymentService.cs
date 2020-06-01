@@ -119,7 +119,11 @@ namespace Services.Payment
             string calculatedSignature = GetSignature(payment.Data);
             string storedSignature = GetSignature(payment.Data);
 
-            return calculatedSignature == payment.Signature && calculatedSignature == storedSignature;
+            string data = Encoding.UTF8.GetString(Convert.FromBase64String(stored.Data));
+            LiqPayPaymentInfo info = JsonConvert.DeserializeObject<LiqPayPaymentInfo>(data);
+            DateTime exp = DateTime.Parse(info.Expired);
+
+            return calculatedSignature == payment.Signature && calculatedSignature == storedSignature && exp > DateTime.UtcNow;
         }
 
         public override string GetOrderId(PaymentInfo payment)
