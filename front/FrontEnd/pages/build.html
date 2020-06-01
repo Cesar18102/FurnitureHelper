@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="../styles/popup.css"/>
 		
 		<script src="../scripts/libs/vue.js"></script>
+		<script src="../scripts/libs/howler.js"></script>
 		<script src="../scripts/libs/three.js"></script>
 		<script src="../scripts/libs/three.interaction.js"></script>
 		<script src="../scripts/libs/OBJLoader.js"></script>
@@ -56,7 +57,14 @@
 		
 		<div class="footer"></div>
 		
-		<script>		
+		<script>	
+			
+			var sound = new Howl({
+				src: [ '../resources/ok.mp3' ]
+			});
+			
+			sound.play();
+			
 			let furnitureItemId = new URLSearchParams(window.location.search).get("id");
 			
 			let currentGlobalStep = {

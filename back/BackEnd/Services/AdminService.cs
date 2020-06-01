@@ -80,5 +80,16 @@ namespace Services
                 return SuperAdminRepo.Create(model);
             }, dto);
         }
+
+        public AdminModel GetAdminByUserId(int id)
+        {
+            return AdminRepo.GetByAccountId(id);
+        }
+
+        public SuperAdminModel GetSuperAdminByUserId(int id)
+        {
+            AdminModel admin = GetAdminByUserId(id);
+            return admin == null ? null : Mapper.Map<AdminModel, SuperAdminModel>(admin);
+        }
     }
 }

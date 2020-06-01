@@ -10,7 +10,7 @@ namespace Services.Payment
 {
     public class LiqPayPaymentService : PaymentService
     {
-        private class LiqPayPaymentInfo
+        public class LiqPayPaymentInfo
         {
             [JsonProperty("version")]
             public int Version { get; set; }
@@ -114,10 +114,12 @@ namespace Services.Payment
             return Convert.ToBase64String(hash);
         }
 
-        public override bool IsPaymentAuthorized(PaymentInfo payment)
+        public override bool IsPaymentAuthorized(PaymentInfo payment, PaymentInfo stored)
         {
             string calculatedSignature = GetSignature(payment.Data);
-            return calculatedSignature == payment.Signature;
+            string storedSignature = GetSignature(payment.Data);
+
+            return calculatedSignature == payment.Signature && calculatedSignature == storedSignature;
         }
 
         public override string GetOrderId(PaymentInfo payment)

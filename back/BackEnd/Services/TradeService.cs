@@ -27,6 +27,7 @@ namespace Services
             public string OrderId { get; private set; }
             public SellModel SellModel { get; private set; }
             public DateTime Expires { get; private set; }
+            public PaymentInfo PaymentInfo { get; set; }
 
             public Sell(string orderId, SellModel sellModel)
             {
@@ -112,6 +113,8 @@ namespace Services
             paymentPrepare.Expired = sell.Expires;
 
             PaymentInfo payment = PaymentService.CreateFromUserPayment(paymentPrepare);
+            sell.PaymentInfo = payment;
+
             return payment;
         }
 
@@ -120,11 +123,10 @@ namespace Services
             return ProtectedExecute<PaymentConfirmDto, SellModel>(paymentConfirmDto =>
             {
                 PaymentInfo payment = Mapper.Map<PaymentConfirmDto, PaymentInfo>(paymentConfirmDto);
-
-                if (!PaymentService.IsPaymentAuthorized(payment))
-                    throw new UnauthorizedException();
-
                 string orderId = PaymentService.GetOrderId(payment);
+                
+                if (!PendingOrders.ContainsKey(orderId) || !PaymentService.IsPaymentAuthorized(payment, PendingOrders[orderId].PaymentInfo))
+                    throw new UnauthorizedException();
 
                 if (!PendingOrders.ContainsKey(orderId))
                     throw new NotFoundException("pending order");

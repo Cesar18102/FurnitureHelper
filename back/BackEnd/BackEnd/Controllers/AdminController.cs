@@ -34,5 +34,29 @@ namespace BackEnd.Controllers
                 ModelState, adminDto
             );
         }
+
+        [HttpPost]
+        public HttpResponseMessage AmIAdmin([FromBody] SessionDto session)
+        {
+            return Request.ExecuteProtectedAndWrapResult<SessionDto, AdminModel>(
+                dto =>
+                {
+                    AdminService.CheckActiveAdmin(dto);
+                    return AdminService.GetAdminByUserId(dto.UserId.Value);
+                }, ModelState, session
+            );
+        }
+
+        [HttpPost]
+        public HttpResponseMessage AmISuperAdmin([FromBody] SessionDto session)
+        {
+            return Request.ExecuteProtectedAndWrapResult<SessionDto, SuperAdminModel>(
+                dto =>
+                {
+                    AdminService.CheckActiveAdmin(dto);
+                    return AdminService.GetSuperAdminByUserId(dto.UserId.Value);
+                }, ModelState, session
+            );
+        }
     }
 }

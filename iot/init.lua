@@ -1,5 +1,5 @@
 --SERVER_URL = "http://furniturehelper.somee.com/api/";
-SERVER_URL = "http://192.168.0.108:5000/api/";
+SERVER_URL = "http://192.168.0.107:5000/api/";
 APP_JSON_CONTENT_TYPE = 'Content-Type: application/json\r\n';
 MAC = string.upper(wifi.sta.getmac());
 print(MAC)
@@ -296,7 +296,7 @@ end
 
 print("start");
 connect_access_point(
-  "Vovan1", "28050528",
+  "Kati_Net", "KNZ2N6FF22",
   function(connection_info)
     print("CONNECTED, IP: "..connection_info.IP..", MASK: "..connection_info.netmask);
     build_start()
