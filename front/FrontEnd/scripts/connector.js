@@ -12,8 +12,12 @@ async function SendPostAsync(endpoint, body) {
 	return await requestPromise;
 }
 
-async function SendGetAsync(endpoint, uriParams = []) {
-	let paramString = uriParams.map((key, value) => key + "=" + value).join("&");
+async function SendGetAsync(endpoint, uriParams = []) {	
+	let params = [];
+	for(let key in uriParams) {
+		params.push(key + "=" + uriParams[key]);
+	}
+	let paramString = params.join("&");
 	let uri = SERVER_URL + endpoint + (paramString == "" ? "" : "?") + paramString;
 	
 	let requestPromise = new Promise((resolve, reject) => {

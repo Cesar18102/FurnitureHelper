@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Models;
 using DataAccessContract;
 using DataAccess.Entities;
+using DataAccessContract.Exceptions;
 
 namespace DataAccess.RepoImplementation
 {
@@ -72,6 +73,17 @@ namespace DataAccess.RepoImplementation
             SingleInclude(found);
 
             return found == null ? null : Mapper.Map<MaterialEntity, MaterialModel>(found);
+        }
+
+        public bool HasAttachedPart(int id)
+        {
+            MaterialEntity material = Context.materials.FirstOrDefault(mat => mat.id == id);
+
+            if (material == null)
+                throw new EntityNotFoundException("material");
+
+            Context.Entry<MaterialEntity>(material).Collection(mat => mat.parts).Load();
+            return material.parts.Count > 0;
         }
     }
 }

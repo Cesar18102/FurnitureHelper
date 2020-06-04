@@ -1,7 +1,7 @@
 let CART = {};
 
 CART.COOKIE = undefined;
-CART.PROMISE_COOKIE = import('../scripts/cookie.js').then(module => CART.COOKIE = module);
+CART.PROMISE_COOKIE = import('/FurnitureFrontEnd/scripts/cookie.js').then(module => CART.COOKIE = module);
 
 async function getCart() {
 	if(CART.COOKIE == undefined) {

@@ -7,5 +7,6 @@ namespace DataAccessContract
     public interface IMaterialRepo : IRepo<MaterialModel>
     {
         MaterialModel GetByName(string name);
+        bool HasAttachedPart(int id);
     }
 }

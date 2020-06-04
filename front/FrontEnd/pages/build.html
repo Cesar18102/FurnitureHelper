@@ -58,12 +58,23 @@
 		<div class="footer"></div>
 		
 		<script>	
+		
+			Howler.init();
+			Howler._setup();
+			Howler._autoResume();
+			Howler._autoSuspend();
 			
-			var sound = new Howl({
-				src: [ '../resources/ok.mp3' ]
-			});
+			function playOk() {
+				new Howl({ src: [ '../resources/ok.mp3' ] }).play();
+			}
 			
-			sound.play();
+			function playError() {
+				new Howl({ src: [ '../resources/error.mp3' ] }).play();
+			}
+			
+			function playFinish() {
+				new Howl({ src: [ '../resources/finish.mp3' ] }).play();
+			}
 			
 			let furnitureItemId = new URLSearchParams(window.location.search).get("id");
 			
@@ -182,7 +193,11 @@
 						
 						stepProbes = stepProbes.concat(news);
 						if(news.length != 0) {
-							alert(JSON.stringify(news));
+							switch(news[news.length - 1].status.toString()) {
+								case "0" : playOk(); break;
+								case "1" : playError(); break;
+								case "3" : playFinish(); break;
+							}
 						}
 					}
 				);

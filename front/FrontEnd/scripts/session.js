@@ -1,10 +1,10 @@
 let SESSION = {};
 
 SESSION.COOKIE = undefined;
-SESSION.PROMISE_COOKIE = import('./cookie.js').then(module => SESSION.COOKIE = module);
+SESSION.PROMISE_COOKIE = import('/FurnitureFrontEnd/scripts/cookie.js').then(module => SESSION.COOKIE = module);
 
 SESSION.SHA256 = undefined;
-SESSION.PROMISE_SHA256 = import('./libs/sha256.js').then(module => SESSION.PROMISE_SHA256 = module);
+SESSION.PROMISE_SHA256 = import('/FurnitureFrontEnd/scripts/libs/sha256.js').then(module => SESSION.PROMISE_SHA256 = module);
 
 async function getSessionDto() {
 	if(SESSION.COOKIE == undefined) {

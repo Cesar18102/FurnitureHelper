@@ -45,6 +45,19 @@ namespace Services
             }, dto);
         }
 
+        public MaterialModel DeleteMaterial(DeleteDto dto)
+        {
+            return ProtectedExecute<DeleteDto, MaterialModel>(deleteDto =>
+            {
+                AdminService.CheckActiveSuperAdmin(deleteDto.Session);
+
+                if (MaterialRepo.HasAttachedPart(dto.DeletedId.Value))
+                    throw new ConflictException("attached part");
+
+                return MaterialRepo.Delete(dto.DeletedId.Value);
+            }, dto);
+        }
+
         public IEnumerable<MaterialModel> GetAll()
         {
             return MaterialRepo.GetAll();

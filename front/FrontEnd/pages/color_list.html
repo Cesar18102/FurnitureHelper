@@ -3,17 +3,20 @@
 		<meta charset="utf-8"/>
 		<title>Furniture Helper</title>
 		<link rel="stylesheet" href="../styles/common.css"/>
+		<link rel="stylesheet" href="../styles/loader.css"/>
+		<link rel="stylesheet" href="../styles/popup.css"/>
 		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
 		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
-		<link rel="stylesheet" href="../styles/loader.css"/>
 		<link rel="stylesheet" href="../styles/color_list.css"/>
 		
 		<script src="../scripts/libs/vue.js"></script>
 		<script src="../scripts/libs/jquery.js"></script>
 		
+		<script src="../scripts/popup.js"></script>
+		<script src="../scripts/session.js"></script>
 		<script src="../scripts/connector.js"></script>
-		<script src="../scripts/continious_handler.js"></script>
 		<script src="../scripts/response_handler.js"></script>
+		<script src="../scripts/continious_handler.js"></script>
 	</head>
 	<body>
 		<div id="header-wrapper"></div>
@@ -22,6 +25,8 @@
 			<div id="loader" class="centered-loader default-loader"></div>
 			<div id="color-list-wrapper" class="default-list">
 				<div v-for="color in colors" class="default-list-item">
+					<div class="edit-button" v-if="adminState.super_admin" v-on:click="startEdit(color)"></div>
+					<div class="delete-button" v-if="adminState.super_admin" v-on:click="startDelete(color)"></div>
 					<div v-bind:style="color.hex | hexToBackColor" class="default-sampler"></div>
 					<div class="color-list-item-content">
 						#{{ color.id }} "{{ color.name }}" <span v-if="color.description != ''">— {{ color.description }}</span>
@@ -30,16 +35,95 @@
 			</div>
 		</div>
 		
+		<center id="errorPopupHolder"></center>
 		<div class="footer"></div>
 		
 		<script>
+			$("#header-wrapper").load("header.html");
+			
+			let error = { message : undefined };
+			let errorPopup = createPopup({
+				holder : "errorPopupHolder", bodyStyle : "popup-body", wrapperStyle : "popup-wrapper",
+				content : "<div id='errorPopup'>{{ message }}</div>",
+				vue : () => {
+					new Vue({
+						el : "#errorPopup",
+						data : error
+					});
+				}
+			});
+			
+			let colors = [];
+			let adminState = {
+				admin : false,
+				super_admin : false
+			};
+			
 			Vue.filter('hexToBackColor', function (hex) {
 				return "background-color : #" + hex + ";";
 			});
-		
-			$(function(){ $("#header-wrapper").load("header.html"); });
+			
+			new Vue({
+				el : "#color-list-wrapper",
+				methods : {
+					startEdit : function(color) {
+						changeContent("pages/color_add.html?id=" + color.id);
+					}, 
+					startDelete : async function(color) {
+						deleteColor(color.id);
+					}
+				},
+				data : { 
+					colors : colors,
+					adminState : adminState
+				} 
+			});
+			
+			init();
+			
+			async function deleteColor(id) {
+				let session = await getSessionDto();
+				
+				if(session == null) {
+					changeContent('pages/log_in.html');
+				}
+				
+				let deleteDto = {
+					deleted_id : id,
+					session : session
+				};
+			
+				let deletedColorDto = await handleContinious(
+					async () => await SendPostAsync(
+						"colors/delete",
+						JSON.stringify(deleteDto)
+					), loader
+				);
+						
+				handleResponse(
+					deletedColorDto,
+					err => { 
+						error.message = err.error_message;
+						errorPopup.show();
+					},
+					data => {
+						let colorIndex = colors.findIndex(clr => clr.id == data.id);
+						colors.splice(colorIndex, 1);
+					}
+				);
+			}
+			
+			async function fetchAdminState() {
+				let cookie = undefined;
+				let promise = import("../scripts/cookie.js").then(module => cookie = module);
+				await promise;
+				
+				adminState.admin = cookie.getCookie("is_admin");
+				adminState.super_admin = cookie.getCookie("is_super_admin");
+			}
 		
 			async function init() {
+				await fetchAdminState();
 				let loader = document.getElementById("loader");
 				colorListHandler(await handleContinious(getColorsList, loader));
 			}
@@ -57,13 +141,10 @@
 			}
 			
 			function buildColorList(colorList) {
-				new Vue({
-					el : "#color-list-wrapper",
-					data : { colors : colorList } 
-				});
+				for(let color of colorList) {
+					colors.push(color);
+				}
 			}
-			
-			init();
 		</script>
 	</body>
 </html>

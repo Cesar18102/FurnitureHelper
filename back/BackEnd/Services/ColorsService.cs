@@ -48,6 +48,19 @@ namespace Services
             }, dto);
         }
 
+        public PartColorModel DeleteColor(DeleteDto dto)
+        {
+            return ProtectedExecute<DeleteDto, PartColorModel>(deleteDto =>
+            {
+                AdminService.CheckActiveSuperAdmin(deleteDto.Session);
+
+                if (ColorRepo.HasAttachedMaterial(dto.DeletedId.Value))
+                    throw new ConflictException("attached material");
+
+                return ColorRepo.Delete(dto.DeletedId.Value);
+            }, dto);
+        }
+
         public IEnumerable<PartColorModel> GetAll()
         {
             return ColorRepo.GetAll();

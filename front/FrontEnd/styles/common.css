@@ -66,3 +66,24 @@ html, body {
 .common-button[hidden], .common-button[hidden]:hover {
 	display : none;
 }
+
+.edit-button, .delete-button {
+	width : 1em;
+	height : 1em;
+	
+	float : right;	
+	margin : 0.1em;
+	cursor : pointer;
+	
+	background-size: cover;
+	background-position: center;
+	background-repeat : no-repeat;
+}
+
+.edit-button {
+	background-image : url(../resources/edit.png);
+}
+
+.delete-button {
+	background-image : url(../resources/delete.png);
+}

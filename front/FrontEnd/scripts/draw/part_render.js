@@ -1,7 +1,7 @@
 let OBJLoader = new THREE.OBJLoader();
 
 let SHADERS = undefined;
-let SHADERS_PROMISE = import("./shaders.js").then(module => SHADERS = module);
+let SHADERS_PROMISE = import("/FurnitureFrontEnd/scripts/draw/shaders.js").then(module => SHADERS = module);
 
 export async function renderPart(part, renderInfo, prepare, motion) {
 	if(SHADERS == undefined) {
@@ -42,6 +42,7 @@ export async function renderPart(part, renderInfo, prepare, motion) {
 				prepare(mesh);		
 			}
 			
+			let interaction = new THREE.Interaction(renderInfo.renderer, renderInfo.scene, renderInfo.camera);
 			render(renderInfo.renderer, renderInfo.scene, renderInfo.camera, motion == undefined ? undefined : () => motion(mesh));
 			resolve(mesh);
 		}, undefined, function (error) {

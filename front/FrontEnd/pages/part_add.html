@@ -1,0 +1,204 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Furniture Helper</title>
+		<link rel="stylesheet" href="../styles/common.css"/>
+		<link rel="stylesheet" href="../styles/popup.css"/>
+		<link rel="stylesheet" href="../styles/loader.css"/>
+		<link rel="stylesheet" href="../styles/part_add.css"/>
+		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
+		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
+		<link rel="stylesheet" href="../styles/default_form.css"/>
+		
+		<script src="../scripts/libs/vue.js"></script>
+		<script src="../scripts/libs/jquery.js"></script>
+		<script src="../scripts/libs/jquery.serializejson.js"></script>
+		
+		<script src="../scripts/popup.js"></script>
+		<script src="../scripts/connector.js"></script>
+		<script src="../scripts/session.js"></script>
+		<script src="../scripts/validate.js"></script>
+		<script src="../scripts/continious_handler.js"></script>
+		<script src="../scripts/response_handler.js"></script>
+	</head>
+	<body>
+		<div id="header-wrapper"></div>
+		
+		<div class="content">
+			<div id="loader" class="centered-loader default-loader" hidden></div>
+			<form class="default-form" id="addPartForm">
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="name">Name:</label>
+					<input class="form-input" name="name" placeholder="Балка" v-bind:value="part.name" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="description">Description:</label>
+					<textarea class="form-text-area" name="description" v-bind:value="part.description"></textarea>
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="price" required>Price:</label>
+					<input class="form-input" name="price" id="price" type="number" 
+						   step="0.01" min="0.01" v-bind:value="part.price" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="scale" required>Scale:</label>
+					<input class="form-input" name="scale" id="scale" type="number" 
+						   step="0.01" min="0.01" v-bind:value="part.scale" v-model="part.scale" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="model_url" required>Model:</label>
+					<input class="form-input" type="url" name="model_url" id="model_url" 
+						   v-bind:value="part.model_url" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" required>Possible materials count:</label>
+					<input class="form-input" v-model="part.possible_materials_count" type="number"
+						   v-bind:max="materials.length" min="1" value="1" required />
+				</div>
+				<div class="form-input-wrapper" v-for="i of part.possible_materials_count | counter">
+					<label class="form-label-required" required>Possible material #{{ i + 1 }}:</label>
+					<select class="form-input" style="color : black;" 
+							v-bind:name="'possible_materials[' + i + ']'" 
+							v-bind:value="material.possible_materials[i].id">
+						<option style="color : black;" v-for="material of materials" v-bind:value="material.id">
+							{{ material.name }}
+						</option>
+					</select>
+				</div>
+				<center class="form-submit-wrapper">
+					<input class="form-submit" type="submit" value="Add" />
+				</center>
+			</form>
+		</div>
+		
+		<center id="errorPopupHolder"></center>
+		<div class="footer"></div>
+	
+		<script>
+			$("#header-wrapper").load("header.html");
+			
+			let allMaterials = [];
+			let editedPartId = new URLSearchParams(window.location.search).get("id");
+			let editedPart = {
+				name : undefined,
+				description : undefined,
+				model_url : undefined,
+				price : 0,
+				scale : 1,
+				possible_materials : [],
+				possible_materials_count : 1
+			};
+			
+			Vue.filter("counter", i => {
+				let arr = [];
+				for(let j = 0; j < i; j++) {
+					arr.push(j);
+				}
+				return arr;
+			});
+			
+			
+			new Vue({
+				el : "#addPartForm",
+				data : {
+					part : editedPart,
+					materials : allMaterials
+				}
+			});
+		
+			let error = { message : undefined };
+			let errorPopup = createPopup({
+				holder : "errorPopupHolder", bodyStyle : "popup-body", wrapperStyle : "popup-wrapper",
+				content : "<div id='errorPopup'>{{ message }}</div>",
+				vue : () => {
+					new Vue({
+						el : "#errorPopup",
+						data : error
+					});
+				}
+			});
+			
+			init();
+			
+			async function init() {
+				let form = document.getElementById("addPartForm");
+				let loader = document.getElementById("loader");
+				
+				$(form).submit(async e => addPartHandler(
+					await handleContinious(addPart, loader, e)
+				));
+				
+				let materialsDto = await handleContinious(getMaterials, loader);
+				handleResponse(
+					materialsDto,
+					err => { },
+					data => {
+						for(let material of data) {
+							allMaterials.push(material);
+						}
+					}
+				);
+				
+				if(editedPartId) {
+					let partDto = await handleContinious(
+						async () => await getPart(editedPartId), 
+						loader
+					);
+					
+					handleResponse(
+						partDto,
+						err => {},
+						data => {
+							editedPart.possible_materials_count = data.possible_materials.length,
+							Object.assign(editedPart, data);
+						}
+					);
+				} else {
+					editedPart.possible_materials.push(allMaterials[0].id);
+				}
+			}
+			
+			async function getPart(id) {
+				return await SendGetAsync("part/get", { id : id });
+			}
+			
+			async function getMaterials() {
+				return await SendGetAsync("material/get");
+			}
+			
+			async function addPart() {
+				let addPartData = $("form#addPartForm").serializeJSON();
+				
+				let session = await getSessionDto();
+				
+				if(session == null) {
+					changeContent('pages/log_in.html');
+				}
+				
+				addPartData.super_admin_session = session;
+				addPartData.possible_materials = Object.values(addPartData.possible_materials);
+				
+				if(editedPartId) {
+					addPartData.id = editedPartId;
+					return await SendPostAsync("part/update", JSON.stringify(addPartData));
+				} else {
+					return await SendPostAsync("part/add", JSON.stringify(addPartData));
+				}
+			}
+			
+			function addPartHandler(result) {
+				handleResponse(
+					result,
+					err => {
+						error.message = err.error_message;
+						errorPopup.show();
+					},
+					data => { 
+						error.message = (editedPartId ? "Part updated" : "Part added");
+						errorPopup.show();
+					}
+				);
+			}
+		</script>
+	</body>
+</html>

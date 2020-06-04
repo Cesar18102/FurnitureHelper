@@ -1,7 +1,7 @@
 let PAY = {};
 
 PAY.COOKIE = undefined;
-PAY.PROMISE_COOKIE = import('./cookie.js').then(module => PAY.COOKIE = module);
+PAY.PROMISE_COOKIE = import('/FurnitureFrontEnd/scripts/cookie.js').then(module => PAY.COOKIE = module);
 
 async function getPaymentInfo() {
 	if(PAY.COOKIE == undefined) {

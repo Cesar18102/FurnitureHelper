@@ -41,5 +41,19 @@ namespace BackEnd.Controllers
         {
             return Request.ExecuteProtectedAndWrapResult<MaterialModel>(() => MaterialService.GetAll());
         }
+
+        [HttpGet]
+        public HttpResponseMessage Get(int id)
+        {
+            return Request.ExecuteProtectedAndWrapResult<MaterialModel>(() => MaterialService.Get(id));
+        }
+
+        [HttpPost]
+        public HttpResponseMessage Delete([FromBody] DeleteDto deleteDto)
+        {
+            return Request.ExecuteProtectedAndWrapResult<MaterialModel>(
+                () => MaterialService.DeleteMaterial(deleteDto)
+            );
+        }
     }
 }

@@ -3,14 +3,17 @@
 		<meta charset="utf-8"/>
 		<title>Furniture Helper</title>
 		<link rel="stylesheet" href="../styles/common.css"/>
+		<link rel="stylesheet" href="../styles/loader.css"/>
+		<link rel="stylesheet" href="../styles/popup.css"/>
 		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
 		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
-		<link rel="stylesheet" href="../styles/loader.css"/>
 		<link rel="stylesheet" href="../styles/material_list.css"/>
 		
 		<script src="../scripts/libs/vue.js"></script>
 		<script src="../scripts/libs/jquery.js"></script>
 		
+		<script src="../scripts/popup.js"></script>
+		<script src="../scripts/session.js"></script>
 		<script src="../scripts/connector.js"></script>
 		<script src="../scripts/continious_handler.js"></script>
 		<script src="../scripts/response_handler.js"></script>
@@ -22,6 +25,8 @@
 			<div id="loader" class="centered-loader default-loader"></div>
 			<div id="material-list-wrapper" class="default-list">
 				<div v-for="material in materials" class="default-list-item">
+					<div class="edit-button" v-if="adminState.super_admin" v-on:click="startEdit(material)"></div>
+					<div class="delete-button" v-if="adminState.super_admin" v-on:click="startDelete(material)"></div>
 					<div class="material-list-item-content">
 						#{{ material.id }} "{{ material.name }}" <span v-if="material.description != ''">— {{ material.description }}</span>
 					</div>
@@ -36,9 +41,30 @@
 			</div>
 		</div>
 		
+		<center id="errorPopupHolder"></center>
 		<div class="footer"></div>
 		
 		<script>
+			$("#header-wrapper").load("header.html");
+		
+			let error = { message : undefined };
+			let errorPopup = createPopup({
+				holder : "errorPopupHolder", bodyStyle : "popup-body", wrapperStyle : "popup-wrapper",
+				content : "<div id='errorPopup'>{{ message }}</div>",
+				vue : () => {
+					new Vue({
+						el : "#errorPopup",
+						data : error
+					});
+				}
+			});
+			
+			let materials = [];
+			let adminState = {
+				admin : false,
+				super_admin : false
+			};
+			
 			Vue.filter('materialColorData', function (material, color) {
 				return "--texture: url(" + material.texture_url + ");" + 
 					   "--color-mask: #" + color.hex + ";"
@@ -48,10 +74,68 @@
 			Vue.filter('colorTooltip', function (color) {
 				return "#" + color.id + " " + color.name;
 			});
+			
+			new Vue({
+				el : "#material-list-wrapper",
+				methods : {
+					startEdit : function(material) {
+						changeContent("pages/material_add.html?id=" + material.id);
+					}, 
+					startDelete : async function(material) {
+						deleteMaterial(material.id);
+					}
+				},
+				data : { 
+					materials : materials,
+					adminState : adminState
+				} 
+			});
+			
+			async function deleteMaterial(id) {
+				let session = await getSessionDto();
+				
+				if(session == null) {
+					changeContent('pages/log_in.html');
+				}
+				
+				let deleteDto = {
+					deleted_id : id,
+					session : session
+				};
+			
+				let deletedMaterialDto = await handleContinious(
+					async () => await SendPostAsync(
+						"material/delete",
+						JSON.stringify(deleteDto)
+					), loader
+				);
+						
+				handleResponse(
+					deletedMaterialDto,
+					err => { 
+						error.message = err.error_message;
+						errorPopup.show();
+					},
+					data => {
+						let materialIndex = materials.findIndex(material => material.id == data.id);
+						materials.splice(materialIndex, 1);
+					}
+				);
+			}
 		
-			$(function(){ $("#header-wrapper").load("header.html"); });
-		
+			init();
+			
+			async function fetchAdminState() {
+				let cookie = undefined;
+				let promise = import("../scripts/cookie.js").then(module => cookie = module);
+				await promise;
+				
+				adminState.admin = cookie.getCookie("is_admin");
+				adminState.super_admin = cookie.getCookie("is_super_admin");
+			}
+			
 			async function init() {
+				await fetchAdminState();
 				let loader = document.getElementById("loader");
 				materialListHandler(await handleContinious(getMaterialList, loader));
 			}
@@ -69,13 +153,10 @@
 			}
 			
 			function buildMaterialList(materialList) {
-				new Vue({
-					el : "#material-list-wrapper",
-					data : { materials : materialList } 
-				});
+				for(let material of materialList) {
+					materials.push(material);
+				}
 			}
-			
-			init();
 		</script>
 	</body>
 </html>

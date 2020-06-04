@@ -1,0 +1,211 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Furniture Helper</title>
+		<link rel="stylesheet" href="../styles/common.css"/>
+		<link rel="stylesheet" href="../styles/popup.css"/>
+		<link rel="stylesheet" href="../styles/loader.css"/>
+		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
+		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
+		<link rel="stylesheet" href="../styles/default_form.css"/>
+		
+		<script src="../scripts/libs/vue.js"></script>
+		<script src="../scripts/libs/jquery.js"></script>
+		<script src="../scripts/libs/jquery.serializejson.js"></script>
+		
+		<script src="../scripts/popup.js"></script>
+		<script src="../scripts/connector.js"></script>
+		<script src="../scripts/session.js"></script>
+		<script src="../scripts/validate.js"></script>
+		<script src="../scripts/continious_handler.js"></script>
+		<script src="../scripts/response_handler.js"></script>
+	</head>
+	<body>
+		<div id="header-wrapper"></div>
+		
+		<div class="content">
+			<div id="loader" class="centered-loader default-loader" hidden></div>
+			<form class="default-form" id="addMaterialForm">
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="name">Name:</label>
+					<input class="form-input" name="name" placeholder="Дерево" v-bind:value="material.name" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="description">Description:</label>
+					<textarea class="form-text-area" name="description" v-bind:value="material.description"></textarea>
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="price_coeff" required>Price conefficient:</label>
+					<input class="form-input" name="price_coeff" id="price_coeff" 
+						   type="number" step="0.01" min="0.01" v-bind:value="material.price_coeff" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="texture_url" required>Texture:</label>
+					<input class="form-input" type="url" name="texture_url" 
+						   id="texture_url" v-bind:value="material.texture_url" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" required>Possible colors count:</label>
+					<input class="form-input" v-model="material.possible_colors_count" type="number"
+						   v-bind:max="colors.length" min="1" value="1" required />
+				</div>
+				<div class="form-input-wrapper" v-for="i of material.possible_colors_count | counter">
+					<label class="form-label-required" required>Possible color #{{ i + 1 }}:</label>
+					<select class="form-input" style="background-color : #{{ colors | selected material.possible_colors[i] }}; color : black;"
+							v-on:change="updateColorSelection" v-bind:name="'possible_colors[' + i + ']'" 
+							v-bind:value="material.possible_colors[i].id">
+						<option style="color : black;" v-for="color of colors" v-bind:value="color.id" 
+								v-bind:style="'background-color : #' + color.hex">
+							{{ color.name }}
+						</option>
+					</select>
+				</div>
+				<center class="form-submit-wrapper">
+					<input class="form-submit" type="submit" value="Add" />
+				</center>
+			</form>
+		</div>
+		
+		<center id="errorPopupHolder"></center>
+		<div class="footer"></div>
+	
+		<script>
+			$("#header-wrapper").load("header.html");
+			
+			let allColors = [];
+			let editedMaterialId = new URLSearchParams(window.location.search).get("id");
+			let editedMaterial = {
+				name : undefined,
+				description : undefined,
+				texture_url : undefined,
+				price_coeff : "1.00",
+				possible_colors : [],
+				possible_colors_count : 1
+			};
+			
+			Vue.filter("counter", i => {
+				let arr = [];
+				for(let j = 0; j < i; j++) {
+					arr.push(j);
+				}
+				return arr;
+			});
+			
+			Vue.filter("selected", (colors, selected) => {
+				if(selected == undefined) {
+					return colors[0].hex;
+				}
+				
+				return colors.find(color => color.id == selected.id).hex;
+			});
+			
+			
+			new Vue({
+				el : "#addMaterialForm",
+				data : {
+					material : editedMaterial,
+					colors : allColors
+				},
+				methods : {
+					updateColorSelection : function(e) {
+						let id = e.target.value;
+						let color = this.colors.find(clr => clr.id == id);
+						e.target.style.backgroundColor = "#" + color.hex;
+					}
+				}
+			});
+		
+			let error = { message : undefined };
+			let errorPopup = createPopup({
+				holder : "errorPopupHolder", bodyStyle : "popup-body", wrapperStyle : "popup-wrapper",
+				content : "<div id='errorPopup'>{{ message }}</div>",
+				vue : () => {
+					new Vue({
+						el : "#errorPopup",
+						data : error
+					});
+				}
+			});
+			
+			async function init() {
+				let form = document.getElementById("addMaterialForm");
+				let loader = document.getElementById("loader");
+				
+				$(form).submit(async e => addMaterialHandler(
+					await handleContinious(addMaterial, loader, e)
+				));
+				
+				let colorsDto = await handleContinious(getColors, loader);
+				handleResponse(
+					colorsDto,
+					err => { },
+					data => {
+						for(let color of data) {
+							allColors.push(color);
+						}
+					}
+				);
+				
+				if(editedMaterialId) {
+					let materialDto = await handleContinious(
+						async () => await getMaterial(editedMaterialId), 
+						loader
+					);
+					
+					handleResponse(
+						materialDto,
+						err => {},
+						data => {
+							editedMaterial.possible_colors_count = data.possible_colors.length,
+							Object.assign(editedMaterial, data);
+						}
+					);
+				}
+			}
+			
+			async function getMaterial(id) {
+				return await SendGetAsync("material/get", { id : id });
+			}
+			
+			async function getColors() {
+				return await SendGetAsync("colors/get");
+			}
+			
+			async function addMaterial() {
+				let addMaterialData = $("form#addMaterialForm").serializeJSON();
+				
+				let session = await getSessionDto();
+				
+				if(session == null) {
+					changeContent('pages/log_in.html');
+				}
+				
+				addMaterialData.super_admin_session = session;
+				addMaterialData.possible_colors = Object.values(addMaterialData.possible_colors);
+				
+				if(editedMaterialId) {
+					addMaterialData.id = editedMaterialId;
+					return await SendPostAsync("material/update", JSON.stringify(addMaterialData));
+				} else {
+					return await SendPostAsync("material/add", JSON.stringify(addMaterialData));
+				}
+			}
+			
+			function addMaterialHandler(result) {
+				handleResponse(
+					result,
+					err => {
+						error.message = err.error_message;
+						errorPopup.show();
+					},
+					data => { 
+						error.message = (editedMaterialId ? "Material updated" : "Material added");
+						errorPopup.show();
+					}
+				);
+			}
+			
+			init();
+		</script>
+	</body>
+</html>

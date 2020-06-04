@@ -1,0 +1,95 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Furniture Helper</title>
+		<link rel="stylesheet" href="../styles/common.css"/>
+		<link rel="stylesheet" href="../styles/popup.css"/>
+		<link rel="stylesheet" href="../styles/loader.css"/>
+		<link rel="stylesheet" href="../styles/part_add.css"/>
+		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
+		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
+		<link rel="stylesheet" href="../styles/default_form.css"/>
+		
+		<script src="../scripts/libs/jquery.js"></script>
+		<script src="../scripts/libs/three.js"></script>
+		<script src="../scripts/libs/three.interaction.js"></script>
+		<script src="../scripts/libs/OBJLoader.js"></script>
+		
+		<script src="../scripts/popup.js"></script>
+		<script src="../scripts/session.js"></script>
+		<script src="../scripts/connector.js"></script>
+		<script src="../scripts/continious_handler.js"></script>
+		<script src="../scripts/response_handler.js"></script>
+	</head>
+	<body>
+		<div id="header-wrapper"></div>
+		
+		<div class="content">
+			<div id="loader" class="centered-loader default-loader" hidden></div>
+			<div id="render-wrapper" class="part-sampler vcenter"></div>
+		</div>
+		
+		<center id="errorPopupHolder"></center>
+		<div class="footer"></div>
+		
+		<script>
+			$("#header-wrapper").load("header.html");
+			let partId = new URLSearchParams(window.location.search).get("id");
+			init();
+			
+			async function init() {
+				let partDto = await handleContinious(
+					async () => await getPart(partId), 
+					loader
+				);
+						
+				handleResponse(
+					partDto,
+					err => {},
+					async data => await renderPart(data)
+				);
+			}
+			
+			async function getPart(id) {
+				return await SendGetAsync("part/get", { id : id });
+			}
+			
+			let PART_RENDER = undefined;
+			let PART_RENDER_PROMISE = import("../scripts/draw/part_render.js").then(module => PART_RENDER = module);
+			
+			let SCENE_RENDER = undefined;
+			let SCENE_RENDER_PROMISE = import("../scripts/draw/scene_render.js").then(module => SCENE_RENDER = module);
+			
+			async function renderPart(epart) {
+				let wrapper = document.getElementById("render-wrapper");
+				if(PART_RENDER == undefined) {
+					await PART_RENDER_PROMISE;
+				}
+				if(SCENE_RENDER == undefined) {
+					await SCENE_RENDER_PROMISE;
+				}
+				
+				let renderInfo = SCENE_RENDER.renderScene(wrapper, "part-renderer");
+				let partRenderInfo = {
+					model_url : epart.model_url,
+					texture_url : epart.possible_materials[0].texture_url
+				};
+				
+				await PART_RENDER.renderPart(
+					partRenderInfo, 
+					renderInfo, 
+					part => {
+						part.cursor = 'pointer';
+						part.on(
+							'click', 
+							function(e) { 
+								//TODO
+							}
+						);
+					}, 
+					part => { }
+				);
+			}
+		</script>
+	</body>
+</html>

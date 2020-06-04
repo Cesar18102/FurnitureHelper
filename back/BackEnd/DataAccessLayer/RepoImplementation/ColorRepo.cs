@@ -5,6 +5,7 @@ using AutoMapper;
 using Models;
 using DataAccessContract;
 using DataAccess.Entities;
+using DataAccessContract.Exceptions;
 
 namespace DataAccess.RepoImplementation
 {
@@ -16,6 +17,17 @@ namespace DataAccess.RepoImplementation
         {
             PartColorEntity colorEntity = Context.colors.FirstOrDefault(color => color.name == name);
             return colorEntity == null ? null : Mapper.Map<PartColorEntity, PartColorModel>(colorEntity);
+        }
+
+        public bool HasAttachedMaterial(int id)
+        {
+            PartColorEntity color = Context.colors.FirstOrDefault(clr => clr.id == id);
+
+            if (color == null)
+                throw new EntityNotFoundException("color");
+
+            Context.Entry<PartColorEntity>(color).Collection(clr => clr.materials).Load();
+            return color.materials.Count > 0;
         }
     }
 }

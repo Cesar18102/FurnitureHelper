@@ -1,0 +1,12 @@
+.part-sampler {
+	width : 90em;
+	height : 80%;
+	
+	left : calc(50% - 45em);
+}
+
+.part-renderer {
+	width : 80em;
+	height : 80%;
+	border-radius : 0.3em;
+}

@@ -1,7 +1,12 @@
+.default-form, .vcenter {
+	position : absolute;
+	
+	top : 50%;
+	transform: translateY(-50%);
+}
+
 .default-form {
 	width : 20em;
-	
-	padding-top : 30vh;
 	margin-left : calc(50vw - 10em);
 }
 
@@ -24,6 +29,12 @@
 
 .form-input {
 	height : 1.7em;
+	border-radius : 0.5em;
+	border : 0.05em solid black;
+}
+
+.form-text-area {
+	height : 6em;
 	border-radius : 0.5em;
 	border : 0.05em solid black;
 }

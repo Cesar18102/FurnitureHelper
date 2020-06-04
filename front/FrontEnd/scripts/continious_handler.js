@@ -1,6 +1,9 @@
 async function handleContinious(continious, loader, e, prevent = true) {
 	if(e == null || e == undefined || !e.originalEvent.defaultPrevented) {
-		loader.hidden = false;
+		if(loader != undefined && loader != null) {
+			loader.hidden = false;
+		}
+		
 		let result = await continious();
 		
 		if(e != null && e != undefined && prevent) {
@@ -8,7 +11,10 @@ async function handleContinious(continious, loader, e, prevent = true) {
 			e.originalEvent.stopPropagation();
 		}
 		
-		loader.hidden = true;
+		if(loader != undefined && loader != null) {
+			loader.hidden = true;
+		}
+		
 		return result;
 	}
 	return null;

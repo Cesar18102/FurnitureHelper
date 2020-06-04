@@ -51,6 +51,13 @@ namespace BackEnd.Controllers
             return Request.ExecuteProtectedAndWrapResult<PartStore>(PartService.GetStore);
         }
 
+        public HttpResponseMessage Get(int id)
+        {
+            return Request.ExecuteProtectedAndWrapResult<PartModel>(
+                () => PartService.Get(id)
+            );
+        }
+
         [HttpGet]
         public HttpResponseMessage GetBids()
         {

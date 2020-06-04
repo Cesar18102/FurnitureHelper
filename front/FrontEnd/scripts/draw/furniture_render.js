@@ -1,10 +1,10 @@
 let OBJLoader = new THREE.OBJLoader();
 
 let SCENE_RENDER = undefined;
-let SCENE_RENDER_PROMISE = import("./scene_render.js").then(module => SCENE_RENDER = module);
+let SCENE_RENDER_PROMISE = import("/FurnitureFrontEnd/scripts/draw/scene_render.js").then(module => SCENE_RENDER = module);
 
 let SHADERS = undefined;
-let SHADERS_PROMISE = import("./shaders.js").then(module => SHADERS = module);
+let SHADERS_PROMISE = import("/FurnitureFrontEnd/scripts/draw/shaders.js").then(module => SHADERS = module);
 
 async function renderFurniture(furnitureInfo, domWrapper, style, prepare, motion) {			
 	if(SCENE_RENDER == undefined) {

@@ -1,26 +1,30 @@
-<div class="header">
+<div id="header" class="header">
 	<div id="colors" class="head-navigation-button-left">
 		<span>Colors</span>
 		<div class="fall-down-menu">
 			<div class="fall-down-menu-option" onclick="changeContent('pages/color_list.html')">View catalogue</div>
+			<div class="fall-down-menu-option" v-if="isSuperAdmin" onclick="changeContent('pages/color_add.html')">Add</div>
 		</div>
 	</div>
 	<div class="head-navigation-button-left">
 		<span>Materials</span>
 		<div class="fall-down-menu">
 			<div class="fall-down-menu-option" onclick="changeContent('pages/material_list.html')">View catalogue</div>
+			<div class="fall-down-menu-option" v-if="isSuperAdmin" onclick="changeContent('pages/material_add.html')">Add</div>
 		</div>
 	</div>
 	<div class="head-navigation-button-left">
 		<span>Furniture</span>
 		<div class="fall-down-menu">
 			<div class="fall-down-menu-option" onclick="changeContent('pages/furniture_list.html')">View catalogue</div>
+			<div class="fall-down-menu-option" v-if="isAdmin" onclick="changeContent('pages/furniture_add.html')">Add</div>
 		</div>
 	</div>
 	<div class="head-navigation-button-left">
 		<span>Part Store</span>
 		<div class="fall-down-menu">
 			<div class="fall-down-menu-option" onclick="changeContent('pages/part_list.html')">View catalogue</div>
+			<div class="fall-down-menu-option" v-if="isSuperAdmin" onclick="changeContent('pages/part_add.html')">Add</div>
 		</div>
 	</div>
 	<div class="head-navigation-button-left">
@@ -28,7 +32,14 @@
 		<div class="fall-down-menu">
 			<div class="fall-down-menu-option" onclick="changeContent('pages/build.html')">Continue</div>
 		</div>
-	</div>	
+	</div>
+	<div v-if="isAdmin" class="head-navigation-button-left">
+		<span>Concrete Part</span>
+		<div class="fall-down-menu">
+			<div class="fall-down-menu-option" onclick="changeContent('pages/concrete_part_add.html')">Add</div>
+			<div class="fall-down-menu-option" onclick="changeContent('pages/concrete_part_list.html')">List</div>
+		</div>
+	</div>
 	<div class="head-navigation-button-left">
 		<span>User Sells</span>
 		<div class="fall-down-menu">
@@ -39,11 +50,106 @@
 	<div class="head-navigation-button-right" onclick="changeContent('pages/sign_up.html')">Sign Up</div>
 	<div class="head-navigation-button-right" onclick="changeContent('pages/cart.html')">Cart</div>
 </div>
+
+<script src="/FurnitureFrontEnd/scripts/libs/vue.js"></script>
+
+<script src="/FurnitureFrontEnd/scripts/session.js"></script>
+<script src="/FurnitureFrontEnd/scripts/connector.js"></script>
+<script src="/FurnitureFrontEnd/scripts/response_handler.js"></script>
+<script src="/FurnitureFrontEnd/scripts/continious_handler.js"></script>
+
 <script>
 	let PATH_PREFIX = "/FurnitureFrontEnd/"
 			
 	function changeContent(source) {
 		if(window.location.pathname != PATH_PREFIX + source)
 			window.location = PATH_PREFIX + source;
+	}
+	
+	let COOKIE = undefined;
+	let COOKIE_PROMISE = import("/FurnitureFrontEnd/scripts/cookie.js").then(module => COOKIE = module);
+	
+	init();
+	
+	async function init() {
+		new Vue({
+			el : "#header",
+			data : {
+				isAdmin : await isAdmin(),
+				isSuperAdmin : await isSuperAdmin()
+			}
+		});
+	}
+	
+	async function joinCookies() {
+		if(COOKIE == undefined) {
+			await COOKIE_PROMISE;
+		}
+	}
+	
+	async function isAdmin() {
+		await joinCookies();
+			
+		let sessionDto = await getSessionDto();
+		if(sessionDto == null) {
+			return false;
+		}
+		
+		let savedAdminState = COOKIE.getCookie("is_admin");
+		if(savedAdminState != undefined) {
+			return savedAdminState;
+		}
+		
+		let response = await handleContinious(() => checkIfAdmin(sessionDto));
+		let result = false;
+		
+		handleResponse(
+			response,
+			err => result = false,
+			data => result = true
+		);
+		
+		COOKIE.setCookie("is_admin", result);
+		return result;
+	}
+	
+	async function isSuperAdmin() {
+		await joinCookies();
+			
+		let sessionDto = await getSessionDto();
+		if(sessionDto == null) {
+			return false;
+		}
+		
+		let savedAdminState = COOKIE.getCookie("is_super_admin");
+		if(savedAdminState != undefined) {
+			return savedAdminState;
+		}
+		
+		let response = await handleContinious(() => checkIfSuperAdmin(sessionDto));
+		let result = false;
+		
+		handleResponse(
+			response,
+			err => result = false,
+			data => result = true
+		);
+		
+		COOKIE.setCookie("is_super_admin", result);
+		return result;
+	}
+	
+	async function checkIfAdmin(session) {
+		return await SendPostAsync(
+			"admin/amiadmin",
+			JSON.stringify(session)
+		);
+	}
+	
+	async function checkIfSuperAdmin(session) {
+		return await SendPostAsync(
+			"admin/amisuperadmin",
+			JSON.stringify(session)
+		);
 	}
 </script>

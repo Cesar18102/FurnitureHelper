@@ -1,0 +1,159 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Furniture Helper</title>
+		<link rel="stylesheet" href="../styles/common.css"/>
+		<link rel="stylesheet" href="../styles/popup.css"/>
+		<link rel="stylesheet" href="../styles/loader.css"/>
+		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
+		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
+		<link rel="stylesheet" href="../styles/default_form.css"/>
+		
+		<script src="../scripts/libs/vue.js"></script>
+		<script src="../scripts/libs/jquery.js"></script>
+		<script src="../scripts/libs/jquery.serializejson.js"></script>
+		
+		<script src="../scripts/popup.js"></script>
+		<script src="../scripts/connector.js"></script>
+		<script src="../scripts/session.js"></script>
+		<script src="../scripts/validate.js"></script>
+		<script src="../scripts/continious_handler.js"></script>
+		<script src="../scripts/response_handler.js"></script>
+	</head>
+	<body>
+		<div id="header-wrapper"></div>
+		
+		<div class="content">
+			<div id="loader" class="centered-loader default-loader" hidden></div>
+			<form class="default-form" id="addColorForm">
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="name">Name:</label>
+					<input class="form-input" name="name" placeholder="красный" v-bind:value="name" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="description">Description:</label>
+					<textarea class="form-text-area" name="description" v-bind:value="description"></textarea>
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="hex" required>Value:</label>
+					<input class="form-input" name="hex" id="hex" type="color" v-bind:value="hex" required />
+				</div>
+				<div class="form-input-wrapper">
+					<label class="form-label-required" for="intensity" required>Intensity:</label>
+					<input class="form-input" name="intensity" id="intensity" 
+						   type="number" min="0" max="255" value="100" 
+						   v-bind:value="intensity" required />
+				</div>
+				<center class="form-submit-wrapper">
+					<input class="form-submit" type="submit" value="Add" />
+				</center>
+			</form>
+		</div>
+		
+		<center id="errorPopupHolder"></center>
+		<div class="footer"></div>
+	
+		<script>
+			$("#header-wrapper").load("header.html");
+			
+			let editedColorId = new URLSearchParams(window.location.search).get("id");
+			let editedColor = {
+				name : undefined,
+				description : undefined,
+				hex : undefined,
+				intensity : undefined
+			};
+			
+			if(editedColorId) {
+				new Vue({
+					el : "#addColorForm",
+					data : editedColor
+				});
+			}
+		
+			let error = { message : undefined };
+			let errorPopup = createPopup({
+				holder : "errorPopupHolder", bodyStyle : "popup-body", wrapperStyle : "popup-wrapper",
+				content : "<div id='errorPopup'>{{ message }}</div>",
+				vue : () => {
+					new Vue({
+						el : "#errorPopup",
+						data : error
+					});
+				}
+			});
+			
+			async function init() {
+				let form = document.getElementById("addColorForm");
+				let loader = document.getElementById("loader");
+				
+				$(form).submit(async e => addColorHandler(
+					await handleContinious(addColor, loader, e)
+				));
+				
+				if(editedColorId) {
+					let colorDto = await handleContinious(
+						async () => await getColor(editedColorId), 
+						loader
+					);
+					
+					handleResponse(
+						colorDto,
+						err => {},
+						data => {
+							editedColor.name = data.name;
+							editedColor.description = data.description;
+							editedColor.hex = "#" + data.hex.substr(0, 6);
+							editedColor.intensity = parseInt(data.hex.substr(6, 2), 16);
+						}
+					);
+				}
+			}
+			
+			async function getColor(id) {
+				return await SendGetAsync("colors/get", {
+					colorId : id
+				});
+			}
+			
+			async function addColor() {
+				let addColorData = $("form#addColorForm").serializeJSON();
+				
+				let session = await getSessionDto();
+				
+				if(session == null) {
+					changeContent('pages/log_in.html');
+				}
+				
+				addColorData.super_admin_session = session;
+				addColorData.hex = addColorData.hex.replace("#", "");
+				
+				let intensity = parseInt(addColorData.intensity);
+				addColorData.hex += (intensity < 16 ? "0" : "") + intensity.toString(16);
+				
+				if(editedColorId) {
+					addColorData.id = editedColorId;
+					return await SendPostAsync("colors/update", JSON.stringify(addColorData));
+				} else {
+					return await SendPostAsync("colors/add", JSON.stringify(addColorData));
+				}
+			}
+			
+			function addColorHandler(result) {
+				handleResponse(
+					result,
+					err => {
+						error.message = err.error_message;
+						errorPopup.show();
+					},
+					data => { 
+						error.message = (editedColorId ? "Color updated" : "Color added");
+						errorPopup.show();
+					}
+				);
+			}
+			
+			init();
+		</script>
+	</body>
+</html>

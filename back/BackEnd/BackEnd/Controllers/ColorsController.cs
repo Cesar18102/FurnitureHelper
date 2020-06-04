@@ -46,5 +46,13 @@ namespace BackEnd.Controllers
         {
             return Request.ExecuteProtectedAndWrapResult<PartColorModel>(() => ColorsService.Get(colorId));
         }
+
+        [HttpPost]
+        public HttpResponseMessage Delete([FromBody] DeleteDto deleteDto)
+        {
+            return Request.ExecuteProtectedAndWrapResult<PartColorModel>(
+                () => ColorsService.DeleteColor(deleteDto)
+            );
+        }
     }
 }
