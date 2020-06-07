@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/dsltools/UseCaseModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/UseCaseModel"
   dslVersion="1.0.0.0"
   Id="56a7638f-6724-4430-87a7-ac6d54683bb1"
   name="FurnitureHelperMobileDiagrmas" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -527,7 +527,7 @@
     <packageHasNamedElement>
       <subsystem
         Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-        name="Subsystem1"
+        name="FurnitureHelper"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
@@ -651,7 +651,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -675,7 +675,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -698,7 +698,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -721,7 +721,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -751,7 +751,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -765,7 +765,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -792,12 +792,6 @@
               LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
           </include>
         </additions>
-        <subjects>
-          <subsystemMoniker
-            Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
-            LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
-        </subjects>
       </useCase>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -815,12 +809,6 @@
               LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
           </include>
         </additions>
-        <subjects>
-          <subsystemMoniker
-            Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
-            LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
-        </subjects>
       </useCase>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -848,7 +836,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -980,7 +968,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -994,7 +982,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -1004,14 +992,7 @@
         Id="5b72a00c-9134-48d2-89a5-415a0c249f2e"
         name="Mark parts &quot;for sell&quot;"
         isAbstract="false"
-        isLeaf="false">
-        <subjects>
-          <subsystemMoniker
-            Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
-            LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
-        </subjects>
-      </useCase>
+        isLeaf="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <useCase
@@ -1028,12 +1009,6 @@
               LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
           </include>
         </additions>
-        <subjects>
-          <subsystemMoniker
-            Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
-            LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
-        </subjects>
       </useCase>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1041,14 +1016,7 @@
         Id="828c4dd2-045d-47b8-90b8-5c839b9eeec9"
         name="Get &quot;for sell&quot; list"
         isAbstract="false"
-        isLeaf="false">
-        <subjects>
-          <subsystemMoniker
-            Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
-            LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
-        </subjects>
-      </useCase>
+        isLeaf="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <useCase
@@ -1068,7 +1036,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -1082,7 +1050,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -1114,7 +1082,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -1146,7 +1114,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -1160,7 +1128,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -1174,7 +1142,7 @@
         <subjects>
           <subsystemMoniker
             Id="4d6ad98a-e093-41a4-a9d4-727e660f881c"
-            LastKnownName="Subsystem1"
+            LastKnownName="FurnitureHelper"
             LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
         </subjects>
       </useCase>
@@ -1817,80 +1785,6 @@
             </type_NamedElement>
           </property>
         </ownedAttributesInternal>
-        <ownedOperationsInternal>
-          <operation
-            Id="19e52bc0-9fd0-4b61-86e1-096c384691a9"
-            name="GetManufacturerSells"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="41d77423-f96a-4de7-ba0a-c503551b2d31"
-                  name="accountExtensionId"
-                  direction="In">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="6ab26168-5f51-4595-a037-d574777d63f6"
-                      LastKnownName="int"
-                      LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="ec165d0b-92d8-468c-b01b-19ba78b32e63"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="fe7dce8a-a794-4c34-bc4e-58e6f60028be"
-                      LastKnownName="IEnumerable&lt;BackEnd::ManufacturerSell&gt;"
-                      LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="51a335d3-ea45-4839-9707-db61760c1d91"
-            name="GetUserSells"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="6befacc0-f123-463a-aa5c-1dd3ad842764"
-                  name="accountExtensionId"
-                  direction="In">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="6ab26168-5f51-4595-a037-d574777d63f6"
-                      LastKnownName="int"
-                      LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="55227c80-31ba-4478-a485-f831469732a4"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="d81ed780-e312-4960-baec-e44df5a971fd"
-                      LastKnownName="IEnumerable&lt;BackEnd::UserSell&gt;"
-                      LastKnownLocation="FurnitureHelperMobileDiagrmas.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>

@@ -5,7 +5,6 @@
 		<link rel="stylesheet" href="../styles/common.css"/>
 		<link rel="stylesheet" href="../styles/popup.css"/>
 		<link rel="stylesheet" href="../styles/loader.css"/>
-		<link rel="stylesheet" href="../styles/part_add.css"/>
 		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
 		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
 		<link rel="stylesheet" href="../styles/default_form.css"/>
@@ -32,7 +31,7 @@
 					<input class="form-input" name="name" placeholder="Балка" v-bind:value="part.name" required />
 				</div>
 				<div class="form-input-wrapper">
-					<label class="form-label-required" for="description">Description:</label>
+					<label class="form-label" for="description">Description:</label>
 					<textarea class="form-text-area" name="description" v-bind:value="part.description"></textarea>
 				</div>
 				<div class="form-input-wrapper">
@@ -193,10 +192,7 @@
 						error.message = err.error_message;
 						errorPopup.show();
 					},
-					data => { 
-						error.message = (editedPartId ? "Part updated" : "Part added");
-						errorPopup.show();
-					}
+					data => changeContent('pages/place_helpers.html?id=' + editedPartId)
 				);
 			}
 		</script>

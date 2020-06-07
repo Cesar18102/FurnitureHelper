@@ -3,7 +3,7 @@ let OBJLoader = new THREE.OBJLoader();
 let SHADERS = undefined;
 let SHADERS_PROMISE = import("/FurnitureFrontEnd/scripts/draw/shaders.js").then(module => SHADERS = module);
 
-export async function renderPart(part, renderInfo, prepare, motion) {
+export async function renderPart(part, renderInfo, prepare, motion, cameraMotion) {
 	if(SHADERS == undefined) {
 		await SHADERS_PROMISE;
 	}
@@ -20,19 +20,27 @@ export async function renderPart(part, renderInfo, prepare, motion) {
 		OBJLoader.load(part.model_url, object => {
 			let texture = new THREE.TextureLoader().load(part.texture_url);
 			
-			let material = new THREE.MeshPhysicalMaterial({ 
-				map : texture, 
-				flatShading : true
-			});
-							
-			material.onBeforeCompile = shader => {
-				if(part.color != undefined) {
-					shader.uniforms.mycolor = { value : new THREE.Color(red * alpha, green * alpha, blue * alpha) };
-				}
-								
-				shader.vertexShader = SHADERS.defaultVertex();
-				shader.fragmentShader = SHADERS.defaultFragment(part.color != undefined);
-			};
+			let material = undefined;
+			
+			if(renderInfo.light != undefined) {
+				material = new THREE.MeshPhysicalMaterial({ 
+					map : texture, 
+					flatShading : true
+				});
+				
+				material.onBeforeCompile = shader => {
+					if(part.color != undefined) {
+						shader.uniforms.mycolor = { value : new THREE.Color(red * alpha, green * alpha, blue * alpha) };
+					}
+									
+					shader.vertexShader = SHADERS.defaultVertex();
+					shader.fragmentShader = SHADERS.defaultFragment(part.color != undefined);
+				};
+			} else {
+				material = new THREE.MeshNormalMaterial({ 
+					flatShading : true
+				});
+			}
 							
 			let geometry = object.children[0].geometry;
 			let mesh = new THREE.Mesh(geometry, material);
@@ -43,7 +51,10 @@ export async function renderPart(part, renderInfo, prepare, motion) {
 			}
 			
 			let interaction = new THREE.Interaction(renderInfo.renderer, renderInfo.scene, renderInfo.camera);
-			render(renderInfo.renderer, renderInfo.scene, renderInfo.camera, motion == undefined ? undefined : () => motion(mesh));
+			render(
+				renderInfo.renderer, renderInfo.scene, renderInfo.camera, 
+				motion == undefined ? undefined : () => motion(mesh), cameraMotion
+			);
 			resolve(mesh);
 		}, undefined, function (error) {
 			reject(error);
@@ -51,12 +62,19 @@ export async function renderPart(part, renderInfo, prepare, motion) {
 	});
 }
 
-function render(renderer, scene, camera, motion) {
-	requestAnimationFrame(() => render(renderer, scene, camera, motion));
+function render(renderer, scene, camera, motion, cameraMotion) {
+	requestAnimationFrame(
+		() => render(renderer, scene, camera, motion, cameraMotion)
+	);
 	renderer.render(scene, camera);
 	
 	if(motion != undefined) {
 		motion();
+	}
+	
+	if(cameraMotion != undefined) {
+		cameraMotion(camera);
+		camera.updateProjectionMatrix();
 	}
 }
 

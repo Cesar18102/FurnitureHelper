@@ -1,19 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/UseCaseModel" dslVersion="1.0.0.0" Id="486904b1-b8d1-4da2-b094-a7cdd7e3df68" name="ClassMobile" linkedPackageId="6fca8c75-0a7f-4f0b-934a-5ba0dff9caa4" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
-  <profileInstances>
-    <packageHasProfileInstances Id="eb6f5514-7731-4d6f-b526-bb3f35aa5b27">
-      <profileInstance Id="df1ac396-3f1f-4631-b55d-fd7260b34eed" name="StandardProfileL2">
-        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
-      </profileInstance>
-      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="f7617ef8-5792-47f1-a9ae-08deb7a7b3fc">
-      <profileInstance Id="76c4ea28-5ea0-4aad-9c50-02374c7b8cdc" name="StandardProfileL3">
-        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
-      </profileInstance>
-      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
-    </packageHasProfileInstances>
-  </profileInstances>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/UseCaseModel" dslVersion="1.0.0.0" Id="486904b1-b8d1-4da2-b094-a7cdd7e3df68" name="ClassMobile" linkedPackageId="6fca8c75-0a7f-4f0b-934a-5ba0dff9caa4" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
   <packagedElements>
     <packageHasNamedElement>
       <referencedType Id="65332f44-0816-4134-9119-cc8387e5b11d" name="string" isAbstract="false" isLeaf="false" cachedFullName="string">
@@ -78,16 +64,6 @@
     <packageHasNamedElement>
       <referencedType Id="d12cd43b-89bd-48f3-96b8-623efb6b75b8" name="int" isAbstract="false" isLeaf="false" cachedFullName="int">
         <elementDefinition Id="6ab26168-5f51-4595-a037-d574777d63f6" />
-      </referencedType>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <referencedType Id="e52c8c9d-939a-4972-8048-79879e1608b4" name="IEnumerable&lt;BackEnd::ManufacturerSell&gt;" isAbstract="false" isLeaf="false" cachedFullName="IEnumerable&lt;BackEnd::ManufacturerSell&gt;">
-        <elementDefinition Id="fe7dce8a-a794-4c34-bc4e-58e6f60028be" />
-      </referencedType>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <referencedType Id="e71fc684-28bc-4657-b163-cae04aeb444f" name="IEnumerable&lt;BackEnd::UserSell&gt;" isAbstract="false" isLeaf="false" cachedFullName="IEnumerable&lt;BackEnd::UserSell&gt;">
-        <elementDefinition Id="d81ed780-e312-4960-baec-e44df5a971fd" />
       </referencedType>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -486,50 +462,6 @@
             </type_NamedElement>
           </property>
         </ownedAttributesInternal>
-        <ownedOperationsInternal>
-          <operation Id="ebfd6f29-8fb7-4033-beaa-8ae3eab872b0" name="GetManufacturerSells" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
-            <elementDefinition Id="19e52bc0-9fd0-4b61-86e1-096c384691a9" />
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="2e9a4125-8c8d-4c4f-a1d5-0aa34df2ce29" name="accountExtensionId" direction="In">
-                  <elementDefinition Id="41d77423-f96a-4de7-ba0a-c503551b2d31" />
-                  <type_NamedElement>
-                    <referencedTypeMoniker Id="81e2bfcd-2c35-4ef8-a6e5-524c9c2c671f" LastKnownName="int" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="a0203396-cd6e-4e39-9359-5bf8e13e4717" direction="Return">
-                  <elementDefinition Id="ec165d0b-92d8-468c-b01b-19ba78b32e63" />
-                  <type_NamedElement>
-                    <referencedTypeMoniker Id="e52c8c9d-939a-4972-8048-79879e1608b4" LastKnownName="IEnumerable&lt;BackEnd::ManufacturerSell&gt;" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation Id="92df287c-3dcf-47f1-99c1-61491645e0d8" name="GetUserSells" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
-            <elementDefinition Id="51a335d3-ea45-4839-9707-db61760c1d91" />
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="ffaf24de-2c6e-46b4-96ac-140e6b8d1505" name="accountExtensionId" direction="In">
-                  <elementDefinition Id="6befacc0-f123-463a-aa5c-1dd3ad842764" />
-                  <type_NamedElement>
-                    <referencedTypeMoniker Id="81e2bfcd-2c35-4ef8-a6e5-524c9c2c671f" LastKnownName="int" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="e72f8f92-f7a4-4e91-9016-8711dcb48295" direction="Return">
-                  <elementDefinition Id="55227c80-31ba-4478-a485-f831469732a4" />
-                  <type_NamedElement>
-                    <referencedTypeMoniker Id="e71fc684-28bc-4657-b163-cae04aeb444f" LastKnownName="IEnumerable&lt;BackEnd::UserSell&gt;" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
@@ -1154,5 +1086,19 @@
   </packagedElements>
   <package Id="6fca8c75-0a7f-4f0b-934a-5ba0dff9caa4" name="FurnitureHelperMobileDiagrmas">
     <elementDefinition Id="56a7638f-6724-4430-87a7-ac6d54683bb1" />
+    <profileInstances>
+      <packageHasProfileInstances Id="eb6f5514-7731-4d6f-b526-bb3f35aa5b27">
+        <profileInstance Id="df1ac396-3f1f-4631-b55d-fd7260b34eed" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="f7617ef8-5792-47f1-a9ae-08deb7a7b3fc">
+        <profileInstance Id="76c4ea28-5ea0-4aad-9c50-02374c7b8cdc" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
   </package>
 </logicalClassDesignerModel>

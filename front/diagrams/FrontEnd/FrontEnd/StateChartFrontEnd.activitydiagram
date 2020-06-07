@@ -1,19 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/UseCaseModel" xmlns:dm11="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" dslVersion="1.0.0.0" Id="83cc01ce-0459-443c-b36d-8bb2d62b55de" name="StateChartFrontEnd" linkedPackageId="4b8a3c07-33a6-44cf-9142-f883517a4b9c" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
-  <profileInstances>
-    <packageHasProfileInstances Id="34634e6e-84d6-4086-9907-f6c0094e07c0">
-      <profileInstance Id="94a4bcdf-0a9a-4003-8062-ee0b4bc595e8" name="StandardProfileL2">
-        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
-      </profileInstance>
-      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="81969310-fd7f-4055-9269-0cd2dcbc828f">
-      <profileInstance Id="42814e5d-380b-417e-aacc-1fc017b12b54" name="StandardProfileL3">
-        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
-      </profileInstance>
-      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
-    </packageHasProfileInstances>
-  </profileInstances>
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm11="http://schemas.microsoft.com/dsltools/UseCaseModel" dslVersion="1.0.0.0" Id="83cc01ce-0459-443c-b36d-8bb2d62b55de" name="StateChartFrontEnd" linkedPackageId="4b8a3c07-33a6-44cf-9142-f883517a4b9c" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
   <packagedElements>
     <activityRootModelHasActivity>
       <activity Id="61559ab5-2d4e-4837-825b-b39e2f037e10" name="StateChartFrontEnd" isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
@@ -80,8 +66,12 @@
             <elementDefinition Id="f501029d-df8d-4579-b951-5776def4c121" />
             <flowNodeTargets>
               <controlFlow Id="0aa934b5-362c-415c-aa25-02badc96cbb4" isLeaf="false">
-                <opaqueActionMoniker Id="86535c8c-017f-44ef-8fd5-0433045adbb4" LastKnownName="Get Furniture Item Info" />
+                <opaqueActionMoniker Id="86535c8c-017f-44ef-8fd5-0433045adbb4" LastKnownName="View Furniture Item Info" />
                 <elementDefinition Id="6208c530-9ca6-406b-8531-458d1fca35ee" />
+              </controlFlow>
+              <controlFlow Id="9891485e-4dfc-40d6-902b-0cebe6f89dbf" isLeaf="false">
+                <opaqueActionMoniker Id="36318d7f-086f-45f6-a9a8-630c835f73e1" LastKnownName="Select furnituire item to build" />
+                <elementDefinition Id="27dc877e-8ae6-4a8b-8850-b307a1967470" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
@@ -94,41 +84,15 @@
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <opaqueAction Id="f2be725c-dd0b-4907-9547-4dca984da5d6" name="Get &quot;for sell&quot; parts list" isLeaf="false">
-            <elementDefinition Id="5bbcc398-a8ca-4ed4-85ea-2d220d7379be" />
-            <flowNodeTargets>
-              <controlFlow Id="0eb68580-2776-4871-8e9d-9457933969de" isLeaf="false">
-                <joinNodeMoniker Id="53a15dc6-bbab-4aaa-9f9c-4a1255134a7d" LastKnownName="Join4" />
-                <elementDefinition Id="92b0e1ff-2cee-4e5c-8f40-ef418e3fafb4" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
           <joinNode Id="f0ffa5a7-3564-45f4-9c95-5de645c8a7ae" name="Join1" isLeaf="false">
             <elementDefinition Id="62e8e18a-910c-4246-a4bb-b68f64b34455" />
             <flowNodeTargets>
-              <controlFlow Id="a8e967f6-b63f-445e-8213-7c06f7359b60" isLeaf="false">
-                <forkNodeMoniker Id="c971b10d-d0b2-4bfa-869c-8c4d40459d0f" LastKnownName="Fork3" />
-                <elementDefinition Id="4c7a74bd-fe4b-40ee-8ca8-6ced51329a55" />
+              <controlFlow Id="3825fd84-3b62-4bd5-9713-89c9955f7e8f" isLeaf="false">
+                <opaqueActionMoniker Id="4abf3215-7411-414c-bdf2-1e2ec6e4d5b3" LastKnownName="Get furniture parts list" />
+                <elementDefinition Id="7beaecb0-5f71-40c0-bfa4-7a3df5fdd1bb" />
               </controlFlow>
             </flowNodeTargets>
           </joinNode>
-          <forkNode Id="c971b10d-d0b2-4bfa-869c-8c4d40459d0f" name="Fork3" isLeaf="false">
-            <elementDefinition Id="26115b36-56de-427b-9abc-b3c14c86da75" />
-            <flowNodeTargets>
-              <controlFlow Id="8419edd8-3df5-4dd3-9e2f-da187a64795d" isLeaf="false">
-                <opaqueActionMoniker Id="f2be725c-dd0b-4907-9547-4dca984da5d6" LastKnownName="Get &quot;for sell&quot; parts list" />
-                <elementDefinition Id="f5d1341b-604e-4904-9e49-8878066169fa" />
-              </controlFlow>
-              <controlFlow Id="e6d615d6-389b-48d4-a929-f080cfa58e1c" isLeaf="false">
-                <opaqueActionMoniker Id="4abf3215-7411-414c-bdf2-1e2ec6e4d5b3" LastKnownName="Get furniture parts list" />
-                <elementDefinition Id="fcf0c6c8-441b-4c00-a57f-c2a05af7779f" />
-              </controlFlow>
-              <controlFlow Id="134d9cec-14f9-43f3-906e-ca55d1137e94" isLeaf="false">
-                <opaqueActionMoniker Id="83d05c1a-540b-4b92-bc4b-01d6fc8972f1" LastKnownName="Get Furniture Items List" />
-                <elementDefinition Id="9f7deec3-b640-433f-9cd6-e5839d930d27" />
-              </controlFlow>
-            </flowNodeTargets>
-          </forkNode>
           <joinNode Id="33644f54-c8f3-492d-86d8-04baad9b9599" name="Join3" isLeaf="false">
             <elementDefinition Id="21498218-2204-477d-827c-4cd57e4511c1" />
             <flowNodeTargets>
@@ -138,21 +102,12 @@
               </controlFlow>
             </flowNodeTargets>
           </joinNode>
-          <opaqueAction Id="037f4eec-6859-414b-b5a9-4691509f643f" name="Buy parts" isLeaf="false">
+          <opaqueAction Id="037f4eec-6859-414b-b5a9-4691509f643f" name="Order" isLeaf="false">
             <elementDefinition Id="177056a6-5ad4-459b-8bf4-db07beecfe48" />
             <flowNodeTargets>
-              <controlFlow Id="2a130c3f-3a4e-46ae-aad0-9dfadc0b089f" isLeaf="false">
-                <opaqueActionMoniker Id="a028b006-5619-4a86-8782-be3cec25727b" LastKnownName="Pay" />
-                <elementDefinition Id="4033865b-d31a-4b0c-b069-44d2b4bba495" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction Id="17c10221-587f-4bc0-8ccf-a69c1b167bfa" name="Get Owned Parts List" isLeaf="false">
-            <elementDefinition Id="07eac6e3-2e89-48a1-8ab7-306dcc571927" />
-            <flowNodeTargets>
-              <controlFlow Id="13b46ca5-fc13-46c3-bfdb-9ed1d9a7d68b" isLeaf="false">
-                <opaqueActionMoniker Id="1d8934a3-677b-48d3-a35c-067f970e23e6" LastKnownName="Mark parts as &quot;for sell&quot;" />
-                <elementDefinition Id="89ba525e-2463-4022-91d7-9ab0dc4f36b8" />
+              <controlFlow Id="1a77cef0-e0c5-455c-92f4-133862d91089" isLeaf="false">
+                <decisionNodeMoniker Id="4ef51ba8-f97f-41af-b71d-e1f483826d6e" LastKnownName="Decision1" />
+                <elementDefinition Id="5d4a20f4-c126-43b5-853f-08f4dbc666f6" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
@@ -163,32 +118,18 @@
                 <joinNodeMoniker Id="f0ffa5a7-3564-45f4-9c95-5de645c8a7ae" LastKnownName="Join1" />
                 <elementDefinition Id="411789ab-3be3-415a-b453-26ad5312bf9b" />
               </controlFlow>
-              <controlFlow Id="75b013c2-4884-49e6-8f1a-773e7e987242" isLeaf="false">
-                <opaqueActionMoniker Id="17c10221-587f-4bc0-8ccf-a69c1b167bfa" LastKnownName="Get Owned Parts List" />
-                <elementDefinition Id="1a66daa2-d83d-448e-a7d1-bec6814a1bce" />
-              </controlFlow>
-              <controlFlow Id="af6546bb-72d8-4a9a-9ca9-ed0ffdd009a1" isLeaf="false">
-                <opaqueActionMoniker Id="d52a4e12-1317-4687-9a98-c6c6f1e482ad" LastKnownName="Get Owned Concrete Parts List" />
-                <elementDefinition Id="052fd826-8b2a-4e46-a220-752a0066996f" />
-              </controlFlow>
-              <controlFlow Id="e6b948e6-fd8a-467f-8ced-ccba1e895a2a" isLeaf="false">
-                <opaqueActionMoniker Id="7c76710b-df63-46d7-8eb2-aa8a6dc1cf32" LastKnownName="Get Build List" />
-                <elementDefinition Id="21db6f31-32fa-40d8-9213-678d1b527f19" />
+              <controlFlow Id="20d9d049-0d82-4d2e-b154-bcb23324dc21" isLeaf="false">
+                <opaqueActionMoniker Id="83d05c1a-540b-4b92-bc4b-01d6fc8972f1" LastKnownName="Get Furniture Items List" />
+                <elementDefinition Id="dfb5d84a-9e5c-4839-be2e-c84c78d3929d" />
               </controlFlow>
             </flowNodeTargets>
           </forkNode>
-          <opaqueAction Id="d52a4e12-1317-4687-9a98-c6c6f1e482ad" name="Get Owned Concrete Parts List" isLeaf="false">
-            <elementDefinition Id="80765fea-39a9-4173-9677-b5a53337c3e5" />
-          </opaqueAction>
-          <opaqueAction Id="1d8934a3-677b-48d3-a35c-067f970e23e6" name="Mark parts as &quot;for sell&quot;" isLeaf="false">
-            <elementDefinition Id="2ead4291-966a-48d2-853a-ba6ec27ab073" />
-          </opaqueAction>
           <opaqueAction Id="945dcfd0-5d24-4f62-a5ea-8ac0bde4f5d1" name="Add to cart" isLeaf="false">
             <elementDefinition Id="f316e75e-be43-490c-a0c5-b57331cc7529" />
             <flowNodeTargets>
-              <controlFlow Id="00bbd68d-319b-4233-b513-23782db704c2" isLeaf="false">
-                <joinNodeMoniker Id="53a15dc6-bbab-4aaa-9f9c-4a1255134a7d" LastKnownName="Join4" />
-                <elementDefinition Id="d9a324fc-1006-4bfc-af58-70169ec4bd97" />
+              <controlFlow Id="c59a6557-7f5a-4947-ae71-341136d20b70" isLeaf="false">
+                <opaqueActionMoniker Id="037f4eec-6859-414b-b5a9-4691509f643f" LastKnownName="Order" />
+                <elementDefinition Id="d9e73c8e-c731-43ea-9281-0d904507d037" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
@@ -210,57 +151,88 @@
               </controlFlow>
             </flowNodeTargets>
           </joinNode>
-          <opaqueAction Id="86535c8c-017f-44ef-8fd5-0433045adbb4" name="Get Furniture Item Info" isLeaf="false">
+          <opaqueAction Id="86535c8c-017f-44ef-8fd5-0433045adbb4" name="View Furniture Item Info" isLeaf="false">
             <elementDefinition Id="de6fd8be-b114-418b-8c24-f44d7e5c7264" />
-            <flowNodeTargets>
-              <controlFlow Id="5e7e7e98-a142-44e8-942a-a94770d4193a" isLeaf="false">
-                <joinNodeMoniker Id="53a15dc6-bbab-4aaa-9f9c-4a1255134a7d" LastKnownName="Join4" />
-                <elementDefinition Id="fe94b459-cef3-4e85-846d-318bf8af92ed" />
-              </controlFlow>
-            </flowNodeTargets>
           </opaqueAction>
-          <opaqueAction Id="7c76710b-df63-46d7-8eb2-aa8a6dc1cf32" name="Get Build List" isLeaf="false">
-            <elementDefinition Id="3fbcf3be-e42e-4f3b-849b-9bd0cac1b801" />
-            <flowNodeTargets>
-              <controlFlow Id="a1a08bca-8e8c-4b89-b9f1-c8e758191309" isLeaf="false">
-                <opaqueActionMoniker Id="36318d7f-086f-45f6-a9a8-630c835f73e1" LastKnownName="Select furnituire item to build" />
-                <elementDefinition Id="65a62511-a099-4d78-b3e0-c2ff5259b12a" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <joinNode Id="53a15dc6-bbab-4aaa-9f9c-4a1255134a7d" name="Join4" isLeaf="false">
-            <elementDefinition Id="efc67f7b-1218-45a9-835e-5b955abd8629" />
-            <flowNodeTargets>
-              <controlFlow Id="f97f5b31-1c4c-4f85-b418-6b48f839b0e0" isLeaf="false">
-                <decisionNodeMoniker Id="4ef51ba8-f97f-41af-b71d-e1f483826d6e" LastKnownName="Decision1" />
-                <elementDefinition Id="9392bfee-a501-4db7-a801-ae50a4c3fa71" />
-              </controlFlow>
-            </flowNodeTargets>
-          </joinNode>
           <decisionNode Id="4ef51ba8-f97f-41af-b71d-e1f483826d6e" name="Decision1" isLeaf="false">
             <elementDefinition Id="782e6ada-1690-448e-a1a8-c521d822ea33" />
             <flowNodeTargets>
-              <controlFlow Id="63ad3d95-f24b-41d8-b0f8-e25fcb09885d" guard="Authorired" isLeaf="false">
-                <opaqueActionMoniker Id="037f4eec-6859-414b-b5a9-4691509f643f" LastKnownName="Buy parts" />
-                <elementDefinition Id="0c98e010-f138-4ea1-9fe2-c7bbbac9488a" />
-              </controlFlow>
               <controlFlow Id="020e7f25-cfe6-4f05-bda4-ccfb713ade7d" guard="Not Authorired" isLeaf="false">
                 <opaqueActionMoniker Id="f068f0a2-eb99-4f90-8b46-9a82fe37433f" LastKnownName="Authorize" />
                 <elementDefinition Id="7ac796fd-1536-48b9-8525-dcd1ccb96b51" />
+              </controlFlow>
+              <controlFlow Id="7fc7b425-b5aa-426e-880f-cc163b77631c" guard="Authourized" isLeaf="false">
+                <opaqueActionMoniker Id="a028b006-5619-4a86-8782-be3cec25727b" LastKnownName="Pay" />
+                <elementDefinition Id="74b4e65b-d90a-4070-bbd9-af14018bb461" />
               </controlFlow>
             </flowNodeTargets>
           </decisionNode>
           <opaqueAction Id="36318d7f-086f-45f6-a9a8-630c835f73e1" name="Select furnituire item to build" isLeaf="false">
             <elementDefinition Id="470547eb-7442-4a29-8677-efcbea2eab6c" />
             <flowNodeTargets>
-              <controlFlow Id="274585d9-4d06-45e2-865a-a463f2f4ca39" isLeaf="false">
-                <opaqueActionMoniker Id="46a1ce85-f312-4f6e-bb02-6bf8a5164ea1" LastKnownName="Perform instruction steps" />
-                <elementDefinition Id="9eca4b3b-dece-44c2-97fa-f13961a4e388" />
+              <controlFlow Id="0abeb51e-16e4-4eb5-a624-b322ae341978" isLeaf="false">
+                <opaqueActionMoniker Id="e09af5da-7a07-4c44-8360-43a390e7b44b" LastKnownName="Watch 3D instruction" />
+                <elementDefinition Id="ac46267e-b19b-4feb-957b-5eace512c949" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <opaqueAction Id="46a1ce85-f312-4f6e-bb02-6bf8a5164ea1" name="Perform instruction steps" isLeaf="false">
+          <opaqueAction Id="46a1ce85-f312-4f6e-bb02-6bf8a5164ea1" name="Perform instruction step" isLeaf="false">
             <elementDefinition Id="def15907-8fdf-4d64-86b8-7d872c213943" />
+            <flowNodeTargets>
+              <controlFlow Id="f7a9b086-934f-4be2-8922-2f913afaee28" isLeaf="false">
+                <decisionNodeMoniker Id="eeea409f-abe9-440e-98b3-9e3585cc5528" LastKnownName="Decision2" />
+                <elementDefinition Id="f8542c22-66ee-4e24-b4fa-3cb60a4a5afd" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="e09af5da-7a07-4c44-8360-43a390e7b44b" name="Watch 3D instruction" isLeaf="false">
+            <elementDefinition Id="30d521c5-5f7a-4e5a-b72f-bd0c958993f3" />
+            <flowNodeTargets>
+              <controlFlow Id="5adab528-085d-47e3-80be-ae9b0ef627cf" isLeaf="false">
+                <opaqueActionMoniker Id="46a1ce85-f312-4f6e-bb02-6bf8a5164ea1" LastKnownName="Perform instruction step" />
+                <elementDefinition Id="ddd0004b-3b12-476d-b79f-87e04ac3ddfa" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <decisionNode Id="eeea409f-abe9-440e-98b3-9e3585cc5528" name="Decision2" isLeaf="false">
+            <elementDefinition Id="b56a5c0e-85ad-4c2f-a0e5-007b192a843f" />
+            <flowNodeTargets>
+              <controlFlow Id="7861f4c2-f1d1-4f41-8ec2-8c9cb48f6431" guard="Performed correctly" isLeaf="false">
+                <opaqueActionMoniker Id="2294b362-526d-40f9-ac65-b2bab15b2da6" LastKnownName="OK Sound" />
+                <elementDefinition Id="e38ed076-1a2d-4c51-bef4-e3e57d7cb811" />
+              </controlFlow>
+              <controlFlow Id="779a0d5d-617f-427f-91eb-2136133291bf" guard="Performed incorrectly" isLeaf="false">
+                <opaqueActionMoniker Id="2e36edaf-f3d1-4c14-9fbc-bf3d51626159" LastKnownName="Mistake sound" />
+                <elementDefinition Id="d435a6fe-c9db-4f0c-84b4-5e6d696207f1" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <opaqueAction Id="2294b362-526d-40f9-ac65-b2bab15b2da6" name="OK Sound" isLeaf="false">
+            <elementDefinition Id="fd8da0e0-7e2d-4853-9731-394f9fb18695" />
+            <flowNodeTargets>
+              <controlFlow Id="33e5ccd5-3c69-4c40-8d99-710b99f38698" isLeaf="false">
+                <opaqueActionMoniker Id="dcc9f77c-517c-4c6d-8f11-d41342836909" LastKnownName="Proceed to the next step" />
+                <elementDefinition Id="3f6c3404-7d41-4a63-a539-64824cb094b5" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="dcc9f77c-517c-4c6d-8f11-d41342836909" name="Proceed to the next step" isLeaf="false">
+            <elementDefinition Id="79b05dd8-d7eb-484c-afd6-89f06facafe7" />
+            <flowNodeTargets>
+              <controlFlow Id="ad0c1232-b7ae-41f0-b2dd-b63f0da14cca" isLeaf="false">
+                <opaqueActionMoniker Id="e09af5da-7a07-4c44-8360-43a390e7b44b" LastKnownName="Watch 3D instruction" />
+                <elementDefinition Id="fe54152b-a0ad-4351-b36e-0f98558f42a0" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="2e36edaf-f3d1-4c14-9fbc-bf3d51626159" name="Mistake sound" isLeaf="false">
+            <elementDefinition Id="57a00241-7521-49f3-9a75-a86b032a512d" />
+            <flowNodeTargets>
+              <controlFlow Id="1e373041-f5e4-4cb8-89ef-32b060349b46" isLeaf="false">
+                <opaqueActionMoniker Id="e09af5da-7a07-4c44-8360-43a390e7b44b" LastKnownName="Watch 3D instruction" />
+                <elementDefinition Id="326e957a-50f2-4fa8-82f6-bc6a16fe9c29" />
+              </controlFlow>
+            </flowNodeTargets>
           </opaqueAction>
         </nodes>
       </activity>
@@ -268,5 +240,19 @@
   </packagedElements>
   <package Id="4b8a3c07-33a6-44cf-9142-f883517a4b9c" name="FrontEnd">
     <elementDefinition Id="4d0c699c-8761-497c-8287-8281948e59b3" />
+    <profileInstances>
+      <packageHasProfileInstances Id="34634e6e-84d6-4086-9907-f6c0094e07c0">
+        <profileInstance Id="94a4bcdf-0a9a-4003-8062-ee0b4bc595e8" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="81969310-fd7f-4055-9269-0cd2dcbc828f">
+        <profileInstance Id="42814e5d-380b-417e-aacc-1fc017b12b54" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
   </package>
 </activityRootModel>

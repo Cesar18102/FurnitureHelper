@@ -13,6 +13,7 @@
 		<script src="../scripts/libs/howler.js"></script>
 		<script src="../scripts/libs/three.js"></script>
 		<script src="../scripts/libs/three.interaction.js"></script>
+		<script src="../scripts/libs/three.orbitcontrols.js"></script>
 		<script src="../scripts/libs/OBJLoader.js"></script>
 		<script src="../scripts/libs/jquery.js"></script>
 		
@@ -47,8 +48,8 @@
 						</span>
 					</li>
 				</ol>
-				<span v-if="globalStep.global_connection_glues && globalStep.global_connection_glues.length > 0">
-					Затем скрепите все вместе с помощью {{ globalStep.global_connection_glues | join_glues }}
+				<span v-if="globalStep.global_connections_glues && globalStep.global_connections_glues.length > 0">
+					Затем скрепите все вместе с помощью {{ globalStep.global_connections_glues | join_glues }}
 				</span>
 			</div>
 		</div>
@@ -58,24 +59,6 @@
 		<div class="footer"></div>
 		
 		<script>	
-		
-			Howler.init();
-			Howler._setup();
-			Howler._autoResume();
-			Howler._autoSuspend();
-			
-			function playOk() {
-				new Howl({ src: [ '../resources/ok.mp3' ] }).play();
-			}
-			
-			function playError() {
-				new Howl({ src: [ '../resources/error.mp3' ] }).play();
-			}
-			
-			function playFinish() {
-				new Howl({ src: [ '../resources/finish.mp3' ] }).play();
-			}
-			
 			let furnitureItemId = new URLSearchParams(window.location.search).get("id");
 			
 			let currentGlobalStep = {
@@ -98,6 +81,36 @@
 				used_part_other_id : undefined,
 				connection_glues : []
 			};
+		
+			Vue.filter(
+				"join_glues", 
+				glues => glues.map(glue => '"' + glue.glue_part.name + '"').join(", ")
+			);
+			
+			new Vue({
+				el : "#step-info-wrapper",
+				data : {
+					step : currentStep,
+					globalStep : currentGlobalStep
+				}
+			});
+			
+			Howler.init();
+			Howler._setup();
+			Howler._autoResume();
+			Howler._autoSuspend();
+			
+			function playOk() {
+				new Howl({ src: [ '../resources/ok.mp3' ] }).play();
+			}
+			
+			function playError() {
+				new Howl({ src: [ '../resources/error.mp3' ] }).play();
+			}
+			
+			function playFinish() {
+				new Howl({ src: [ '../resources/finish.mp3' ] }).play();
+			}
 			
 			let stepProbes = [];		
 			let consideredStepProbeIds = [];
@@ -116,8 +129,6 @@
 				}
 			});
 			
-			Vue.filter("join_glues", glues => glues.map(glue => '"' + glue.glue_part.name + '"').join(", "));
-			
 			function handleError(err) {
 				if(err.code == 403 || err.code == 401) {
 					changeContent("pages/log_in.html");
@@ -133,14 +144,6 @@
 						"header.html", null, () => resolve()
 					)
 				);
-				
-				new Vue({
-					el : "#step-info-wrapper",
-					data : {
-						step : currentStep,
-						globalStep : currentGlobalStep
-					}
-				})
 				
 				handleResponse(
 					await handleContinious(startBuildSession, loader),

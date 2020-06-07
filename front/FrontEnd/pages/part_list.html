@@ -12,12 +12,15 @@
 		
 		<script src="../scripts/libs/vue.js"></script>
 		<script src="../scripts/libs/three.js"></script>
+		<script src="../scripts/libs/three.interaction.js"></script>
+		<script src="../scripts/libs/three.orbitcontrols.js"></script>
 		<script src="../scripts/libs/OBJLoader.js"></script>
 		<script src="../scripts/libs/jquery.js"></script>
 		
 		<script src="../scripts/pay.js"></script>
 		<script src="../scripts/cart.js"></script>
 		<script src="../scripts/popup.js"></script>
+		<script src="../scripts/session.js"></script>
 		<script src="../scripts/connector.js"></script>
 		<script src="../scripts/continious_handler.js"></script>
 		<script src="../scripts/response_handler.js"></script>
@@ -29,6 +32,8 @@
 			<div id="loader" class="centered-loader default-loader"></div>
 			<div id="part-list-wrapper" class="default-list">
 				<div v-for="partPosition in partStore" class="default-list-item">
+					<div class="edit-button" v-if="adminState.super_admin" v-on:click="startEdit(partPosition.part)"></div>
+					<div class="delete-button" v-if="adminState.super_admin" v-on:click="startDelete(partPosition.part)"></div>
 					<div class="part-info">
 						#{{ partPosition.part.id }} "{{ partPosition.part.name }}" 
 						<span v-if="partPosition.part.description != ''">— {{ partPosition.part.description }}</span>
@@ -79,7 +84,66 @@
 		
 		<script>
 			
-			let selectedPart = { part : undefined, material : undefined, color : undefined, max_amount : undefined };
+			let pageModel = {
+				partStore : [],
+				adminState : {
+					admin : false,
+					super_admin : false
+				}
+			};
+			
+			new Vue({
+				el : "#part-list-wrapper",
+				methods : {
+					startEdit : function(part) {
+						changeContent("pages/part_add.html?id=" + part.id);
+					}, 
+					startDelete : async function(part) {
+						await deletePart(part.id);
+					}
+				},
+				data : pageModel
+			});
+			
+			async function deletePart(id) {
+				let session = await getSessionDto();
+				
+				if(session == null) {
+					changeContent('pages/log_in.html');
+				}
+				
+				let deleteDto = {
+					deleted_id : id,
+					session : session
+				};
+			
+				let deletedPartDto = await handleContinious(
+					async () => await SendPostAsync(
+						"part/delete",
+						JSON.stringify(deleteDto)
+					), loader
+				);
+						
+				handleResponse(
+					deletedPartDto,
+					err => { 
+						error.message = err.error_message;
+						errorPopup.show();
+					},
+					data => {
+						let partIndex = pageModel.partStore.findIndex(part => part.id == data.id);
+						pageModel.partStore.splice(partIndex, 1);
+					}
+				);
+			}
+			
+			let selectedPart = { 
+				part : undefined, 
+				material : undefined, 
+				color : undefined, 
+				max_amount : undefined 
+			};
+			
 			let addToCartPopup = createPopup({
 				holder : "popupHolder", bodyStyle : "popup-body", wrapperStyle : "popup-wrapper",
 				content : "<div id='add-to-cart-popup'>" + 
@@ -118,8 +182,18 @@
 			Vue.filter("partTooltip", (part, material, color) => {
 				return "#" + part.id + " " + part.name + ", #" + material.id + " " + material.name + ", #" + color.id + " " + color.name;
 			});
+			
+			async function fetchAdminState() {
+				let cookie = undefined;
+				let promise = import("../scripts/cookie.js").then(module => cookie = module);
+				await promise;
+				
+				pageModel.adminState.admin = cookie.getCookie("is_admin");
+				pageModel.adminState.super_admin = cookie.getCookie("is_super_admin");
+			}
 		
 			async function init() {
+				await fetchAdminState();
 				let loader = document.getElementById("loader");
 				partListHandler(await handleContinious(getPartList, loader));
 		
@@ -142,10 +216,9 @@
 			}
 			
 			function buildPartList(partList) {
-				new Vue({
-					el : "#part-list-wrapper",
-					data : { partStore : partList.positions } 
-				});
+				for(let part of partList.positions) {
+					pageModel.partStore.push(part);
+				}
 			}
 			
 			async function addToCart() {

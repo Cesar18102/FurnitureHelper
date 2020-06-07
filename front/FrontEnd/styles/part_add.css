@@ -1,12 +1,26 @@
 .part-sampler {
 	width : 90em;
-	height : 80%;
-	
+	height : 70vh;
 	left : calc(50% - 45em);
 }
 
 .part-renderer {
-	width : 80em;
-	height : 80%;
+	width : 90em;
+	height : 70vh;
 	border-radius : 0.3em;
+}
+
+.connectors-list {
+	position : absolute;
+	top : 5em;
+}
+
+.pointed-connector {
+	font-weight : bold;
+}
+
+.group-color-sampler {
+	width : 1em;
+	height : 1em;
+	border-radius : 0.2em;
 }

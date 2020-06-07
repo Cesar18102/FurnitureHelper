@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<meta charset="utf-8"/>
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
 		<title>Furniture Helper</title>
 		<link rel="stylesheet" href="../styles/common.css"/>
 		<link rel="stylesheet" href="../styles/popup.css"/>
@@ -10,14 +11,18 @@
 		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
 		<link rel="stylesheet" href="../styles/default_form.css"/>
 		
+		<script src="../scripts/libs/vue.js"></script>
 		<script src="../scripts/libs/jquery.js"></script>
 		<script src="../scripts/libs/three.js"></script>
 		<script src="../scripts/libs/three.interaction.js"></script>
+		<script src="../scripts/libs/three.orbitcontrols.js"></script>
 		<script src="../scripts/libs/OBJLoader.js"></script>
 		
 		<script src="../scripts/popup.js"></script>
 		<script src="../scripts/session.js"></script>
 		<script src="../scripts/connector.js"></script>
+		<script src="../scripts/validate.js"></script>
+		<script src="../scripts/transform_controller.js"></script>
 		<script src="../scripts/continious_handler.js"></script>
 		<script src="../scripts/response_handler.js"></script>
 	</head>
@@ -25,19 +30,105 @@
 		<div id="header-wrapper"></div>
 		
 		<div class="content">
+			<center>Camera options: Rotate - MOUSE LEFT;&nbsp&nbsp&nbsp&nbsp&nbsp Move - MOUSE RIGHT;&nbsp&nbsp&nbsp&nbsp&nbsp Zoom - +/-</center>
+			<center>Ctrl + MOUSE LEFT to place or remove connection;</center>
 			<div id="loader" class="centered-loader default-loader" hidden></div>
-			<div id="render-wrapper" class="part-sampler vcenter"></div>
+			<div id="render-wrapper" onclick="renderFocused()" class="part-sampler vcenter"></div>
+			<form id="connectorsList" class="connectors-list">
+				<ul style="list-style-type : none;">
+					<li v-for="(i, group) of groups">
+						<div style="background-color : {{ group.color | threeColorToCssColor }};" class="group-color-sampler"></div>
+						<ul>
+							<li v-for="(j, connector) of group.connectors" v-bind:class="{ 'pointed-connector' : selectedId == connector.id }">
+								#{{ connector.id }}: ({{ connector.point.x }}; {{ connector.point.y }}; {{ connector.point.z }})
+								<input class="form-input"
+									   v-bind:name="'gr[' + i + '][' + j + '].pin'" 
+									   v-bind:id="'gr[' + i + '][' + j + '].pin'"
+									   onclick="renderUnfocused()" type="number" 
+									   placeholder="pin number" required />
+								<select class="form-input"
+										v-bind:id="'gr[' + i + '][' + j + '].type'" 
+										v-bind:name="'gr[' + i + '][' + j + '].type'" 
+										onclick="renderUnfocused()" required>
+									<option value="0">Indicator</option>
+									<option value="1">Reader 1</option>
+									<option value="2">Reader 2</option>
+								</select>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<center>
+					<div type="submit" id="submit-connectors" class="common-button">Continue</div>
+				</center>
+			</form>
 		</div>
 		
 		<center id="errorPopupHolder"></center>
 		<div class="footer"></div>
 		
 		<script>
+			let pageModel = {
+				groups : [],
+				selectedId : -1
+			};
+			
+			new Vue({
+				el : "#connectorsList",
+				data : pageModel
+			});
+			
+			Vue.filter('threeColorToCssColor', function(color) {
+				return "rgb(" + color.r * 256 + ", " + color.g * 256 + ", " + color.b * 256 + ")"; 
+			});
+		
 			$("#header-wrapper").load("header.html");
 			let partId = new URLSearchParams(window.location.search).get("id");
 			init();
 			
+			function updatePartConnectorsHandler() {
+				//TODO
+			}
+			
+			function updateConnectors() {
+				//TDO
+			}
+			
+			function updateFormValidators() {
+				let form = document.getElementById("connectorsList");
+				
+				let pinInputs = [];
+				for(let i in pageModel.groups) {
+					for(let j in pageModel.groups[i].connectors) {
+						let index = "gr[" + i + "][" + j + "]";
+						let pinInput = document.getElementById(index + ".pin");
+						pinInputs.push(pinInput);
+					}
+				}
+				
+				let valid = true;
+				for(let pinInput of pinInputs) {
+					let setValueInputs = pinInputs.filter(input => input.value == pinInput.value);
+					
+					if(setValueInputs.length == 1 && setValueInputs[0].id == pinInput.id)
+						continue;
+						
+					pinInput.setCustomValidity("pin conflict");
+					valid = false;
+				}
+				
+				//TODO
+				alert(valid ? "valid" : "invalid");
+				//$(form).submit();
+			}
+			
 			async function init() {
+				let loader = document.getElementById("loader");
+				
+				let submit = document.getElementById("submit-connectors");
+				submit.addEventListener("click", renderUnfocused);
+				submit.addEventListener("click", updateFormValidators);
+			
 				let partDto = await handleContinious(
 					async () => await getPart(partId), 
 					loader
@@ -50,15 +141,29 @@
 				);
 			}
 			
+			function renderFocused() {
+				CONTROLS.enabled = true;
+			}
+			
+			function renderUnfocused() {
+				CONTROLS.enabled = false;
+			}
+			
 			async function getPart(id) {
 				return await SendGetAsync("part/get", { id : id });
 			}
+			
+			let CONTROLS = undefined;
 			
 			let PART_RENDER = undefined;
 			let PART_RENDER_PROMISE = import("../scripts/draw/part_render.js").then(module => PART_RENDER = module);
 			
 			let SCENE_RENDER = undefined;
 			let SCENE_RENDER_PROMISE = import("../scripts/draw/scene_render.js").then(module => SCENE_RENDER = module);
+			
+			function getRandomThreeColor() {
+				return new THREE.Color(Math.random(), Math.random(), Math.random());
+			}
 			
 			async function renderPart(epart) {
 				let wrapper = document.getElementById("render-wrapper");
@@ -69,25 +174,109 @@
 					await SCENE_RENDER_PROMISE;
 				}
 				
-				let renderInfo = SCENE_RENDER.renderScene(wrapper, "part-renderer");
+				let renderInfo = SCENE_RENDER.renderScene(wrapper, "part-renderer", false, false, false);
+				CONTROLS = new THREE.OrbitControls(renderInfo.camera, renderInfo.renderer.domElement);
+				CONTROLS.enableZoom = false;
+				CONTROLS.noZoom = true;
+				CONTROLS.update();
+				
 				let partRenderInfo = {
 					model_url : epart.model_url,
 					texture_url : epart.possible_materials[0].texture_url
 				};
+				let localConnectorId = 0;
+				let pointColor = null;
 				
 				await PART_RENDER.renderPart(
 					partRenderInfo, 
 					renderInfo, 
 					part => {
+						part.geometry.computeBoundingBox();
+						let bound = new THREE.Box3Helper(part.geometry.boundingBox, 0xff0000);
+						renderInfo.scene.add(bound);
+					
 						part.cursor = 'pointer';
 						part.on(
 							'click', 
 							function(e) { 
-								//TODO
+								if(e.data.originalEvent.ctrlKey) {
+									let isNewGroup = pageModel.groups.length == 0 || pageModel.groups[pageModel.groups.length - 1].connectors.length == 3;
+									if(isNewGroup) {
+										pointColor = getRandomThreeColor();
+										pageModel.groups.push({
+											color : pointColor,
+											connectors : []
+										});
+									}
+								
+									let point = e.intersects[0].point;
+									
+									let pointGeometry = new THREE.SphereGeometry(3, 16, 16);
+									let pointMaterial = new THREE.MeshBasicMaterial( { color: pointColor } );
+									let sphere = new THREE.Mesh(pointGeometry, pointMaterial);
+									sphere.position.set(point.x, point.y, point.z);
+									
+									let size = e.target.geometry.boundingBox.getSize();
+									let normalizedPoint = {
+										x : Math.round(point.x * 100 / size.x) / 100,
+										y : Math.round(point.y * 100 / size.y) / 100,
+										z : Math.round(point.z * 100 / size.z) / 100
+									}
+									
+									sphere.connectorId = localConnectorId;
+									pageModel.groups[pageModel.groups.length - 1].connectors.push({
+										id : localConnectorId,
+										point : normalizedPoint,
+										mesh : sphere
+									});
+									
+									sphere.cursor = 'pointer';
+									sphere.on(
+										'click',
+										function(e) {
+											if(e.data.originalEvent.ctrlKey) {
+												let index = pageModel.groups.findIndex(
+													group => group.connectors.findIndex(
+														connector => connector.id == e.target.connectorId
+													) != -1
+												);
+												
+												for(let connector of pageModel.groups[index].connectors) {
+													part.remove(connector.mesh);
+												}
+												pageModel.groups.splice(index, 1);
+											}
+										}
+									);
+									
+									sphere.on(
+										'mouseover', 
+										function(e) {
+											pageModel.selectedId = e.target.connectorId;
+										}
+									);
+									
+									sphere.on(
+										'mouseout', 
+										function(e) { 
+											if(pageModel.selectedId == e.currentTarget.connectorId) {
+												pageModel.selectedId = -1;
+											}
+										}
+									);
+									
+									part.add(sphere);
+									localConnectorId++;
+								}
 							}
 						);
 					}, 
-					part => { }
+					part => { }, 
+					camera => {
+						camera.zoom = TRANSFORM_CONTROLLER.absZoom;
+						TRANSFORM_CONTROLLER.update();
+						CONTROLS.update();
+					}
 				);
 			}
 		</script>

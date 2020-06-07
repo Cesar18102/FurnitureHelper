@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 using Models;
 
-using DataAccessContract;
 using DataAccess.Entities;
+using DataAccessContract;
 using DataAccessContract.Exceptions;
 
 namespace DataAccess.RepoImplementation
@@ -94,6 +94,16 @@ namespace DataAccess.RepoImplementation
                 Context.SaveChanges();
                 return Mapper.Map<PartEntity, PartModel>(part);
             }, entity);
+        }
+
+        public bool WasBought(int id)
+        {
+            PartEntity entity = Context.parts.FirstOrDefault(part => part.id == id);
+
+            if (entity == null)
+                throw new EntityNotFoundException("part");
+
+            return entity.concrete_parts.Count(cpart => cpart.last_sell_date != null) > 0;
         }
     }
 }

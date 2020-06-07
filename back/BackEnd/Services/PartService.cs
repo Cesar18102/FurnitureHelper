@@ -138,6 +138,20 @@ namespace Services
             }, dto);
         }
 
+        public PartModel DeletePart(DeleteDto dto)
+        {
+            return ProtectedExecute<DeleteDto, PartModel>(deleteDto =>
+            {
+                AdminService.CheckActiveSuperAdmin(deleteDto.Session);
+                int deletedId = dto.DeletedId.Value;
+
+                if (PartRepo.WasBought(deletedId))
+                    throw new ConflictException("bought concrete part");
+
+                return PartRepo.Delete(deletedId);
+            }, dto);
+        }
+
         private void CheckPinConflict(PartModel part)
         {
             if (part.ConnectionHelpers == null)

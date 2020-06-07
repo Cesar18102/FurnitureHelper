@@ -1720,80 +1720,6 @@
             </type_NamedElement>
           </property>
         </ownedAttributesInternal>
-        <ownedOperationsInternal>
-          <operation
-            Id="32c1cfeb-af48-47a6-8817-7e153c188db6"
-            name="GetOwnedParts"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="f6079643-5bcc-4e6e-a59d-f069410d62a9"
-                  name="accountId"
-                  direction="In">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="3da37ae7-42bc-4e33-a04f-08cdd877f157"
-                      LastKnownName="int"
-                      LastKnownLocation="BackEnd.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="50521de8-43e1-4276-a01d-942e54e19c09"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="b16cac6b-14a7-4ccb-9f3f-dbce34134ff1"
-                      LastKnownName="IEnumerable&lt;BackEnd::Part&gt;"
-                      LastKnownLocation="BackEnd.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="749d1a39-7fd1-4467-87e9-718de4fca539"
-            name="GetOwnedConcreteParts"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="94a4ae0f-d8aa-4c8e-baab-141f9028469d"
-                  name="accountId"
-                  direction="In">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="3da37ae7-42bc-4e33-a04f-08cdd877f157"
-                      LastKnownName="int"
-                      LastKnownLocation="BackEnd.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="f5ea743d-f4e1-4240-8199-7b4e21dcbe24"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="1f2fd25f-fff7-4b2a-b989-7bfeb7cff001"
-                      LastKnownName="IEnumerable&lt;BackEnd::ConcretePart&gt;"
-                      LastKnownLocation="BackEnd.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1813,7 +1739,7 @@
             isAbstract="false">
             <classMoniker
               Id="3a8542bc-595f-49bf-a57f-fbddae1056dc"
-              LastKnownName="ManufacturerSell"
+              LastKnownName="Sell"
               LastKnownLocation="BackEnd.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
@@ -1983,80 +1909,6 @@
             </type_NamedElement>
           </property>
         </ownedAttributesInternal>
-        <ownedOperationsInternal>
-          <operation
-            Id="121f83b8-b3e5-497f-a1c9-de8ea57a65d9"
-            name="GetManufacturerSells"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="0cf4a4f9-7575-4542-b494-1ebf1dc0bca0"
-                  name="accountExtensionId"
-                  direction="In">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="3da37ae7-42bc-4e33-a04f-08cdd877f157"
-                      LastKnownName="int"
-                      LastKnownLocation="BackEnd.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="26781813-084c-462b-b599-70cae6bd4d3e"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="b9070250-ca42-4f08-a73e-9d34ad2c4f98"
-                      LastKnownName="IEnumerable&lt;BackEnd::ManufacturerSell&gt;"
-                      LastKnownLocation="BackEnd.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="a4dde4b5-4f82-4fe9-a68a-1f638430f02f"
-            name="GetUserSells"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="7f486174-a25d-4cf4-8ef0-7b4700a64907"
-                  name="accountExtensionId"
-                  direction="In">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="3da37ae7-42bc-4e33-a04f-08cdd877f157"
-                      LastKnownName="int"
-                      LastKnownLocation="BackEnd.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="384007bc-4094-432e-be4f-2ac866510c50"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="3c9d07be-fa29-4d54-a3cd-8a9a75d9994b"
-                      LastKnownName="IEnumerable&lt;BackEnd::UserSell&gt;"
-                      LastKnownLocation="BackEnd.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -2282,44 +2134,6 @@
             </type_NamedElement>
           </property>
         </ownedAttributesInternal>
-        <ownedOperationsInternal>
-          <operation
-            Id="5acda480-fe81-4bfe-aab0-5268e1699fc4"
-            name="GetEmbeddedControllersPositions"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="7f6d3bf4-8a82-4fc2-90eb-4a1fd2437708"
-                  name="partId"
-                  direction="In">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="3da37ae7-42bc-4e33-a04f-08cdd877f157"
-                      LastKnownName="int"
-                      LastKnownLocation="BackEnd.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="4ad152fe-2228-4ca6-a0bf-305b2a51a635"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="95b3e24c-5c37-4c34-9bc5-648efd011c7f"
-                      LastKnownName="IEnumerable&lt;BackEnd::EmbedControllerPosition&gt;"
-                      LastKnownLocation="BackEnd.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -2521,50 +2335,12 @@
             isComposite="false">
             <type_NamedElement>
               <undefinedTypeMoniker
-                Id="555073cd-fdd0-450d-9d8f-f5d9cdcce8fe"
-                LastKnownName="byte[]"
+                Id="7e7c32e6-9ca8-47ba-a8f1-bb62ba83c95a"
+                LastKnownName="string"
                 LastKnownLocation="BackEnd.uml" />
             </type_NamedElement>
           </property>
         </ownedAttributesInternal>
-        <ownedOperationsInternal>
-          <operation
-            Id="314e3222-1b80-4699-a78b-ebaa686470af"
-            name="GetEmbeddedConcreteControllers"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="521bb860-c999-4539-a529-7b6057348f5a"
-                  direction="Return">
-                  <type_NamedElement>
-                    <classMoniker
-                      Id="83bdadd2-2e6f-4f38-9aca-68390d82327c"
-                      LastKnownName="ConcreteController"
-                      LastKnownLocation="BackEnd.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="33b1c2b2-4c83-471d-929f-15e017f4b899"
-                  name="concretePartId"
-                  direction="In">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="3da37ae7-42bc-4e33-a04f-08cdd877f157"
-                      LastKnownName="int"
-                      LastKnownLocation="BackEnd.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -2613,7 +2389,7 @@
           </property>
           <property
             Id="1ec725f9-f0e4-419b-9c5e-364e57c1383a"
-            name="Color"
+            name="Hex"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -2624,8 +2400,8 @@
             isComposite="false">
             <type_NamedElement>
               <undefinedTypeMoniker
-                Id="7472fb91-7c9b-498e-b772-a5746e23bf8d"
-                LastKnownName="System.Drawing.Color"
+                Id="7e7c32e6-9ca8-47ba-a8f1-bb62ba83c95a"
+                LastKnownName="string"
                 LastKnownLocation="BackEnd.uml" />
             </type_NamedElement>
           </property>
@@ -3485,7 +3261,7 @@
           </property>
           <property
             Id="300d4e0d-b858-4970-8cde-0cb2da663582"
-            name="PosY"
+            name="PosYOther"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -3521,7 +3297,7 @@
           </property>
           <property
             Id="cb73c189-66d6-488d-9d94-06ec8cfa6b72"
-            name="indicator_pin"
+            name="IndicatorPin"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -3539,7 +3315,7 @@
           </property>
           <property
             Id="c6d2000f-75aa-484f-9d31-4eb2ea39f99f"
-            name="reader_pin"
+            name="ReaderPin"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -3552,6 +3328,78 @@
               <undefinedTypeMoniker
                 Id="3da37ae7-42bc-4e33-a04f-08cdd877f157"
                 LastKnownName="int"
+                LastKnownLocation="BackEnd.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="6d59985c-9e50-48ed-9370-5d8176091119"
+            name="ReaderPinOther"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="3da37ae7-42bc-4e33-a04f-08cdd877f157"
+                LastKnownName="int"
+                LastKnownLocation="BackEnd.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="53696257-35dc-44b4-a0ca-53deeaac6734"
+            name="PosXOther"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="f9a159b1-f9be-4657-b996-77b53adce730"
+                LastKnownName="float"
+                LastKnownLocation="BackEnd.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="f6ce1810-5b49-4014-8682-0d5c85cb68fb"
+            name="PosY1"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="f9a159b1-f9be-4657-b996-77b53adce730"
+                LastKnownName="float"
+                LastKnownLocation="BackEnd.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="08cd488a-2366-4496-83b0-bbf2b9ca24f3"
+            name="PosZOther"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="f9a159b1-f9be-4657-b996-77b53adce730"
+                LastKnownName="float"
                 LastKnownLocation="BackEnd.uml" />
             </type_NamedElement>
           </property>
@@ -3696,7 +3544,7 @@
     <packageHasNamedElement>
       <class
         Id="3a8542bc-595f-49bf-a57f-fbddae1056dc"
-        name="ManufacturerSell"
+        name="Sell"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">

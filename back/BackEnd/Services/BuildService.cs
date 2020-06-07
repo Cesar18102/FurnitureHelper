@@ -26,8 +26,8 @@ namespace Services
         private static readonly IConcretePartRepo ConcretePartRepo = DataAccessDependencyHolderWrapper.DataAccessDependencies.Resolve<IConcretePartRepo>();
 
         private static readonly IDictionary<string, BuildSessionManager> BuildSessions = new Dictionary<string, BuildSessionManager>();
-        private static readonly IDictionary<int, string> UserBuildTokens = new Dictionary<int, string>();
         private static readonly IDictionary<string, string> MacToBuildTokenCache = new Dictionary<string, string>();
+        private static readonly IDictionary<int, string> UserBuildTokens = new Dictionary<int, string>();
 
         private void CheckBuildSession(BuildSessionDto buildSession)
         {
@@ -66,7 +66,8 @@ namespace Services
             if (furniture == null)
                 throw new NotFoundException("furniture");
 
-            if (!FurnitureService.CanBuild(startBuildDto.Session, startBuildDto.FurnitureId.Value))
+            bool canBuild = FurnitureService.CanBuild(startBuildDto.Session, startBuildDto.FurnitureId.Value);
+            if (!canBuild)
                 throw new NotFoundException("all owned parts");
 
             int userId = startBuildDto.Session.UserId.Value;
@@ -165,11 +166,13 @@ namespace Services
             {
                 lock (buildSession)
                 {
-                    if (BuildSessions.ContainsKey(buildSession.BuildSession.BuildSessionToken))
-                    {
-                        RemoveSessionByUserId(buildSession.UserId);
-                        ConcretePartRepo.MarkInUse(buildSession.UsedPartIds);
-                    }
+                    bool buildSessionAlive = BuildSessions.ContainsKey(buildSession.BuildSession.BuildSessionToken);
+
+                    if (!buildSessionAlive)
+                        return result;
+
+                    RemoveSessionByUserId(buildSession.UserId);
+                    ConcretePartRepo.MarkInUse(buildSession.UsedPartIds);
                 }
             }
 

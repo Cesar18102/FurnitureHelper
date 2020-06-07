@@ -234,7 +234,7 @@ end
 
 function commit()
   for i, reader in pairs(READERS) do
-    READERS_ROLLBACK[i].state = READERS_OLD[i].state;
+    READERS_ROLLBACK[i].state = READERS_OLD[i].state;-- READERS[i].state???
   end
 end
 

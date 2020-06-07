@@ -124,12 +124,13 @@ namespace Services
             {
                 PaymentInfo payment = Mapper.Map<PaymentConfirmDto, PaymentInfo>(paymentConfirmDto);
                 string orderId = PaymentService.GetOrderId(payment);
-                
-                if (!PendingOrders.ContainsKey(orderId) || !PaymentService.IsPaymentAuthorized(payment, PendingOrders[orderId].PaymentInfo))
-                    throw new UnauthorizedException();
 
                 if (!PendingOrders.ContainsKey(orderId))
                     throw new NotFoundException("pending order");
+
+                bool autorizedPayment = PaymentService.IsPaymentAuthorized(payment, PendingOrders[orderId].PaymentInfo);
+                if (!autorizedPayment)
+                    throw new UnauthorizedException();
 
                 Sell sell = PendingOrders[orderId];
 

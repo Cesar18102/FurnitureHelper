@@ -1,4 +1,4 @@
-export function renderScene(domWrapper, style) {
+export function renderScene(domWrapper, style, walls = true, spawnLight = true, spawnShadows = true) {
 	let scene = new THREE.Scene();
 	scene.background = new THREE.Color(0xFFFFFF);
 					
@@ -7,8 +7,11 @@ export function renderScene(domWrapper, style) {
 		antialias : true
 	});
 	
-	renderer.shadowMap.enabled = true;
-	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+	if(spawnShadows) {		
+		renderer.shadowMap.enabled = true;
+		renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+	}
+	
 	renderer.setSize(domWrapper.offsetWidth, domWrapper.offsetHeight);
 	renderer.domElement.classList.add(style);
 	domWrapper.appendChild(renderer.domElement);
@@ -17,25 +20,30 @@ export function renderScene(domWrapper, style) {
 	camera.position.set(600, 400, 600);
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 	
-	let light = new THREE.PointLight(0xFFFFFF, 1.2);
-	light.position.set(150, 150, 150);
-	light.castShadow = true;
-	scene.add(light);
-						
-	let bottomPlaneGeometry = new THREE.PlaneGeometry(1000, 1000).rotateX(-Math.PI / 2).translate(0, -150, 0);
-	let bottomPlaneMaterial = new THREE.MeshPhysicalMaterial( { color: 0xFFFFFF } );
-	let bottomPlane = new THREE.Mesh(bottomPlaneGeometry, bottomPlaneMaterial);
-	scene.add(bottomPlane);
-						
-	let backPlaneGeometry = new THREE.PlaneGeometry(1000, 1000).translate(0, 0, -150);
-	let backPlaneMaterial = new THREE.MeshPhysicalMaterial( { color: 0xEEEEEE } );
-	let backPlane = new THREE.Mesh(backPlaneGeometry, backPlaneMaterial);
-	scene.add(backPlane);
-						
-	let leftPlaneGeometry = new THREE.PlaneGeometry(1000, 1000).rotateY(Math.PI / 2).translate(-150, 0, 0);
-	let leftPlaneMaterial = new THREE.MeshPhysicalMaterial( { color: 0xDDDDDD } );
-	let leftPlane = new THREE.Mesh(leftPlaneGeometry, leftPlaneMaterial);
-	scene.add(leftPlane);
+	let light = undefined;
+	if(spawnLight) {
+		light = new THREE.PointLight(0xFFFFFF, 1.2);
+		light.position.set(150, 150, 150);
+		light.castShadow = spawnShadows;
+		scene.add(light);
+	}
+					
+	if(walls) {
+		let bottomPlaneGeometry = new THREE.PlaneGeometry(1000, 1000).rotateX(-Math.PI / 2).translate(0, -150, 0);
+		let bottomPlaneMaterial = new THREE.MeshPhysicalMaterial( { color: 0xFFFFFF } );
+		let bottomPlane = new THREE.Mesh(bottomPlaneGeometry, bottomPlaneMaterial);
+		scene.add(bottomPlane);
+							
+		let backPlaneGeometry = new THREE.PlaneGeometry(1000, 1000).translate(0, 0, -150);
+		let backPlaneMaterial = new THREE.MeshPhysicalMaterial( { color: 0xEEEEEE } );
+		let backPlane = new THREE.Mesh(backPlaneGeometry, backPlaneMaterial);
+		scene.add(backPlane);
+							
+		let leftPlaneGeometry = new THREE.PlaneGeometry(1000, 1000).rotateY(Math.PI / 2).translate(-150, 0, 0);
+		let leftPlaneMaterial = new THREE.MeshPhysicalMaterial( { color: 0xDDDDDD } );
+		let leftPlane = new THREE.Mesh(leftPlaneGeometry, leftPlaneMaterial);
+		scene.add(leftPlane);
+	}
 	
 	return {
 		scene : scene,

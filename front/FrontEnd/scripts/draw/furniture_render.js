@@ -115,7 +115,9 @@ function togglePartOutline(color) {
 }
 
 function render(renderer, scene, camera, motion) {
-	requestAnimationFrame(() => render(renderer, scene, camera, motion));
+	requestAnimationFrame(
+		() => render(renderer, scene, camera, motion)
+	);
 	renderer.render(scene, camera);
 	
 	if(motion != undefined) {

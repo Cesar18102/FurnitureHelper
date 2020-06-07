@@ -1,13 +1,9 @@
-﻿using System;
-using System.Windows.Input;
-using System.ComponentModel;
+﻿using System.Windows.Input;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using System.Reflection;
-using System.Linq;
 
 namespace FHelper.Views
 {

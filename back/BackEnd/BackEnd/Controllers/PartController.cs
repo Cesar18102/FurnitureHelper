@@ -37,6 +37,15 @@ namespace BackEnd.Controllers
         }
 
         [HttpPost]
+        public HttpResponseMessage Delete([FromBody] DeleteDto deleteDto)
+        {
+            return Request.ExecuteProtectedAndWrapResult<DeleteDto, PartModel>(
+                dto => PartService.DeletePart(dto),
+                ModelState, deleteDto
+            );
+        }
+
+        [HttpPost]
         public HttpResponseMessage AddConcretePart([FromBody] AddConcretePartDto concretePartDto)
         {
             return Request.ExecuteProtectedAndWrapResult<AddConcretePartDto, ConcretePartModel>(

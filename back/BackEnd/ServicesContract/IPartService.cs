@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Models;
 using ServicesContract.Dto;
@@ -10,6 +9,8 @@ namespace ServicesContract
     {
         PartModel RegisterPart(AddPartDto dto);
         PartModel UpdatePart(UpdatePartDto dto);
+        PartModel DeletePart(DeleteDto dto);
+
         ConcretePartModel RegisterConcretePart(AddConcretePartDto dto);
 
         PartStore GetStore();
