@@ -5,7 +5,7 @@ namespace Models
     public class ConnectionHelperModel : IModel
     {
         [JsonProperty("id")]
-        public int Id { get; private set; }
+        public int? Id { get; private set; }
 
         [JsonProperty("pos_x")]
         public float PosX { get; private set; }

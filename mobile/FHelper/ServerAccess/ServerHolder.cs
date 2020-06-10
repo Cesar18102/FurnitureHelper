@@ -1,10 +1,10 @@
-﻿using Autofac;
+﻿    using Autofac;
 
 namespace ServerAccess
 {
     public class ServerHolder
     {
-        public const string SERVER_URL = "http://furniturehelper.somee.com/api/";
+        public const string SERVER_URL = "http://192.168.0.108:5000/api/"; //"http://furniturehelper.somee.com/api/";
 
         private static IContainer Container = null;
         public static IContainer Dependencies

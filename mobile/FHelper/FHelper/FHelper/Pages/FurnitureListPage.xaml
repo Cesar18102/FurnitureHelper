@@ -4,12 +4,23 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="FHelper.Pages.FurnitureListPage">
+             x:Class="FHelper.Pages.FurnitureListPage"
+             x:Name="FurniturePage">
     <ContentPage.Content>
-        <ScrollView>
-            
-            
-            
-        </ScrollView>
+        <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+
+            <StackLayout Style="{StaticResource PopupPageContent}">
+                <ScrollView>
+                    <StackLayout x:Name="FurnitureListScroll" Padding="10,0,10,0">
+
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+
+            <Frame Style="{StaticResource PopupWrapper}" IsVisible="{Binding Source={Reference FurniturePage}, Path=IsBusy}">
+                <ActivityIndicator Style="{StaticResource CommonActivityIndicator}" IsRunning="True"/>
+            </Frame>
+
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

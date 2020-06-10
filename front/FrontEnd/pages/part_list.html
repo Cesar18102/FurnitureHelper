@@ -131,8 +131,8 @@
 						errorPopup.show();
 					},
 					data => {
-						let partIndex = pageModel.partStore.findIndex(part => part.id == data.id);
-						pageModel.partStore.splice(partIndex, 1);
+						let positionIndex = pageModel.partStore.findIndex(position => position.part.id == data.id);
+						pageModel.partStore.splice(positionIndex, 1);
 					}
 				);
 			}

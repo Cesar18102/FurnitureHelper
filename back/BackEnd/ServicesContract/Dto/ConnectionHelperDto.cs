@@ -6,6 +6,9 @@ namespace ServicesContract.Dto
 {
     public class ConnectionHelperDto : IDto
     {
+        [JsonProperty("id")]
+        public int? Id { get; set; }
+
         [Required(ErrorMessage = "pos_x is required")]
         [JsonProperty("pos_x")]
         public float? PosX { get; set; }

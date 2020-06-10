@@ -7,11 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHelper.Android", "FHelper\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHelper", "FHelper\FHelper\FHelper.csproj", "{43D57D0F-73F7-48D2-A61E-6513031887E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{ED77DFB0-68B6-4C5A-8B45-B4BAA90483CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{ED77DFB0-68B6-4C5A-8B45-B4BAA90483CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAccess", "ServerAccess\ServerAccess.csproj", "{331B8DDA-4534-4B09-924C-AD7F69383512}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerAccess", "ServerAccess\ServerAccess.csproj", "{331B8DDA-4534-4B09-924C-AD7F69383512}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{61740C04-981C-47B5-ABA5-26A101491B0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{61740C04-981C-47B5-ABA5-26A101491B0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

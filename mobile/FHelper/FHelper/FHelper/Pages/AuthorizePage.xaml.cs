@@ -63,6 +63,9 @@ namespace FHelper.Pages
 
         public AuthorizePage()
         {
+            LogInForm.Login = "cesar";
+            LogInForm.Password = "12345678";
+
             InitializeComponent();
         }
 

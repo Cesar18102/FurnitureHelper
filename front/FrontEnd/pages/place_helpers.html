@@ -12,11 +12,14 @@
 		<link rel="stylesheet" href="../styles/default_form.css"/>
 		
 		<script src="../scripts/libs/vue.js"></script>
-		<script src="../scripts/libs/jquery.js"></script>
+		
 		<script src="../scripts/libs/three.js"></script>
+		<script src="../scripts/libs/OBJLoader.js"></script>
 		<script src="../scripts/libs/three.interaction.js"></script>
 		<script src="../scripts/libs/three.orbitcontrols.js"></script>
-		<script src="../scripts/libs/OBJLoader.js"></script>
+		
+		<script src="../scripts/libs/jquery.js"></script>
+		<script src="../scripts/libs/jquery.serializejson.js"></script>
 		
 		<script src="../scripts/popup.js"></script>
 		<script src="../scripts/session.js"></script>
@@ -38,17 +41,20 @@
 				<ul style="list-style-type : none;">
 					<li v-for="(i, group) of groups">
 						<div style="background-color : {{ group.color | threeColorToCssColor }};" class="group-color-sampler"></div>
+						<span>#{{ group.id }}</span>
 						<ul>
 							<li v-for="(j, connector) of group.connectors" v-bind:class="{ 'pointed-connector' : selectedId == connector.id }">
 								#{{ connector.id }}: ({{ connector.point.x }}; {{ connector.point.y }}; {{ connector.point.z }})
 								<input class="form-input"
-									   v-bind:name="'gr[' + i + '][' + j + '].pin'" 
-									   v-bind:id="'gr[' + i + '][' + j + '].pin'"
+									   v-bind:name="'gr[' + i + '][' + connector.id + '].pin'" 
+									   v-bind:id="'gr[' + i + '][' + connector.id + '].pin'"
+									   v-bind:value="connector.pin"
 									   onclick="renderUnfocused()" type="number" 
 									   placeholder="pin number" required />
 								<select class="form-input"
-										v-bind:id="'gr[' + i + '][' + j + '].type'" 
-										v-bind:name="'gr[' + i + '][' + j + '].type'" 
+										v-bind:id="'gr[' + i + '][' + connector.id + '].type'" 
+										v-bind:name="'gr[' + i + '][' + connector.id + '].type'"
+										v-bind:value="connector.type"
 										onclick="renderUnfocused()" required>
 									<option value="0">Indicator</option>
 									<option value="1">Reader 1</option>
@@ -68,6 +74,11 @@
 		<div class="footer"></div>
 		
 		<script>
+			$("#header-wrapper").load("header.html");
+			
+			let localConnectorId = 0;
+			let PART_MESH = undefined;
+			let partId = new URLSearchParams(window.location.search).get("id");
 			let pageModel = {
 				groups : [],
 				selectedId : -1
@@ -81,45 +92,152 @@
 			Vue.filter('threeColorToCssColor', function(color) {
 				return "rgb(" + color.r * 256 + ", " + color.g * 256 + ", " + color.b * 256 + ")"; 
 			});
+			
+			let error = { message : undefined };
+			let errorPopup = createPopup({
+				holder : "errorPopupHolder", bodyStyle : "popup-body", wrapperStyle : "popup-wrapper",
+				content : "<div id='errorPopup'>{{ message }}</div>",
+				vue : () => {
+					new Vue({
+						el : "#errorPopup",
+						data : error
+					});
+				}
+			});
 		
-			$("#header-wrapper").load("header.html");
-			let partId = new URLSearchParams(window.location.search).get("id");
 			init();
 			
-			function updatePartConnectorsHandler() {
-				//TODO
-			}
-			
-			function updateConnectors() {
-				//TDO
-			}
-			
-			function updateFormValidators() {
-				let form = document.getElementById("connectorsList");
+			async function updateConnectors(data) {
+				let session = await getSessionDto();
 				
+				if(session == null) {
+					changeContent('pages/log_in.html');
+				}
+				
+				let dto = {
+					id : partId,
+					super_admin_session : session,
+					connection_helpers : []
+				};
+				
+				for(let i in data.gr) {
+					let group = data.gr[i];
+					let helper = {};
+					let usedIds = [];
+					for(let connector in group) {
+						let index = connector.substr(0, connector.indexOf("."));
+						
+						if(usedIds.find(id => id == index)) {
+							continue;
+						}
+						
+						helper.index = index;
+						usedIds.push(index);
+						
+						let pin = index + ".pin";
+						let type = index + ".type";
+						
+						if(group[type] == 0) {
+							helper.indicator_pin_number = group[pin];
+						} else if(group[type] == 1 || group[type] == 2) {
+							let connector = pageModel.groups[i].connectors.find(connector => connector.id == index);
+							let other = group[type] == 1 ? "" : "_other";
+							
+							if(pageModel.groups[i].real_id) {
+								helper.id = pageModel.groups[i].real_id;
+							}
+							
+							helper["reader_pin_number" + other] = group[pin];
+							helper["pos_x" + other] = connector.point.x;
+							helper["pos_y" + other] = connector.point.y;
+							helper["pos_z" + other] = connector.point.z;
+						}
+					}
+					dto.connection_helpers.push(helper);
+				}
+				
+				if(dto.connection_helpers.length == 0) {
+					changeContent('pages/part_list.html')
+				}
+				
+				let updatedConnectionsDto = await handleContinious(
+					async () => await SendPostAsync("part/update", JSON.stringify(dto)), 
+					document.getElementById("loader") 
+				);
+				
+				handleResponse(
+					updatedConnectionsDto,
+					err => {
+						error.message = err.error_message;
+						errorPopup.show();
+					},
+					data => changeContent('pages/part_list.html')
+				);
+			}
+			
+			async function updateFormValidators() {
 				let pinInputs = [];
+				let typeInputs = [];
+				
 				for(let i in pageModel.groups) {
-					for(let j in pageModel.groups[i].connectors) {
-						let index = "gr[" + i + "][" + j + "]";
+					typeInputs.push([]);
+					
+					if(pageModel.groups[i].connectors.length != 3) {
+						error.message = "Invalid connection group configuration. Must be 3 point at each group";
+						errorPopup.show();
+						return;
+					}
+					
+					for(let connector of pageModel.groups[i].connectors) {
+						let index = "gr[" + i + "][" + connector.id + "]";
+						
 						let pinInput = document.getElementById(index + ".pin");
 						pinInputs.push(pinInput);
+						
+						let typeInput = document.getElementById(index + ".type");
+						typeInputs[typeInputs.length - 1].push(typeInput);
 					}
 				}
 				
-				let valid = true;
 				for(let pinInput of pinInputs) {
 					let setValueInputs = pinInputs.filter(input => input.value == pinInput.value);
-					
-					if(setValueInputs.length == 1 && setValueInputs[0].id == pinInput.id)
-						continue;
 						
+					if(setValueInputs.length == 1 && setValueInputs[0].id == pinInput.id) {
+						pinInput.setCustomValidity("");
+						continue;
+					}
+							
 					pinInput.setCustomValidity("pin conflict");
-					valid = false;
+					
+					error.message = "pin conflict";
+					errorPopup.show();
+					
+					return;
 				}
 				
-				//TODO
-				alert(valid ? "valid" : "invalid");
-				//$(form).submit();
+				for(let group of typeInputs) {
+					let indicator = group.find(connector => connector.value == 0);
+					let reader = group.find(connector => connector.value == 1);
+					let readerOther = group.find(connector => connector.value == 2);
+					
+					if(indicator == null || reader == null || readerOther == null || group.length != 3) {
+						for(let input of group) {
+							input.setCustomValidity("connector type conflict");
+						}
+					
+						error.message = "connector type conflict";
+						errorPopup.show();
+						
+						return;
+					}
+					
+					for(let input of group) {
+						input.setCustomValidity("");
+					}
+				}
+				
+				let formData = $("form#connectorsList").serializeJSON();
+				await updateConnectors(formData);
 			}
 			
 			async function init() {
@@ -137,7 +255,76 @@
 				handleResponse(
 					partDto,
 					err => {},
-					async data => await renderPart(data)
+					async data => {
+						await renderPart(data);
+						
+						let i = 0;
+						for(let helper of data.connection_helpers) {
+							let point = new THREE.Vector3(helper.pos_x, helper.pos_y, helper.pos_z);
+							let point_other = new THREE.Vector3(helper.pos_x_other, helper.pos_y_other, helper.pos_z_other);
+							let point_ind = new THREE.Vector3(
+								(point.x + point_other.x) / 2,
+								(point.y + point_other.y) / 2,
+								(point.z + point_other.z) / 2
+							);
+							
+							let reader = {
+								id : i++,
+								point : point,
+								pin : helper.reader_pin_number,
+								type : 1
+							};
+							
+							let reader_other = {
+								id : i++,
+								point : point_other,
+								pin : helper.reader_pin_number_other,
+								type : 2
+							};
+							
+							let indicator = {
+								id : i++,
+								point : point_ind,
+								pin : helper.indicator_pin_number,
+								type : 0
+							};
+							
+							let group = {
+								id : helper.id,
+								real_id : helper.id,
+								color : getRandomThreeColor(),
+								connectors : [ reader, reader_other, indicator ]
+							}
+							
+							for(let connector of group.connectors) {
+								let size = PART_MESH.geometry.boundingBox.getSize();
+								let spreadedPoint = new THREE.Vector3(
+									connector.point.x * size.x,
+									connector.point.y * size.y,
+									connector.point.z * size.z
+								);
+								
+								let sphere = createConnectorMesh(group.color);
+								sphere.position.set(spreadedPoint.x, spreadedPoint.y, spreadedPoint.z);
+													
+								sphere.connectorId = connector.id;
+								connector.mesh = sphere;
+								
+								setupConnectorMeshEvents(sphere, PART_MESH);
+								PART_MESH.add(sphere);
+							}
+							
+							pageModel.groups.push(group);
+						}
+						
+						for(let group of pageModel.groups) {
+							for(let connector of group.connectors) {
+								localConnectorId = Math.max(connector.id, localConnectorId);
+							}
+						}
+						
+						localConnectorId++;
+					}
 				);
 			}
 			
@@ -165,6 +352,49 @@
 				return new THREE.Color(Math.random(), Math.random(), Math.random());
 			}
 			
+			function createConnectorMesh(color) {
+				let pointGeometry = new THREE.SphereGeometry(3, 16, 16);
+				let pointMaterial = new THREE.MeshBasicMaterial( { color: color } );
+				return new THREE.Mesh(pointGeometry, pointMaterial);
+			}
+			
+			function setupConnectorMeshEvents(sphere, part) {
+				sphere.cursor = 'pointer';
+				sphere.on(
+					'click',
+					function(e) {
+						if(e.data.originalEvent.ctrlKey) {
+							let index = pageModel.groups.findIndex(
+								group => group.connectors.findIndex(
+									connector => connector.id == e.target.connectorId
+								) != -1
+							);
+												
+							for(let connector of pageModel.groups[index].connectors) {
+								part.remove(connector.mesh);
+							}
+							pageModel.groups.splice(index, 1);
+						}
+					}
+				);
+									
+				sphere.on(
+					'mouseover', 
+					function(e) {
+						pageModel.selectedId = e.target.connectorId;
+					}
+				);
+									
+				sphere.on(
+					'mouseout', 
+					function(e) { 
+						if(pageModel.selectedId == e.currentTarget.connectorId) {
+							pageModel.selectedId = -1;
+						}
+					}
+				);
+			}
+			
 			async function renderPart(epart) {
 				let wrapper = document.getElementById("render-wrapper");
 				if(PART_RENDER == undefined) {
@@ -184,10 +414,9 @@
 					model_url : epart.model_url,
 					texture_url : epart.possible_materials[0].texture_url
 				};
-				let localConnectorId = 0;
 				let pointColor = null;
 				
-				await PART_RENDER.renderPart(
+				PART_MESH = await PART_RENDER.renderPart(
 					partRenderInfo, 
 					renderInfo, 
 					part => {
@@ -210,17 +439,14 @@
 									}
 								
 									let point = e.intersects[0].point;
-									
-									let pointGeometry = new THREE.SphereGeometry(3, 16, 16);
-									let pointMaterial = new THREE.MeshBasicMaterial( { color: pointColor } );
-									let sphere = new THREE.Mesh(pointGeometry, pointMaterial);
+									let sphere = createConnectorMesh(pointColor);
 									sphere.position.set(point.x, point.y, point.z);
 									
 									let size = e.target.geometry.boundingBox.getSize();
 									let normalizedPoint = {
-										x : Math.round(point.x * 100 / size.x) / 100,
-										y : Math.round(point.y * 100 / size.y) / 100,
-										z : Math.round(point.z * 100 / size.z) / 100
+										x : Math.round(point.x * 10000 / size.x) / 10000,
+										y : Math.round(point.y * 10000 / size.y) / 10000,
+										z : Math.round(point.z * 10000 / size.z) / 10000
 									}
 									
 									sphere.connectorId = localConnectorId;
@@ -230,41 +456,7 @@
 										mesh : sphere
 									});
 									
-									sphere.cursor = 'pointer';
-									sphere.on(
-										'click',
-										function(e) {
-											if(e.data.originalEvent.ctrlKey) {
-												let index = pageModel.groups.findIndex(
-													group => group.connectors.findIndex(
-														connector => connector.id == e.target.connectorId
-													) != -1
-												);
-												
-												for(let connector of pageModel.groups[index].connectors) {
-													part.remove(connector.mesh);
-												}
-												pageModel.groups.splice(index, 1);
-											}
-										}
-									);
-									
-									sphere.on(
-										'mouseover', 
-										function(e) {
-											pageModel.selectedId = e.target.connectorId;
-										}
-									);
-									
-									sphere.on(
-										'mouseout', 
-										function(e) { 
-											if(pageModel.selectedId == e.currentTarget.connectorId) {
-												pageModel.selectedId = -1;
-											}
-										}
-									);
-									
+									setupConnectorMeshEvents(sphere, part);
 									part.add(sphere);
 									localConnectorId++;
 								}

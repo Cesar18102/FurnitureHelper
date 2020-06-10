@@ -1,0 +1,190 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Furniture Helper</title>
+		<link rel="stylesheet" href="../styles/common.css"/>
+		<link rel="stylesheet" href="../styles/page_wrapper.css"/>
+		<link rel="stylesheet" href="../styles/fall_down_menu.css"/>
+		<link rel="stylesheet" href="../styles/loader.css"/>
+		<link rel="stylesheet" href="../styles/furniture_list.css"/>
+		<link rel="stylesheet" href="../styles/default_form.css"/>
+		<link rel="stylesheet" href="../styles/popup.css"/>
+		
+		<script src="../scripts/libs/vue.js"></script>
+		<script src="../scripts/libs/three.js"></script>
+		<script src="../scripts/libs/three.interaction.js"></script>
+		<script src="../scripts/libs/three.orbitcontrols.js"></script>
+		<script src="../scripts/libs/OBJLoader.js"></script>
+		<script src="../scripts/libs/jquery.js"></script>
+		
+		<script src="../scripts/popup.js"></script>
+		<script src="../scripts/session.js"></script>
+		<script src="../scripts/connector.js"></script>
+		<script src="../scripts/continious_handler.js"></script>
+		<script src="../scripts/response_handler.js"></script>
+		<script src="../scripts/draw/furniture_render.js"></script>
+	</head>
+	<body>
+		<div id="header-wrapper"></div>
+		
+		<div class="content">
+			<div id="loader" class="centered-loader default-loader"></div>
+			<div id="furniture-list-wrapper" class="default-list">
+				<div v-for="furniture in furnitures" class="default-list-item">
+					<div class="furniture-info">
+						#{{ furniture.id }} "{{ furniture.name }}"
+						<span v-if="furniture.description != ''">— {{ furniture.description }}</span>
+					</div>
+					<br/>
+					<div>Ingredients:</div>
+					<br/>
+					<div v-for="(partID, partInfo) in furniture | ingredients">
+						<span v-bind:class="{ 'pointed-ingredient' : furniture.pointed == partID }">
+							#{{ partID }}, "{{ partInfo.name }}" — {{ partInfo.count }}
+						</span>
+					</div>
+					<center>
+						<div v-bind:id="furniture | rendererId" class="furniture-sampler"></div>
+						<div v-if="furniture.canBuild" v-bind:fid="furniture.id" onclick="startBuild()" style="margin: 1em;" class="common-button">Build</div>
+					</center>
+				</div>
+			</div>
+		</div>
+		
+		<center id="errorPopupHolder"></center>
+		
+		<div class="footer"></div>
+		
+		<script>
+			$(function(){ $("#header-wrapper").load("header.html"); });
+			
+			Vue.filter("rendererId", furniture => "furniture-renderer-wrapper-" + furniture.id);
+			Vue.filter("buildItem", furniture => "buildItem(" + furniture.id + ")");
+			
+			Vue.filter("ingredients", furniture => {
+				let groups = {};
+				for(let used of furniture.used_parts) {
+					if(groups[used.part_id] == undefined) {
+						groups[used.part_id] = { count : 0 };
+					}
+					++groups[used.part_id].count;
+				}
+				
+				for(let id in groups) {
+					let part = getPart(furniture, part => part.id == id);
+					if(part != null) {
+						groups[id].name = part.name;
+					}
+				}
+				
+				return groups;
+			});
+		
+			let error = { message : undefined };
+			let errorPopup = createPopup({
+				holder : "errorPopupHolder", bodyStyle : "popup-body", wrapperStyle : "popup-wrapper",
+				content : "<div id='errorPopup'>{{ message }}</div>",
+				vue : () => {
+					new Vue({
+						el : "#errorPopup",
+						data : error
+					});
+				}
+			});
+			
+			async function init() {
+				let loader = document.getElementById("loader");
+				
+				handleResponse(
+					await handleContinious(getFurnitureList, loader),
+					err => {
+						error.message = err.error_message;
+						errorPopup.show();
+					},
+					data => renderFurnitureList(data)
+				);
+				
+				handleResponse(
+					await handleContinious(getBuildList, loader),
+					err => { },
+					data => renderBuildList(data)
+				);
+			}
+			
+			async function getFurnitureList() {
+				return await SendGetAsync("furniture/get");
+			}
+			
+			async function getBuildList() {
+				let session = await getSessionDto();
+				return await SendPostAsync(
+					"furniture/getbuildlist", 
+					JSON.stringify(session)
+				);
+			}
+			
+			let furnitureItems = [];
+			async function renderBuildList(list) {
+				for(let build of list) {
+					let listed = furnitureItems.find(item => build.id == item.id);
+					listed.canBuild = true;
+				}
+			}
+			
+			async function renderFurnitureList(list) {
+				furnitureItems = list;
+				furnitureItems.forEach(item => {
+					item.canBuild = false;
+					item.pointed = -1;
+				});
+				
+				let vm = new Vue({
+					el : "#furniture-list-wrapper",
+					data : { furnitures : furnitureItems }
+				});
+				
+				for(let furniture of furnitureItems) {
+					let wrapper = document.getElementById("furniture-renderer-wrapper-" + furniture.id);
+					let furnitureRenderInfo = await renderFurniture(
+						furniture, wrapper, "furniture-renderer",
+						part => {
+							part.geometry.scale(furniture.scale, furniture.scale, furniture.scale);
+							part.cursor = 'pointer';
+							part.on(
+								'mouseover', 
+								function(e) { 
+									e.currentTarget.toggleOutline(new THREE.Color("rgb(120, 10, 10)")); 
+									furniture.pointed = e.currentTarget.info.id;
+								}
+							);
+							part.on(
+								'mouseout', 
+								function(e) { 
+									e.currentTarget.toggleOutline(); 
+									if(furniture.pointed == e.currentTarget.info.id) {
+										furniture.pointed = -1;
+									}
+								}
+							);
+						},
+						part => {
+							//part.rotateX(0.01);
+							//part.rotateY(0.01);
+							//part.rotateZ(0.01);
+						}
+					);			
+				}
+			}
+			
+			function startBuild(e) {
+				let furniture = window.event.currentTarget;
+				let fid = furniture.getAttribute("fid");
+				
+				changeContent("pages/build.html?id=" + fid);
+			}
+			
+			init();
+			
+		</script>
+	</body>
+</html>

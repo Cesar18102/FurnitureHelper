@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Furniture Helper</title>
+		<link rel="stylesheet" href="styles/furniture_list.css"/>
+		
+		<script src="scripts/three.js"></script>
+		<script src="scripts/three.interaction.js"></script>
+		<script src="scripts/three.orbitcontrols.js"></script>
+		<script src="scripts/OBJLoader.js"></script>
+		
+		<script src="scripts/furniture_render.js"></script>
+	</head>
+	<body>
+		<center><div id="sampler" class="furniture-sampler"></div></center>
+		
+		<script>
+			
+			async function initRenderFurniture(furnitureJson) {
+				let furniture = JSON.parse(furnitureJson);
+				let wrapper = document.getElementById("sampler");
+				furniture.pointed = -1;
+				
+				let furnitureRenderInfo = await renderFurniture(
+					furniture, wrapper, "furniture-renderer",
+					part => {
+						part.geometry.scale(furniture.scale, furniture.scale, furniture.scale);
+						part.cursor = 'pointer';
+						part.on(
+							'mouseover', 
+							function(e) { 
+								e.currentTarget.toggleOutline(new THREE.Color("rgb(120, 10, 10)")); 
+								furniture.pointed = e.currentTarget.info.id;
+							}
+						);
+						part.on(
+							'mouseout', 
+							function(e) { 
+								e.currentTarget.toggleOutline(); 
+								if(furniture.pointed == e.currentTarget.info.id) {
+									furniture.pointed = -1;
+								}
+							}
+						);
+					},
+					part => {
+						part.rotateX(0.01);
+						part.rotateY(0.01);
+						part.rotateZ(0.01);
+					}
+				);			
+			}
+		</script>
+	</body>
+</html>

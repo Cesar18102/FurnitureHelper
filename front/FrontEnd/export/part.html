@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" href="styles/part_list.css"/>
+		
+		<script src="scripts/three.js"></script>
+		<script src="scripts/three.interaction.js"></script>
+		<script src="scripts/three.orbitcontrols.js"></script>
+		<script src="scripts/OBJLoader.js"></script>
+		
+		<script src="scripts/shaders.js"></script>
+		<script src="scripts/scene_render.js"></script>
+		<script src="scripts/part_render.js"></script>
+	</head>
+	<body>
+		<div id="sampler" class="part-sampler"></div>
+		
+		<script>
+			async function initPartRenderer(model, texture, color, scale) {
+				let partRenderer = document.getElementById("sampler");
+				
+				let renderInfo = renderScene(partRenderer, "part-renderer");
+				let partRenderInfo = {
+					model_url : model,
+					texture_url : texture,
+					color : color
+				};
+				scale = parseFloat(scale);
+				await renderPart(
+					partRenderInfo, 
+					renderInfo, 
+					part => {
+						part.geometry.scale(scale, scale, scale);
+					}, 
+					part => {
+						
+					}
+				);
+			}
+		</script>
+	</body>
+</html>

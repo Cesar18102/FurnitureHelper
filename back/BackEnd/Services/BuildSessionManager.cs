@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 using ServicesContract.Dto;
+using System.Diagnostics;
 
 namespace Models
 {
@@ -24,6 +25,7 @@ namespace Models
         private IEnumerable<ConcretePartModel> OwnedParts;
         public ICollection<StepProbeResultModel> StepProbesResults { get; private set; } = new List<StepProbeResultModel>();
         public IDictionary<string, IndicatorMapModel> IndicatorMaps { get; private set; } = new Dictionary<string, IndicatorMapModel>();
+        public IDictionary<string, ICollection<int>> UsedReaders { get; private set; } = new Dictionary<string, ICollection<int>>();
 
         private int SubOrderNumber = -1;
         private int GlobalOrderNumber = 0;
@@ -43,6 +45,34 @@ namespace Models
         {
             if (!Finished)
             {
+                if (CurrentStepPinsConnected.mac != null)
+                {
+                    if (!UsedReaders.ContainsKey(CurrentStepPinsConnected.mac))
+                        UsedReaders.Add(CurrentStepPinsConnected.mac, new List<int>());
+
+                    foreach (int pin in CurrentStepPinsConnected.pins)
+                        UsedReaders[CurrentStepPinsConnected.mac].Add(pin);
+
+                    if (!UsedParts.ContainsKey(CurrentStep.UsedPartId) && CurrentStepUsedParts.ContainsKey(CurrentStepPinsConnected.mac))
+                        UsedParts.Add(CurrentStep.UsedPartId, CurrentStepUsedParts[CurrentStepPinsConnected.mac]);
+
+                    CurrentStepPinsConnected = (null, new List<int>());
+                }
+
+                if (CurrentStepPinsOtherConnected.mac != null)
+                {
+                    if (!UsedReaders.ContainsKey(CurrentStepPinsOtherConnected.mac))
+                        UsedReaders.Add(CurrentStepPinsOtherConnected.mac, new List<int>());
+
+                    foreach (int pin in CurrentStepPinsOtherConnected.pins)
+                        UsedReaders[CurrentStepPinsOtherConnected.mac].Add(pin);
+
+                    if (!UsedParts.ContainsKey(CurrentStep.UsedPartOtherId) && CurrentStepUsedPartsOther.ContainsKey(CurrentStepPinsOtherConnected.mac))
+                        UsedParts.Add(CurrentStep.UsedPartOtherId, CurrentStepUsedPartsOther[CurrentStepPinsOtherConnected.mac]);
+
+                    CurrentStepPinsOtherConnected = (null, new List<int>());
+                }
+
                 int count = Furniture.GlobalConnections.ElementAt(GlobalOrderNumber).SubConnections.Count;
 
                 ++SubOrderNumber;
@@ -64,11 +94,11 @@ namespace Models
         {
             CurrentStepUsedParts = UsedParts.ContainsKey(CurrentStep.UsedPartId) ?
                 new Dictionary<string, ConcretePartModel>() { { UsedParts[CurrentStep.UsedPartId].ControllerMac, UsedParts[CurrentStep.UsedPartId] } } :
-                OwnedParts.Where(part => part.Part.Id == CurrentStep.Part.Id).ToDictionary(part => part.ControllerMac, part => part);
+                OwnedParts.Where(part => part.Part.Id == CurrentStep.Part.Id && !UsedPartIds.Contains(part.Id)).ToDictionary(part => part.ControllerMac, part => part);
 
             CurrentStepUsedPartsOther = UsedParts.ContainsKey(CurrentStep.UsedPartOtherId) ?
                 new Dictionary<string, ConcretePartModel>() { { UsedParts[CurrentStep.UsedPartOtherId].ControllerMac, UsedParts[CurrentStep.UsedPartOtherId] } } :
-                OwnedParts.Where(part => part.Part.Id == CurrentStep.PartOther.Id).ToDictionary(part => part.ControllerMac, part => part);
+                OwnedParts.Where(part => part.Part.Id == CurrentStep.PartOther.Id && !UsedPartIds.Contains(part.Id)).ToDictionary(part => part.ControllerMac, part => part);
         }
 
         private void UpdateIndicators()
@@ -114,6 +144,9 @@ namespace Models
         {
             if(CurrentStepUsedParts.ContainsKey(mac) && IsCurrentStepPartReaderPin(pin) && CurrentStepPinsOtherConnected.mac != mac)
             {
+                if (CurrentStepPinsConnected.pins.Count == 0)
+                    CurrentStepPinsConnected.mac = null;
+
                 if (CurrentStepPinsConnected.mac == mac)
                 {
                     if (CurrentStepPinsConnected.pins.Contains(pin))
@@ -132,6 +165,9 @@ namespace Models
             }
             else if(CurrentStepUsedPartsOther.ContainsKey(mac) && IsCurrentStepPartOtherReaderPin(pin) && CurrentStepPinsConnected.mac != mac)
             {
+                if (CurrentStepPinsOtherConnected.pins.Count == 0)
+                    CurrentStepPinsOtherConnected.mac = null;
+
                 if (CurrentStepPinsOtherConnected.mac == mac)
                 {
                     if (CurrentStepPinsOtherConnected.pins.Contains(pin))
@@ -170,8 +206,25 @@ namespace Models
 
         private void DetachPin(string mac, int pin)
         {
-            if (TryDetachPin(mac, pin, CurrentStepPinsConnected) || TryDetachPin(mac, pin, CurrentStepPinsOtherConnected))
+            /*if (TryDetachPin(mac, pin, CurrentStepPinsConnected) || TryDetachPin(mac, pin, CurrentStepPinsOtherConnected))
+                return;*/
+
+            if (TryDetachPin(mac, pin, CurrentStepPinsConnected))
+            {
+                if (CurrentStepPinsConnected.pins.Count == 0)
+                    CurrentStepPinsConnected.mac = null;
+
                 return;
+            }
+
+
+            if(TryDetachPin(mac, pin, CurrentStepPinsOtherConnected))
+            {
+                if (CurrentStepPinsOtherConnected.pins.Count == 0)
+                    CurrentStepPinsOtherConnected.mac = null;
+
+                return;
+            }
 
             throw new NotAttachedException();
         }
@@ -189,18 +242,23 @@ namespace Models
             string probeId = Guid.NewGuid().ToString();
             foreach (PinStateChange pinState in stepProbe.PinStateChanges)
             {
+                if (pinState.Change == StateChange.UNCHANGED)
+                    continue;
+
+                Debug.WriteLine($"FROM {stepProbe.Mac} state={pinState.Change.ToString()} ON {pinState.PinNumber}");
+
                 if (IsCurrentStepReaderPin(pinState.PinNumber))
                 {
                     if (pinState.Change == StateChange.ATTACHED)
                     {
                         try { lock (Mutex) { AttachPin(stepProbe.Mac, pinState.PinNumber); } }
                         catch (MisAttachException ex) { return new StepProbeResultModel(probeId, ProbeStatus.ERROR); }
-                        catch (AlreadyAttachedException ex) { return new StepProbeResultModel(probeId, ProbeStatus.ERROR); }
+                        catch (AlreadyAttachedException ex) { return new StepProbeResultModel(probeId, ProbeStatus.PENDING); }
                     }
                     else if (pinState.Change == StateChange.DETACHED)
                     {
                         try { lock (Mutex) { DetachPin(stepProbe.Mac, pinState.PinNumber); } }
-                        catch(NotAttachedException ex) { return new StepProbeResultModel(probeId, ProbeStatus.ERROR); }
+                        catch(NotAttachedException ex) { return new StepProbeResultModel(probeId, ProbeStatus.PENDING); }
                     }
                 }
                 else
@@ -210,6 +268,7 @@ namespace Models
             if (IsStepDone())
             {
                 lock (Mutex) { NextStep(); }
+
                 return new StepProbeResultModel(probeId, Finished ? ProbeStatus.FINISHED : ProbeStatus.DONE);
             }
             else

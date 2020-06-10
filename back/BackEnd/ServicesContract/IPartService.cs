@@ -21,5 +21,6 @@ namespace ServicesContract
         PartStore GetOwned(SessionDto ownerSession);
         InvariantPartStore GetOwnedInvariant(SessionDto ownerSession);
         IEnumerable<ConcretePartModel> GetOwnedConcrete(SessionDto session);
+        IEnumerable<ConcretePartModel> GetConcreteParts(SessionDto session);
     }
 }

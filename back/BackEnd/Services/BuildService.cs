@@ -131,7 +131,8 @@ namespace Services
                 throw new NotFoundException("build session");
 
             if (!buildSession.IndicatorMaps.ContainsKey(pingDto.Mac))
-                throw new NotFoundException("indicator map");
+                return new IndicatorMapModel();
+                //throw new NotFoundException("indicator map");
 
             return buildSession.IndicatorMaps[pingDto.Mac];
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 
 using Autofac;
@@ -116,7 +117,7 @@ namespace DataAccess.RepoImplementation
         public virtual IEnumerable<TModel> GetAll()
         {
             WholeInclude();
-            return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(Context.Set<TEntity>());
+            return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(Context.Set<TEntity>().ToList());
         }
     }
 }

@@ -90,5 +90,14 @@ namespace BackEnd.Controllers
                 ModelState, session
             );
         }
+
+        [HttpPost]
+        public HttpResponseMessage GetConcrete(SessionDto session)
+        {
+            return Request.ExecuteProtectedAndWrapResult(
+                sess => PartService.GetConcreteParts(sess),
+                ModelState, session
+            );
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace Services
 {
-    public class HashingService
+    internal class HashingService
     {
         private Encoding Encoding { get; set; }
         private HashAlgorithm Hasher { get; set; }

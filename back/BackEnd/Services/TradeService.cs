@@ -22,7 +22,7 @@ namespace Services
     {
         private class Sell
         {
-            private const int SECONDS_TO_EXPIRE_ORDER = 120;
+            private const int SECONDS_TO_EXPIRE_ORDER = 300;
 
             public string OrderId { get; private set; }
             public SellModel SellModel { get; private set; }
@@ -135,7 +135,10 @@ namespace Services
                 Sell sell = PendingOrders[orderId];
 
                 if (!PaymentService.IsSucceed(payment))
+                {
                     RemoveReservation(orderId);
+                    throw new NotFoundException("order");
+                }
 
                 sell.SellModel.SellDate = DateTime.Now;
 

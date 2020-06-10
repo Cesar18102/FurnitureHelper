@@ -203,7 +203,7 @@ namespace DataAccess
                   .ForMember(entity => entity.materials, cnf => cnf.Ignore())
                   .ForMember(entity => entity.price, cnf => cnf.MapFrom((model, entity) => model.Price == null || !model.Price.HasValue ? entity.price : model.Price.Value))
                   .ForMember(entity => entity.scale, cnf => cnf.MapFrom((model, entity) => model.Scale == null || !model.Scale.HasValue ? entity.scale : model.Scale.Value))
-                  .ForMember(entity => entity.part_controllers_embed_relative_positions, cnf => cnf.MapFrom(model => model.ConnectionHelpers))
+                  .ForMember(entity => entity.part_controllers_embed_relative_positions, cnf => cnf.Ignore())
                   .ForAllMembers(cnf => cnf.Condition((entity, model, member) => member != null));
 
             config.CreateMap<PartEntity, PartModel>()

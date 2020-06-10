@@ -77,4 +77,3 @@ function render(renderer, scene, camera, motion, cameraMotion) {
 		camera.updateProjectionMatrix();
 	}
 }
-

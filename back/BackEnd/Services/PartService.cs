@@ -96,7 +96,7 @@ namespace Services
                     throw new NotFoundException("controller mac for assigned connection helpers");
                 
                 if (partDto.ControllerMac != null && part.ConnectionHelpers.Count() == 0)
-                    throw new NotFoundException("connection helpers to embed controller");
+                    throw new NotFoundException("connection helpers to embed a controller");
 
                 if (partDto.ControllerMac != null && ConcretePartRepo.GetPartByMac(partDto.ControllerMac) != null)
                     throw new ConflictException("mac address");
@@ -157,20 +157,36 @@ namespace Services
             if (part.ConnectionHelpers == null)
                 return;
 
-            List<int> usedPins = part.ConnectionHelpers.Aggregate(new List<int>(), (acc, helper) => 
-                acc.Append(helper.IndicatorPinNumber).Append(helper.ReaderPinNumber).Append(helper.ReaderPinNumberOther).ToList()
+            List<int> readerPins = part.ConnectionHelpers.Aggregate(new List<int>(), (acc, helper) => 
+                acc.Append(helper.ReaderPinNumber).Append(helper.ReaderPinNumberOther).ToList()
             );
 
-            if (!usedPins.TrueForAll(PinService.IsValidConnectionHelperPin))
-                throw new ArgumentException("pin number is invalid");
+            List<int> indicatorPins = part.ConnectionHelpers.Aggregate(new List<int>(), (acc, helper) =>
+                acc.Append(helper.IndicatorPinNumber).ToList()
+            );
 
-            if (usedPins.Distinct().Count() != usedPins.Count())
+            if (!readerPins.TrueForAll(PinService.IsValidReaderPin))
+                throw new ArgumentException("reader pin number is invalid");
+
+            if (!indicatorPins.TrueForAll(PinService.IsValidIndicatorPin))
+                throw new ArgumentException("indicator pin number is invalid");
+
+            int readerPinsUniqueCount = readerPins.Distinct().Count();
+            int indicatorPinsUniqueCount = indicatorPins.Distinct().Count();
+
+            if (readerPinsUniqueCount != readerPins.Count() || indicatorPinsUniqueCount != indicatorPins.Count())
                 throw new ConflictException("pin");
         }
 
         public PartModel Get(int partId)
         {
             return PartRepo.Get(partId);
+        }
+
+        public IEnumerable<ConcretePartModel> GetConcreteParts(SessionDto session)
+        {
+            AdminService.CheckActiveAdmin(session);
+            return ConcretePartRepo.GetAll();
         }
 
         public ControllerConfigModel GetControllerConfig(ControllerPingDto pingDto)

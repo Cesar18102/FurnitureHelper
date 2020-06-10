@@ -1,10 +1,12 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Text;
+
+using Models;
 
 namespace Services.Declaration
 {
-    interface IFurnitureService
+    public interface IFurnitureService
     {
+        Task<IEnumerable<FurnitureItemDto>> GetFurnitureItems();
     }
 }

@@ -1,4 +1,4 @@
-const SERVER_URL = "http://localhost:5000/api/" //"http://furniturehelper.somee.com/api/";
+const SERVER_URL = "http://192.168.0.108:5000/api/"; //"http://furniturehelper.somee.com/api/"; 
 const CONTENT_TYPE_JSON = "application/json";
 
 const POST_METHOD = "POST";

@@ -135,7 +135,10 @@
 			function colorListHandler(result) {
 				handleResponse(
 					result,
-					error => alert(error.error_message),
+					err => {
+						error.message = err.error_message;
+						errorPopup.show();
+					},
 					data => buildColorList(data)
 				);
 			}

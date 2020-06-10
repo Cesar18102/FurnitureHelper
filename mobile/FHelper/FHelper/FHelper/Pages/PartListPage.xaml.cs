@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.Threading.Tasks;
+
+using Autofac;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -8,7 +10,6 @@ using FHelper.Views;
 using Services;
 using Services.Declaration;
 
-using Models.Dto;
 using Models.Dto.PartStore;
 
 namespace FHelper.Pages
@@ -21,10 +22,17 @@ namespace FHelper.Pages
         public PartListPage()
         {
             InitializeComponent();
-            LoadPartList();
         }
 
-        public async void LoadPartList()
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            PartListScroll.Children.Clear();
+            await LoadPartList();
+        }
+
+        public async Task LoadPartList()
         {
             IsBusy = true;
 

@@ -8,7 +8,7 @@ using Models.Dto.PartStore;
 
 namespace Services.Implementation
 {
-    public class PartService : IPartService
+    internal class PartService : IPartService
     {
         private const string GET_PARTS_ENDPOINT = "part/get";
 

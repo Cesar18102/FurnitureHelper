@@ -2,6 +2,7 @@
 {
     public abstract class PinService
     {
-        public abstract bool IsValidConnectionHelperPin(int number);
+        public abstract bool IsValidReaderPin(int number);
+        public abstract bool IsValidIndicatorPin(int number);
     }
 }

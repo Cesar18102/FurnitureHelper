@@ -36,6 +36,7 @@ namespace Services
 
             builder.RegisterType<AuthorizeService>().As<IAuthorizeService>().SingleInstance();
             builder.RegisterType<PartService>().As<IPartService>().SingleInstance();
+            builder.RegisterType<FurnitureService>().As<IFurnitureService>().SingleInstance();
 
             return builder.Build();
         }

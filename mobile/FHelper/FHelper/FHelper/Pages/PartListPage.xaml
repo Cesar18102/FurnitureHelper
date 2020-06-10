@@ -12,7 +12,7 @@
             <StackLayout Style="{StaticResource PopupPageContent}">
                 <ScrollView>
                     <StackLayout x:Name="PartListScroll" Padding="10,0,10,0">
-
+                        
                     </StackLayout>
                 </ScrollView>
             </StackLayout>

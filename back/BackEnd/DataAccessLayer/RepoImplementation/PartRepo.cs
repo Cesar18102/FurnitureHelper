@@ -57,16 +57,45 @@ namespace DataAccess.RepoImplementation
 
             Context.Entry<PartEntity>(entity).Reload();
             IEnumerable<MaterialModel> materials = model.PossibleMaterials == null ? null : model.PossibleMaterials.ToList();
+
             if (entity.concrete_parts.Count == 0 && entity.used_parts.Count == 0)
             {
-                Context.part_controllers_embed_relative_positions.RemoveRange(entity.part_controllers_embed_relative_positions);
+                if (model.ConnectionHelpers != null)
+                {
+                    IEnumerable<int> oldPositions = entity.part_controllers_embed_relative_positions.Select(pos => pos.id).ToList();
+                    IEnumerable<int> updatedPositions = model.ConnectionHelpers.Where(helper => helper.Id.HasValue).Select(helper => helper.Id.Value).ToList();
+
+                    IEnumerable<PartControllerEmbedRelativePositionEntity> removed = oldPositions.Except(updatedPositions)
+                        .Select(removedId => entity.part_controllers_embed_relative_positions.FirstOrDefault(pos => pos.id == removedId))
+                        .Where(pos => pos != null).ToList();
+
+                    if (removed.Count() != 0)
+                        Context.part_controllers_embed_relative_positions.RemoveRange(removed);
+
+                    foreach (ConnectionHelperModel helper in model.ConnectionHelpers)
+                    {
+                        if (helper.Id.HasValue)
+                        {
+                            PartControllerEmbedRelativePositionEntity helperEntity = entity.part_controllers_embed_relative_positions
+                                .First(pos => pos.id == helper.Id.Value);
+
+                            Mapper.Map<ConnectionHelperModel, PartControllerEmbedRelativePositionEntity>(helper, helperEntity);
+                        }
+                        else
+                        {
+                            PartControllerEmbedRelativePositionEntity helperEntity =
+                                Mapper.Map<ConnectionHelperModel, PartControllerEmbedRelativePositionEntity>(helper);
+
+                            entity.part_controllers_embed_relative_positions.Add(helperEntity);
+                        }
+                    }
+                }
+
                 PartModel updatedPart = base.Update(id, model);
             }
             else
             {
-                List<PartControllerEmbedRelativePositionEntity> positions = entity.part_controllers_embed_relative_positions.ToList();
                 Mapper.Map<PartModel, PartEntity>(model, entity);
-                entity.part_controllers_embed_relative_positions = positions;
                 Context.SaveChanges();
             }
 
